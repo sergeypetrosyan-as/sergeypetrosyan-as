@@ -186,16 +186,6 @@ Day to day, that means developing features end to end, integrating frontend syst
 
 <br/>
 
-## Connect
-
-<div align="center">
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](YOUR_LINKEDIN_URL)
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)](YOUR_GITHUB_URL)
-[![Email](https://img.shields.io/badge/Email-1F2328?style=flat-square&logo=maildotru&logoColor=white)](mailto:YOUR_EMAIL)
-
-<br/>
-
 <sub>Open to conversations about frontend architecture, UI engineering, and building better products.</sub>
 
 </div>
