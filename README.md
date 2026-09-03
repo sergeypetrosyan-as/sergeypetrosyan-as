@@ -1,6 +1,6 @@
 <div align="center">
 
-# Your Name
+# Sergey Petrosyan
 
 ### Frontend Software Engineer
 
