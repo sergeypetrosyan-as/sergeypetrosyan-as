@@ -36,6 +36,24 @@ I treat clarity as a feature: code that reads plainly, boundaries that are obvio
 
 <br/>
 
+<div align="center">
+
+## 🎮 Neon Space Invaders
+
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/game/">
+  <img
+    src="./assets/game-preview.gif"
+    alt="Neon Space Invaders — click to play"
+    width="720"
+  />
+</a>
+
+**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/game/)**
+
+</div>
+
+<br/>
+
 ## What I Do
 
 <table>
