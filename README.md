@@ -54,6 +54,63 @@ I treat clarity as a feature: code that reads plainly, boundaries that are obvio
 
 <br/>
 
+<div align="center">
+
+## 🌆 NEON VICE — 3D NIGHTFALL
+
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/neon-vice/">
+  <img
+    src="./assets/neon-vice-preview.gif"
+    alt="NEON VICE gameplay: a third-person shootout on the neon oceanfront, then a handbrake drift onto the boulevard — click to play"
+    width="720"
+  />
+</a>
+
+*A neon-soaked 3D arcade shooter. Explore the city, take control of the streets, and survive the night.*
+
+**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/neon-vice/)** &nbsp;·&nbsp; [Source code](./games/neon-vice-city)
+
+![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=threedotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Web Audio](https://img.shields.io/badge/Web%20Audio-1F2328?style=flat-square)
+
+</div>
+
+<table>
+<tr>
+<td width="55%" valign="top">
+
+**Features**
+
+- Third-person shooting with two weapons — Neon Pistol and Pulse Rifle — headshots, reloads and combo multipliers
+- Two enemy archetypes: Street Enforcers rush you, Neon Gunners keep their distance and fire telegraphed bolts
+- Drivable neon sports cars with underglow, handbrake drifts and a speedometer
+- A compact city: downtown towers, oceanfront hotels, a parking garage, backstreet alleys and a plaza
+- Six escalating waves, pickups, and a local best-score board
+- Original synthwave soundtrack and SFX, synthesized live with Web Audio
+
+</td>
+<td width="45%" valign="top">
+
+**Desktop controls**
+
+| | |
+|---|---|
+| `W` `A` `S` `D` | Move / drive |
+| `Shift` · `Space` | Sprint · Jump / handbrake |
+| Mouse · Left click | Aim · Fire |
+| Right click | Over-the-shoulder aim |
+| `R` · `1` `2` | Reload · Switch weapon |
+| `E` | Enter / exit a car |
+| `Esc` | Pause |
+
+</td>
+</tr>
+</table>
+
+<br/>
+
 ## What I Do
 
 <table>
