@@ -189,3 +189,55 @@ Day to day, that means developing features end to end, integrating frontend syst
 <sub>Open to conversations about frontend architecture, UI engineering, and building better products.</sub>
 
 </div>
+
+<div align="center">
+
+<img src="./assets/hero-animation.gif" alt="Animated developer portfolio banner" width="100%" />
+
+<img src="./assets/profile-photo.jpg" alt="AI-generated developer profile portrait" width="150" style="border-radius: 50%;" />
+
+# Sergey Petrosyan
+
+### Frontend Software Engineer
+
+**Building web products that stay fast, readable, and easy to change.**
+
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
+[![Next.js](https://img.shields.io/badge/Next.js-111111?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)](https://git-scm.com/)
+
+</div>
+
+---
+
+## About
+
+I build modern web applications with TypeScript and the React ecosystem, focusing on clean architecture, performance, accessibility, and thoughtful user experiences. I enjoy turning complex requirements into interfaces that feel clear, fast, and reliable.
+
+- **Frontend architecture:** reusable components, maintainable patterns, and clear boundaries
+- **UI engineering:** responsive layouts, design systems, and accessible interactions
+- **Performance:** fast rendering, efficient assets, and smooth user experiences
+- **Engineering mindset:** readable code, pragmatic decisions, and continuous improvement
+
+## Tech Stack
+
+**Core:** TypeScript · JavaScript · React · Next.js · HTML · CSS/SCSS  
+**UI:** Responsive Design · Design Systems · Accessibility · UI/UX Engineering  
+**Tools:** Git · Docker · Figma · VS Code
+
+## What I Care About
+
+- Building interfaces that stay maintainable as products grow
+- Making complex workflows easier for real users
+- Balancing visual polish with performance and accessibility
+- Improving code quality through practical refactoring
+
+---
+
+<div align="center">
+
+*Better code. Better experiences.*
+
+</div>
