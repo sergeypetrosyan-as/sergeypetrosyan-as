@@ -9,7 +9,7 @@ import { renderBody, sitemap, structuredData } from './src/render';
 const REPO_ROOT = resolve(__dirname, '..');
 const PUBLIC_DIR = resolve(__dirname, 'public');
 
-/** Resolves a repo-root relative URL (`./neon-vice/`) to a file on disk. */
+/** Resolves a repo-root relative URL (`./games/neon-vice/`) to a file on disk. */
 function fileFor(url: string): string {
   const clean = url.replace(/^\.\//, '').split(/[?#]/)[0];
   const path = clean === '' || clean.endsWith('/') ? `${clean}index.html` : clean;
@@ -62,7 +62,7 @@ const TYPES: Record<string, string> = { '.html': 'text/html', '.js': 'text/javas
 
 /** Dev only: serve the real games and shared assets from the repo root so cards launch locally. */
 function serveRepoGames(): Plugin {
-  const prefixes = ['/game/', '/neon-vice/', '/assets/'];
+  const prefixes = ['/games/', '/assets/'];
   return {
     name: 'neon-arcade:serve-repo-games',
     configureServer(server) {

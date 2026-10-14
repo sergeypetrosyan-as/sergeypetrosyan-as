@@ -2,18 +2,18 @@ name: NEON VICE build check
 
 # Type-checks and builds the 3D game. GitHub Pages serves this repository
 # straight from `main`, so this workflow never deploys — it only verifies that
-# the source compiles and that the committed `neon-vice/` bundle is current.
+# the source compiles and that the committed `games/neon-vice/` bundle is current.
 on:
   push:
     branches: [main]
     paths:
-      - 'games/neon-vice-city/**'
-      - 'neon-vice/**'
+      - 'source/neon-vice/**'
+      - 'games/neon-vice/**'
       - '.github/workflows/neon-vice-build.yml'
   pull_request:
     paths:
-      - 'games/neon-vice-city/**'
-      - 'neon-vice/**'
+      - 'source/neon-vice/**'
+      - 'games/neon-vice/**'
   workflow_dispatch:
 
 permissions:
@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: games/neon-vice-city
+        working-directory: source/neon-vice
     steps:
       - uses: actions/checkout@v4
 
@@ -32,7 +32,7 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: games/neon-vice-city/package-lock.json
+          cache-dependency-path: source/neon-vice/package-lock.json
 
       - run: npm ci
       - run: npm run typecheck
@@ -41,15 +41,15 @@ jobs:
       - name: Check committed bundle is up to date
         working-directory: .
         run: |
-          if git status --porcelain -- neon-vice | grep -q .; then
-            echo "::warning::The committed neon-vice/ bundle differs from a fresh build. Run 'npm run build' in games/neon-vice-city and commit neon-vice/."
-            git status --short -- neon-vice
+          if git status --porcelain -- games/neon-vice | grep -q .; then
+            echo "::warning::The committed games/neon-vice/ bundle differs from a fresh build. Run 'npm run build' in source/neon-vice and commit games/neon-vice/."
+            git status --short -- games/neon-vice
           else
-            echo "neon-vice/ matches a fresh build."
+            echo "games/neon-vice/ matches a fresh build."
           fi
 
       - uses: actions/upload-artifact@v4
         with:
           name: neon-vice-dist
-          path: neon-vice
+          path: games/neon-vice
           retention-days: 7

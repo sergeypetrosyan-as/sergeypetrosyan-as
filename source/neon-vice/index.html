@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0418" />
+  <meta name="description" content="NEON VICE — 3D NIGHTFALL. A neon-soaked third-person arcade shooter: explore the city, take the wheel, survive the night." />
+  <title>NEON VICE — 3D Nightfall</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Monoton&display=swap" rel="stylesheet" />
+  <script>
+    // The source folder is also served by GitHub Pages; send visitors to the built game.
+    if (location.hostname.endsWith('github.io') && location.pathname.includes('/source/neon-vice')) {
+      location.replace(location.pathname.replace(/source\/neon-vice\/?.*$/, 'games/neon-vice/'));
+    }
+  </script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="scene" aria-label="NEON VICE game view"></canvas>
+    <div class="fx-grain" aria-hidden="true"></div>
+    <div class="fx-vignette" aria-hidden="true"></div>
+    <div class="fx-damage" id="damageVignette" aria-hidden="true"></div>
+    <div class="fx-boost" id="boostVignette" aria-hidden="true"></div>
+
+    <!-- ===================== HUD ===================== -->
+    <div id="hud" class="hud hidden" aria-live="polite">
+      <section class="hud-mission panel">
+        <div class="hud-kicker"><span class="dot"></span><span id="hudMission">MISSION 01 — NIGHTFALL</span></div>
+        <div class="hud-objective" id="hudObjective">Eliminate the hostiles</div>
+        <div class="hud-wave">
+          <span class="label">WAVE</span><strong id="hudWave">1</strong><span class="muted">/ 6</span>
+          <div class="wave-pips" id="wavePips"></div>
+        </div>
+        <div class="hud-enemies"><span class="label">HOSTILES</span><strong id="hudEnemies">0</strong></div>
+      </section>
+
+      <section class="hud-score">
+        <div class="score-label">SCORE</div>
+        <div class="score-value" id="hudScore">0</div>
+        <div class="score-best"><span>BEST</span> <span id="hudBest">0</span></div>
+        <div class="combo" id="hudCombo">
+          <span class="combo-x" id="hudComboValue">x2</span><span class="combo-label">COMBO</span>
+          <div class="combo-bar"><i id="hudComboBar"></i></div>
+        </div>
+      </section>
+
+      <div class="killfeed" id="killfeed"></div>
+
+      <section class="hud-vitals">
+        <canvas id="radar" width="148" height="148" aria-hidden="true"></canvas>
+        <div class="vitals panel">
+          <div class="bar-row">
+            <span class="bar-label">HP</span>
+            <div class="bar health"><i id="hudHealth"></i><b id="hudHealthGhost"></b></div>
+            <span class="bar-num" id="hudHealthNum">100</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">ARM</span>
+            <div class="bar armor"><i id="hudArmor"></i></div>
+            <span class="bar-num" id="hudArmorNum">0</span>
+          </div>
+          <div class="boost-tag hidden" id="hudBoost">DMG BOOST <span id="hudBoostTime">10</span>s</div>
+        </div>
+      </section>
+
+      <section class="hud-weapon panel" id="hudWeaponPanel">
+        <div class="weapon-name" id="hudWeaponName">NEON PISTOL</div>
+        <div class="ammo"><strong id="hudMag">12</strong><span>/</span><span id="hudReserve">∞</span></div>
+        <div class="reload-bar" id="hudReloadWrap"><i id="hudReload"></i><span>RELOADING</span></div>
+        <div class="slots">
+          <div class="slot active" id="slotPistol"><kbd>1</kbd> PISTOL</div>
+          <div class="slot" id="slotRifle"><kbd>2</kbd> PULSE RIFLE</div>
+        </div>
+      </section>
+
+      <section class="speedo hidden" id="speedo">
+        <svg viewBox="0 0 200 120" aria-hidden="true">
+          <defs>
+            <linearGradient id="speedGrad" x1="0" x2="1">
+              <stop offset="0" stop-color="#2ef2ff" />
+              <stop offset="1" stop-color="#ff2fd2" />
+            </linearGradient>
+          </defs>
+          <path d="M20 110 A80 80 0 0 1 180 110" class="speed-track" />
+          <path d="M20 110 A80 80 0 0 1 180 110" class="speed-fill" id="speedArc" />
+        </svg>
+        <div class="speed-readout"><strong id="speedValue">0</strong><span>KM/H</span></div>
+        <div class="speed-car" id="speedCar">SOLARA GT</div>
+      </section>
+
+      <div class="crosshair" id="crosshair" aria-hidden="true">
+        <i class="t"></i><i class="b"></i><i class="l"></i><i class="r"></i><i class="c"></i>
+        <div class="hitmarker" id="hitmarker"><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="dmg-dir" id="dmgDir" aria-hidden="true"></div>
+      <div class="prompt hidden" id="prompt"></div>
+      <div class="banner" id="banner"><div class="banner-kicker" id="bannerKicker"></div><div class="banner-title" id="bannerTitle"></div><div class="banner-sub" id="bannerSub"></div></div>
+      <div class="damage-numbers" id="damageNumbers"></div>
+      <div class="fps" id="fps"></div>
+    </div>
+
+    <!-- ===================== TITLE ===================== -->
+    <div id="title" class="screen title-screen">
+      <div class="title-grid" aria-hidden="true"></div>
+      <div class="title-inner">
+        <p class="eyebrow">SERGEY PETROSYAN <span>/</span> MINI GAME 002 <span>/</span> 3D</p>
+        <h1 class="logo" aria-label="Neon Vice">
+          <span class="logo-neon">NEON</span>
+          <span class="logo-vice">VICE</span>
+        </h1>
+        <p class="tagline">THE CITY NEVER SLEEPS</p>
+        <p class="sub">3D NIGHTFALL · A NEON-SOAKED ARCADE SHOOTER</p>
+        <div class="menu" role="menu">
+          <button class="btn primary" id="btnStart" type="button">START MISSION <span aria-hidden="true">↗</span></button>
+          <button class="btn" id="btnHow" type="button">HOW TO PLAY</button>
+          <button class="btn" id="btnSettings" type="button">SETTINGS</button>
+        </div>
+        <div class="title-meta">
+          <div class="best-card"><span>BEST SCORE</span><strong id="titleBest">0</strong><em id="titleWave">HIGHEST WAVE —</em></div>
+          <button class="btn ghost sound" id="btnSound" type="button" aria-pressed="true">♫ <span>SOUND ON</span></button>
+        </div>
+        <p class="device-note" id="deviceNote">Desktop game · keyboard &amp; mouse required</p>
+      </div>
+      <aside class="records panel" id="recordsPanel">
+        <h3>LOCAL RECORDS</h3>
+        <ol id="recordsList"></ol>
+        <p class="records-note">Stored in this browser only.</p>
+      </aside>
+    </div>
+
+    <!-- ===================== HOW TO PLAY ===================== -->
+    <div id="how" class="screen modal hidden" role="dialog" aria-modal="true" aria-labelledby="howTitle">
+      <div class="modal-card panel">
+        <h2 id="howTitle">HOW TO PLAY</h2>
+        <p class="lead">Survive six waves of Nightfall. Chain kills for combo multipliers, grab drops, and steal a ride when the streets get hot.</p>
+        <div class="controls-grid">
+          <div>
+            <h4>ON FOOT</h4>
+            <dl>
+              <dt><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></dt><dd>Move</dd>
+              <dt><kbd>Shift</kbd></dt><dd>Sprint</dd>
+              <dt><kbd>Space</kbd></dt><dd>Jump</dd>
+              <dt>Mouse</dt><dd>Look / aim</dd>
+              <dt>Left click</dt><dd>Fire</dd>
+              <dt>Right click</dt><dd>Aim down shoulder</dd>
+              <dt><kbd>R</kbd></dt><dd>Reload</dd>
+              <dt><kbd>1</kbd> <kbd>2</kbd> / <kbd>Q</kbd></dt><dd>Switch weapon</dd>
+              <dt>Wheel</dt><dd>Camera distance</dd>
+            </dl>
+          </div>
+          <div>
+            <h4>DRIVING</h4>
+            <dl>
+              <dt><kbd>E</kbd></dt><dd>Enter / exit car</dd>
+              <dt><kbd>W</kbd> <kbd>S</kbd></dt><dd>Throttle / brake &amp; reverse</dd>
+              <dt><kbd>A</kbd> <kbd>D</kbd></dt><dd>Steer</dd>
+              <dt><kbd>Space</kbd></dt><dd>Handbrake (drift)</dd>
+              <dt>Mouse</dt><dd>Look around</dd>
+            </dl>
+            <h4>GENERAL</h4>
+            <dl>
+              <dt><kbd>Esc</kbd></dt><dd>Pause / release mouse</dd>
+            </dl>
+          </div>
+        </div>
+        <ul class="tips">
+          <li><b class="c-orange">Street Enforcers</b> rush you — keep moving and use cover.</li>
+          <li><b class="c-cyan">Neon Gunners</b> keep their distance; their visor flares white before they fire.</li>
+          <li>Headshots hit hard. Cars flatten anything in their path.</li>
+        </ul>
+        <button class="btn primary" data-close type="button">GOT IT</button>
+      </div>
+    </div>
+
+    <!-- ===================== SETTINGS ===================== -->
+    <div id="settings" class="screen modal hidden" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <div class="modal-card panel">
+        <h2 id="settingsTitle">SETTINGS</h2>
+        <div class="settings-grid">
+          <label class="field"><span>Mouse sensitivity <output id="outSens">1.0</output></span><input type="range" id="setSens" min="0.2" max="3" step="0.1" /></label>
+          <label class="field"><span>Music volume <output id="outMusic">55</output></span><input type="range" id="setMusic" min="0" max="1" step="0.05" /></label>
+          <label class="field"><span>Effects volume <output id="outSfx">80</output></span><input type="range" id="setSfx" min="0" max="1" step="0.05" /></label>
+          <div class="field">
+            <span>Graphics quality</span>
+            <div class="segmented" role="radiogroup" aria-label="Graphics quality">
+              <button type="button" data-quality="low">LOW</button>
+              <button type="button" data-quality="medium">MEDIUM</button>
+              <button type="button" data-quality="high">HIGH</button>
+            </div>
+          </div>
+          <label class="toggle"><input type="checkbox" id="setMute" /><span>Mute all audio</span></label>
+          <label class="toggle"><input type="checkbox" id="setInvert" /><span>Invert mouse Y</span></label>
+          <label class="toggle"><input type="checkbox" id="setShake" /><span>Reduced screen shake</span></label>
+          <label class="toggle"><input type="checkbox" id="setContrast" /><span>High-contrast HUD</span></label>
+        </div>
+        <div class="settings-footer">
+          <button class="btn ghost danger" id="btnResetRecords" type="button">RESET LOCAL RECORDS</button>
+          <button class="btn primary" data-close type="button">DONE</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== PAUSE ===================== -->
+    <div id="pause" class="screen modal hidden" role="dialog" aria-modal="true" aria-labelledby="pauseTitle">
+      <div class="modal-card panel pause-card">
+        <p class="eyebrow">MISSION 01 — NIGHTFALL</p>
+        <h2 id="pauseTitle">PAUSED</h2>
+        <div class="menu">
+          <button class="btn primary" id="btnResume" type="button">RESUME</button>
+          <button class="btn" id="btnRestart" type="button">RESTART MISSION</button>
+          <button class="btn" id="btnPauseSettings" type="button">SETTINGS</button>
+          <button class="btn" id="btnPauseHow" type="button">CONTROLS</button>
+          <button class="btn ghost" id="btnQuit" type="button">RETURN TO TITLE</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== END ===================== -->
+    <div id="end" class="screen modal hidden" role="dialog" aria-modal="true" aria-labelledby="endTitle">
+      <div class="modal-card panel end-card">
+        <p class="eyebrow" id="endKicker">MISSION 01 — NIGHTFALL</p>
+        <h2 id="endTitle">FLATLINED</h2>
+        <div class="new-record hidden" id="endRecord">★ NEW PERSONAL BEST ★</div>
+        <div class="final-score"><span>FINAL SCORE</span><strong id="endScore">0</strong></div>
+        <div class="stats">
+          <div><span>ENEMIES DEFEATED</span><strong id="endKills">0</strong></div>
+          <div><span>WAVES SURVIVED</span><strong id="endWaves">0</strong></div>
+          <div><span>ACCURACY</span><strong id="endAccuracy">0%</strong></div>
+          <div><span>HEADSHOTS</span><strong id="endHeads">0</strong></div>
+          <div><span>BEST COMBO</span><strong id="endCombo">x1</strong></div>
+          <div><span>TIME</span><strong id="endTime">0:00</strong></div>
+        </div>
+        <div class="menu row">
+          <button class="btn primary" id="btnReplay" type="button">REPLAY MISSION</button>
+          <button class="btn ghost" id="btnEndTitle" type="button">TITLE SCREEN</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pointer lock re-engage -->
+    <div id="lockPrompt" class="screen lock hidden">
+      <button class="btn primary" id="btnLock" type="button">CLICK TO ENGAGE</button>
+      <p>The game needs to capture your mouse to aim. Press <kbd>Esc</kbd> anytime to pause.</p>
+    </div>
+
+    <div id="loading" class="screen loading">
+      <div class="loader-logo">NEON VICE</div>
+      <div class="loader-bar"><i></i></div>
+      <p>BUILDING THE CITY…</p>
+    </div>
+
+    <div id="fatal" class="screen fatal hidden" role="alert">
+      <div class="modal-card panel">
+        <h2>SIGNAL LOST</h2>
+        <p id="fatalText">Your browser could not start WebGL, which this game needs.</p>
+        <p class="muted">Try a recent Chrome, Edge or Firefox with hardware acceleration enabled.</p>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

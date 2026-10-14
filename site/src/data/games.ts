@@ -19,8 +19,8 @@ export const GAMES: Game[] = [
     thumbnailAlt: 'UNFALL: a circle of reversed time over a broken bridge, where Ilo the courier is walking back through her own steps',
     previewGif: './assets/unfall-preview.gif',
     status: 'playable',
-    playUrl: './unfall/',
-    sourceUrl: `${REPO}/tree/main/games/unfall`,
+    playUrl: './games/unfall/',
+    sourceUrl: `${REPO}/tree/main/source/unfall`,
     controls: [
       { keys: ['Mouse'], action: 'Aim the circle' },
       { keys: ['Hold'], action: 'Turn time back' },
@@ -43,8 +43,8 @@ export const GAMES: Game[] = [
     thumbnailAlt: 'NEON VICE: a neon sports car drifting toward a striped synthwave sun over the ocean',
     previewGif: './assets/neon-vice-preview.gif',
     status: 'playable',
-    playUrl: './neon-vice/',
-    sourceUrl: `${REPO}/tree/main/games/neon-vice-city`,
+    playUrl: './games/neon-vice/',
+    sourceUrl: `${REPO}/tree/main/source/neon-vice`,
     controls: [
       { keys: ['W', 'A', 'S', 'D'], action: 'Move / drive' },
       { keys: ['Mouse'], action: 'Aim' },
@@ -67,8 +67,8 @@ export const GAMES: Game[] = [
     thumbnailAlt: 'Neon Space Invaders: rows of glowing invaders above the player ship on a neon grid',
     previewGif: './assets/game-preview.gif',
     status: 'playable',
-    playUrl: './game/',
-    sourceUrl: `${REPO}/tree/main/game`,
+    playUrl: './games/neon-space-invaders/',
+    sourceUrl: `${REPO}/tree/main/games/neon-space-invaders`,
     controls: [
       { keys: ['←', '→'], action: 'Move' },
       { keys: ['A', 'D'], action: 'Move' },

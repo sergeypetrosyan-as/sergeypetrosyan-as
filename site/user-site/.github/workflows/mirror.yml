@@ -1,0 +1,51 @@
+name: Publish NEON ARCADE at the root domain
+
+# Serves the hub and every game at https://sergeypetrosyan-as.github.io/ by copying
+# the already-built static site from the public profile repository. No secrets:
+# the source repo is public. Runs on push, on demand, and every 30 minutes so
+# changes pushed to the profile repo appear here automatically.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '*/30 * * * *'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Fetch the built site from the profile repository
+        uses: actions/checkout@v4
+        with:
+          repository: sergeypetrosyan-as/sergeypetrosyan-as
+          path: src
+
+      - name: Assemble the published files
+        run: |
+          mkdir -p _site
+          cd src
+          cp index.html 404.html favicon.svg apple-touch-icon.png og-image.jpg robots.txt sitemap.xml ../_site/
+          cp -r arcade assets games ../_site/
+          touch ../_site/.nojekyll
+          test -f ../_site/index.html
+          test -f ../_site/games/unfall/index.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deploy
+        uses: actions/deploy-pages@v4

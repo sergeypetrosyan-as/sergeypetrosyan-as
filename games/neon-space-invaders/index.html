@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#070817">
+  <meta name="description" content="A neon cyberpunk Space Invaders mini-game by Sergey Petrosyan.">
+  <title>Neon Space Invaders | Sergey Petrosyan</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Neon Space Invaders home">
+        <span class="brand-mark" aria-hidden="true">✦</span>
+        <span>NEON<span class="brand-accent">ARCADE</span></span>
+      </a>
+      <div class="top-status"><span class="status-dot"></span> SYSTEM ONLINE</div>
+      <button class="icon-button" id="soundToggle" type="button" aria-pressed="false" aria-label="Toggle sound">♫ <span>Sound off</span></button>
+    </header>
+
+    <section class="intro">
+      <p class="eyebrow">SERGEY PETROSYAN <span>/</span> MINI GAME 001</p>
+      <h1>NEON <span>SPACE</span><br class="mobile-break"> INVADERS</h1>
+      <p class="subtitle">Defend the grid. Chase the high score. Keep the signal alive.</p>
+    </section>
+
+    <section class="game-layout" aria-label="Game area and leaderboard">
+      <div class="game-panel">
+        <div class="hud">
+          <div><span class="hud-label">SCORE</span><strong id="score">000000</strong></div>
+          <div><span class="hud-label">WAVE</span><strong id="wave">01</strong></div>
+          <div><span class="hud-label">LIVES</span><strong id="lives" class="lives">♥ ♥ ♥</strong></div>
+          <div><span class="hud-label">BEST</span><strong id="best">000000</strong></div>
+        </div>
+        <div class="canvas-wrap" id="canvasWrap">
+          <canvas id="gameCanvas" aria-label="Space Invaders game. Use left and right arrow keys and space to shoot." role="img"></canvas>
+          <div class="overlay" id="overlay">
+            <div class="overlay-card">
+              <div class="mini-emblem">✦</div>
+              <p class="eyebrow" id="overlayEyebrow">INCOMING TRANSMISSION</p>
+              <h2 id="overlayTitle">READY, PILOT?</h2>
+              <p id="overlayText">Move your ship, dodge the invaders, and survive as long as you can.</p>
+              <button class="primary-button" id="startButton" type="button">START MISSION <span>↗</span></button>
+              <p class="key-hint">MOVE <kbd>←</kbd> <kbd>→</kbd> OR <kbd>A</kbd> <kbd>D</kbd> <span>·</span> FIRE <kbd>SPACE</kbd></p>
+            </div>
+          </div>
+        </div>
+        <div class="game-footer">
+          <span><i class="legend-player"></i> YOUR SHIP</span>
+          <span><i class="legend-enemy"></i> INVADERS</span>
+          <span class="footer-note">DON'T LET THEM REACH THE GRID</span>
+        </div>
+        <div class="mobile-controls" aria-label="Touch game controls">
+          <button class="control-button" id="leftButton" type="button" aria-label="Move left">←</button>
+          <button class="control-button fire-button" id="fireButton" type="button" aria-label="Fire">FIRE <span>✦</span></button>
+          <button class="control-button" id="rightButton" type="button" aria-label="Move right">→</button>
+        </div>
+      </div>
+
+      <aside class="side-column">
+        <section class="side-card">
+          <div class="card-heading"><span class="card-icon">⌁</span><h2>MISSION BRIEF</h2></div>
+          <p class="side-copy">An unknown fleet is closing in. Take control of the interceptor and clear every wave before the invaders break through.</p>
+          <div class="mission-stats">
+            <div><span>OBJECTIVE</span><strong>Clear waves</strong></div>
+            <div><span>THREAT LEVEL</span><strong class="threat">CRITICAL</strong></div>
+            <div><span>CONTROLS</span><strong>Keyboard / Touch</strong></div>
+          </div>
+        </section>
+        <section class="side-card leaderboard-card">
+          <div class="card-heading"><span class="card-icon">↗</span><h2>LOCAL LEADERBOARD</h2></div>
+          <p class="side-copy small-copy">Your top runs on this device.</p>
+          <ol class="leaderboard" id="leaderboard"><li class="empty-score">No runs yet. Make history.</li></ol>
+          <button class="text-button" id="clearScores" type="button">CLEAR LOCAL SCORES <span>↗</span></button>
+        </section>
+        <section class="tip-card">
+          <span class="tip-icon">✧</span>
+          <div><strong>PILOT TIP</strong><p>Keep moving. A stationary target is an easy target.</p></div>
+        </section>
+      </aside>
+    </section>
+
+    <footer class="page-footer">
+      <div><span class="footer-brand">NEON ARCADE</span><span>BUILT FOR THE LOVE OF CLEAN CODE.</span></div>
+      <a href="https://github.com/sergeypetrosyan-as" target="_blank" rel="noreferrer">SERGEY PETROSYAN <span>↗</span></a>
+    </footer>
+  </main>
+  <script src="./game.js" defer></script>
+</body>
+</html>

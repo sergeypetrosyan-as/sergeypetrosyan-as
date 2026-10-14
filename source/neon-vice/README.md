@@ -2,7 +2,7 @@
 
 A neon-soaked, third-person 3D arcade shooter that runs in the browser. Explore a compact retro-futuristic coastal city at night, fight through six waves of hostiles, steal a sports car and drift down the oceanfront boulevard.
 
-**Play:** https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/neon-vice/
+**Play:** https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-vice/
 
 ![Gameplay preview](../../assets/neon-vice-preview.gif)
 
@@ -64,7 +64,7 @@ The game captures the mouse (Pointer Lock) while you play. If the browser refuse
 ## Project structure
 
 ```
-games/neon-vice-city/
+source/neon-vice/
 ├── index.html              # Shell: HUD + menus markup
 ├── vite.config.ts          # Relative base, builds into ../../neon-vice
 └── src/
@@ -87,27 +87,27 @@ games/neon-vice-city/
 Requires Node.js 18+.
 
 ```bash
-cd games/neon-vice-city
+cd source/neon-vice
 npm install
 npm run dev          # http://localhost:5199
 npm run typecheck    # strict TypeScript
-npm run build        # type-checks, then writes the static site to ../../neon-vice/
+npm run build        # type-checks, then writes the static site to ../../games/neon-vice/
 npm run preview      # serves the production build
 ```
 
 ## Deployment (GitHub Pages)
 
-This profile repository is published by GitHub Pages straight from the **`main` branch, `/` (root)**. That's how `/game/` (Neon Space Invaders) is already served. NEON VICE follows the same model, so no Pages settings need to change:
+This profile repository is published by GitHub Pages straight from the **`main` branch, `/` (root)**. That's how `/games/neon-space-invaders/` (Neon Space Invaders) is already served. NEON VICE follows the same model, so no Pages settings need to change:
 
-1. `npm run build` writes the production bundle to `neon-vice/` at the repository root. `base: './'` keeps every asset URL relative, so it works under the `/sergeypetrosyan-as/` project subpath.
-2. Commit the updated `neon-vice/` folder together with the source.
-3. Pages serves it at **https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/neon-vice/**.
+1. `npm run build` writes the production bundle to `games/neon-vice/`. `base: './'` keeps every asset URL relative, so it works under the `/sergeypetrosyan-as/` project subpath.
+2. Commit the updated `games/neon-vice/` folder together with the source.
+3. Pages serves it at **https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-vice/**.
 
 Required repository setting (already in place for the existing game): *Settings → Pages → Build and deployment → Source: Deploy from a branch → `main` / `(root)`*.
 
-The workflow `.github/workflows/neon-vice-build.yml` type-checks and builds the game on every change to it, and warns if the committed `neon-vice/` bundle is stale. It deliberately does **not** deploy, so it can't interfere with the existing Pages setup.
+The workflow `.github/workflows/neon-vice-build.yml` type-checks and builds the game on every change to it, and warns if the committed `games/neon-vice/` bundle is stale. It deliberately does **not** deploy, so it can't interfere with the existing Pages setup.
 
-The source folder is also reachable on Pages. Its `index.html` redirects visitors at `/games/neon-vice-city/` to the built game.
+The source folder is also reachable on Pages. Its `index.html` redirects visitors at `/source/neon-vice/` to the built game.
 
 ## Known limitations
 

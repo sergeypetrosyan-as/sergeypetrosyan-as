@@ -2,7 +2,7 @@
 
 **A time-lens game.** The city of Vesper ends tonight. Ilo, a small courier robot, is carrying its last light to the lighthouse. You can't steer her. You can only hold a circle where time runs backward.
 
-**Play:** https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/unfall/
+**Play:** https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/unfall/
 
 ![UNFALL gameplay](../../assets/unfall-preview.gif)
 
@@ -71,13 +71,13 @@ Design notes, including the five concepts considered and how they scored, are in
 ## Develop and deploy
 
 ```bash
-cd games/unfall
+cd source/unfall
 npm install
 npm run dev        # http://localhost:5220 (dev builds expose window.__unfall for scripted play-testing)
-npm run build      # type-check, then write the static game to ../../unfall/
+npm run build      # type-check, then write the static game to ../../games/unfall/
 ```
 
-GitHub Pages serves this repository from `main` / root, so the committed `unfall/` folder is the deployment, the same as `neon-vice/`. The game is registered in the NEON ARCADE hub at `site/src/data/games.ts`. Rebuild the hub (`cd site && npm run build`) after changing its card.
+GitHub Pages serves this repository from `main` / root, so the committed `games/unfall/` folder is the deployment, like every game. The game is registered in the NEON ARCADE hub at `site/src/data/games.ts`. Rebuild the hub (`cd site && npm run build`) after changing its card.
 
 ## Known limitations
 

@@ -11,10 +11,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Big+Shoulders+Display:wght@700;900&display=swap" rel="stylesheet" />
   <script>
-    if (location.hostname.endsWith('github.io') && location.pathname.includes('/games/unfall')) {
-      location.replace(location.pathname.replace(/games\/unfall\/?.*$/, 'unfall/'));
+    // The source folder is also served by GitHub Pages; send visitors to the built game.
+    if (location.hostname.endsWith('github.io') && location.pathname.includes('/source/unfall')) {
+      location.replace(location.pathname.replace(/source\/unfall\/?.*$/, 'games/unfall/'));
     }
   </script>
+  <script type="module" crossorigin src="./assets/index-DmLO_vn4.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-rO8HyFbL.css">
 </head>
 <body>
   <canvas id="view" aria-label="UNFALL game view"></canvas>
@@ -134,6 +137,5 @@
   </section>
 
   <div id="fatal" class="screen panel-screen hidden" role="alert"><div class="panel"><h2>This browser can’t draw UNFALL</h2><p class="sub" id="fatalText"></p></div></div>
-  <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

@@ -11,6 +11,7 @@ on:
       - 'site/**'
       - 'index.html'
       - 'arcade/**'
+      - 'games/**'
       - '.github/workflows/arcade-hub-build.yml'
   pull_request:
     paths:

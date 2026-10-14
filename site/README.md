@@ -44,7 +44,7 @@ site/
 ```bash
 cd site
 npm install
-npm run dev        # http://localhost:5210 — also serves /game/, /neon-vice/ and /assets/ from the repo
+npm run dev        # http://localhost:5210 — also serves /games/ and /assets/ from the repo
 npm run build      # type-check + validate registry + write the hub into the repo root
 ```
 
@@ -58,17 +58,17 @@ GitHub Pages already publishes this repository from **`main` / root**, so commit
 
 GitHub serves the bare user domain **only** from a repository named exactly `sergeypetrosyan-as.github.io`, and this account doesn't have one. The profile repository `sergeypetrosyan-as` is a *project* site, so it lives under `/sergeypetrosyan-as/`. The hub is deployed there.
 
-To make the bare domain work too, create the user-site repository and push the forwarding page kept in [`user-site/`](./user-site):
+To serve the hub at `/` and every game at `/games/<game>/`, use the mirror kept in [`user-site/`](./user-site). Its workflow copies this repo's built output (no secrets needed, since this repo is public) and deploys it, on push, on demand, and every 30 minutes:
 
 1. On GitHub, create a new **public** repository named exactly **`sergeypetrosyan-as.github.io`**. Leave it empty: no README, license or .gitignore.
-2. Push the forwarding page:
+2. In that repo, open *Settings → Pages* and set *Build and deployment → Source* to **GitHub Actions**.
+3. Push the mirror:
    ```bash
    cd site/user-site
-   git init -b main && git add . && git commit -m "Forward user site to NEON ARCADE"
+   git init -b main && git add . && git commit -m "Mirror NEON ARCADE at the root domain"
    git remote add origin https://github.com/sergeypetrosyan-as/sergeypetrosyan-as.github.io.git
    git push -u origin main
    ```
-3. In that repo, open *Settings → Pages* and check that *Source: Deploy from a branch → `main` / `(root)`* is selected. It's usually enabled automatically for `<user>.github.io` repositories.
-4. After a minute or two, `https://sergeypetrosyan-as.github.io/` forwards to the hub.
+4. After the first workflow run, `https://sergeypetrosyan-as.github.io/` serves the hub and `https://sergeypetrosyan-as.github.io/games/unfall/` (and the others) serve the games.
 
-Alternatively, you can move the hub itself into that repository. The forwarding page keeps one source of truth here instead.
+All site paths are relative, so the same files work under both `/` and `/sergeypetrosyan-as/`.

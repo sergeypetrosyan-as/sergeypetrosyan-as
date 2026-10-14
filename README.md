@@ -44,7 +44,7 @@ I treat clarity as a feature: code that reads plainly, boundaries that are obvio
 
 ## 🎮 Neon Space Invaders
 
-<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/game/">
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-space-invaders/">
   <img
     src="./assets/game-preview.gif"
     alt="Neon Space Invaders — click to play"
@@ -52,7 +52,7 @@ I treat clarity as a feature: code that reads plainly, boundaries that are obvio
   />
 </a>
 
-**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/game/)**
+**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-space-invaders/)**
 
 </div>
 
@@ -62,7 +62,7 @@ I treat clarity as a feature: code that reads plainly, boundaries that are obvio
 
 ## 🌆 NEON VICE — 3D NIGHTFALL
 
-<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/neon-vice/">
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-vice/">
   <img
     src="./assets/neon-vice-preview.gif"
     alt="NEON VICE gameplay: a third-person shootout on the neon oceanfront, then a handbrake drift onto the boulevard — click to play"
@@ -72,7 +72,7 @@ I treat clarity as a feature: code that reads plainly, boundaries that are obvio
 
 *A neon-soaked 3D arcade shooter. Explore the city, take control of the streets, and survive the night.*
 
-**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/neon-vice/)** &nbsp;·&nbsp; [Source code](./games/neon-vice-city)
+**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-vice/)** &nbsp;·&nbsp; [Source code](./source/neon-vice)
 
 ![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=threedotjs&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
@@ -108,6 +108,60 @@ I treat clarity as a feature: code that reads plainly, boundaries that are obvio
 | `R` · `1` `2` | Reload · Switch weapon |
 | `E` | Enter / exit a car |
 | `Esc` | Pause |
+
+</td>
+</tr>
+</table>
+
+<br/>
+
+<div align="center">
+
+## ⏳ UNFALL — A TIME-LENS GAME
+
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/unfall/">
+  <img
+    src="./assets/unfall-preview.gif"
+    alt="UNFALL gameplay: a circle of reversed time catches the courier Ilo mid-fall and rebuilds the broken bridge under her — click to play"
+    width="720"
+  />
+</a>
+
+*Vesper ends tonight. You can't steer Ilo, the courier carrying its last light — you can only hold a circle where time runs backward.*
+
+**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/unfall/)** &nbsp;·&nbsp; [Source code](./source/unfall)
+
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Canvas 2D](https://img.shields.io/badge/Canvas%202D-1F2328?style=flat-square)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Web Audio](https://img.shields.io/badge/Web%20Audio-1F2328?style=flat-square)
+
+</div>
+
+<table>
+<tr>
+<td width="55%" valign="top">
+
+**How it plays**
+
+- Inside the circle, time runs backward: slabs rise back into place, fallen signs return to their chains, presses lift, and the Hush recedes
+- Outside it, time keeps going, so whatever you rebuild starts falling again on its own clock
+- The circle rewinds Ilo too: catch her and she walks back through her own steps, or rescue her mid-fall
+- Every second you borrow dims her lantern, and how much light reaches the lighthouse decides one of three endings
+- Eight hand-built districts, a 6–10 minute night, and a soundtrack that plays backward while you hold time
+
+</td>
+<td width="45%" valign="top">
+
+**Controls**
+
+| | |
+|---|---|
+| Mouse / finger | Aim the circle |
+| Hold button / touch | Turn time back |
+| Wheel · `Q` `E` | Resize the circle |
+| Arrows · `Space` | Keyboard aim · hold |
+| `R` · `Esc` | Restart · Pause |
 
 </td>
 </tr>

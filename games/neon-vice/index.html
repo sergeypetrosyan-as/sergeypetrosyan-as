@@ -11,10 +11,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Monoton&display=swap" rel="stylesheet" />
   <script>
     // The source folder is also served by GitHub Pages; send visitors to the built game.
-    if (location.hostname.endsWith('github.io') && location.pathname.includes('/games/neon-vice-city')) {
-      location.replace(location.pathname.replace(/games\/neon-vice-city\/?.*$/, 'neon-vice/'));
+    if (location.hostname.endsWith('github.io') && location.pathname.includes('/source/neon-vice')) {
+      location.replace(location.pathname.replace(/source\/neon-vice\/?.*$/, 'games/neon-vice/'));
     }
   </script>
+  <script type="module" crossorigin src="./assets/index-7dA3P4hj.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DdLmH44A.css">
 </head>
 <body>
   <div id="app">
@@ -259,6 +261,5 @@
       </div>
     </div>
   </div>
-  <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

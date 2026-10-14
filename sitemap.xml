@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/</loc></url>
-  <url><loc>https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/unfall/</loc></url>
-  <url><loc>https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/neon-vice/</loc></url>
-  <url><loc>https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/game/</loc></url>
+  <url><loc>https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/unfall/</loc></url>
+  <url><loc>https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-vice/</loc></url>
+  <url><loc>https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-space-invaders/</loc></url>
 </urlset>

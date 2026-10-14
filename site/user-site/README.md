@@ -1,5 +1,5 @@
 # sergeypetrosyan-as.github.io
 
-Forwards the bare user domain to **NEON ARCADE**: https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/
+Publishes **NEON ARCADE** — the hub and every game — at https://sergeypetrosyan-as.github.io/.
 
-The hub's source lives in [sergeypetrosyan-as/sergeypetrosyan-as](https://github.com/sergeypetrosyan-as/sergeypetrosyan-as/tree/main/site).
+The site is built in [sergeypetrosyan-as/sergeypetrosyan-as](https://github.com/sergeypetrosyan-as/sergeypetrosyan-as); the workflow here copies its built output and deploys it with GitHub Pages every 30 minutes (or on demand from the Actions tab).
