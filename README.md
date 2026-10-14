@@ -20,6 +20,10 @@
 ![UI/UX Engineering](https://img.shields.io/badge/UI%2FUX%20Engineering-1F2328?style=flat-square)
 ![Performance](https://img.shields.io/badge/Performance-1F2328?style=flat-square)
 
+<br/>
+
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/"><img src="https://img.shields.io/badge/%E2%96%B6%20ENTER%20NEON%20ARCADE-all%20my%20browser%20games-ff3bd4?style=for-the-badge&labelColor=070914" alt="Enter NEON ARCADE — all my browser games" /></a>
+
 </div>
 
 <br/>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/sitemap.xml

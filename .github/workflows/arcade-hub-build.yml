@@ -1,0 +1,50 @@
+name: NEON ARCADE hub build check
+
+# GitHub Pages serves this repository straight from `main` / root, so this
+# workflow never deploys. It type-checks the hub, validates the game registry
+# (playable games must point at a real index.html) and builds, then warns if the
+# committed hub output in the repository root is stale.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'site/**'
+      - 'index.html'
+      - 'arcade/**'
+      - '.github/workflows/arcade-hub-build.yml'
+  pull_request:
+    paths:
+      - 'site/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Check committed hub output is up to date
+        working-directory: .
+        run: |
+          changed=$(git status --porcelain -- index.html arcade sitemap.xml 404.html robots.txt favicon.svg og-image.jpg apple-touch-icon.png)
+          if [ -n "$changed" ]; then
+            echo "::warning::The committed hub output differs from a fresh build. Run 'npm run build' in site/ and commit the results."
+            echo "$changed"
+          else
+            echo "Hub output matches a fresh build."
+          fi

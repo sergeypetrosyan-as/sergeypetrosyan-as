@@ -1,0 +1,85 @@
+/* NEON ARCADE design tokens — every component reads from these. */
+:root {
+  /* Colour */
+  --color-background: #070914;
+  --color-background-deep: #04050c;
+  --color-surface: #0d1224;
+  --color-surface-elevated: #121a31;
+  --color-surface-glass: rgba(13, 18, 36, 0.72);
+
+  --color-neon-cyan: #32f6ff;
+  --color-neon-purple: #9b5cff;
+  --color-neon-pink: #ff3bd4;
+  --color-neon-blue: #4d7cff;
+  --color-neon-green: #5dffb1;
+  --color-neon-yellow: #ffd84a;
+
+  --color-text-primary: #f3f6ff;
+  --color-text-secondary: #a1acc9;
+  --color-text-muted: #75809f;
+
+  --color-border: rgba(100, 140, 255, 0.22);
+  --color-border-strong: rgba(130, 160, 255, 0.4);
+
+  --gradient-neon: linear-gradient(100deg, var(--color-neon-cyan), var(--color-neon-purple) 55%, var(--color-neon-pink));
+  --gradient-cta: linear-gradient(100deg, #ff3bd4, #9b5cff);
+  --gradient-surface: linear-gradient(160deg, rgba(25, 34, 66, 0.75), rgba(10, 14, 30, 0.9));
+
+  /* Light */
+  --shadow-neon-cyan: 0 0 24px rgba(50, 246, 255, 0.16);
+  --shadow-neon-purple: 0 0 28px rgba(155, 92, 255, 0.18);
+  --shadow-neon-pink: 0 0 28px rgba(255, 59, 212, 0.2);
+  --shadow-card: 0 18px 50px rgba(0, 0, 0, 0.45);
+  --shadow-card-hover: 0 28px 70px rgba(0, 0, 0, 0.55);
+
+  /* Shape */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-card: 18px;
+  --radius-panel: 24px;
+  --radius-pill: 999px;
+
+  /* Spacing (4px scale) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --container: 1200px;
+  --nav-height: 68px;
+
+  /* Type */
+  --font-display: 'Chakra Petch', 'Segoe UI', system-ui, sans-serif;
+  --font-neon: 'Monoton', 'Chakra Petch', sans-serif;
+  --font-body: 'Sora', 'Segoe UI', system-ui, sans-serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: clamp(1.4rem, 2.2vw, 1.75rem);
+  --text-2xl: clamp(2rem, 4.2vw, 3.1rem);
+  --text-hero: clamp(2.7rem, 7.4vw, 6rem);
+  --tracking-wide: 0.18em;
+  --tracking-ultra: 0.32em;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 160ms;
+  --duration-base: 280ms;
+  --duration-slow: 700ms;
+
+  /* Layers */
+  --z-bg: 0;
+  --z-content: 1;
+  --z-nav: 50;
+
+  /* Breakpoints (reference values used in media queries):
+     --bp-sm: 640px; --bp-md: 900px; --bp-lg: 1180px; */
+}

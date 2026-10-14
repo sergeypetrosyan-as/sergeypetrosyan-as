@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>NEON ARCADE — Original browser games by Sergey Petrosyan</title>
+  <meta name="description" content="NEON ARCADE — original browser games by Sergey Petrosyan. A neon 3D shooter, an arcade classic reimagined, and more experiments built with code. Click and play." />
+  <meta name="author" content="Sergey Petrosyan" />
+  <meta name="theme-color" content="#070914" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/" />
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="NEON ARCADE" />
+  <meta property="og:title" content="NEON ARCADE — Enter the night. Play beyond the ordinary." />
+  <meta property="og:description" content="Original browser games by Sergey Petrosyan — a neon 3D shooter, an arcade classic reimagined, and more. No install, just play." />
+  <meta property="og:url" content="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/" />
+  <meta property="og:image" content="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="NEON ARCADE — Enter the night. Play beyond the ordinary." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="NEON ARCADE — Enter the night. Play beyond the ordinary." />
+  <meta name="twitter:description" content="Original browser games by Sergey Petrosyan. No install, just play." />
+  <meta name="twitter:image" content="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/og-image.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Monoton&family=Sora:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script>
+    // Progressive enhancement: reveal animations only apply when JS runs.
+    document.documentElement.classList.add('js');
+    // The hub's source folder is also published; send visitors to the built hub.
+    if (location.hostname.endsWith('github.io') && /\/site(\/|$)/.test(location.pathname)) {
+      location.replace(location.pathname.replace(/site(\/.*)?$/, ''));
+    }
+  </script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"NEON ARCADE","url":"https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/","description":"NEON ARCADE — original browser games by Sergey Petrosyan. A neon 3D shooter, an arcade classic reimagined, and more experiments built with code. Click and play.","author":{"@type":"Person","name":"Sergey Petrosyan","url":"https://github.com/sergeypetrosyan-as"}},{"@type":"ItemList","name":"Games","itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"VideoGame","name":"NEON VICE","description":"A neon-soaked third-person 3D shooter. Explore a coastal city at night, survive six escalating waves, steal a sports car and drift down the oceanfront boulevard.","url":"https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/neon-vice/","image":"https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/arcade/media/neon-vice-poster.webp","genre":["3D Action","Third-person shooter","Driving"],"gamePlatform":"Web browser","applicationCategory":"Game","operatingSystem":"Any (modern web browser)","author":{"@type":"Person","name":"Sergey Petrosyan"}}},{"@type":"ListItem","position":2,"item":{"@type":"VideoGame","name":"NEON SPACE INVADERS","description":"A neon take on the arcade classic. Pilot the interceptor, dodge incoming fire and clear wave after wave before the invaders reach the grid.","url":"https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/game/","image":"https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/arcade/media/space-invaders-poster.webp","genre":["Arcade","Shoot ’em up","2D"],"gamePlatform":"Web browser","applicationCategory":"Game","operatingSystem":"Any (modern web browser)","author":{"@type":"Person","name":"Sergey Petrosyan"}}}]}]}</script>
+  <script type="module" crossorigin src="./arcade/assets/index-DQUaGF1Q.js"></script>
+  <link rel="stylesheet" crossorigin href="./arcade/assets/index-DH7Mshff.css">
+</head>
+<body>
+  
+<header class="nav" data-nav>
+  <a class="skip-link" href="#games">Skip to games</a>
+  <nav class="nav-inner container" aria-label="Primary">
+    <a class="brand" href="#home" aria-label="NEON ARCADE — home">
+      
+<svg class="logo" width="34" height="34" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="logo-g-nav" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="var(--color-neon-cyan)"/>
+      <stop offset="1" stop-color="var(--color-neon-pink)"/>
+    </linearGradient>
+  </defs>
+  <path d="M24 3 42 13.5v21L24 45 6 34.5v-21z" fill="none" stroke="url(#logo-g-nav)" stroke-width="2.5" stroke-linejoin="round"/>
+  <rect x="15" y="14" width="18" height="13" rx="2" fill="none" stroke="var(--color-neon-cyan)" stroke-width="2"/>
+  <path d="M19 23l3-4 2.5 2.5L27 18" fill="none" stroke="var(--color-neon-pink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="19" cy="33" r="2.2" fill="var(--color-neon-pink)"/>
+  <circle cx="29" cy="33" r="2.2" fill="var(--color-neon-cyan)"/>
+</svg>
+      <span class="brand-word">NEON<span>ARCADE</span></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" data-nav-toggle>
+      <span class="nav-toggle-open"><svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg></span>
+      <span class="nav-toggle-close"><svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></span>
+      <span class="sr-only">Menu</span>
+    </button>
+    <div class="nav-menu" id="nav-menu" data-nav-menu>
+      <ul class="nav-links">
+        <li><a class="nav-link" href="#home" data-nav-link>Home</a></li><li><a class="nav-link" href="#games" data-nav-link>Games</a></li><li><a class="nav-link" href="#about" data-nav-link>About</a></li>
+        <li><a class="nav-link" href="https://github.com/sergeypetrosyan-as" target="_blank" rel="noopener noreferrer">GitHub <svg class="icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 4h6v6M10 14 20 4M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg></a></li>
+      </ul>
+      <a class="btn btn-primary btn-sm nav-cta" href="./neon-vice/"><svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor" stroke="none"/></svg> PLAY NOW</a>
+    </div>
+  </nav>
+</header>
+<main id="main">
+
+<section class="hero" id="home" aria-labelledby="hero-title" data-hero>
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hv-aurora"></div>
+    <div class="hv-sun" data-depth="0.15"><span></span></div>
+    <div class="hv-city-wrap" data-depth="0.3">
+<svg class="hv-city" viewBox="0 0 1200 260" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+  <g class="hv-city-blocks"><rect x="0" y="44" width="26" height="216"/><rect x="12" y="26" width="2" height="18"/><rect x="30" y="144" width="64" height="116"/><rect x="61" y="126" width="2" height="18"/><rect x="98" y="134" width="41" height="126"/><rect x="141" y="161" width="54" height="99"/><rect x="204" y="84" width="32" height="176"/><rect x="239" y="172" width="46" height="88"/><rect x="292" y="196" width="70" height="64"/><rect x="365" y="35" width="63" height="225"/><rect x="395.5" y="17" width="2" height="18"/><rect x="435" y="181" width="34" height="79"/><rect x="471" y="162" width="54" height="98"/><rect x="527" y="41" width="38" height="219"/><rect x="573" y="193" width="65" height="67"/><rect x="646" y="62" width="63" height="198"/><rect x="717" y="180" width="57" height="80"/><rect x="780" y="85" width="57" height="175"/><rect x="807.5" y="67" width="2" height="18"/><rect x="843" y="198" width="60" height="62"/><rect x="909" y="186" width="60" height="74"/><rect x="938" y="168" width="2" height="18"/><rect x="971" y="169" width="33" height="91"/><rect x="1011" y="87" width="66" height="173"/><rect x="1082" y="149" width="29" height="111"/><rect x="1113" y="88" width="38" height="172"/><rect x="1131" y="70" width="2" height="18"/><rect x="1160" y="113" width="33" height="147"/><rect x="1195" y="117" width="49" height="143"/></g>
+  <g class="hv-city-windows"><rect x="5" y="152" width="4" height="6"/><rect x="15" y="180" width="4" height="6"/><rect x="45" y="168" width="4" height="6"/><rect x="55" y="182" width="4" height="6"/><rect x="113" y="144" width="4" height="6"/><rect x="103" y="158" width="4" height="6"/><rect x="123" y="158" width="4" height="6"/><rect x="103" y="172" width="4" height="6"/><rect x="113" y="186" width="4" height="6"/><rect x="113" y="200" width="4" height="6"/><rect x="103" y="242" width="4" height="6"/><rect x="123" y="242" width="4" height="6"/><rect x="166" y="185" width="4" height="6"/><rect x="186" y="185" width="4" height="6"/><rect x="176" y="199" width="4" height="6"/><rect x="176" y="227" width="4" height="6"/><rect x="176" y="241" width="4" height="6"/><rect x="186" y="241" width="4" height="6"/><rect x="209" y="94" width="4" height="6"/><rect x="209" y="234" width="4" height="6"/><rect x="264" y="196" width="4" height="6"/><rect x="274" y="224" width="4" height="6"/><rect x="327" y="206" width="4" height="6"/><rect x="337" y="206" width="4" height="6"/><rect x="347" y="206" width="4" height="6"/><rect x="297" y="220" width="4" height="6"/><rect x="307" y="220" width="4" height="6"/><rect x="317" y="220" width="4" height="6"/><rect x="297" y="234" width="4" height="6"/><rect x="347" y="248" width="4" height="6"/><rect x="390" y="45" width="4" height="6"/><rect x="370" y="59" width="4" height="6"/><rect x="370" y="73" width="4" height="6"/><rect x="400" y="73" width="4" height="6"/><rect x="410" y="73" width="4" height="6"/><rect x="370" y="87" width="4" height="6"/><rect x="410" y="143" width="4" height="6"/><rect x="390" y="171" width="4" height="6"/><rect x="370" y="227" width="4" height="6"/><rect x="400" y="227" width="4" height="6"/><rect x="410" y="227" width="4" height="6"/><rect x="370" y="241" width="4" height="6"/><rect x="440" y="191" width="4" height="6"/><rect x="450" y="205" width="4" height="6"/><rect x="460" y="247" width="4" height="6"/><rect x="496" y="186" width="4" height="6"/><rect x="506" y="200" width="4" height="6"/><rect x="476" y="242" width="4" height="6"/><rect x="486" y="242" width="4" height="6"/><rect x="516" y="242" width="4" height="6"/><rect x="532" y="65" width="4" height="6"/><rect x="532" y="79" width="4" height="6"/><rect x="542" y="93" width="4" height="6"/><rect x="552" y="93" width="4" height="6"/><rect x="532" y="107" width="4" height="6"/><rect x="542" y="177" width="4" height="6"/><rect x="552" y="205" width="4" height="6"/><rect x="532" y="219" width="4" height="6"/><rect x="542" y="219" width="4" height="6"/><rect x="532" y="247" width="4" height="6"/><rect x="542" y="247" width="4" height="6"/><rect x="552" y="247" width="4" height="6"/><rect x="618" y="203" width="4" height="6"/><rect x="608" y="217" width="4" height="6"/><rect x="661" y="100" width="4" height="6"/><rect x="691" y="100" width="4" height="6"/><rect x="651" y="184" width="4" height="6"/><rect x="671" y="198" width="4" height="6"/><rect x="681" y="198" width="4" height="6"/><rect x="691" y="198" width="4" height="6"/><rect x="661" y="212" width="4" height="6"/><rect x="701" y="212" width="4" height="6"/><rect x="681" y="226" width="4" height="6"/><rect x="732" y="204" width="4" height="6"/><rect x="742" y="204" width="4" height="6"/><rect x="742" y="246" width="4" height="6"/><rect x="825" y="109" width="4" height="6"/><rect x="805" y="151" width="4" height="6"/><rect x="795" y="165" width="4" height="6"/><rect x="805" y="179" width="4" height="6"/><rect x="815" y="221" width="4" height="6"/><rect x="785" y="235" width="4" height="6"/><rect x="805" y="235" width="4" height="6"/><rect x="805" y="249" width="4" height="6"/><rect x="878" y="208" width="4" height="6"/><rect x="848" y="222" width="4" height="6"/><rect x="878" y="236" width="4" height="6"/><rect x="888" y="236" width="4" height="6"/><rect x="954" y="196" width="4" height="6"/><rect x="924" y="224" width="4" height="6"/><rect x="976" y="193" width="4" height="6"/><rect x="976" y="207" width="4" height="6"/><rect x="996" y="221" width="4" height="6"/><rect x="996" y="235" width="4" height="6"/><rect x="986" y="249" width="4" height="6"/><rect x="1056" y="97" width="4" height="6"/><rect x="1066" y="97" width="4" height="6"/><rect x="1016" y="111" width="4" height="6"/><rect x="1026" y="111" width="4" height="6"/><rect x="1046" y="111" width="4" height="6"/><rect x="1066" y="195" width="4" height="6"/><rect x="1046" y="209" width="4" height="6"/><rect x="1016" y="223" width="4" height="6"/><rect x="1026" y="237" width="4" height="6"/><rect x="1066" y="237" width="4" height="6"/><rect x="1087" y="173" width="4" height="6"/><rect x="1097" y="201" width="4" height="6"/><rect x="1097" y="229" width="4" height="6"/><rect x="1087" y="243" width="4" height="6"/><rect x="1118" y="112" width="4" height="6"/><rect x="1138" y="140" width="4" height="6"/><rect x="1118" y="168" width="4" height="6"/><rect x="1138" y="168" width="4" height="6"/><rect x="1118" y="182" width="4" height="6"/><rect x="1118" y="210" width="4" height="6"/><rect x="1118" y="238" width="4" height="6"/><rect x="1128" y="238" width="4" height="6"/><rect x="1165" y="123" width="4" height="6"/><rect x="1165" y="151" width="4" height="6"/><rect x="1175" y="165" width="4" height="6"/><rect x="1165" y="207" width="4" height="6"/><rect x="1175" y="249" width="4" height="6"/><rect x="1200" y="127" width="4" height="6"/><rect x="1200" y="141" width="4" height="6"/><rect x="1210" y="141" width="4" height="6"/><rect x="1210" y="183" width="4" height="6"/><rect x="1220" y="183" width="4" height="6"/><rect x="1230" y="183" width="4" height="6"/><rect x="1200" y="197" width="4" height="6"/><rect x="1200" y="211" width="4" height="6"/><rect x="1210" y="211" width="4" height="6"/><rect x="1220" y="239" width="4" height="6"/></g>
+</svg></div>
+    <div class="hv-grid"><div class="hv-grid-plane"></div></div>
+    <canvas class="hv-particles" data-particles></canvas>
+  </div>
+  <div class="hero-inner container">
+    <div class="hero-copy">
+      <p class="status-line reveal-hero" style="--d:0">
+        <span class="status-dot"></span>ARCADE SYSTEM <span class="sep">//</span> READY TO PLAY
+      </p>
+      <h1 class="hero-title" id="hero-title">
+        <span class="reveal-hero" style="--d:1">REAL CODE.</span>
+        <span class="reveal-hero hero-title-accent" style="--d:2">VIRTUAL WORLDS.</span>
+      </h1>
+      <p class="hero-lead reveal-hero" style="--d:3">Experimental browser games, immersive worlds, and interactive experiences built with code.</p>
+      <div class="hero-actions reveal-hero" style="--d:4">
+        <a class="btn btn-primary" href="#games">EXPLORE GAMES <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
+        <a class="btn btn-ghost" href="https://github.com/sergeypetrosyan-as" target="_blank" rel="noopener noreferrer"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg> VIEW GITHUB</a>
+      </div>
+      <dl class="hero-meta reveal-hero" style="--d:5">
+        <div><dt>CARTRIDGES</dt><dd>02</dd></div>
+        <div><dt>ENGINE</dt><dd>THE BROWSER</dd></div>
+        <div><dt>INSTALL</dt><dd>NONE</dd></div>
+      </dl>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hv-halo" data-depth="0.6"><i></i><i></i><i></i></div>
+      <div class="hv-cabinet-wrap" data-depth="1">
+<svg class="hv-cabinet" viewBox="0 0 340 460" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="hv-edge" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="var(--color-neon-cyan)"/>
+      <stop offset=".55" stop-color="var(--color-neon-purple)"/>
+      <stop offset="1" stop-color="var(--color-neon-pink)"/>
+    </linearGradient>
+    <linearGradient id="hv-screen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#140a33"/>
+      <stop offset=".62" stop-color="#3a0f55"/>
+      <stop offset="1" stop-color="#ff3bd4" stop-opacity=".55"/>
+    </linearGradient>
+    <linearGradient id="hv-sun" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd84a"/>
+      <stop offset="1" stop-color="#ff3bd4"/>
+    </linearGradient>
+    <clipPath id="hv-screen-clip"><rect x="58" y="72" width="224" height="170" rx="10"/></clipPath>
+    <symbol id="hv-invader" viewBox="0 0 11 8" width="22" height="16">
+      <path d="M2 0h1v1H2zM8 0h1v1H8zM3 1h5v1H3zM2 2h7v1H2zM1 3h2v1H1zM4 3h3v1H4zM8 3h2v1H8zM0 4h11v1H0zM0 5h1v2H0zM2 5h7v1H2zM10 5h1v2h-1zM2 6h1v1H2zM8 6h1v1H8zM3 7h2v1H3zM6 7h2v1H6z" fill="currentColor"/>
+    </symbol>
+  </defs>
+  <!-- cabinet body -->
+  <path class="hv-cab-body" d="M40 20h260l20 30v190l-24 40v150H44V280l-24-40V50z"/>
+  <path class="hv-cab-edge" d="M40 20h260l20 30v190l-24 40v150H44V280l-24-40V50z"/>
+  <!-- marquee -->
+  <rect x="62" y="30" width="216" height="30" rx="6" class="hv-marquee"/>
+  <text x="170" y="51" text-anchor="middle" class="hv-marquee-text">NEON ARCADE</text>
+  <!-- screen -->
+  <rect x="52" y="66" width="236" height="182" rx="14" class="hv-bezel"/>
+  <g clip-path="url(#hv-screen-clip)">
+    <rect x="58" y="72" width="224" height="170" fill="url(#hv-screen)"/>
+    <circle cx="170" cy="196" r="38" fill="url(#hv-sun)" class="hv-screen-sun"/>
+    <g class="hv-sun-cuts"><rect x="120" y="200" width="100" height="3"/><rect x="120" y="210" width="100" height="4"/><rect x="120" y="221" width="100" height="5"/></g>
+    <g class="hv-screen-grid">
+      <path d="M58 234H282M58 226H282M58 220H282"/>
+      <path d="M170 214 90 242M170 214 130 242M170 214 210 242M170 214 250 242M170 214 170 242"/>
+    </g>
+    <g class="hv-invaders"><use href="#hv-invader" x="78" y="92" class="hv-inv hv-inv-0"/><use href="#hv-invader" x="112" y="96" class="hv-inv hv-inv-1"/><use href="#hv-invader" x="146" y="92" class="hv-inv hv-inv-2"/><use href="#hv-invader" x="180" y="96" class="hv-inv hv-inv-3"/><use href="#hv-invader" x="214" y="92" class="hv-inv hv-inv-4"/></g>
+    <path class="hv-ship" d="M163 186h14l-3-6h-8z"/>
+    <rect class="hv-shot" x="169" y="150" width="2" height="9"/>
+    <text x="170" y="138" text-anchor="middle" class="hv-press">PRESS START</text>
+    <rect class="hv-scan" x="58" y="72" width="224" height="170"/>
+  </g>
+  <!-- control deck -->
+  <path class="hv-deck" d="M44 280h252l-20 34H64z"/>
+  <circle cx="110" cy="296" r="6" class="hv-stick-base"/>
+  <line x1="110" y1="296" x2="104" y2="280" class="hv-stick"/>
+  <circle cx="104" cy="279" r="6" class="hv-stick-ball"/>
+  <circle cx="196" cy="297" r="6" class="hv-btn hv-btn-a"/>
+  <circle cx="216" cy="292" r="6" class="hv-btn hv-btn-b"/>
+  <circle cx="236" cy="297" r="6" class="hv-btn hv-btn-c"/>
+  <!-- coin door -->
+  <rect x="140" y="350" width="60" height="70" rx="6" class="hv-coin"/>
+  <rect x="160" y="366" width="20" height="4" rx="2" class="hv-coin-slot"/>
+  <text x="170" y="396" text-anchor="middle" class="hv-coin-text">INSERT</text>
+  <text x="170" y="408" text-anchor="middle" class="hv-coin-text">COIN</text>
+</svg></div>
+      <div class="hv-shapes" data-depth="1.4">
+        <span class="shape shape-tri"></span><span class="shape shape-ring"></span>
+        <span class="shape shape-diamond"></span><span class="shape shape-cross"></span>
+        <span class="shape shape-dot"></span>
+      </div>
+    </div>
+  </div>
+  <a class="scroll-cue" href="#games" aria-label="Scroll to games"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
+</section>
+
+<section class="section games" id="games" aria-labelledby="games-title">
+  <div class="container">
+    <header class="section-head" data-reveal>
+      <p class="kicker"><span class="kicker-line"></span>LIBRARY <span class="sep">//</span> 02 PLAYABLE</p>
+      <h2 class="section-title" id="games-title">SELECT YOUR GAME</h2>
+      <p class="section-lead">Choose your world. Start playing.</p>
+    </header>
+    <div class="game-grid">
+      
+<article class="game-card accent-pink" aria-labelledby="game-neon-vice-title" data-reveal style="--i:0">
+  <a class="card-media" href="./neon-vice/" tabindex="-1" aria-hidden="true">
+    <img class="card-poster" src="./arcade/media/neon-vice-poster.webp" alt="NEON VICE: a neon sports car drifting toward a striped synthwave sun over the ocean" width="640" height="360" loading="lazy" decoding="async" data-preview="./assets/neon-vice-preview.gif" />
+    <span class="card-scan" aria-hidden="true"></span>
+    <span class="card-index" aria-hidden="true">01</span>
+    <span class="card-play-badge" aria-hidden="true"><svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor" stroke="none"/></svg></span></a>
+  <div class="card-body">
+    <p class="card-genres"><span>3D Action</span><span>Third-person shooter</span><span>Driving</span></p>
+    <h3 class="card-title" id="game-neon-vice-title">NEON VICE <span class="card-tagline">3D Nightfall</span></h3>
+    <p class="card-desc">A neon-soaked third-person 3D shooter. Explore a coastal city at night, survive six escalating waves, steal a sports car and drift down the oceanfront boulevard.</p>
+    <ul class="controls" aria-label="Controls"><li><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><span>Move / drive</span></li><li><kbd>Mouse</kbd><span>Aim</span></li><li><kbd>Click</kbd><span>Fire</span></li><li><kbd>E</kbd><span>Enter car</span></li><li><kbd>Space</kbd><span>Jump / drift</span></li></ul>
+    <div class="card-footer">
+      <span class="platforms"><span class="platform" title="Desktop"><svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><span>Desktop</span></span></span>
+      <div class="card-actions">
+        <a class="btn btn-icon" href="https://github.com/sergeypetrosyan-as/sergeypetrosyan-as/tree/main/games/neon-vice-city" target="_blank" rel="noopener noreferrer" aria-label="NEON VICE source code on GitHub"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></svg></a><a class="btn btn-primary btn-play" href="./neon-vice/" aria-label="Play NEON VICE"><svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor" stroke="none"/></svg> PLAY</a>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="game-card accent-cyan" aria-labelledby="game-neon-space-invaders-title" data-reveal style="--i:1">
+  <a class="card-media" href="./game/" tabindex="-1" aria-hidden="true">
+    <img class="card-poster" src="./arcade/media/space-invaders-poster.webp" alt="Neon Space Invaders: rows of glowing invaders above the player ship on a neon grid" width="640" height="360" loading="lazy" decoding="async" data-preview="./assets/game-preview.gif" />
+    <span class="card-scan" aria-hidden="true"></span>
+    <span class="card-index" aria-hidden="true">02</span>
+    <span class="card-play-badge" aria-hidden="true"><svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor" stroke="none"/></svg></span></a>
+  <div class="card-body">
+    <p class="card-genres"><span>Arcade</span><span>Shoot ’em up</span><span>2D</span></p>
+    <h3 class="card-title" id="game-neon-space-invaders-title">NEON SPACE INVADERS <span class="card-tagline">Defend the grid</span></h3>
+    <p class="card-desc">A neon take on the arcade classic. Pilot the interceptor, dodge incoming fire and clear wave after wave before the invaders reach the grid.</p>
+    <ul class="controls" aria-label="Controls"><li><kbd>←</kbd><kbd>→</kbd><span>Move</span></li><li><kbd>A</kbd><kbd>D</kbd><span>Move</span></li><li><kbd>Space</kbd><span>Fire</span></li></ul>
+    <div class="card-footer">
+      <span class="platforms"><span class="platform" title="Desktop"><svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><span>Desktop</span></span><span class="platform" title="Mobile"><svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18h2"/></svg><span>Mobile</span></span></span>
+      <div class="card-actions">
+        <a class="btn btn-icon" href="https://github.com/sergeypetrosyan-as/sergeypetrosyan-as/tree/main/game" target="_blank" rel="noopener noreferrer" aria-label="NEON SPACE INVADERS source code on GitHub"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></svg></a><a class="btn btn-primary btn-play" href="./game/" aria-label="Play NEON SPACE INVADERS"><svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor" stroke="none"/></svg> PLAY</a>
+      </div>
+    </div>
+  </div>
+</article>
+      
+<article class="game-card next-slot" aria-labelledby="next-slot-title" data-reveal style="--i:2">
+  <div class="next-slot-inner">
+    <span class="next-slot-coin" aria-hidden="true"><svg class="icon" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 11h4M8 9v4M15 12h.01M18 10h.01"/><path d="M17.3 5H6.7a4 4 0 0 0-4 3.6l-.6 6.1A2.6 2.6 0 0 0 6.6 17l1.6-1.6a2 2 0 0 1 1.4-.6h4.8a2 2 0 0 1 1.4.6l1.6 1.6a2.6 2.6 0 0 0 4.5-2.3l-.6-6.1a4 4 0 0 0-4-3.6z"/></svg></span>
+    <h3 class="card-title" id="next-slot-title">INSERT COIN</h3>
+    <p class="card-desc">This slot is reserved for the next cartridge. New games join the arcade as soon as they’re playable.</p>
+  </div>
+</article>
+    </div>
+  </div>
+</section>
+
+<section class="section featured" id="featured" aria-labelledby="featured-title">
+  <div class="container">
+    <article class="spotlight accent-pink" data-reveal>
+      <div class="spotlight-media">
+        <img src="./arcade/media/neon-vice-poster.webp" alt="" class="spotlight-poster" width="1024" height="576" loading="lazy" decoding="async" aria-hidden="true" />
+        <img src="./assets/neon-vice-preview.gif" alt="NEON VICE: a neon sports car drifting toward a striped synthwave sun over the ocean (animated gameplay preview)" class="spotlight-gif" width="1024" height="576" loading="lazy" decoding="async" />
+        <span class="spotlight-tag"><svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg> FEATURED</span>
+      </div>
+      <div class="spotlight-body">
+        <p class="kicker"><span class="kicker-line"></span>SPOTLIGHT</p>
+        <h2 class="spotlight-title" id="featured-title">NEON VICE<span>3D Nightfall</span></h2>
+        <p class="spotlight-desc">A neon-soaked third-person 3D shooter. Explore a coastal city at night, survive six escalating waves, steal a sports car and drift down the oceanfront boulevard.</p>
+        <p class="card-genres"><span>3D Action</span><span>Third-person shooter</span><span>Driving</span></p>
+        <ul class="controls controls-lg" aria-label="Controls"><li><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><span>Move / drive</span></li><li><kbd>Mouse</kbd><span>Aim</span></li><li><kbd>Click</kbd><span>Fire</span></li><li><kbd>E</kbd><span>Enter car</span></li><li><kbd>Space</kbd><span>Jump / drift</span></li></ul>
+        <div class="spotlight-meta"><span class="platforms"><span class="platform" title="Desktop"><svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><span>Desktop</span></span></span><span class="tech">Three.js · TypeScript · Web Audio</span></div>
+        <div class="spotlight-actions">
+          <a class="btn btn-primary btn-lg" href="./neon-vice/"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor" stroke="none"/></svg> PLAY GAME</a>
+          <a class="btn btn-ghost" href="https://github.com/sergeypetrosyan-as/sergeypetrosyan-as/tree/main/games/neon-vice-city" target="_blank" rel="noopener noreferrer"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></svg> SOURCE CODE</a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="section about" id="about" aria-labelledby="about-title">
+  <div class="container about-grid">
+    <div class="about-copy" data-reveal>
+      <p class="kicker"><span class="kicker-line"></span>THE DEVELOPER</p>
+      <h2 class="section-title" id="about-title">BUILT IN CODE.<br/><span>POWERED BY CURIOSITY.</span></h2>
+      <p class="about-lead">I build interactive web experiences, explore creative frontend engineering, and turn ideas into playable digital worlds.</p>
+      <p>I’m Sergey Petrosyan, a frontend software engineer working mostly in TypeScript and the React ecosystem. This arcade is where I experiment outside of product work — rendering, game feel, motion and audio, all running straight in the browser.</p>
+      <div class="about-actions">
+        <a class="btn btn-primary" href="https://github.com/sergeypetrosyan-as" target="_blank" rel="noopener noreferrer"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg> GITHUB PROFILE</a>
+        <a class="btn btn-ghost" href="https://github.com/sergeypetrosyan-as/sergeypetrosyan-as" target="_blank" rel="noopener noreferrer"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></svg> ARCADE SOURCE</a>
+      </div>
+    </div>
+    <ul class="about-stack" data-reveal style="--i:1" aria-label="Tools behind the arcade">
+      <li><span>01</span><strong>TypeScript</strong><em>Typed game logic &amp; UI</em></li>
+      <li><span>02</span><strong>Three.js / WebGL</strong><em>Real-time 3D worlds</em></li>
+      <li><span>03</span><strong>Canvas 2D</strong><em>Arcade-speed sprites</em></li>
+      <li><span>04</span><strong>Web Audio</strong><em>Synthesized sound</em></li>
+      <li><span>05</span><strong>Vite</strong><em>Fast static builds</em></li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      
+<svg class="logo" width="30" height="30" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="logo-g-footer" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="var(--color-neon-cyan)"/>
+      <stop offset="1" stop-color="var(--color-neon-pink)"/>
+    </linearGradient>
+  </defs>
+  <path d="M24 3 42 13.5v21L24 45 6 34.5v-21z" fill="none" stroke="url(#logo-g-footer)" stroke-width="2.5" stroke-linejoin="round"/>
+  <rect x="15" y="14" width="18" height="13" rx="2" fill="none" stroke="var(--color-neon-cyan)" stroke-width="2"/>
+  <path d="M19 23l3-4 2.5 2.5L27 18" fill="none" stroke="var(--color-neon-pink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="19" cy="33" r="2.2" fill="var(--color-neon-pink)"/>
+  <circle cx="29" cy="33" r="2.2" fill="var(--color-neon-cyan)"/>
+</svg>
+      <div><strong>NEON<span>ARCADE</span></strong><p>Game over is just another start screen.</p></div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="https://github.com/sergeypetrosyan-as" target="_blank" rel="noopener noreferrer"><svg class="icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg> GitHub profile</a></li>
+      <li><a href="https://github.com/sergeypetrosyan-as/sergeypetrosyan-as" target="_blank" rel="noopener noreferrer"><svg class="icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></svg> Repository</a></li>
+      <li><a href="#home" class="back-top"><svg class="icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M6 11l6-6 6 6"/></svg> Back to top</a></li>
+    </ul>
+    <p class="footer-copy">© <span data-year>2026</span> Sergey Petrosyan. Original games, made with code.</p>
+  </div>
+</footer>
+</body>
+</html>
