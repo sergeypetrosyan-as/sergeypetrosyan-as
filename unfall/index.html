@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#050d12" />
+  <title>UNFALL — a time-lens game</title>
+  <meta name="description" content="UNFALL: the city of Vesper ends tonight. Hold a circle where time runs backward to get Ilo, a small courier, to the lighthouse. Every second you take back costs her lantern." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050d12'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%239ff4ff' stroke-width='2.5'/%3E%3Cpath d='M16 10v6l-4 3' stroke='%23ffb347' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Big+Shoulders+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <script>
+    if (location.hostname.endsWith('github.io') && location.pathname.includes('/games/unfall')) {
+      location.replace(location.pathname.replace(/games\/unfall\/?.*$/, 'unfall/'));
+    }
+  </script>
+  <script type="module" crossorigin src="./assets/index-DmLO_vn4.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-rO8HyFbL.css">
+</head>
+<body>
+  <canvas id="view" aria-label="UNFALL game view"></canvas>
+
+  <!-- HUD -->
+  <div id="hud" class="hud hidden">
+    <div class="hud-district"><span id="hudCount"></span><strong id="hudName"></strong></div>
+    <div class="hud-lantern" title="The lantern Ilo carries. Every second you borrow dims it.">
+      <span>Lantern</span><strong id="hudLight">100%</strong>
+      <div class="meter"><i id="hudLightBar"></i></div>
+    </div>
+    <div class="hud-budget" id="hudBudgetWrap">
+      <div class="meter wide"><i id="hudBudgetBar"></i></div>
+      <span id="hudBudget"></span><span class="lens-size" id="hudLens"></span>
+    </div>
+    <p class="hud-hint hidden" id="hudHint"></p>
+    <p class="hud-message hidden" id="hudMessage" role="status"></p>
+  </div>
+
+  <!-- Title -->
+  <section id="title" class="screen title">
+    <div class="title-block">
+      <h1 class="wordmark" aria-label="Unfall">
+        <span class="u">U</span><span class="u">N</span><span class="f">F</span><span class="f">A</span><span class="f">L</span><span class="f">L</span>
+        <i class="sweep" aria-hidden="true"></i>
+      </h1>
+      <p class="tagline">Vesper ends tonight. You can take a few seconds back.</p>
+      <p class="premise">Ilo, a small courier, is carrying the last light of the city to the lighthouse. You can’t steer her. You can only hold a circle where time runs backward.</p>
+      <div class="actions">
+        <button class="btn primary" id="btnBegin" type="button">Begin the night</button>
+        <button class="btn" id="btnContinue" type="button">Continue</button>
+        <button class="btn" id="btnDistricts" type="button">Districts</button>
+        <button class="btn" id="btnSettings" type="button">Settings</button>
+      </div>
+      <p class="controls-line"><span>Aim with the mouse or a finger. Hold to turn time back.</span> <span>Wheel or <kbd>Q</kbd> <kbd>E</kbd> resize the circle. Keyboard: arrows move it, <kbd>Space</kbd> holds it.</span></p>
+      <p class="best" id="titleBest"></p>
+    </div>
+  </section>
+
+  <!-- District select -->
+  <section id="districts" class="screen panel-screen hidden" aria-labelledby="districtsTitle">
+    <div class="panel">
+      <h2 id="districtsTitle">Districts</h2>
+      <p class="sub">Replay any district you’ve reached. Your most recent result in each one decides the ending.</p>
+      <div id="districtList" class="district-list"></div>
+      <button class="btn" id="btnDistrictsBack" type="button">Back</button>
+    </div>
+  </section>
+
+  <!-- Settings -->
+  <section id="settings" class="screen panel-screen hidden" aria-labelledby="settingsTitle">
+    <div class="panel">
+      <h2 id="settingsTitle">Settings</h2>
+      <label class="field">Music<input type="range" id="setMusic" min="0" max="1" step="0.05" /></label>
+      <label class="field">Sound effects<input type="range" id="setSfx" min="0" max="1" step="0.05" /></label>
+      <label class="check"><input type="checkbox" id="setMute" /> Mute everything</label>
+      <label class="check"><input type="checkbox" id="setReduced" /> Reduce motion (no shake, no drifting ash)</label>
+      <button class="btn primary" id="btnSettingsDone" type="button">Done</button>
+    </div>
+  </section>
+
+  <!-- District card -->
+  <section id="intro" class="screen intro hidden" aria-live="polite">
+    <p id="introCount" class="intro-count"></p>
+    <h2 id="introName" class="intro-name"></h2>
+    <p id="introLine" class="intro-line"></p>
+    <p class="intro-skip">Click or press <kbd>Enter</kbd> to start</p>
+  </section>
+
+  <!-- Pause -->
+  <section id="pause" class="screen panel-screen hidden" aria-labelledby="pauseTitle">
+    <div class="panel">
+      <h2 id="pauseTitle">Paused</h2>
+      <button class="btn primary" id="btnResume" type="button">Resume</button>
+      <button class="btn" id="btnRestart" type="button">Restart district</button>
+      <button class="btn" id="btnPauseSettings" type="button">Settings</button>
+      <button class="btn" id="btnQuit" type="button">Quit to title</button>
+    </div>
+  </section>
+
+  <!-- Failed -->
+  <section id="failed" class="screen panel-screen hidden" aria-labelledby="failTitle">
+    <div class="panel">
+      <h2 id="failTitle">Ilo didn’t make it</h2>
+      <p id="failWhy" class="sub"></p>
+      <button class="btn primary" id="btnRetry" type="button">Try again <kbd>R</kbd></button>
+      <button class="btn" id="btnFailQuit" type="button">Quit to title</button>
+    </div>
+  </section>
+
+  <!-- Complete -->
+  <section id="complete" class="screen panel-screen hidden" aria-labelledby="compName">
+    <div class="panel">
+      <h2 id="compName"></h2>
+      <dl class="stats">
+        <div><dt>Seconds borrowed</dt><dd id="compBorrowed"></dd><dd class="small" id="compBest"></dd></div>
+        <div><dt>Sparks found</dt><dd id="compSparks"></dd></div>
+        <div><dt>Time</dt><dd id="compTime"></dd></div>
+        <div><dt>Lantern</dt><dd id="compLight"></dd></div>
+      </dl>
+      <button class="btn primary" id="btnNext" type="button">Next district</button>
+      <button class="btn" id="btnReplayDistrict" type="button">Replay to borrow less</button>
+    </div>
+  </section>
+
+  <!-- Ending -->
+  <section id="ending" class="screen ending hidden" aria-labelledby="endTier">
+    <div class="ending-block">
+      <h2 id="endTier"></h2>
+      <p id="endText"></p>
+      <p id="endStats" class="end-stats"></p>
+      <div class="actions">
+        <button class="btn primary" id="btnEndAgain" type="button">Live the night again</button>
+        <button class="btn" id="btnEndDistricts" type="button">Districts</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="fatal" class="screen panel-screen hidden" role="alert"><div class="panel"><h2>This browser can’t draw UNFALL</h2><p class="sub" id="fatalText"></p></div></div>
+</body>
+</html>

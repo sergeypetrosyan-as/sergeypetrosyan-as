@@ -9,6 +9,30 @@ const REPO = 'https://github.com/sergeypetrosyan-as/sergeypetrosyan-as';
  */
 export const GAMES: Game[] = [
   {
+    id: 'unfall',
+    title: 'UNFALL',
+    tagline: 'A time-lens game',
+    description:
+      'The city of Vesper ends tonight. You can’t steer Ilo, the small courier carrying its last light — you can only hold a circle where time runs backward. Rebuild bridges, lift falling signs, hold back the Hush, catch her mid-fall. Every second you take back dims her lantern.',
+    genre: ['Time manipulation', 'Puzzle', 'Escort'],
+    thumbnail: './arcade/media/unfall-poster.webp',
+    thumbnailAlt: 'UNFALL: a circle of reversed time over a broken bridge, where Ilo the courier is walking back through her own steps',
+    previewGif: './assets/unfall-preview.gif',
+    status: 'playable',
+    playUrl: './unfall/',
+    sourceUrl: `${REPO}/tree/main/games/unfall`,
+    controls: [
+      { keys: ['Mouse'], action: 'Aim the circle' },
+      { keys: ['Hold'], action: 'Turn time back' },
+      { keys: ['Wheel'], action: 'Resize' },
+      { keys: ['Space'], action: 'Hold (keyboard)' },
+    ],
+    platforms: ['desktop', 'mobile'],
+    tech: ['Canvas 2D', 'TypeScript', 'Web Audio'],
+    accent: 'amber',
+    featured: true,
+  },
+  {
     id: 'neon-vice',
     title: 'NEON VICE',
     tagline: '3D Nightfall',
@@ -31,7 +55,6 @@ export const GAMES: Game[] = [
     platforms: ['desktop'],
     tech: ['Three.js', 'TypeScript', 'Web Audio'],
     accent: 'pink',
-    featured: true,
   },
   {
     id: 'neon-space-invaders',

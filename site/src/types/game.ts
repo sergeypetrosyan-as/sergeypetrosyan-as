@@ -22,7 +22,7 @@ interface GameBase {
   platforms: Array<'desktop' | 'mobile'>;
   tech: string[];
   /** Accent used for the card's neon edge. */
-  accent: 'cyan' | 'pink' | 'purple';
+  accent: 'cyan' | 'pink' | 'purple' | 'amber';
   featured?: boolean;
 }
 

@@ -216,6 +216,8 @@
 }
 .game-card.accent-pink { --accent: var(--color-neon-pink); --accent-soft: rgba(255, 59, 212, 0.28); }
 .game-card.accent-purple { --accent: var(--color-neon-purple); --accent-soft: rgba(155, 92, 255, 0.28); }
+.game-card.accent-amber { --accent: var(--color-neon-amber); --accent-soft: rgba(255, 179, 71, 0.28); }
+.spotlight.accent-amber { --accent: var(--color-neon-amber); box-shadow: var(--shadow-card), 0 0 28px rgba(255, 179, 71, 0.16); }
 /* Animated neon edge: a rotating conic gradient masked to the border. */
 .game-card::before {
   content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; pointer-events: none;
