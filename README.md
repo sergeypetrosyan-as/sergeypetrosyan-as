@@ -195,3 +195,7 @@ Day to day, that means developing features end to end, integrating frontend syst
 <sub>Open to conversations about frontend architecture, UI engineering, and building better products.</sub>
 
 </div>
+
+<div align="center">
+  <img src="./assets/footer-animation.gif" alt="Animated developer footer" width="100%" />
+</div>
