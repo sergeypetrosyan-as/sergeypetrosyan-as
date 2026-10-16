@@ -93,3 +93,7 @@ kbd {
 .section-title { font-size: var(--text-2xl); letter-spacing: 0.04em; }
 .section-title span { background: var(--gradient-neon); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .section-lead { margin-top: var(--space-3); font-size: var(--text-lg); color: var(--color-text-secondary); }
+
+/* Scrollbars are hidden everywhere; content still scrolls by wheel, touch and keyboard. */
+html, html * { scrollbar-width: none !important; -ms-overflow-style: none; }
+html::-webkit-scrollbar, html *::-webkit-scrollbar { display: none; width: 0; height: 0; }

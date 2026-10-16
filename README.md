@@ -169,6 +169,321 @@ I treat clarity as a feature: code that reads plainly, boundaries that are obvio
 
 <br/>
 
+<div align="center">
+
+## 🕹️ NEON JUMP: CYBERWORLD
+
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-jump/">
+  <img
+    src="./assets/neon-jump-preview.gif"
+    alt="NEON JUMP gameplay: Vee bumps prize blocks and takes the high rails to a neon shard, then stomps the Static Sovereign's exposed core — click to play"
+    width="720"
+  />
+</a>
+
+*A neon side-scrolling platformer. Run, jump and stomp across three glitching worlds to rebuild the Neon Core.*
+
+**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-jump/)** &nbsp;·&nbsp; [Source code](./source/neon-jump)
+
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Canvas 2D](https://img.shields.io/badge/Canvas%202D-1F2328?style=flat-square)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Web Audio](https://img.shields.io/badge/Web%20Audio-1F2328?style=flat-square)
+
+</div>
+
+<table>
+<tr>
+<td width="55%" valign="top">
+
+**How it plays**
+
+- Six hand-built levels in three worlds: Neon Downtown, Cyber Factory and the Glitch Dimension
+- Responsive jumps with variable height, coyote time and jump buffering
+- Six original enemy types, plus lasers, crushers, rotors, live floors, timed and vanishing blocks
+- Pulse Shield and Overdrive Core power-ups; neon shards, secret rooms and a hidden arcade token in every level
+- A three-phase boss, the Static Sovereign, beaten by stomping its core after each slam
+- Original pixel art and a synthesized soundtrack; best times, ranks and progress saved locally
+
+</td>
+<td width="45%" valign="top">
+
+**Controls**
+
+| | |
+|---|---|
+| `A` `D` · `←` `→` | Run |
+| `Space` · `W` | Jump (hold for higher) |
+| `Shift` | Sprint |
+| `E` | Read a terminal |
+| `Esc` · `R` | Pause · Checkpoint |
+
+</td>
+</tr>
+</table>
+
+<br/>
+
+<div align="center">
+
+## 🏎️ NEON OVERDRIVE
+
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-overdrive/">
+  <img
+    src="./assets/neon-overdrive-preview.gif"
+    alt="NEON OVERDRIVE gameplay: the player's car racing three AI rivals through a neon megacity, cutting through the Spine — click to play"
+    width="720"
+  />
+</a>
+
+*Burn the reserve. Cut the Spine. A neon arcade racer through a midnight-blue megacity.*
+
+**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-overdrive/)** &nbsp;·&nbsp; [Source code](./source/neon-overdrive)
+
+![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=threedotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Web Audio](https://img.shields.io/badge/Web%20Audio-1F2328?style=flat-square)
+
+</div>
+
+<table>
+<tr>
+<td width="55%" valign="top">
+
+**How it plays**
+
+- Three laps against three AI rivals, on three tracks at three difficulties
+- Drift to fill your Overdrive reserve, then spend it on boost
+- The Spine is a faster inner route whose gates open only for a car with a charged reserve
+- Checkpoints, lap splits and personal bests saved in your browser
+
+</td>
+<td width="45%" valign="top">
+
+**Controls**
+
+| | |
+|---|---|
+| `W` · `S` | Accelerate · Brake |
+| `A` `D` · `←` `→` | Steer |
+| `Shift` · `Space` | Drift |
+| `B` · `Enter` | Boost |
+| `P` · `R` | Pause · Restart |
+
+</td>
+</tr>
+</table>
+
+<br/>
+
+<div align="center">
+
+## 🧩 PARADOX ROOM
+
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/paradox-room/">
+  <img
+    src="./assets/paradox-room-preview.gif"
+    alt="PARADOX ROOM gameplay: a small room folds a quarter-turn at a time so its walls become floors, until the lantern-bearer reaches the gate — click to play"
+    width="720"
+  />
+</a>
+
+*The floor is a matter of opinion. Fold small rooms a quarter-turn at a time so walls become floors.*
+
+**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/paradox-room/)** &nbsp;·&nbsp; [Source code](./source/paradox-room)
+
+![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=threedotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Web Audio](https://img.shields.io/badge/Web%20Audio-1F2328?style=flat-square)
+
+</div>
+
+<table>
+<tr>
+<td width="55%" valign="top">
+
+**How it plays**
+
+- Roll or pitch a room and gravity follows: a wall becomes the floor, and you fall to it
+- Nine rooms in three chapters, each one checked to be solvable, with a shortest-known solution to beat
+- Hints, undo, hidden margin-note shards, and portals that remember how each room was turned
+
+</td>
+<td width="45%" valign="top">
+
+**Controls**
+
+| | |
+|---|---|
+| `WASD` · Arrows | Move |
+| `Q` · `F` | Roll the room |
+| `X` · `V` | Pitch the room |
+| `E` · `Space` | Interact |
+| `Z` · `H` · `R` | Undo · Hint · Restart |
+
+</td>
+</tr>
+</table>
+
+<br/>
+
+<div align="center">
+
+## 🕵️ GHOST SIGNAL
+
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/ghost-signal/">
+  <img
+    src="./assets/ghost-signal-preview.gif"
+    alt="GHOST SIGNAL gameplay: opening the case in the rain-soaked Halcyon Lobby, logging the front-door ledger and the grid relay panel, catching a contradiction in a witness interview, then the case board — click to play"
+    width="720"
+  />
+</a>
+
+*Memories can lie. Timestamps can't. A detective thriller in rain-soaked Kestrel Bay.*
+
+**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/ghost-signal/)** &nbsp;·&nbsp; [Source code](./source/ghost-signal)
+
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Canvas 2D](https://img.shields.io/badge/Canvas%202D-1F2328?style=flat-square)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Web Audio](https://img.shields.io/badge/Web%20Audio-1F2328?style=flat-square)
+
+</div>
+
+<table>
+<tr>
+<td width="55%" valign="top">
+
+**How it plays**
+
+- Rebuild a contested night from memory fragments, testimony and evidence
+- Seven deduction rules check fragments against each other and expose a forged memory
+- Dialogue choices are tracked, and five endings follow your conclusion
+
+</td>
+<td width="45%" valign="top">
+
+**Controls**
+
+| | |
+|---|---|
+| Click · `Enter` | Examine / select |
+| `1`–`6` | Switch tabs |
+| `1`–`9` | Choose a reply |
+| `Esc` · `?` | Close panel · Help |
+
+</td>
+</tr>
+</table>
+
+<br/>
+
+<div align="center">
+
+## 🔦 BLACKOUT PROTOCOL
+
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/blackout-protocol/">
+  <img
+    src="./assets/blackout-protocol-preview.gif"
+    alt="BLACKOUT PROTOCOL gameplay: an operative slips past a guard's vision cone, hacks a door and a camera, then starts a terminal's memory puzzle — click to play"
+    width="720"
+  />
+</a>
+
+*Cut the lights. Own the dark. Stealth and hacking across four Halcyon facilities.*
+
+**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/blackout-protocol/)** &nbsp;·&nbsp; [Source code](./source/blackout-protocol)
+
+![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=threedotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Web Audio](https://img.shields.io/badge/Web%20Audio-1F2328?style=flat-square)
+
+</div>
+
+<table>
+<tr>
+<td width="55%" valign="top">
+
+**How it plays**
+
+- Guards patrol, grow suspicious, raise the alert and search; vision cones respect walls and shadows
+- A limited Energy reserve pays for every hack: loop a camera, lock a door, cut a laser grid
+- Drop decoys, find keycards, crack terminal puzzles, then reach extraction unseen
+
+</td>
+<td width="45%" valign="top">
+
+**Controls**
+
+| | |
+|---|---|
+| `WASD` · Arrows | Move |
+| `Shift` | Sneak |
+| `E` · `Tab` | Interact · Cycle target |
+| `Space` · `F` | Hack · Drop decoy |
+| `Esc` · `P` | Pause |
+
+</td>
+</tr>
+</table>
+
+<br/>
+
+<div align="center">
+
+## 🌀 VOID SURVIVOR
+
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/void-survivor/">
+  <img
+    src="./assets/void-survivor-preview.gif"
+    alt="VOID SURVIVOR gameplay: a wave-17 swarm closing in while the player's Bulwark Field and beams tear through it — click to play"
+    width="720"
+  />
+</a>
+
+*Feed the void. Break the swarm. A neon roguelite survivor.*
+
+**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/void-survivor/)** &nbsp;·&nbsp; [Source code](./source/void-survivor)
+
+![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=threedotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Web Audio](https://img.shields.io/badge/Web%20Audio-1F2328?style=flat-square)
+
+</div>
+
+<table>
+<tr>
+<td width="55%" valign="top">
+
+**How it plays**
+
+- Kills fill your Reserve; hold it to raise a Bulwark Field, or release it as a Detonation
+- Pick one of three upgrade cards on every level-up and build synergies across a 20-minute run
+- Four Core Warden fights, and Shards to spend on permanent unlocks in the Vault
+
+</td>
+<td width="45%" valign="top">
+
+**Controls**
+
+| | |
+|---|---|
+| `WASD` · Arrows | Move |
+| `Q` | Hold Reserve |
+| `E` · `Space` | Release (Detonation) |
+| `1` `2` `3` · `4` | Pick a card · Reroll |
+| `P` · `R` | Pause · Restart |
+
+</td>
+</tr>
+</table>
+
+<br/>
+
 ## What I Do
 
 <table>

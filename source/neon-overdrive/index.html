@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#07090D" />
+  <title>Neon Overdrive</title>
+  <meta name="description" content="Neon Overdrive: a night-time 3D arcade racer. Drift to charge your reserve, boost past three rivals and cut the Spine, a faster inner route whose gates only open for a charged car." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2307090D'/%3E%3Cpath d='M4 24 L16 6 L28 24 Z' fill='none' stroke='%232cf6ff' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M16 12 V24' stroke='%23E8F0F2' stroke-width='2.5'/%3E%3C/svg%3E" />
+  <script>
+    // The source folder is also served by GitHub Pages; send visitors to the built game.
+    if (location.hostname.endsWith('github.io') && location.pathname.includes('/source/neon-overdrive')) {
+      location.replace(location.pathname.replace(/source\/neon-overdrive\/?.*$/, 'games/neon-overdrive/'));
+    }
+  </script>
+</head>
+<body>
+  <canvas id="view" aria-label="Neon Overdrive race view"></canvas>
+
+  <!-- Head-up display -->
+  <div id="hud" class="hud hidden" aria-hidden="true">
+    <div class="scrim scrim-top"></div>
+    <div class="scrim scrim-bottom"></div>
+    <div class="tower">
+      <p class="pos"><span id="hPos" class="pos-n">4</span><span class="pos-of">/4</span></p>
+      <ol id="hTower" class="tower-rows"></ol>
+    </div>
+    <div class="lapbox">
+      <p class="lap">Lap <b id="hLap">1</b> of 3</p>
+      <div class="prog" id="hProg"><div class="prog-line"></div></div>
+    </div>
+    <div class="clock">
+      <p id="hTime" class="time">0:00.000</p>
+      <p id="hSplit" class="split"></p>
+    </div>
+    <p id="hMsg" class="msg"></p>
+    <p id="hSpine" class="spine sealed">
+      <svg class="spine-ico" viewBox="0 0 24 24" aria-hidden="true">
+        <path class="ico-open" d="M4 17 L12 7 L20 17" />
+        <g class="ico-sealed"><rect x="3.5" y="5.5" width="17" height="13" /><path d="M3.5 14 L12 5.5 M8 18.5 L20.5 6 M14 18.5 L20.5 12" /></g>
+      </svg>
+      <span id="hSpineText">Spine sealed</span><span id="hSpineDist" class="dist"></span>
+    </p>
+    <div class="cluster">
+      <p class="speed"><span id="hSpeed">0</span><span class="unit">km/h</span></p>
+      <div class="gauge">
+        <div class="gauge-track"><i id="hResBar"></i><b id="hThr" class="thr"></b></div>
+        <div class="gauge-legend"><span>Reserve <b id="hRes">30</b> %</span><span id="hBoost" class="boost">Boost</span></div>
+      </div>
+    </div>
+  </div>
+  <div id="cd" class="countdown" aria-hidden="true"></div>
+  <div id="live" class="sr-only" aria-live="polite"></div>
+  <div id="notice" class="notice" role="status" hidden>
+    <p id="noticeText"></p>
+    <button type="button" class="link" id="noticeClose">Dismiss</button>
+  </div>
+
+  <div id="touch" class="touch">
+    <div class="touch-l"><button data-touch="left" aria-label="Steer left">&#9664;</button><button data-touch="right" aria-label="Steer right">&#9654;</button></div>
+    <div class="touch-r"><button data-touch="drift">Drift</button><button data-touch="boost">Boost</button><button data-touch="brake">Brake</button><button data-touch="gas" class="gas">Gas</button></div>
+  </div>
+
+  <main id="screens">
+    <!-- Title -->
+    <section id="s-title" class="screen title" hidden aria-labelledby="titleH">
+      <div class="title-col">
+        <h1 id="titleH" class="wordmark"><span>Neon</span><span>Overdrive</span></h1>
+        <p class="tagline">Burn the reserve. Cut the Spine.</p>
+        <nav class="menu" aria-label="Main menu">
+          <button type="button" class="item primary" data-go="setup">Start a race</button>
+          <button type="button" class="item" data-go="guide">How to drive</button>
+          <button type="button" class="item" data-go="records">Personal bests</button>
+          <button type="button" class="item" data-go="settings">Settings</button>
+        </nav>
+        <p class="hint">Drive with W A S D or the arrow keys. Hold Shift to drift, B to boost.</p>
+      </div>
+    </section>
+
+    <!-- Track briefing -->
+    <section id="s-setup" class="screen console" hidden aria-labelledby="setupH">
+      <div class="sheet">
+        <header class="sheet-head">
+          <h2 id="setupH">Choose a track</h2>
+          <button type="button" class="link" data-go="title">Back to menu</button>
+        </header>
+        <div class="brief">
+          <div id="trackList" class="track-list" role="radiogroup" aria-label="Track"></div>
+          <div class="detail">
+            <h3 id="tdName" class="detail-name"></h3>
+            <p id="tdBlurb" class="detail-blurb"></p>
+            <figure class="profile">
+              <svg id="tdProfile" viewBox="0 0 600 120" preserveAspectRatio="none" role="img" aria-label="Elevation profile of one lap"></svg>
+              <figcaption>Elevation over one lap. Shaded bands are the Spine zones.</figcaption>
+            </figure>
+            <dl id="tdFacts" class="facts"></dl>
+            <div class="diff">
+              <p class="label" id="diffLabel">Difficulty</p>
+              <div id="diffRow" class="segmented" role="radiogroup" aria-labelledby="diffLabel"></div>
+              <p id="diffBlurb" class="muted"></p>
+            </div>
+            <p id="bestLine" class="best"></p>
+            <div class="actions"><button type="button" class="btn primary" id="startBtn">Start race</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to drive -->
+    <section id="s-guide" class="screen console" hidden aria-labelledby="guideH">
+      <div class="sheet">
+        <header class="sheet-head"><h2 id="guideH">How to drive</h2></header>
+        <div class="guide-grid">
+          <table class="keys">
+            <caption class="sr-only">Controls</caption>
+            <tr><th scope="row">Accelerate</th><td><kbd>W</kbd> <kbd>&uarr;</kbd></td></tr>
+            <tr><th scope="row">Brake and reverse</th><td><kbd>S</kbd> <kbd>&darr;</kbd></td></tr>
+            <tr><th scope="row">Steer</th><td><kbd>A</kbd> <kbd>D</kbd> <kbd>&larr;</kbd> <kbd>&rarr;</kbd></td></tr>
+            <tr><th scope="row">Drift</th><td><kbd>Shift</kbd> <kbd>Space</kbd></td></tr>
+            <tr><th scope="row">Boost</th><td><kbd>B</kbd> <kbd>Enter</kbd> <kbd>Q</kbd></td></tr>
+            <tr><th scope="row">Restart</th><td><kbd>R</kbd></td></tr>
+            <tr><th scope="row">Pause</th><td><kbd>P</kbd> <kbd>Esc</kbd></td></tr>
+            <tr><th scope="row">Sound on or off</th><td><kbd>M</kbd></td></tr>
+          </table>
+          <div class="tips">
+            <p><b>Drift to charge.</b> Hold Shift while you steer at speed. Sliding, and driving cleanly, fill the reserve gauge under the speed.</p>
+            <p><b>Boost spends it.</b> Hold B on straights and to overtake. The gauge drains fast.</p>
+            <p><b>Cut the Spine.</b> The lit channel down the middle is shorter and faster. Its gate only opens if your reserve is past the amber mark as you reach it; a sealed gate throws you out and costs most of your speed.</p>
+            <p><b>Stay off the barriers.</b> The shoulder slows you and walls hurt. Three laps, four checkpoints a lap.</p>
+          </div>
+        </div>
+        <div class="actions"><button type="button" class="btn primary" id="guideBack">Done</button></div>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section id="s-settings" class="screen console" hidden aria-labelledby="setH">
+      <div class="sheet narrow">
+        <header class="sheet-head"><h2 id="setH">Settings</h2></header>
+        <div class="set-group">
+          <h3>Sound</h3>
+          <label class="field"><span>Master volume <output id="volOut">70 %</output></span><input id="optVol" type="range" min="0" max="100" step="5" /></label>
+          <label class="check"><input id="optMute" type="checkbox" /><span>Mute all sound (M)</span></label>
+          <label class="check"><input id="optMusic" type="checkbox" /><span>Music</span></label>
+        </div>
+        <div class="set-group">
+          <h3>Comfort</h3>
+          <label class="check"><input id="optShake" type="checkbox" /><span>Camera shake on impacts</span></label>
+          <label class="check"><input id="optLines" type="checkbox" /><span>Speed streaks</span></label>
+          <label class="check"><input id="optFlash" type="checkbox" /><span>Reduce flashing</span></label>
+          <label class="check"><input id="optHc" type="checkbox" /><span>High contrast road and HUD</span></label>
+        </div>
+        <div class="set-group">
+          <h3 id="qLabel">Graphics quality</h3>
+          <div id="qRow" class="segmented" role="radiogroup" aria-labelledby="qLabel"></div>
+          <p id="gfxStatus" class="muted"></p>
+        </div>
+        <div class="actions"><button type="button" class="btn primary" id="setBack">Done</button></div>
+      </div>
+    </section>
+
+    <!-- Personal bests -->
+    <section id="s-records" class="screen console" hidden aria-labelledby="recH">
+      <div class="sheet">
+        <header class="sheet-head"><h2 id="recH">Personal bests</h2><button type="button" class="link" data-go="title">Back to menu</button></header>
+        <div class="table-wrap"><table class="sheet-table" id="recTable"></table></div>
+        <div class="actions">
+          <button type="button" class="btn danger" id="recReset">Erase personal bests</button>
+        </div>
+        <div id="recConfirm" class="confirm" hidden>
+          <p>Erase every personal best on this device? This cannot be undone.</p>
+          <button type="button" class="btn danger" id="recYes">Erase</button>
+          <button type="button" class="btn" id="recNo">Keep them</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pause -->
+    <section id="s-pause" class="screen dim" hidden aria-labelledby="pauseH">
+      <div class="title-col">
+        <h2 id="pauseH" class="pause-h">Paused</h2>
+        <nav class="menu" aria-label="Pause menu">
+          <button type="button" class="item primary" id="pResume">Resume</button>
+          <button type="button" class="item" id="pRestart">Restart race</button>
+          <button type="button" class="item" id="pGuide">How to drive</button>
+          <button type="button" class="item" id="pSettings">Settings</button>
+          <button type="button" class="item" id="pQuit">Quit to menu</button>
+        </nav>
+      </div>
+    </section>
+
+    <!-- Classification -->
+    <section id="s-results" class="screen console" hidden aria-labelledby="resH">
+      <div class="sheet">
+        <header class="result-head">
+          <p class="result-place" id="resPlace">P1</p>
+          <div>
+            <h2 id="resH">You finished first</h2>
+            <p id="resTrack" class="muted"></p>
+          </div>
+        </header>
+        <div class="results-grid">
+          <table class="sheet-table classif" id="resTable"></table>
+          <div class="laps-col">
+            <h3>Your laps</h3>
+            <ol class="lapbars" id="resLaps"></ol>
+            <p class="best" id="resBest"></p>
+          </div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn primary" id="rAgain">Race again</button>
+          <button type="button" class="btn" id="rNext">Next track</button>
+          <button type="button" class="btn" id="rMenu">Back to menu</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- First launch -->
+    <section id="s-tutorial" class="screen console" hidden role="dialog" aria-modal="true" aria-labelledby="tutH">
+      <div class="sheet narrow">
+        <header class="sheet-head"><h2 id="tutH">Your first night, Juno</h2></header>
+        <ul class="tips plain">
+          <li><kbd>W</kbd> or <kbd>&uarr;</kbd> to accelerate, <kbd>S</kbd> or <kbd>&darr;</kbd> to brake, <kbd>A</kbd> <kbd>D</kbd> or the arrows to steer.</li>
+          <li>Hold <kbd>Shift</kbd> while turning to drift. Drifting fills the reserve gauge.</li>
+          <li>Hold <kbd>B</kbd> to boost. It spends the reserve.</li>
+          <li>The lit centre channel is the <b>Spine</b>. Its gate opens only when your reserve is past the amber mark.</li>
+        </ul>
+        <div class="actions"><button type="button" class="btn primary" id="tutOk">Go to the menu</button></div>
+      </div>
+    </section>
+
+    <section id="s-fatal" class="screen console" hidden role="alert">
+      <div class="sheet narrow"><h2>The game cannot start</h2><p id="fatalText"></p></div>
+    </section>
+  </main>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

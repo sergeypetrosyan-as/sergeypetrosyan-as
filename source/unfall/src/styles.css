@@ -116,3 +116,7 @@ body.reduced .wordmark .f, body.reduced .sweep, body.reduced .intro-name, body.r
 @media (prefers-reduced-motion: reduce) {
   .wordmark .f, .sweep, .intro-name, .intro-line, .ending-block { animation: none; }
 }
+
+/* Scrollbars are hidden everywhere; content still scrolls by wheel, touch and keyboard. */
+html, html * { scrollbar-width: none !important; -ms-overflow-style: none; }
+html::-webkit-scrollbar, html *::-webkit-scrollbar { display: none; width: 0; height: 0; }

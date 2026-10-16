@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#07080c" />
+  <title>VOID SURVIVOR</title>
+  <meta name="description" content="VOID SURVIVOR: a 3D roguelite survival action game. Feed the void with Essence, raise a Bulwark Field and detonate it across the swarm. Plays offline in your browser." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%2307080c'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%2335f2ff' stroke-width='2.5'/%3E%3Cpath d='M9 20l7-12 7 12-7-3z' fill='%23d9a441'/%3E%3C/svg%3E" />
+  <script>
+    // The source folder is also served by GitHub Pages; send visitors to the built game.
+    if (location.hostname.endsWith('github.io') && location.pathname.includes('/source/void-survivor')) {
+      location.replace(location.pathname.replace(/source\/void-survivor\/?.*$/, 'games/void-survivor/'));
+    }
+  </script>
+  <script type="module" crossorigin src="./assets/index-Bx8_vd5v.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DVHekUjy.css">
+</head>
+<body>
+  <canvas id="view" aria-hidden="true"></canvas>
+  <canvas id="hud" aria-label="VOID SURVIVOR game view"></canvas>
+  <div id="live" class="sr-only" role="status" aria-live="polite"></div>
+  <noscript><p class="noscript">VOID SURVIVOR needs JavaScript to run.</p></noscript>
+
+  <!-- touch controls (shown on touch devices during a run) -->
+  <div id="touch" class="touch hidden">
+    <button id="tHold" class="tbtn tbtn-hold" type="button">Hold</button>
+    <button id="tRelease" class="tbtn tbtn-main" type="button">Release</button>
+    <button id="tPause" class="tbtn tbtn-pause" type="button" aria-label="Pause"><span aria-hidden="true">II</span></button>
+  </div>
+
+  <!-- Menu: the launch console -->
+  <section id="menu" class="screen screen-menu hidden" aria-labelledby="menuTitle">
+    <div class="console">
+      <h1 id="menuTitle" class="title">Void Survivor</h1>
+      <p class="tagline">Feed the void. Break the swarm.</p>
+      <p class="best" id="menuBest"></p>
+      <p class="purse"><span class="crystal" aria-hidden="true"></span><strong id="menuShards">0</strong> Shards in the locker</p>
+      <fieldset class="arena-pick" id="arenaPick">
+        <legend>Arena</legend>
+      </fieldset>
+      <div class="actions">
+        <button id="btnStart" class="btn btn-primary" type="button">Start run</button>
+        <button id="btnVault" class="btn" type="button">Open the Vault</button>
+        <button id="btnSettings" class="btn" type="button">Settings</button>
+        <button id="btnHow" class="btn" type="button">How to play</button>
+      </div>
+      <p class="hint">Move with WASD or the arrow keys. Wick fires on its own. E releases the Reserve, Q holds it, P pauses.</p>
+    </div>
+  </section>
+
+  <!-- Vault: the guild locker -->
+  <section id="vault" class="screen hidden" role="dialog" aria-modal="true" aria-labelledby="vaultTitle">
+    <div class="panel wide">
+      <header class="panel-head">
+        <h2 id="vaultTitle">The Vault</h2>
+        <p class="purse"><span class="crystal" aria-hidden="true"></span><strong id="vaultShards">0</strong> Shards</p>
+      </header>
+      <p class="panel-sub">The salvage guild's locker. What you buy here stays with you for every run.</p>
+      <ul id="vaultList" class="locker"></ul>
+      <div class="actions actions-row"><button id="vaultBack" class="btn" type="button">Back</button></div>
+    </div>
+  </section>
+
+  <!-- Settings -->
+  <section id="settings" class="screen hidden" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="panel">
+      <header class="panel-head"><h2 id="settingsTitle">Settings</h2></header>
+      <div class="form">
+        <label class="row"><span>Graphics quality</span>
+          <select id="setQuality">
+            <option value="auto">Auto</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </label>
+        <p class="row-note" id="qualityNote"></p>
+        <label class="row"><span>Volume</span><input id="setVolume" type="range" min="0" max="100" step="5" /></label>
+        <label class="row"><span>Mute (M)</span><input id="setMuted" type="checkbox" /></label>
+        <label class="row"><span>Screen shake</span><input id="setShake" type="checkbox" /></label>
+        <label class="row"><span>Reduced flash</span><input id="setFlash" type="checkbox" /></label>
+        <label class="row"><span>Outline enemy projectiles</span><input id="setOutline" type="checkbox" /></label>
+        <label class="row"><span>Damage numbers</span><input id="setNumbers" type="checkbox" /></label>
+        <label class="row"><span>Aim</span>
+          <select id="setAim">
+            <option value="auto">Nearest enemy</option>
+            <option value="mouse">Mouse cursor</option>
+            <option value="move">Direction of travel</option>
+          </select>
+        </label>
+      </div>
+      <div class="actions actions-row"><button id="settingsBack" class="btn" type="button">Back</button></div>
+    </div>
+  </section>
+
+  <!-- How to play -->
+  <section id="howto" class="screen hidden" role="dialog" aria-modal="true" aria-labelledby="howTitle">
+    <div class="panel wide">
+      <header class="panel-head"><h2 id="howTitle">How to play</h2></header>
+      <ul class="how">
+        <li><strong>Move</strong> with WASD or the arrow keys (touch: drag on the left). Wick fires on its own.</li>
+        <li><strong>Collect Essence</strong> motes to level up, then slot one of three modules (keys 1 to 3, 4 rerolls).</li>
+        <li><strong>Siphon</strong> turns kills into a Reserve. <strong>Bulwark Field</strong> spends it as a dome that eats bolts and burns enemies.</li>
+        <li><strong>Detonation</strong> fires when the Field breaks or when you press E or Space. Press Q to hold the Reserve and charge a bigger blast.</li>
+        <li>Read the floor: pink lines are shots, amber chevrons are charges, striped lanes and violet rings are hazards. Flank the cyan shield plates.</li>
+        <li>Survive 20 minutes or bring down the Final Warden. Shards you earn buy permanent salvage in the Vault.</li>
+      </ul>
+      <div class="actions actions-row"><button id="howBack" class="btn" type="button">Back</button></div>
+    </div>
+  </section>
+
+  <!-- Pause -->
+  <section id="pause" class="screen hidden" role="dialog" aria-modal="true" aria-labelledby="pauseTitle">
+    <div class="panel narrow">
+      <header class="panel-head"><h2 id="pauseTitle">Paused</h2></header>
+      <div class="actions">
+        <button id="pResume" class="btn btn-primary" type="button">Resume</button>
+        <button id="pRestart" class="btn" type="button">Restart run (R)</button>
+        <button id="pSettings" class="btn" type="button">Settings</button>
+        <button id="pQuit" class="btn" type="button">Quit to menu</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Level up: the salvage rig -->
+  <section id="levelup" class="screen screen-rig hidden" role="dialog" aria-modal="true" aria-labelledby="luTitle">
+    <div class="rig">
+      <div class="rig-bay">
+        <header class="rig-head">
+          <h2 id="luTitle">Level up</h2>
+          <p class="rig-sub" id="luSub"></p>
+        </header>
+        <div id="cards" class="bay"></div>
+        <div class="rig-foot"><button id="btnReroll" class="btn btn-quiet" type="button">Reroll the rig (4)</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Summary: the salvage report -->
+  <section id="summary" class="screen hidden" role="dialog" aria-modal="true" aria-labelledby="sumTitle">
+    <div class="panel wide report">
+      <header class="report-head">
+        <div>
+          <h2 id="sumTitle">Signal lost</h2>
+          <p class="report-line" id="sumLine"></p>
+        </div>
+        <div class="stamp" id="sumRating" role="img" aria-label="Rating D">D</div>
+      </header>
+      <dl class="figures" id="sumGrid"></dl>
+      <div class="report-cols">
+        <section><h3>Kills by type</h3><ul id="sumKills" class="tally"></ul></section>
+        <section><h3>Modules, in the order taken</h3><ol id="sumPicks" class="picks"></ol></section>
+        <section><h3>Shards earned</h3><ul id="sumShards" class="receipt"></ul></section>
+      </div>
+      <div class="actions actions-row">
+        <button id="sumAgain" class="btn btn-primary" type="button">Play again (R)</button>
+        <button id="sumVault" class="btn" type="button">Open the Vault</button>
+        <button id="sumMenu" class="btn" type="button">Back to menu</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="notice" class="notice hidden" role="status">
+    <p id="noticeText"></p>
+    <button id="noticeClose" class="btn btn-small" type="button">Dismiss</button>
+  </div>
+  <p id="fatal" class="fatal hidden" role="alert"></p>
+</body>
+</html>

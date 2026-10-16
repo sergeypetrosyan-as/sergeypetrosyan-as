@@ -1,0 +1,23 @@
+{
+  "name": "ghost-signal",
+  "private": true,
+  "version": "1.0.0",
+  "description": "GHOST SIGNAL — a cyberpunk detective thriller: rebuild a contested night from conflicting memory fragments.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "check": "node --experimental-strip-types scripts/check-case.ts"
+  },
+  "devDependencies": {
+    "typescript": "5.6.3",
+    "vite": "5.4.11"
+  },
+  "dependencies": {
+    "@fontsource/big-shoulders-display": "5.3.0",
+    "@fontsource/ibm-plex-mono": "5.3.0",
+    "@fontsource/public-sans": "5.3.0"
+  }
+}

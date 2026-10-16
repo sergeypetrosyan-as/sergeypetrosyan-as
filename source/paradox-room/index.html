@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" data-text="1">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0d10" />
+  <title>PARADOX ROOM</title>
+  <meta name="description" content="PARADOX ROOM: an impossible-space puzzle adventure. Fold small rooms a quarter-turn at a time so walls become floors, and find your way through the House that was drawn to hold a question." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2305060b'/%3E%3Cpath d='M8 12l8-4 8 4v9l-8 4-8-4z' fill='none' stroke='%23a98bff' stroke-width='2'/%3E%3Cpath d='M8 12l8 4 8-4M16 16v9' fill='none' stroke='%2355f0ff' stroke-width='2'/%3E%3C/svg%3E" />
+  <script>
+    // The source folder is also served by GitHub Pages; send visitors to the built game.
+    if (location.hostname.endsWith('github.io') && location.pathname.includes('/source/paradox-room')) {
+      location.replace(location.pathname.replace(/source\/paradox-room\/?.*$/, 'games/paradox-room/'));
+    }
+  </script>
+</head>
+<body>
+  <canvas id="view" role="img" aria-label="PARADOX ROOM game view. The status line below the objective describes what is happening."></canvas>
+
+  <div id="hud" class="hud hidden">
+    <header class="hud-top" id="hudTop">
+      <section class="sheet slip" aria-label="Objective">
+        <span class="clip" aria-hidden="true"></span>
+        <h1 class="slip-title"><span class="sheet-no" id="hudLevel"></span><span id="hudName"></span></h1>
+        <p id="hudChapter" class="slip-chapter"></p>
+        <p id="hudObjective" class="objective"></p>
+        <p class="progress"><span id="hudGlyphs" class="gems" aria-hidden="true"></span><span id="hudProgress"></span></p>
+        <p id="hudHint" class="pencil hidden"></p>
+      </section>
+      <table class="sheet titleblock hud-block" aria-label="Room record">
+        <tbody>
+          <tr><th scope="row">Turns</th><td id="hudTurns">0</td></tr>
+          <tr><th scope="row" id="hudRefLabel">Shortest known</th><td id="hudRef"></td></tr>
+          <tr id="hudNoteRow"><th scope="row">Margin note</th><td id="hudNote"></td></tr>
+          <tr><th scope="row">Room</th><td id="hudRoom" class="tb-room"></td></tr>
+        </tbody>
+      </table>
+    </header>
+    <div class="hud-mid" id="hudMid">
+      <p id="hudMsg" class="msg" role="status" aria-live="polite"></p>
+      <div id="prompt" class="prompt hidden"></div>
+    </div>
+    <footer class="hud-bottom" id="hudBottom">
+      <div class="pad" id="pad" role="group" aria-label="Movement pad">
+        <button type="button" class="pad-btn up" data-move="away" aria-label="Walk away from you">&#9650;</button>
+        <button type="button" class="pad-btn left" data-move="left" aria-label="Walk left">&#9664;</button>
+        <button type="button" class="pad-btn down" data-move="toward" aria-label="Walk toward you">&#9660;</button>
+        <button type="button" class="pad-btn right" data-move="right" aria-label="Walk right">&#9654;</button>
+      </div>
+      <div class="rail" id="actions"></div>
+    </footer>
+  </div>
+
+  <div id="overlay"></div>
+  <noscript><p style="color:#e8ecf6;padding:24px">PARADOX ROOM needs JavaScript to run.</p></noscript>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

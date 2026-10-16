@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#05061a" />
+  <title>NEON JUMP: CYBERWORLD</title>
+  <meta name="description" content="NEON JUMP: CYBERWORLD — a neon side-scrolling platformer. Run, jump and stomp across six levels in three glitching worlds to rebuild the Neon Core." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%2305061a'/%3E%3Crect x='5' y='2' width='6' height='1' fill='%23eef1ff'/%3E%3Crect x='4' y='3' width='8' height='3' fill='%23eef1ff'/%3E%3Crect x='6' y='4' width='6' height='2' fill='%2332f6ff'/%3E%3Crect x='3' y='6' width='9' height='1' fill='%23ff3bd4'/%3E%3Crect x='5' y='7' width='6' height='4' fill='%232b3478'/%3E%3Crect x='5' y='11' width='2' height='3' fill='%23ffb347'/%3E%3Crect x='9' y='11' width='2' height='3' fill='%23ffb347'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <script>
+    // The source folder is also served by GitHub Pages; send visitors to the built game.
+    if (location.hostname.endsWith('github.io') && location.pathname.includes('/source/neon-jump')) {
+      location.replace(location.pathname.replace(/source\/neon-jump\/?.*$/, 'games/neon-jump/'));
+    }
+  </script>
+  <script type="module" crossorigin src="./assets/index-Dtt25P26.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-PAQ-YKVp.css">
+</head>
+<body>
+  <div id="stage" aria-hidden="true">
+    <canvas id="pix"></canvas>
+    <canvas id="glow"></canvas>
+  </div>
+  <div id="scan" aria-hidden="true"></div>
+  <div id="fade" aria-hidden="true"></div>
+
+  <!-- HUD -->
+  <header id="hud" class="hud hidden">
+    <div class="hud-row">
+      <div class="hud-where"><span class="hud-level" id="hudLevel"></span><span class="hud-name" id="hudName"></span></div>
+      <div class="hud-stats">
+        <div class="hud-hp" id="hudHp" aria-label="Charge"><i></i><i></i><i></i></div>
+        <div class="hud-lives" title="Lives">VEE <b>×<span id="hudLives">3</span></b></div>
+        <div class="hud-volts" title="Volts — 100 for an extra life"><span class="ico-volt"></span><b id="hudVolts">0</b></div>
+        <div class="hud-shards" id="hudShards" title="Neon shards and the arcade token"><i></i><i></i><i></i><em id="hudToken"></em></div>
+      </div>
+      <div class="hud-end">
+        <span id="hudTimer" class="hud-timer hidden">0:00.0</span>
+        <button id="btnPause" class="hud-pause" type="button" aria-label="Pause">❚❚</button>
+      </div>
+    </div>
+    <div class="hud-progress" aria-hidden="true"><i id="hudProgress"></i></div>
+    <div class="hud-power hidden" id="hudPower"><span id="hudPowerName"></span><div class="meter"><i id="hudPowerBar"></i></div></div>
+    <div class="hud-boss hidden" id="hudBoss"><span>THE STATIC SOVEREIGN</span><div class="meter"><i id="hudBossBar"></i></div></div>
+    <p class="hud-toast" id="hudToast" role="status"></p>
+  </header>
+
+  <!-- Touch controls -->
+  <div id="touch" class="touch hidden" aria-hidden="true">
+    <div class="pad-left">
+      <button type="button" data-action="left" class="tbtn">◀</button>
+      <button type="button" data-action="right" class="tbtn">▶</button>
+    </div>
+    <div class="pad-right">
+      <button type="button" data-action="interact" class="tbtn small" id="touchInteract">E</button>
+      <button type="button" data-action="sprint" class="tbtn small">RUN</button>
+      <button type="button" data-action="jump" class="tbtn big">JUMP</button>
+    </div>
+  </div>
+
+  <!-- Title -->
+  <section id="title" class="screen title">
+    <div class="title-block">
+      <h1 class="logo" aria-label="Neon Jump: Cyberworld">
+        <span class="logo-neon">NEON</span><span class="logo-jump">JUMP</span>
+        <span class="logo-sub">CYBERWORLD</span>
+      </h1>
+      <p class="story">A digital storm cracked the <b>Neon Core</b> and scattered it across the city. You're <b>Vee</b>, a courier with a glowing visor and a fast pair of boots. Bring the fragments home.</p>
+      <nav class="menu" aria-label="Main menu">
+        <button class="btn primary" id="btnStart" type="button">START ADVENTURE</button>
+        <button class="btn" id="btnContinue" type="button">CONTINUE</button>
+        <button class="btn" id="btnLevels" type="button">LEVEL SELECT</button>
+        <button class="btn" id="btnHow" type="button">HOW TO PLAY</button>
+        <button class="btn" id="btnSettings" type="button">SETTINGS</button>
+      </nav>
+      <p class="progress-line" id="titleProgress"></p>
+      <p class="keys-line"><kbd>←</kbd><kbd>→</kbd> run · <kbd>Space</kbd> jump · <kbd>Shift</kbd> sprint · <kbd>E</kbd> interact · <kbd>Esc</kbd> pause</p>
+    </div>
+  </section>
+
+  <!-- Level select -->
+  <section id="levels" class="screen panel-screen hidden" aria-labelledby="levelsTitle">
+    <div class="panel wide">
+      <h2 id="levelsTitle">LEVEL SELECT</h2>
+      <div id="levelGrid" class="level-grid"></div>
+      <button class="btn" id="btnLevelsBack" type="button">BACK</button>
+    </div>
+  </section>
+
+  <!-- How to play -->
+  <section id="howto" class="screen panel-screen hidden" aria-labelledby="howTitle">
+    <div class="panel wide">
+      <h2 id="howTitle">HOW TO PLAY</h2>
+      <div class="how">
+        <div>
+          <h3>Controls</h3>
+          <table class="keys">
+            <tr><td><kbd>A</kbd><kbd>D</kbd> / <kbd>←</kbd><kbd>→</kbd></td><td>Run</td></tr>
+            <tr><td><kbd>Space</kbd> / <kbd>W</kbd> / <kbd>↑</kbd></td><td>Jump. Hold for higher</td></tr>
+            <tr><td><kbd>Shift</kbd></td><td>Sprint</td></tr>
+            <tr><td><kbd>↓</kbd> + <kbd>Space</kbd></td><td>Drop through a rail</td></tr>
+            <tr><td><kbd>E</kbd></td><td>Read a terminal</td></tr>
+            <tr><td><kbd>Esc</kbd> · <kbd>R</kbd></td><td>Pause · Back to checkpoint</td></tr>
+          </table>
+          <p class="sub">Gamepads work too. On a phone, turn it sideways and use the on-screen buttons.</p>
+        </div>
+        <div>
+          <h3>The rules</h3>
+          <ul class="legend">
+            <li><span class="sw volt"></span><b>Volts</b>: 100 earn an extra life.</li>
+            <li><span class="sw shard"></span><b>Neon Shards</b>: three per level, often off the main path. They count toward your rank.</li>
+            <li><span class="sw token"></span><b>Arcade Tokens</b>: one per level, hidden in a secret room. Find all six to unlock Retro Vee.</li>
+            <li><span class="sw shield"></span><b>Pulse Shield</b>: blocks the next hit.</li>
+            <li><span class="sw over"></span><b>Overdrive Core</b>: faster running and a double jump for 12 seconds.</li>
+            <li><span class="sw prize"></span><b>? blocks</b>: hit them from below.</li>
+            <li><span class="sw stomp"></span>Jump on rounded enemies. <span class="sw spike"></span>Never jump on red, spiky ones.</li>
+            <li>Some walls are hollow. If a gap looks suspicious, walk into it.</li>
+          </ul>
+        </div>
+      </div>
+      <button class="btn primary" id="btnHowBack" type="button">GOT IT</button>
+    </div>
+  </section>
+
+  <!-- Settings -->
+  <section id="settings" class="screen panel-screen hidden" aria-labelledby="settingsTitle">
+    <div class="panel">
+      <h2 id="settingsTitle">SETTINGS</h2>
+      <label class="field">Music <input type="range" id="setMusic" min="0" max="1" step="0.05" /></label>
+      <label class="field">Sound effects <input type="range" id="setSfx" min="0" max="1" step="0.05" /></label>
+      <label class="check"><input type="checkbox" id="setMute" /> Mute all audio</label>
+      <label class="check"><input type="checkbox" id="setReduced" /> Reduce motion (no screen shake or flicker)</label>
+      <label class="check"><input type="checkbox" id="setTimer" /> Show speed-run timer</label>
+      <label class="field">Touch controls
+        <select id="setTouch"><option value="auto">Automatic</option><option value="on">Always show</option><option value="off">Hide</option></select>
+      </label>
+      <label class="field">Vee's look
+        <select id="setSkin"><option value="classic">Classic</option><option value="retro">Retro (6 tokens)</option></select>
+      </label>
+      <p class="sub small" id="saveNote"></p>
+      <div class="row">
+        <button class="btn primary" id="btnSettingsDone" type="button">DONE</button>
+        <button class="btn danger" id="btnReset" type="button">RESET PROGRESS</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Level card -->
+  <section id="intro" class="screen intro hidden" aria-live="polite">
+    <p class="intro-world" id="introWorld"></p>
+    <h2 class="intro-name" id="introName"></h2>
+    <p class="intro-line" id="introLine"></p>
+    <p class="intro-skip">Press <kbd>Space</kbd> or tap to start</p>
+  </section>
+
+  <!-- Terminal dialog -->
+  <section id="dialog" class="dialog hidden" role="dialog" aria-live="polite">
+    <div class="dialog-box">
+      <p id="dialogText"></p>
+      <span class="dialog-next">Press <kbd>E</kbd> / <kbd>Space</kbd> to continue</span>
+    </div>
+  </section>
+
+  <!-- Pause -->
+  <section id="pause" class="screen panel-screen hidden" aria-labelledby="pauseTitle">
+    <div class="panel">
+      <h2 id="pauseTitle">PAUSED</h2>
+      <button class="btn primary" id="btnResume" type="button">RESUME</button>
+      <button class="btn" id="btnCheckpoint" type="button">RESTART CHECKPOINT</button>
+      <button class="btn" id="btnRestart" type="button">RESTART LEVEL</button>
+      <button class="btn" id="btnPauseSettings" type="button">SETTINGS</button>
+      <button class="btn" id="btnQuit" type="button">MAIN MENU</button>
+      <p class="keys-line"><kbd>←</kbd><kbd>→</kbd> run · <kbd>Space</kbd> jump · <kbd>Shift</kbd> sprint · <kbd>E</kbd> interact</p>
+    </div>
+  </section>
+
+  <!-- Level complete -->
+  <section id="complete" class="screen panel-screen hidden" aria-labelledby="compTitle">
+    <div class="panel">
+      <p class="eyebrow" id="compWorld"></p>
+      <h2 id="compTitle">LEVEL CLEAR</h2>
+      <div class="rank" id="compRank">A</div>
+      <dl class="stats">
+        <div><dt>Volts</dt><dd id="compVolts"></dd></div>
+        <div><dt>Shards</dt><dd id="compShards"></dd></div>
+        <div><dt>Secrets</dt><dd id="compSecrets"></dd></div>
+        <div><dt>Time</dt><dd id="compTime"></dd></div>
+        <div><dt>Score</dt><dd id="compScore"></dd></div>
+        <div><dt>Best</dt><dd id="compBest"></dd></div>
+      </dl>
+      <p class="sub small" id="compNote"></p>
+      <button class="btn primary" id="btnNext" type="button">NEXT LEVEL</button>
+      <button class="btn" id="btnReplay" type="button">REPLAY</button>
+      <button class="btn" id="btnCompMenu" type="button">MAIN MENU</button>
+    </div>
+  </section>
+
+  <!-- Game over -->
+  <section id="gameover" class="screen panel-screen hidden" aria-labelledby="overTitle">
+    <div class="panel">
+      <h2 id="overTitle" class="glitchy">SIGNAL LOST</h2>
+      <p class="sub">Vee is out of lives. Volts, shards and progress from finished levels are kept.</p>
+      <button class="btn primary" id="btnRetry" type="button">TRY AGAIN</button>
+      <button class="btn" id="btnOverLevels" type="button">LEVEL SELECT</button>
+      <button class="btn" id="btnOverMenu" type="button">MAIN MENU</button>
+    </div>
+  </section>
+
+  <!-- Ending -->
+  <section id="ending" class="screen panel-screen hidden" aria-labelledby="endTitle">
+    <div class="panel wide ending">
+      <h2 id="endTitle">THE CORE IS WHOLE</h2>
+      <p>The Static Sovereign comes apart into harmless snow. Six fragments click back into the Neon Core, and the city lights up again, one street at a time.</p>
+      <p>Ohm says he's retiring for real this time. Vee goes back to deliveries, taking the long way over the rooftops.</p>
+      <p class="end-stats" id="endStats"></p>
+      <p class="sub" id="endUnlock"></p>
+      <button class="btn primary" id="btnEndLevels" type="button">LEVEL SELECT</button>
+      <button class="btn" id="btnEndMenu" type="button">MAIN MENU</button>
+    </div>
+  </section>
+
+  <div id="rotate" class="rotate hidden" role="alert"><p>Turn your phone sideways to play.</p></div>
+  <div id="fatal" class="screen panel-screen hidden" role="alert"><div class="panel"><h2>CAN'T START</h2><p class="sub" id="fatalText"></p></div></div>
+</body>
+</html>

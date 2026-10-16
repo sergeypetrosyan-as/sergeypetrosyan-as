@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0d1013" />
+  <title>BLACKOUT PROTOCOL</title>
+  <meta name="description" content="BLACKOUT PROTOCOL: a 3D top-down stealth and hacking game. Read the flashlights and vision cones, spend your energy on camera loops, decoys and laser cuts, and extract unseen." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230d1013'/%3E%3Cpath d='M16 5l9 5v7c0 5-4 8-9 10-5-2-9-5-9-10v-7z' fill='none' stroke='%23dce4e6' stroke-width='2.2'/%3E%3Ccircle cx='16' cy='15' r='3' fill='%23f0a541'/%3E%3C/svg%3E" />
+  <script>
+    // The source folder is also served by GitHub Pages; send visitors to the built game.
+    if (location.hostname.endsWith('github.io') && location.pathname.includes('/source/blackout-protocol')) {
+      location.replace(location.pathname.replace(/source\/blackout-protocol\/?.*$/, 'games/blackout-protocol/'));
+    }
+  </script>
+  <script type="module" crossorigin src="./assets/index-Czwtdyb0.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-LcJhOFWQ.css">
+</head>
+<body>
+  <canvas id="view" aria-label="BLACKOUT PROTOCOL game view" role="img"></canvas>
+  <div id="flash" class="flash" aria-hidden="true"></div>
+  <div id="gfxNotice" class="gfx-notice hidden" role="status"></div>
+
+  <!-- HUD: mission strip, facility status, objectives, wrist kit -->
+  <div id="hud" class="hud hidden">
+    <header class="strip">
+      <span id="hudIndex" class="strip-file">File 01</span>
+      <strong id="hudName" class="strip-name">Cold Entry</strong>
+      <span class="strip-time"><span id="hudTime" class="num">00:00</span> <span class="strip-par">par <span id="hudPar" class="num">02:30</span></span></span>
+      <button id="btnPause" tabindex="-1" class="keycap keycap-sm" type="button">Pause</button>
+    </header>
+
+    <div id="meterAlert" class="facility" role="meter" aria-label="Facility alert" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <span class="facility-lbl">Facility</span>
+      <span id="valAlert" class="facility-state">Calm</span>
+      <div class="facility-rail" aria-hidden="true">
+        <i id="barAlert"></i>
+        <b style="left:30%"></b><b style="left:60%"></b>
+      </div>
+      <span id="numAlert" class="num facility-num">0</span>
+    </div>
+
+    <section class="hud-obj" aria-label="Objectives"><ul id="objList"></ul></section>
+
+    <div id="countdown" class="countdown hidden" role="timer"></div>
+    <div id="toasts" class="toasts"></div>
+
+    <section id="kit" class="kit" aria-label="Intrusion kit">
+      <div class="kit-row">
+        <span class="kit-lbl">Cell</span>
+        <div id="meterEnergy" class="cells" role="meter" aria-label="Energy" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"></div>
+        <span id="valEnergy" class="num kit-num">100</span>
+      </div>
+      <div class="kit-row">
+        <span class="kit-lbl">Light</span>
+        <div id="meterVis" class="lightmeter" role="meter" aria-label="Visibility" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
+          <span data-l="hidden"><i class="lg lg-hidden" aria-hidden="true"></i>Hidden</span>
+          <span data-l="shadow"><i class="lg lg-shadow" aria-hidden="true"></i>Shadow</span>
+          <span data-l="lit"><i class="lg lg-lit" aria-hidden="true"></i>Lit</span>
+        </div>
+        <span id="valVis" class="kit-state">Lit, walking</span>
+      </div>
+      <div class="kit-row kit-link">
+        <span class="kit-lbl">Link</span>
+        <span id="hackTarget" class="kit-target">No device in range</span>
+        <span id="hackAction" class="kit-action"></span>
+      </div>
+      <p class="kit-keys"><kbd>Tab</kbd> next device <kbd>Space</kbd> run hack <kbd>F</kbd> decoy <kbd>Z</kbd> hold to plan</p>
+    </section>
+
+    <div id="touch" class="touch" aria-label="Touch controls">
+      <div class="pad">
+        <button type="button" tabindex="-1" data-hold="up" aria-label="Move up">&#9650;</button>
+        <button type="button" tabindex="-1" data-hold="left" aria-label="Move left">&#9664;</button>
+        <button type="button" tabindex="-1" data-hold="right" aria-label="Move right">&#9654;</button>
+        <button type="button" tabindex="-1" data-hold="down" aria-label="Move down">&#9660;</button>
+      </div>
+      <div class="acts">
+        <button type="button" tabindex="-1" data-tap="interact">Use</button>
+        <button type="button" tabindex="-1" data-tap="hack">Hack</button>
+        <button type="button" tabindex="-1" data-tap="cycle">Next device</button>
+        <button type="button" tabindex="-1" data-tap="decoy">Decoy</button>
+        <button type="button" tabindex="-1" data-toggle="sneak" aria-pressed="false">Sneak</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terminal puzzle: the kit's display, extended -->
+  <div id="puzzle" class="puzzle hidden" role="dialog" aria-label="Terminal intrusion">
+    <div class="pz">
+      <div id="pzTitle" class="pz-title">Terminal A</div>
+      <div class="pz-glass">
+        <p id="pzStatus" class="pz-status">Memorise the sequence</p>
+        <div id="pzSeq" class="pz-seq" aria-live="off"></div>
+        <div class="pz-rail"><i id="pzBar"></i></div>
+      </div>
+      <div class="pz-pad">
+        <button type="button" tabindex="-1" class="keycap" data-pz="3" aria-label="Left">&#9664;</button>
+        <button type="button" tabindex="-1" class="keycap" data-pz="0" aria-label="Up">&#9650;</button>
+        <button type="button" tabindex="-1" class="keycap" data-pz="2" aria-label="Down">&#9660;</button>
+        <button type="button" tabindex="-1" class="keycap" data-pz="1" aria-label="Right">&#9654;</button>
+      </div>
+      <p class="pz-hint">Repeat it with the arrow keys or WASD. Esc or E leaves without penalty. A wrong key locks the terminal and raises an alarm.</p>
+    </div>
+  </div>
+
+  <div id="liveRegion" class="sr-only" aria-live="polite"></div>
+
+  <!-- Title -->
+  <section id="screen-title" class="screen screen-title">
+    <div class="title-block">
+      <h1>Blackout Protocol</h1>
+      <p class="tagline">Cut the lights. Own the dark.</p>
+      <div class="menu">
+        <button id="btnContinue" type="button" class="menu-item hidden">Continue mission</button>
+        <button id="btnMissions" type="button" class="menu-item">Mission select</button>
+        <button id="btnSettings" type="button" class="menu-item">Settings</button>
+        <button id="btnHelp" type="button" class="menu-item">How to play</button>
+      </div>
+      <p class="title-foot">Move with WASD or the arrow keys, hold Shift to sneak, E to interact, Space to hack. Esc pauses, M mutes.</p>
+    </div>
+  </section>
+
+  <!-- Mission select: a ledger of case files -->
+  <section id="screen-missions" class="screen hidden">
+    <div class="ledger">
+      <h2>Case files</h2>
+      <div id="missionList" class="ledger-list"></div>
+      <div class="actions"><button id="missionsBack" type="button" class="keycap">Back to title</button></div>
+    </div>
+  </section>
+
+  <!-- Briefing: the dossier -->
+  <section id="screen-briefing" class="screen hidden screen-paper">
+    <div class="paper-wrap">
+      <article class="paper dossier" aria-labelledby="brName">
+        <header class="paper-head">
+          <span id="brIndex">File 01 of 04</span>
+          <span>Handler Marrow, operative <span class="redact" aria-label="name withheld">Nulllll</span></span>
+        </header>
+        <h2 id="brName" class="stamp-title">Cold Entry</h2>
+        <p id="brSub" class="paper-sub">Halcyon Freight Annex</p>
+        <div id="brText" class="brief-text"></div>
+        <div class="paper-cols">
+          <section>
+            <h3>Objectives</h3>
+            <ol id="brObj" class="obj-list"></ol>
+          </section>
+          <section class="notes">
+            <h3>Field notes</h3>
+            <ul id="brHints" class="notes-list"></ul>
+          </section>
+        </div>
+      </article>
+      <div class="actions">
+        <button id="brStart" type="button" class="keycap keycap-primary">Start mission</button>
+        <button id="brBack" type="button" class="keycap">Back to missions</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Settings -->
+  <section id="screen-settings" class="screen hidden">
+    <div class="panel panel-form">
+      <h2>Settings</h2>
+      <div class="form">
+        <div class="frow"><label for="setVolume">Volume</label><div class="fctl"><input id="setVolume" type="range" min="0" max="100" step="5" /><output id="outVolume" class="num">70</output></div></div>
+        <label class="frow check"><span>Mute sound (M)</span><input id="setMute" type="checkbox" /></label>
+        <label class="frow check"><span>Colorblind-safe detection colours<small>Blue, orange and magenta, always with patterns</small></span><input id="setCb" type="checkbox" /></label>
+        <label class="frow check"><span>Show vision cones<small>Flashlights, icons and suspicion bars stay on</small></span><input id="setCones" type="checkbox" /></label>
+        <label class="frow check"><span>Reduce motion and flicker</span><input id="setReduce" type="checkbox" /></label>
+        <div class="frow"><label for="setDiff">Difficulty</label>
+          <select id="setDiff">
+            <option value="easy">Easy: slower detection, faster energy</option>
+            <option value="normal">Normal</option>
+            <option value="hard">Hard: faster detection, longer puzzles</option>
+          </select></div>
+        <div class="frow"><label for="setQuality">Graphics quality<small id="qualityNote">Shadows, bloom, haze and resolution</small></label>
+          <select id="setQuality">
+            <option value="auto">Auto</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select></div>
+      </div>
+      <div class="actions"><button id="settingsBack" type="button" class="keycap keycap-primary">Done</button></div>
+    </div>
+  </section>
+
+  <!-- Help -->
+  <section id="screen-help" class="screen hidden">
+    <div class="panel panel-wide">
+      <h2>How to play</h2>
+      <div class="help-grid">
+        <div>
+          <h3>Controls</h3>
+          <table class="keys">
+            <tr><td><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> or arrows</td><td>Move</td></tr>
+            <tr><td><kbd>Shift</kbd> or <kbd>C</kbd> held</td><td>Sneak: slower, nearly silent, shorter sight range on you</td></tr>
+            <tr><td><kbd>E</kbd></td><td>Interact: terminal, locker (enter and leave)</td></tr>
+            <tr><td><kbd>Tab</kbd> or <kbd>Q</kbd></td><td>Next hackable device in range</td></tr>
+            <tr><td><kbd>Space</kbd>, <kbd>H</kbd> or <kbd>Enter</kbd></td><td>Hack the selected device</td></tr>
+            <tr><td><kbd>F</kbd></td><td>Drop a decoy ahead of you</td></tr>
+            <tr><td><kbd>Z</kbd> held</td><td>Zoom out to plan a route</td></tr>
+            <tr><td><kbd>Esc</kbd> or <kbd>P</kbd></td><td>Pause (Esc leaves a terminal puzzle)</td></tr>
+            <tr><td><kbd>M</kbd></td><td>Mute</td></tr>
+          </table>
+        </div>
+        <div>
+          <h3>Rules of the dark</h3>
+          <ul class="rules">
+            <li>Guards see you only inside their flashlight cone, with a clear line of sight. Walls, lockers and closed doors block it. Cameras work the same way.</li>
+            <li>Unlit floor (tread plate, no ceiling light) cuts sight range to 40 percent; sneaking cuts it by another quarter. Lockers hide you completely, unless a guard sees you climb in.</li>
+            <li>The bar over a guard fills while it sees you; the white tick is where it turns suspicious. Triangle with a question mark: suspicious. Diamond with an exclamation mark: alert and chasing. Ring with three dots: searching for 15 seconds.</li>
+            <li>The ring at your feet shows how visible you are: solid with rays when you stand in light, dashed when you are in the dark.</li>
+            <li>Energy powers hacks: loop a camera (35), lock or unlock a door (15), drop a decoy (20), cut a laser grid (30). It refills after a second without hacking.</li>
+            <li>Terminals ask you to repeat a sequence from memory. A wrong key locks the terminal and raises an alarm. Collect every objective, then reach the extraction plate.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="actions"><button id="helpBack" type="button" class="keycap keycap-primary">Back to title</button></div>
+    </div>
+  </section>
+
+  <!-- Pause: the kit on standby -->
+  <section id="screen-pause" class="screen hidden screen-dim">
+    <div class="panel panel-narrow">
+      <h2>Paused</h2>
+      <div class="menu menu-panel">
+        <button id="pResume" type="button" class="menu-item">Resume</button>
+        <button id="pCheckpoint" type="button" class="menu-item">Restart from checkpoint</button>
+        <button id="pRestart" type="button" class="menu-item">Restart mission</button>
+        <button id="pSettings" type="button" class="menu-item">Settings</button>
+        <button id="pQuit" type="button" class="menu-item">Quit to mission select</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Compromised -->
+  <section id="screen-compromised" class="screen hidden screen-alarm">
+    <div class="panel panel-narrow panel-alarm">
+      <h2 id="cmpTitle">Compromised</h2>
+      <p id="cmpText">Rebooting from the last checkpoint.</p>
+    </div>
+  </section>
+
+  <!-- Result: after-action report on the dossier -->
+  <section id="screen-result" class="screen hidden screen-paper">
+    <div class="paper-wrap">
+      <article class="paper report" aria-labelledby="resName">
+        <header class="paper-head">
+          <span id="resFile">File 01</span>
+          <span>After-action report</span>
+        </header>
+        <div class="report-top">
+          <div>
+            <h2 id="resName" class="stamp-title">Cold Entry</h2>
+            <p id="resSub" class="paper-sub">Halcyon Freight Annex</p>
+          </div>
+          <div class="rating-stamp" id="resRating" aria-label="Rating">S</div>
+        </div>
+        <dl class="figures">
+          <div><dt>Time</dt><dd><span id="resTime" class="num"></span></dd></div>
+          <div><dt>Peak alert</dt><dd id="resAlert" class="num"></dd></div>
+          <div><dt>Times spotted</dt><dd id="resSpotted" class="num"></dd></div>
+          <div><dt>Alarms</dt><dd id="resAlarms" class="num"></dd></div>
+          <div><dt>Hacks used</dt><dd id="resHacks" class="num"></dd></div>
+          <div><dt>Retries</dt><dd id="resRetries" class="num"></dd></div>
+          <div class="fig-score"><dt>Score</dt><dd><span id="resScore" class="num"></span><span class="best">best on file <span id="resBest" class="num"></span></span></dd></div>
+        </dl>
+        <p class="approach">Approach noted: <span id="resTags"></span></p>
+      </article>
+      <div class="actions">
+        <button id="resNext" type="button" class="keycap keycap-primary">Next mission</button>
+        <button id="resRetry" type="button" class="keycap">Replay mission</button>
+        <button id="resMenu" type="button" class="keycap">Mission select</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Epilogue -->
+  <section id="screen-epilogue" class="screen hidden screen-paper">
+    <div class="paper-wrap">
+      <article class="paper dossier">
+        <header class="paper-head"><span>Carrow Reach, 03:12</span><span>Closing note</span></header>
+        <h2 class="stamp-title">The grid is blind</h2>
+        <div class="brief-text"><p>Every light in the district is out and WARDEN is silent. For one night, Carrow Reach is unlit. Marrow sends one word over the channel: "Run."</p></div>
+        <p class="paper-sub">Campaign complete. Replay missions to improve your ratings, or try Hard difficulty.</p>
+      </article>
+      <div class="actions"><button id="epMenu" type="button" class="keycap keycap-primary">Mission select</button></div>
+    </div>
+  </section>
+
+  <!-- Error -->
+  <section id="screen-error" class="screen hidden">
+    <div class="panel panel-narrow">
+      <h2>Signal lost</h2>
+      <p>Something went wrong in the simulation. Your progress is saved.</p>
+      <div class="actions"><button id="errRestart" type="button" class="keycap keycap-primary">Return to the title</button></div>
+    </div>
+  </section>
+
+</body>
+</html>
