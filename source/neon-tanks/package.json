@@ -1,0 +1,24 @@
+{
+  "name": "neon-tanks-overdrive",
+  "private": true,
+  "version": "1.0.0",
+  "description": "NEON TANKS: OVERDRIVE — a 3D arena tank shooter with bots, a garage and three modes, built with Three.js.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "check": "node --experimental-strip-types scripts/check-arenas.ts",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "three": "0.170.0"
+  },
+  "devDependencies": {
+    "@types/node": "20.17.6",
+    "@types/three": "0.170.0",
+    "gifenc": "1.0.3",
+    "typescript": "5.6.3",
+    "vite": "5.4.11"
+  }
+}

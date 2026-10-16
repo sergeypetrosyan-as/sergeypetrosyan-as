@@ -171,6 +171,62 @@ I treat clarity as a feature: code that reads plainly, boundaries that are obvio
 
 <div align="center">
 
+## 🛡️ NEON TANKS: OVERDRIVE
+
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-tanks/">
+  <img
+    src="./assets/neon-tanks-preview.gif"
+    alt="NEON TANKS gameplay: a dark armoured tank drives through a neon container port while its turret tracks enemy tanks and plasma shots burst against cover — click to play"
+    width="720"
+  />
+</a>
+
+*A true-3D arena tank shooter. Drive one way, aim the turret another, and fight bot tanks across a container port and a research facility.*
+
+**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-tanks/)** &nbsp;·&nbsp; [Source code](./source/neon-tanks)
+
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=threedotjs&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Web Audio](https://img.shields.io/badge/Web%20Audio-1F2328?style=flat-square)
+
+</div>
+
+<table>
+<tr>
+<td width="55%" valign="top">
+
+**How it plays**
+
+- Two multi-level arenas, NEON DOCKS and VOID COMPLEX, with ramps, bridges, walkways, cover and see-through energy barriers
+- Independent hull and turret, third-person orbit camera, real collisions, slopes and ledges
+- Four weapons that play differently: PLASMA CANNON, RAIL DRIVER, VOLT EMITTER and NOVA ROCKETS
+- Three hulls with their own abilities: phase dash, aegis shield and shockwave
+- Team Deathmatch, Free-for-All and Control Point against bots on three difficulties (bots are always tagged BOT)
+- Garage with unlocks, paints and upgrades; level, credits and career stats saved locally
+
+</td>
+<td width="45%" valign="top">
+
+**Controls**
+
+| | |
+|---|---|
+| `W` `S` · `A` `D` | Drive · turn hull |
+| Mouse · Click | Aim turret · fire |
+| Wheel | Camera zoom |
+| `Shift` · `Space` | Boost · ability |
+| `R` · `Tab` | Reload/vent · scores |
+| `Esc` · `M` | Pause · mute |
+
+</td>
+</tr>
+</table>
+
+<br/>
+
+<div align="center">
+
 ## 🕹️ NEON JUMP: CYBERWORLD
 
 <a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-jump/">

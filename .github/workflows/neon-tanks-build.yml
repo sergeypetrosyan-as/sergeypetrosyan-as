@@ -1,0 +1,45 @@
+name: NEON TANKS build check
+
+# Runs the headless arena/bot-match checks, type-checks and builds NEON TANKS. GitHub Pages serves this
+# repository from `main` / root, so this never deploys; it warns if the committed
+# `games/neon-tanks/` bundle is stale.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'source/neon-tanks/**'
+      - 'games/neon-tanks/**'
+      - '.github/workflows/neon-tanks-build.yml'
+  pull_request:
+    paths:
+      - 'source/neon-tanks/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: source/neon-tanks
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22  # check script uses --experimental-strip-types
+          cache: npm
+          cache-dependency-path: source/neon-tanks/package-lock.json
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+      - name: Check committed bundle is up to date
+        working-directory: .
+        run: |
+          if git status --porcelain -- games/neon-tanks | grep -q .; then
+            echo "::warning::The committed games/neon-tanks/ bundle differs from a fresh build. Run 'npm run build' in source/neon-tanks and commit games/neon-tanks/."
+            git status --short -- games/neon-tanks
+          else
+            echo "games/neon-tanks/ matches a fresh build."
+          fi

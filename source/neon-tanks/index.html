@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#05070d" />
+  <meta name="description" content="NEON TANKS: OVERDRIVE — a 3D arena tank shooter. Drive, aim an independent turret, fight bot tanks across two arenas in Team Deathmatch, Free-for-All and Control Point, then upgrade your build in the garage." />
+  <title>NEON TANKS: OVERDRIVE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2305070d'/%3E%3Crect x='10' y='34' width='44' height='14' rx='4' fill='none' stroke='%232ef2ff' stroke-width='4'/%3E%3Crect x='22' y='22' width='20' height='12' rx='3' fill='%232ef2ff'/%3E%3Crect x='40' y='25' width='16' height='5' rx='2' fill='%23ff2fc8'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet" />
+  <script>
+    // The source folder is also served by GitHub Pages; send visitors to the built game.
+    if (location.hostname.endsWith('github.io') && location.pathname.includes('/source/neon-tanks')) {
+      location.replace(location.pathname.replace(/source\/neon-tanks\/?.*$/, 'games/neon-tanks/'));
+    }
+  </script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="scene" aria-label="NEON TANKS game view"></canvas>
+    <div class="fx-vignette" aria-hidden="true"></div>
+    <div class="fx-damage" id="fxDamage" aria-hidden="true"></div>
+
+    <!-- ============================== HUD ============================== -->
+    <div id="hud" class="hud hidden">
+      <div class="plates" id="plates" aria-hidden="true"></div>
+      <div class="dmg-numbers" id="dmgNumbers" aria-hidden="true"></div>
+
+      <section class="hud-top" aria-live="off">
+        <div class="score-team blue" id="scoreBlue"><span class="lbl" id="scoreBlueLbl">BLUE</span><strong id="scoreBlueVal">0</strong><i class="bar"><b id="scoreBlueBar"></b></i></div>
+        <div class="score-mid">
+          <div class="timer" id="hudTimer">8:00</div>
+          <div class="mode-tag" id="hudMode">TEAM DEATHMATCH · 25</div>
+          <div class="cp-meter hidden" id="cpMeter"><i id="cpFill"></i><span id="cpLabel">NEUTRAL</span></div>
+        </div>
+        <div class="score-team magenta" id="scoreMag"><span class="lbl" id="scoreMagLbl">MAGENTA</span><strong id="scoreMagVal">0</strong><i class="bar"><b id="scoreMagBar"></b></i></div>
+      </section>
+
+      <div class="killfeed" id="killfeed" aria-live="polite"></div>
+
+      <section class="hud-vitals panel">
+        <div class="vital-row">
+          <span class="vlabel">HULL</span>
+          <div class="vbar health"><i id="hpGhost"></i><b id="hpFill"></b></div>
+          <span class="vnum" id="hpNum">275</span>
+        </div>
+        <div class="vital-row small">
+          <span class="vlabel">BOOST</span>
+          <div class="vbar boost"><b id="boostFill"></b></div>
+          <span class="vnum" id="armorNum">ARM 25</span>
+        </div>
+        <div class="chips" id="chips"></div>
+      </section>
+
+      <section class="hud-weapon panel">
+        <div class="wtop"><span class="wname" id="wName">PLASMA CANNON</span><span class="wkey">LMB</span></div>
+        <div class="ammo" id="ammo"></div>
+        <div class="wbar"><b id="wBar"></b><span id="wState">READY</span></div>
+      </section>
+
+      <section class="hud-ability panel" id="abilityPanel">
+        <svg viewBox="0 0 48 48" class="ab-ring" aria-hidden="true"><circle cx="24" cy="24" r="20" class="ab-track" /><circle cx="24" cy="24" r="20" class="ab-fill" id="abFill" /></svg>
+        <div class="ab-text"><span class="ab-name" id="abName">AEGIS SHIELD</span><span class="ab-key"><kbd>SPACE</kbd> <em id="abState">CHARGING</em></span></div>
+      </section>
+
+      <canvas id="minimap" class="minimap" width="200" height="200" aria-hidden="true"></canvas>
+
+      <div class="crosshair" aria-hidden="true"><i class="t"></i><i class="b"></i><i class="l"></i><i class="r"></i></div>
+      <div class="reticle" id="reticle" aria-hidden="true"><i></i></div>
+      <div class="hitmarker" id="hitmarker" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <div class="dmg-dir" id="dmgDir" aria-hidden="true"></div>
+
+      <div class="banner" id="banner"><div class="b-kicker" id="bannerKicker"></div><div class="b-title" id="bannerTitle"></div></div>
+      <div class="countdown" id="countdown"></div>
+      <div class="respawn hidden" id="respawn"><div class="r-by" id="respawnBy">DESTROYED</div><div class="r-time" id="respawnTime">4</div><div class="r-hint">Respawning — press <kbd>Tab</kbd> for the scoreboard</div></div>
+      <div class="tutorial hidden" id="tutorial"><span class="t-step" id="tutStep">1 / 6</span><span class="t-text" id="tutText"></span><button type="button" class="t-skip" id="tutSkip">SKIP TUTORIAL</button></div>
+      <div class="scoreboard hidden" id="scoreboard"></div>
+      <div class="fps hidden" id="fps"></div>
+    </div>
+
+    <!-- ============================== MAIN MENU ============================== -->
+    <div id="menu" class="screen menu-screen hidden">
+      <div class="menu-col">
+        <p class="eyebrow">NEON ARCADE <span>/</span> 3D TANK COMBAT</p>
+        <h1 class="logo" aria-label="Neon Tanks: Overdrive"><span class="l1">NEON TANKS</span><span class="l2">OVERDRIVE</span></h1>
+        <div class="profile panel">
+          <div class="pf-row"><span class="pf-call" id="pfCall">PILOT</span><span class="pf-lvl">LV <strong id="pfLevel">1</strong></span></div>
+          <div class="xpbar"><b id="pfXp"></b></div>
+          <div class="pf-row small"><span id="pfXpText">0 / 600 XP</span><span class="credits"><i>◆</i> <strong id="pfCredits">300</strong> CR</span></div>
+        </div>
+        <nav class="menu-buttons" aria-label="Main menu">
+          <button class="btn primary big" id="btnPlay" type="button"><span>DEPLOY</span><small id="playSub">TEAM DEATHMATCH · NEON DOCKS · VETERAN</small></button>
+          <button class="btn" id="btnModes" type="button">MODES &amp; ARENAS</button>
+          <button class="btn" id="btnGarage" type="button">GARAGE</button>
+          <button class="btn" id="btnSettings" type="button">SETTINGS</button>
+          <button class="btn" id="btnControls" type="button">CONTROLS</button>
+          <a class="btn ghost" id="btnHub" href="../../">← NEON ARCADE</a>
+        </nav>
+        <p class="device-note" id="deviceNote">Offline matches against bots (tagged BOT). Desktop · keyboard &amp; mouse.</p>
+      </div>
+      <div class="menu-side panel" id="careerPanel"></div>
+    </div>
+
+    <!-- ============================== MODES ============================== -->
+    <div id="modes" class="screen modal hidden" role="dialog" aria-modal="true" aria-labelledby="modesTitle">
+      <div class="modal-card panel wide">
+        <h2 id="modesTitle">MATCH SETUP</h2>
+        <h4>MODE</h4>
+        <div class="cards" id="modeCards"></div>
+        <h4>ARENA</h4>
+        <div class="cards" id="arenaCards"></div>
+        <div class="setup-row">
+          <div class="field"><span>Bot difficulty</span><div class="segmented" id="segDifficulty"></div></div>
+          <div class="field"><span>Score limit</span><div class="segmented" id="segScore"></div></div>
+          <div class="field"><span>Time limit</span><div class="segmented" id="segTime"></div></div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn ghost" data-back type="button">BACK</button>
+          <button class="btn primary" id="btnDeploy" type="button">DEPLOY ↗</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================== GARAGE ============================== -->
+    <div id="garage" class="screen garage-screen hidden" role="dialog" aria-labelledby="garageTitle">
+      <div class="garage-panel panel">
+        <div class="garage-head">
+          <h2 id="garageTitle">GARAGE</h2>
+          <span class="credits big"><i>◆</i> <strong id="gCredits">0</strong> CR</span>
+        </div>
+        <div class="tabs" role="tablist" id="garageTabs">
+          <button role="tab" type="button" data-tab="hulls" class="active">HULLS</button>
+          <button role="tab" type="button" data-tab="weapons">TURRETS</button>
+          <button role="tab" type="button" data-tab="paint">PAINT</button>
+          <button role="tab" type="button" data-tab="upgrades">UPGRADES</button>
+        </div>
+        <div class="garage-list" id="garageList"></div>
+        <div class="garage-foot">
+          <button class="btn ghost" data-back type="button">BACK</button>
+          <button class="btn primary" id="btnGarageDeploy" type="button">DEPLOY ↗</button>
+        </div>
+      </div>
+      <div class="garage-stats panel" id="garageStats"></div>
+    </div>
+
+    <!-- ============================== SETTINGS ============================== -->
+    <div id="settings" class="screen modal hidden" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <div class="modal-card panel">
+        <h2 id="settingsTitle">SETTINGS</h2>
+        <div class="settings-grid">
+          <h4>AUDIO</h4>
+          <label class="field"><span>Master volume <output id="oMaster"></output></span><input type="range" id="sMaster" min="0" max="1" step="0.05" /></label>
+          <label class="field"><span>Effects volume <output id="oSfx"></output></span><input type="range" id="sSfx" min="0" max="1" step="0.05" /></label>
+          <label class="field"><span>Music volume <output id="oMusic"></output></span><input type="range" id="sMusic" min="0" max="1" step="0.05" /></label>
+          <label class="toggle"><input type="checkbox" id="sMute" /><span>Mute all audio <kbd>M</kbd></span></label>
+          <h4>CONTROLS &amp; CAMERA</h4>
+          <label class="field"><span>Mouse sensitivity <output id="oSens"></output></span><input type="range" id="sSens" min="0.2" max="3" step="0.05" /></label>
+          <label class="field"><span>Field of view <output id="oFov"></output></span><input type="range" id="sFov" min="55" max="90" step="1" /></label>
+          <label class="field"><span>Camera smoothing <output id="oSmooth"></output></span><input type="range" id="sSmooth" min="0" max="1" step="0.05" /></label>
+          <label class="field"><span>Default camera distance <output id="oDist"></output></span><input type="range" id="sDist" min="5.5" max="22" step="0.5" /></label>
+          <label class="toggle"><input type="checkbox" id="sInvert" /><span>Invert mouse Y</span></label>
+          <label class="toggle"><input type="checkbox" id="sShake" /><span>Camera shake</span></label>
+          <h4>GRAPHICS</h4>
+          <div class="field">
+            <span>Quality</span>
+            <div class="segmented" role="radiogroup" aria-label="Graphics quality" id="segQuality">
+              <button type="button" data-quality="low">LOW</button>
+              <button type="button" data-quality="medium">MEDIUM</button>
+              <button type="button" data-quality="high">HIGH</button>
+            </div>
+            <small class="muted" id="qualityNote">Low: no shadows, bloom or dynamic lights. Takes effect next match.</small>
+          </div>
+          <label class="toggle"><input type="checkbox" id="sFps" /><span>Show FPS counter</span></label>
+        </div>
+        <div class="modal-actions">
+          <button class="btn ghost danger" id="btnReset" type="button">RESET PROGRESS</button>
+          <button class="btn primary" data-back type="button">DONE</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================== CONTROLS ============================== -->
+    <div id="controls" class="screen modal hidden" role="dialog" aria-modal="true" aria-labelledby="controlsTitle">
+      <div class="modal-card panel">
+        <h2 id="controlsTitle">CONTROLS</h2>
+        <div class="controls-grid">
+          <dl>
+            <dt><kbd>W</kbd> <kbd>S</kbd></dt><dd>Drive forward / reverse</dd>
+            <dt><kbd>A</kbd> <kbd>D</kbd></dt><dd>Turn the hull</dd>
+            <dt>Mouse</dt><dd>Orbit camera &amp; aim turret</dd>
+            <dt>Left click</dt><dd>Fire</dd>
+            <dt>Wheel</dt><dd>Zoom camera</dd>
+          </dl>
+          <dl>
+            <dt><kbd>Shift</kbd></dt><dd>Boost (uses boost meter)</dd>
+            <dt><kbd>Space</kbd></dt><dd>Hull ability when charged</dd>
+            <dt><kbd>R</kbd></dt><dd>Reload / vent heat</dd>
+            <dt><kbd>Tab</kbd></dt><dd>Scoreboard (hold)</dd>
+            <dt><kbd>Esc</kbd></dt><dd>Pause &amp; release mouse</dd>
+            <dt><kbd>M</kbd></dt><dd>Mute</dd>
+          </dl>
+        </div>
+        <ul class="tips">
+          <li>Hull and turret are independent: drive one way, shoot another. The small circle shows where your barrel points <em>right now</em>; the crosshair is where it is heading.</li>
+          <li>Stay out of fire for 6 seconds and your hull slowly self-repairs. Green stations repair instantly.</li>
+          <li><b class="c-amber">NOVA</b> rockets arc — aim above targets behind cover. <b class="c-cyan">RAIL</b> charges for a beat before it fires.</li>
+          <li>Abilities: <b>HORNET</b> phase-dash, <b>VANGUARD</b> aegis shield, <b>BASTION</b> shockwave slam.</li>
+        </ul>
+        <div class="modal-actions"><button class="btn primary" data-back type="button">GOT IT</button></div>
+      </div>
+    </div>
+
+    <!-- ============================== PAUSE ============================== -->
+    <div id="pause" class="screen modal hidden" role="dialog" aria-modal="true" aria-labelledby="pauseTitle">
+      <div class="modal-card panel narrow">
+        <p class="eyebrow" id="pauseInfo">TEAM DEATHMATCH · NEON DOCKS</p>
+        <h2 id="pauseTitle">PAUSED</h2>
+        <div class="menu-buttons">
+          <button class="btn primary" id="btnResume" type="button">RESUME</button>
+          <button class="btn" id="btnRestart" type="button">RESTART MATCH</button>
+          <button class="btn" id="btnPauseSettings" type="button">SETTINGS</button>
+          <button class="btn" id="btnPauseControls" type="button">CONTROLS</button>
+          <button class="btn ghost" id="btnQuit" type="button">QUIT TO MENU</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================== END ============================== -->
+    <div id="end" class="screen modal hidden" role="dialog" aria-modal="true" aria-labelledby="endTitle">
+      <div class="modal-card panel wide end-card">
+        <p class="eyebrow" id="endKicker">TEAM DEATHMATCH · NEON DOCKS</p>
+        <h2 id="endTitle" class="result">VICTORY</h2>
+        <div class="end-score" id="endScore"></div>
+        <div class="end-body">
+          <div class="end-board" id="endBoard"></div>
+          <div class="end-rewards panel" id="endRewards"></div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn ghost" id="btnEndMenu" type="button">MAIN MENU</button>
+          <button class="btn" id="btnEndGarage" type="button">GARAGE</button>
+          <button class="btn primary" id="btnEndAgain" type="button">PLAY AGAIN</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pointer-lock prompt -->
+    <div id="lockPrompt" class="screen lock hidden">
+      <button class="btn primary big" id="btnLock" type="button"><span>CLICK TO ENGAGE</span></button>
+      <p>The turret needs your mouse. <kbd>Esc</kbd> pauses and releases it.</p>
+    </div>
+
+    <div id="loading" class="screen loading">
+      <div class="loader-logo">NEON TANKS<span>OVERDRIVE</span></div>
+      <div class="loader-bar"><i id="loadBar"></i></div>
+      <p id="loadText">INITIALISING…</p>
+    </div>
+
+    <div id="fatal" class="screen fatal hidden" role="alert">
+      <div class="modal-card panel narrow">
+        <h2>SIGNAL LOST</h2>
+        <p id="fatalText">Your browser could not start WebGL, which this game needs.</p>
+        <p class="muted">Try a recent Chrome, Edge or Firefox with hardware acceleration enabled.</p>
+        <div class="modal-actions"><button class="btn primary" type="button" onclick="location.reload()">RETRY</button><a class="btn ghost" href="../../">BACK TO ARCADE</a></div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
