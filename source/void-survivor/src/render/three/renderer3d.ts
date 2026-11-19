@@ -15,6 +15,7 @@ import { buildModels, floorQuad, hemisphere, ribbon, type Models } from './model
 import { Post } from './post.ts';
 import { Stage, buildEnvironment } from './stage.ts';
 import { chevronTexture, lineTexture, radialTexture, ringTexture } from './textures.ts';
+import { C } from '../theme.ts';
 
 const TAU = Math.PI * 2;
 const FOV = 40;
@@ -83,13 +84,14 @@ export class Renderer3D implements GameRenderer {
     this.gl.toneMapping = THREE.ACESFilmicToneMapping;
     this.gl.toneMappingExposure = 1.05;
     this.gl.outputColorSpace = THREE.SRGBColorSpace;
-    this.scene.background = new THREE.Color(0x040309);
-    this.scene.fog = new THREE.FogExp2(0x0a0716, 0.00036);
-    this.scene.add(new THREE.HemisphereLight(0x3a4478, 0x050308, 1.25));
-    const key = new THREE.DirectionalLight(0xc8d8ff, 1.3);
+    // night desert: moonlight key, dusk fill from below the horizon, a faint red rim
+    this.scene.background = new THREE.Color(C.night);
+    this.scene.fog = new THREE.FogExp2(C.night, 0.00036);
+    this.scene.add(new THREE.HemisphereLight(C.saddle, C.ink, 0.9));
+    const key = new THREE.DirectionalLight(C.bone, 1.3);
     key.position.set(-0.45, 1, 0.35);
     this.scene.add(key);
-    const rim = new THREE.DirectionalLight(0xff4fa0, 0.35);
+    const rim = new THREE.DirectionalLight(C.ember, 0.35);
     rim.position.set(0.6, 0.5, -0.8);
     this.scene.add(rim);
     for (let i = 0; i < MAX_LIGHTS; i++) {
@@ -119,7 +121,7 @@ export class Renderer3D implements GameRenderer {
     const addLine = additive(line);
     const addChevron = additive(chevron);
     const shellM = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false });
-    const outlineM = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.BackSide });
+    const outlineM = new THREE.MeshBasicMaterial({ color: C.ink, side: THREE.BackSide });
     const plateM = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide });
     this.poolMat = poolMaterial();
     this.laneMat = laneMaterial();
@@ -187,10 +189,11 @@ export class Renderer3D implements GameRenderer {
     rb.dispose();
 
     // Wick
-    const wickPaint = new THREE.MeshStandardMaterial({ color: 0xe4f6ff, metalness: 0.55, roughness: 0.3, emissive: 0x0c3a44, emissiveIntensity: 0.35 });
-    const canopy = new THREE.MeshPhysicalMaterial({ color: 0x0a1418, metalness: 0.2, roughness: 0.05, clearcoat: 1, emissive: 0x35f2ff, emissiveIntensity: 0.45 });
+    // Wick is moonlight: bone paint, a dark wine canopy, warm lantern glow
+    const wickPaint = new THREE.MeshStandardMaterial({ color: C.bone, metalness: 0.35, roughness: 0.45, emissive: C.tan, emissiveIntensity: 0.22 });
+    const canopy = new THREE.MeshPhysicalMaterial({ color: C.umber, metalness: 0.2, roughness: 0.1, clearcoat: 1, emissive: C.saddle, emissiveIntensity: 0.3 });
     this.wickGlowMat = hot(0xffffff);
-    this.wickGlowMat.color.setRGB(1.2, 3.2, 3.6);
+    this.wickGlowMat.color.set(C.bone).multiplyScalar(2.4);
     this.wick.add(new THREE.Mesh(M.wick, wickPaint), new THREE.Mesh(M.wickCanopy, canopy), new THREE.Mesh(M.wickGlow, this.wickGlowMat));
     this.scene.add(this.wick);
     // Bulwark Field dome
@@ -464,7 +467,7 @@ export class Renderer3D implements GameRenderer {
           e[i * 4 + 2] = (h.x * 0.013 + h.y * 0.007) % 10;
           e[i * 4 + 3] = warn ? 1 : Math.min(1, age / 0.25, (h.life - age) / 0.6);
         }
-        if (!warn) this.splat(h.x, h.y, R * 1.3, this.col('#8a5cff'), 0.25);
+        if (!warn) this.splat(h.x, h.y, R * 1.3, this.col(C.wine), 0.25);
       } else {
         const len = Math.hypot(h.x2 - h.x, h.y2 - h.y);
         const i = L.lanes.put(h.x, 0.7, h.y, -Math.atan2(h.y2 - h.y, h.x2 - h.x), len, 1, h.width);
@@ -479,31 +482,31 @@ export class Renderer3D implements GameRenderer {
     }
 
     // pickups
-    const green = this.col('#59ffb5');
-    const gold = this.col('#ffd24a');
+    const rose = this.col(C.rose);
+    const leather = this.col(C.saddle);
     for (const o of w.pickups.list) {
       if (!o.alive || !vis(o.x, o.y, 40)) continue;
       const ph = o.x * 0.05 + o.y * 0.03;
       if (o.kind === 'mote') {
         const glint = Math.max(0, Math.sin(time * 2.6 + ph * 3)) ** 24 * 3;
-        const i = L.mote.put(o.x, 8 + Math.sin(time * 4 + ph) * 2, o.y, time * 2 + ph, 4, 4, 4);
-        L.mote.color(i, 0.35 * (1.6 + glint), 1.0 * (1.6 + glint), 0.71 * (1.6 + glint));
-        this.splat(o.x, o.y, 14, green, 0.22);
+        const i = L.mote.put(o.x, 8 + Math.sin(time * 4 + ph) * 2, o.y, Math.sin(time * 1.3 + ph) * 0.9, 4, 4, 4);
+        L.mote.colorC(i, rose, 1.5 + glint);
+        this.splat(o.x, o.y, 14, rose, 0.16);
       } else if (o.kind === 'shard') {
         const glint = Math.max(0, Math.sin(time * 2 + ph * 2)) ** 30 * 2.5;
         const i = L.shard.putEuler(o.x, 12 + Math.sin(time * 3 + ph) * 2, o.y, 0.3, time * 1.6 + ph, 0.2, 6.5, 6.5, 6.5);
-        L.shard.color(i, 1, 0.72, 0.25);
-        L.shard.glowC(i, gold, 0.5 + glint);
-        this.splat(o.x, o.y, 22, gold, 0.3);
+        L.shard.colorC(i, rose, 1);
+        L.shard.glowC(i, rose, 0.45 + glint);
+        this.splat(o.x, o.y, 22, rose, 0.24);
         this.shadowAt(o.x, o.y, 5, 12);
       } else {
         const i = L.chest.put(o.x, 0, o.y, 0.4, 12, 12, 12);
-        L.chest.color(i, 0.85, 0.62, 0.3);
-        L.chest.glowC(i, gold, 0.22);
+        L.chest.colorC(i, leather, 1);
+        L.chest.glowC(i, rose, 0.12);
         const k = 2 + Math.sin(time * 6) * 1.2;
         const j = L.chestSeam.put(o.x, 0, o.y, 0.4, 12, 12, 12);
-        L.chestSeam.colorC(j, gold, k);
-        this.splat(o.x, o.y, 46, gold, 0.4 + 0.15 * Math.sin(time * 6));
+        L.chestSeam.colorC(j, rose, k);
+        this.splat(o.x, o.y, 46, rose, 0.3 + 0.12 * Math.sin(time * 6));
         this.shadowAt(o.x, o.y, 14, 0);
       }
     }
@@ -517,30 +520,31 @@ export class Renderer3D implements GameRenderer {
     }
 
     // bullets
-    const pink = this.col('#ff2e88');
-    const amber = this.col('#ffa23a');
-    const cyan = this.col('#7af8ff');
+    const red = this.col(C.red);
+    const blush = this.col(C.blush);
+    const tan = this.col(C.tan);
+    const bone = this.col(C.bone);
     for (const b of w.bullets.list) {
       if (!b.alive || !vis(b.x, b.y, 30)) continue;
       if (b.friendly) {
         const yaw = -Math.atan2(b.vy, b.vx);
         const i = L.pbolt.put(b.x, 12, b.y, yaw, b.kind === 1 ? 7 : 9, b.kind === 1 ? 3.2 : 2.4, b.kind === 1 ? 3.2 : 2.4);
         if (b.kind === 1) {
-          L.pbolt.color(i, 3.4, 1.5, 0.35);
-          if (Math.random() < 0.35) fx.ember(b.x, b.y, '#ffa23a');
-          this.splat(b.x, b.y, 18, amber, 0.3);
+          L.pbolt.colorC(i, tan, 2.6);
+          if (Math.random() < 0.35) fx.ember(b.x, b.y, C.tan);
+          this.splat(b.x, b.y, 18, tan, 0.22);
         } else if (b.kind === 2) {
-          L.pbolt.color(i, 3.4, 0.9, 2.2);
+          L.pbolt.colorC(i, this.col(C.white), 2.4);
         } else {
-          L.pbolt.color(i, 1.2, 3.4, 3.8);
-          this.splat(b.x, b.y, 16, cyan, 0.18);
+          L.pbolt.colorC(i, bone, 2.8);
+          this.splat(b.x, b.y, 16, bone, 0.14);
         }
       } else {
-        const c = b.kind === 1 ? amber : pink;
+        const c = b.kind === 1 ? blush : red;
         const r = b.r;
         if (s.outline) L.eOutline.put(b.x, 10, b.y, 0, r + 3.2, r + 3.2, r + 3.2);
         const ci = L.eCore.put(b.x, 10, b.y, 0, r * 0.62, r * 0.62, r * 0.62);
-        L.eCore.color(ci, 2.2, 2.2, 2.2);
+        L.eCore.colorC(ci, this.col(C.bone), 2.2);
         const si = L.eShell.put(b.x, 10, b.y, 0, r * 1.15, r * 1.15, r * 1.15);
         L.eShell.colorC(si, c, 1.5);
         this.splat(b.x, b.y, 24, c, 0.7);
@@ -556,17 +560,17 @@ export class Renderer3D implements GameRenderer {
     const L = this.L;
     if (e.kind === 'spitter' && e.state === 1) {
       const k = 1 - e.timer / 0.7;
-      this.lineAt(L.lines, e.x, e.y, e.x + Math.cos(e.ang) * 520, e.y + Math.sin(e.ang) * 520, 6 + 10 * k, this.col('#ff4fa0'), 0.6 + 2.4 * k);
+      this.lineAt(L.lines, e.x, e.y, e.x + Math.cos(e.ang) * 520, e.y + Math.sin(e.ang) * 520, 6 + 10 * k, this.col(C.red), 0.6 + 2.4 * k);
     } else if (e.kind === 'rammer' && e.state === 1) {
       const blink = 0.5 + 0.5 * Math.sin(time * 40);
       const len = 480 * speedMul(1) * 0.55 + 40;
-      this.lineAt(L.chevrons, e.x, e.y, e.x + Math.cos(e.ang) * len, e.y + Math.sin(e.ang) * len, e.r * 2.2, this.col('#ffa23a'), 0.55 + 0.7 * blink);
+      this.lineAt(L.chevrons, e.x, e.y, e.x + Math.cos(e.ang) * len, e.y + Math.sin(e.ang) * len, e.r * 2.2, this.col(C.blush), 0.45 + 0.6 * blink);
     } else if (e.kind === 'caster' && e.state === 1) {
-      this.ringAt(e.tx, e.ty, 46, this.col('#c7a8ff'), 1.6, true);
+      this.ringAt(e.tx, e.ty, 46, this.col(C.red), 1.4, true);
     } else if (e.kind === 'warden' && e.state === 1) {
       const k = 1 - e.timer / 0.8;
-      this.ringAt(e.x, e.y, e.r + 34 + k * 34, this.col('#ff2e88'), 1.4 + Math.sin(time * 28) * 0.5);
-      if (e.tx === 3) this.lineAt(L.chevrons, e.x, e.y, e.x + Math.cos(e.ang) * 330, e.y + Math.sin(e.ang) * 330, 40, this.col('#ff2e88'), 1.0 + k);
+      this.ringAt(e.x, e.y, e.r + 34 + k * 34, this.col(C.red), 1.4 + Math.sin(time * 28) * 0.5);
+      if (e.tx === 3) this.lineAt(L.chevrons, e.x, e.y, e.x + Math.cos(e.ang) * 330, e.y + Math.sin(e.ang) * 330, 40, this.col(C.red), 1.0 + k);
     }
   }
 
@@ -578,10 +582,10 @@ export class Renderer3D implements GameRenderer {
     const r = e.r;
     const flash = e.flash > 0 ? 5 : 0;
     const seed = e.seed;
-    // armour albedo: the identity colour mixed into dark painted metal
-    const ar = 0.16 + kc.r * 0.22;
-    const ag = 0.16 + kc.g * 0.22;
-    const ab = 0.18 + kc.b * 0.22;
+    // armour albedo: the identity colour worked into dark oxblood leather and iron
+    const ar = 0.1 + kc.r * 0.26;
+    const ag = 0.05 + kc.g * 0.2;
+    const ab = 0.05 + kc.b * 0.2;
     const elite = e.elite;
     let hgt = 0;
     switch (e.kind) {
@@ -597,7 +601,7 @@ export class Renderer3D implements GameRenderer {
       case 'splitlet': {
         hgt = 9 + Math.sin(time * 7 + seed) * 2;
         const i = L.splitlet.putEuler(e.x, hgt, e.y, 0.5, time * 7 + seed, 0.3, r, r, r);
-        L.splitlet.color(i, 0.55, 0.4, 0.75);
+        L.splitlet.colorC(i, this.col(C.wine), 1);
         L.splitlet.glow(i, kc.r * 0.9 + flash, kc.g * 0.9 + flash, kc.b * 0.9 + flash);
         break;
       }
@@ -634,8 +638,8 @@ export class Renderer3D implements GameRenderer {
         } else if (e.state === 2) {
           syy = 0.88;
           sxz = 1.12;
-          fx.ember(e.x - Math.cos(e.ang) * r, e.y - Math.sin(e.ang) * r, '#ffa23a');
-          this.lineAt(this.L.lines, e.x - Math.cos(e.ang) * 70, e.y - Math.sin(e.ang) * 70, e.x, e.y, r * 1.6, this.col('#ffa23a'), 0.9);
+          fx.ember(e.x - Math.cos(e.ang) * r, e.y - Math.sin(e.ang) * r, C.blush);
+          this.lineAt(this.L.lines, e.x - Math.cos(e.ang) * 70, e.y - Math.sin(e.ang) * 70, e.x, e.y, r * 1.6, this.col(C.ember), 0.9);
         }
         const i = L.rammer.put(x, 0, y, -ang, r * sxz, r * syy, r * sxz);
         L.rammer.color(i, ar, ag, ab);
@@ -650,7 +654,7 @@ export class Renderer3D implements GameRenderer {
         const ry = time * 0.6 + seed;
         const rz = Math.cos(time * 0.7 + seed) * 0.3;
         const i = L.cleaver.putEuler(e.x, hgt, e.y, rx, ry, rz, r, r, r);
-        L.cleaver.color(i, 0.32, 0.18, 0.5);
+        L.cleaver.colorC(i, this.col(C.mesa), 1.4);
         L.cleaver.glow(i, kc.r * 0.18 + flash, kc.g * 0.18 + flash, kc.b * 0.18 + flash);
         const pulse = 1.6 + Math.sin(time * 4 + seed) * 0.5;
         const j = L.cleaverCore.putEuler(e.x, hgt, e.y, rx, ry, rz, r, r, r);
@@ -660,13 +664,13 @@ export class Renderer3D implements GameRenderer {
       }
       case 'aegis': {
         const i = L.aegis.put(e.x, 0, e.y, -face, r, r, r);
-        L.aegis.color(i, 0.2, 0.32, 0.38);
+        L.aegis.colorC(i, this.col(C.umber), 1.6);
         L.aegis.glow(i, flash, flash, flash);
         const j = L.aegisRim.put(e.x, 0, e.y, 0, r, r, r);
         L.aegisRim.colorC(j, kc, 1.8);
         const R = r + 9;
         const f = L.shieldFrame.put(e.x, 0, e.y, -e.shield, R, r * 1.1, R);
-        L.shieldFrame.color(f, 0.75, 0.8, 0.85);
+        L.shieldFrame.colorC(f, this.col(C.tan), 1);
         L.shieldFrame.glowC(f, kc, 0.3 + flash * 0.2);
         const pl = L.shieldPlate.put(e.x, 0, e.y, -e.shield, R, r * 1.1, R);
         L.shieldPlate.colorC(pl, kc, e.flash > 0 ? 2.5 : 0.85);
@@ -690,7 +694,7 @@ export class Renderer3D implements GameRenderer {
     }
     this.shadowAt(e.x, e.y, r, hgt);
     if (elite) {
-      this.ringAt(e.x, e.y, r + 8, this.col('#ffd24a'), 1.5 + Math.sin(time * 5) * 0.3);
+      this.ringAt(e.x, e.y, r + 8, this.col(C.blush), 1.2 + Math.sin(time * 5) * 0.25);
     }
   }
 
@@ -700,9 +704,9 @@ export class Renderer3D implements GameRenderer {
     const p2 = e.phase === 1;
     const tele = e.state === 1 ? 0.5 + 0.5 * Math.sin(time * 28) : 0;
     const hi = L.wardenHull.put(e.x, 0, e.y, -face * 0.25 + time * 0.1, r, r, r);
-    if (p2) L.wardenHull.color(hi, 0.32, 0.18, 0.26);
-    else L.wardenHull.color(hi, 0.78, 0.8, 0.86);
-    const mag = this.col('#ff2e88');
+    if (p2) L.wardenHull.colorC(hi, this.col(C.wine), 1);
+    else L.wardenHull.colorC(hi, this.col(C.saddle), 1);
+    const mag = this.col(C.red);
     L.wardenHull.glow(hi, (p2 ? mag.r * 0.3 : 0) + tele * mag.r * 0.6 + flash * 0.5, (p2 ? mag.g * 0.3 : 0) + tele * mag.g * 0.6 + flash * 0.5, (p2 ? mag.b * 0.3 : 0) + tele * mag.b * 0.6 + flash * 0.5);
     const open = p2 ? 0.32 + Math.sin(time * 3) * 0.04 : 0;
     const rot = time * 0.35;
@@ -710,10 +714,10 @@ export class Renderer3D implements GameRenderer {
       const a = rot + (i / 8) * TAU;
       const rad = r * (0.98 + open);
       const j = L.wardenPetal.put(e.x + Math.cos(a) * rad, open * 8, e.y + Math.sin(a) * rad, -a, r, r * (1 - open * 0.3), r);
-      L.wardenPetal.color(j, 0.26, 0.26, 0.3);
+      L.wardenPetal.colorC(j, this.col(C.mesa), 1.2);
       L.wardenPetal.glow(j, flash * 0.5 + (p2 ? 0.2 : 0), flash * 0.5, flash * 0.5 + (p2 ? 0.1 : 0));
     }
-    const crownC = p2 ? mag : this.col('#7af8ff');
+    const crownC = p2 ? mag : this.col(C.blush);
     const c = L.wardenCrown.put(e.x, r * 0.92, e.y, -time * (p2 ? 1.6 : 0.8), r, r, r);
     L.wardenCrown.colorC(c, crownC, 2.2 + tele * 2);
     const ns = time * (p2 ? 1.8 : 1);
@@ -721,14 +725,14 @@ export class Renderer3D implements GameRenderer {
       const a = ns + (i / 8) * TAU;
       const nr = r + 18;
       const j = L.wardenNode.put(e.x + Math.cos(a) * nr, r * 0.55 + Math.sin(time * 3 + i) * 3, e.y + Math.sin(a) * nr, a, 5.5, 5.5, 5.5);
-      if (p2) L.wardenNode.color(j, 3.2, 0.4, 1.4);
-      else L.wardenNode.color(j, 2.6, 3.0, 3.2);
+      if (p2) L.wardenNode.colorC(j, mag, 3.2);
+      else L.wardenNode.colorC(j, this.col(C.blush), 2.4);
     }
     const coreS = r * (p2 ? 0.34 : 0.24) * (1 + tele * 0.25);
     const k = L.wardenCore.put(e.x, r * 0.75, e.y, time, coreS, coreS, coreS);
-    if (p2) L.wardenCore.color(k, 5, 1.2, 2.8);
-    else L.wardenCore.color(k, 3.5, 3.8, 4);
-    this.splat(e.x, e.y, r * 3, p2 ? mag : this.col('#9aa8ff'), 0.35 + tele * 0.5);
+    if (p2) L.wardenCore.colorC(k, mag, 5);
+    else L.wardenCore.colorC(k, this.col(C.blush), 3.4);
+    this.splat(e.x, e.y, r * 3, p2 ? mag : this.col(C.ember), 0.35 + tele * 0.5);
   }
 
   private drawPlayer(w: World, fx: Fx, time: number): void {
@@ -750,12 +754,12 @@ export class Renderer3D implements GameRenderer {
     this.wick.scale.setScalar(12);
     const sp = Math.hypot(p.vx, p.vy);
     const thrust = 0.7 + Math.min(1, sp / 190) * 1.2;
-    if (p.flash > 0) this.wickGlowMat.color.setRGB(3.5, 0.8, 1.4);
-    else this.wickGlowMat.color.setRGB(0.6 * thrust, 2.0 * thrust, 2.4 * thrust);
+    if (p.flash > 0) this.wickGlowMat.color.set(C.red).multiplyScalar(3.5);
+    else this.wickGlowMat.color.set(C.bone).multiplyScalar(1.4 * thrust);
     if (dead) return;
     this.shadowAt(p.x, p.y, 14, hover);
-    this.splat(p.x, p.y, 60, this.col('#35f2ff'), 0.14);
-    if (sp > 40 && Math.random() < 0.5) fx.ember(p.x - Math.cos(p.facing) * 12, p.y - Math.sin(p.facing) * 12, '#7af8ff');
+    this.splat(p.x, p.y, 60, this.col(C.bone), 0.1);
+    if (sp > 40 && Math.random() < 0.5) fx.ember(p.x - Math.cos(p.facing) * 12, p.y - Math.sin(p.facing) * 12, C.tan);
 
     // field
     const hasField = lv.siphon > 0 && lv.bulwark > 0;
@@ -765,16 +769,18 @@ export class Renderer3D implements GameRenderer {
       this.field.position.set(p.x, 0, p.y);
       this.field.scale.set(R, R * 0.42, R);
       this.fieldMat.uniforms.uPulse.value = fx.fieldPulse;
-      this.ringAt(p.x, p.y, R, this.col('#35f2ff'), 1.4 + fx.fieldPulse * 2);
+      // the Bulwark Field is a carved ring: a solid outer rule and a dashed inner stitch
+      this.ringAt(p.x, p.y, R, this.col(C.bone), 0.75 + fx.fieldPulse * 1.5);
+      this.ringAt(p.x, p.y, R - 12, this.col(C.tan), 0.6 + fx.fieldPulse, true);
     } else if (hasField && p.hold) {
-      this.ringAt(p.x, p.y, 26 + p.reserve * 0.1, this.col('#d9a441'), 1.6, true);
+      this.ringAt(p.x, p.y, 26 + p.reserve * 0.1, this.col(C.tan), 1.4, true);
     }
     // blades
     if (lv.orbit > 0) {
       const bladed = p.fieldOn && hasField;
       const rad = bladed ? p.fieldR + 10 : 64;
       const n = lv.orbit + 1;
-      const green = this.col('#59ffb5');
+      const green = this.col(C.tan);
       for (let i = 0; i < n; i++) {
         const a = p.orbitAngle + (i / n) * TAU;
         const bx = p.x + Math.cos(a) * rad;
@@ -793,9 +799,9 @@ export class Renderer3D implements GameRenderer {
     this.wick.position.set(0, 26 + Math.sin(time * 1.4) * 4, 0);
     this.wick.rotation.set(Math.sin(time * 0.7) * 0.15, time * 0.25, 0, 'YXZ');
     this.wick.scale.setScalar(26);
-    this.wickGlowMat.color.setRGB(1.2, 3, 3.4);
+    this.wickGlowMat.color.set(C.bone).multiplyScalar(2.2);
     this.shadowAt(0, 0, 30, 26);
-    this.splat(0, 0, 160, this.col('#35f2ff'), 0.35);
+    this.splat(0, 0, 160, this.col(C.bone), 0.18);
     const kinds: Enemy['kind'][] = ['swarm', 'spitter', 'rammer', 'cleaver', 'aegis', 'caster', 'swarm', 'rammer'];
     const fake = this.fakeEnemy;
     for (let i = 0; i < kinds.length; i++) {
@@ -876,7 +882,7 @@ export class Renderer3D implements GameRenderer {
       if (p.kind === 1) {
         const sz = p.size * 1.3;
         const i = L.debris.putEuler(p.x, p.z + sz * 0.5, p.y, p.rx, p.ry, 0, sz, sz, sz);
-        L.debris.color(i, 0.18 + c.r * 0.3, 0.18 + c.g * 0.3, 0.2 + c.b * 0.3);
+        L.debris.color(i, 0.12 + c.r * 0.3, 0.06 + c.g * 0.3, 0.06 + c.b * 0.3);
         L.debris.glowC(i, c, k * k * 2.2);
       } else {
         const sz = p.size * 0.55 * (0.4 + 0.6 * k);
@@ -900,8 +906,8 @@ export class Renderer3D implements GameRenderer {
     };
     if (w) {
       const p = w.player;
-      if (!(w.state === 'dead' && w.deathTimer > 0.05)) set(p.x, 90, p.y, this.col('#9feaff'), 7000, 480);
-    } else set(0, 140, 0, this.col('#9feaff'), 7000, 900);
+      if (!(w.state === 'dead' && w.deathTimer > 0.05)) set(p.x, 90, p.y, this.col(C.bone), 3600, 480);
+    } else set(0, 140, 0, this.col(C.bone), 6000, 900);
     for (let i = fx.flares.length - 1; i >= 0 && li < n; i--) {
       const f = fx.flares[i];
       const k = Math.pow(Math.max(0, f.life / f.max), 1.5);
@@ -911,7 +917,7 @@ export class Renderer3D implements GameRenderer {
       for (const e of w.enemies.list) {
         if (e.alive && e.kind === 'warden') {
           const tele = e.state === 1 ? 0.6 + 0.4 * Math.sin(time * 28) : 0.25;
-          set(e.x, 90, e.y, this.col(e.phase ? '#ff2e88' : '#b9c4ff'), 20000 * tele, 700);
+          set(e.x, 90, e.y, this.col(e.phase ? C.red : C.blush), 20000 * tele, 700);
           if (li >= n) break;
         }
       }

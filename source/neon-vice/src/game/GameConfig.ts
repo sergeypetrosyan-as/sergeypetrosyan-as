@@ -64,14 +64,30 @@ export const WORLD = {
   sidewalk: 3,
 };
 
+/**
+ * 19_mystical-western palette (design/19_mystical-western/palette.mjs): the five
+ * Actual Solutions brand colours and their derived tints, plus gameplay roles.
+ * Player = bone (moonlight), hostile = brand red, collectible = rose.
+ */
 export const PALETTE = {
-  magenta: 0xff2fd2,
-  pink: 0xff4f9a,
-  cyan: 0x2ef2ff,
-  blue: 0x3d6bff,
-  purple: 0x8a3dff,
-  orange: 0xff8a3d,
-  yellow: 0xffd84a,
-  red: 0xff3355,
-  green: 0x4dff9a,
-};
+  red: 0xe30016,
+  wine: 0x72151d,
+  bone: 0xf1ede7,
+  ink: 0x030303,
+  white: 0xffffff,
+  night: 0x150607,
+  dusk: 0x320b0e,
+  mesa: 0x480e13,
+  ember: 0xab0b1a,
+  rose: 0xe96b74,
+  blush: 0xeeb9b9,
+  tan: 0xd3b9b7,
+  saddle: 0xaf7d7e,
+  umber: 0x2d0a0d,
+  smoke: 0x6e6c6a,
+  ash: 0xa5a29e,
+  // roles
+  player: 0xf1ede7,
+  hostile: 0xe30016,
+  collectible: 0xe96b74,
+} as const;

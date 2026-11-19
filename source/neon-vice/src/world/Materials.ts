@@ -88,9 +88,10 @@ ${HASH_GLSL}`,
   float density = 0.22 + 0.4 * fract(vNvSeed * 13.1);
   float lit = step(1.0 - density, h);
   float h2 = nvHash(cell.yx + vNvSeed * 3.1);
-  vec3 wcol = h2 < 0.55 ? vec3(1.0, 0.68, 0.38) : (h2 < 0.82 ? vec3(0.4, 0.82, 1.0) : vec3(1.0, 0.4, 0.85));
+  // lamplit windows: tan, bone and the odd rose-red lantern (brand tints, linear)
+  vec3 wcol = h2 < 0.55 ? vec3(0.78, 0.55, 0.5) : (h2 < 0.82 ? vec3(0.88, 0.85, 0.8) : vec3(0.82, 0.16, 0.18));
   float flick = 0.82 + 0.18 * sin(uTime * (1.5 + h * 5.0) + h * 40.0);
-  diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.015, 0.02, 0.045), zone * win * 0.9 * aaFade);
+  diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.012, 0.004, 0.005), zone * win * 0.9 * aaFade);
   totalEmissiveRadiance += zone * mix(wcol * density * 0.28, wcol * lit * win * flick * 1.5, aaFade);
   float shopY = vNvPos.y - vNvBase;
   float shop = side * step(vNvBase, 0.5) * smoothstep(0.5, 0.8, shopY) * (1.0 - smoothstep(2.9, 3.2, shopY));
@@ -102,7 +103,7 @@ ${HASH_GLSL}`,
   float cornerOn = step(0.45, fract(vNvSeed * 7.77));
   float corner = side * cornerOn * smoothstep(0.475, 0.488, edge) * step(vNvBase + 4.0, vNvPos.y);
   float pulse = 0.82 + 0.18 * sin(uTime * 1.3 + vNvSeed * 20.0);
-  totalEmissiveRadiance += vNvAccent * (topBand * 2.4 + midBand * 1.5 + corner * 1.5) * pulse;
+  totalEmissiveRadiance += vNvAccent * (topBand * 1.4 + midBand * 1.0 + corner * 0.9) * pulse;
 }`,
       );
   };
@@ -194,21 +195,21 @@ void nvGround(vec2 p) {
 nvGround(vGPos.xz);
 {
   vec2 p = vGPos.xz;
-  vec3 asphalt = vec3(0.028, 0.026, 0.04) * (0.85 + 0.3 * nvNoise(p * 2.7));
+  vec3 asphalt = vec3(0.036, 0.02, 0.019) * (0.85 + 0.3 * nvNoise(p * 2.7));
   vec2 tile = fract(p / 1.5);
   float grout = step(0.94, max(tile.x, tile.y));
-  vec3 walk = vec3(0.1, 0.085, 0.12) * (1.0 - grout * 0.45);
-  vec3 lot = vec3(0.05, 0.045, 0.065) * (0.9 + 0.2 * nvNoise(p * 1.3));
+  vec3 walk = vec3(0.11, 0.065, 0.058) * (1.0 - grout * 0.45);
+  vec3 lot = vec3(0.055, 0.032, 0.028) * (0.9 + 0.2 * nvNoise(p * 1.3));
   vec2 pt = fract(p / 2.4);
-  vec3 prom = mix(vec3(0.2, 0.09, 0.15), vec3(0.12, 0.06, 0.12), step(0.5, fract((floor(p.x/2.4) + floor(p.y/2.4)) * 0.5)));
+  vec3 prom = mix(vec3(0.2, 0.09, 0.08), vec3(0.12, 0.05, 0.045), step(0.5, fract((floor(p.x/2.4) + floor(p.y/2.4)) * 0.5)));
   prom *= 1.0 - step(0.95, max(pt.x, pt.y)) * 0.4;
-  vec3 sand = vec3(0.32, 0.2, 0.2) * (0.85 + 0.3 * nvNoise(p * 3.0));
+  vec3 sand = vec3(0.36, 0.22, 0.2) * (0.85 + 0.3 * nvNoise(p * 3.0));
   vec3 c = lot;
   c = mix(c, walk, gWalk);
   c = mix(c, asphalt, gRoad);
   c = mix(c, prom, gPromenade);
   c = mix(c, sand, gBeach);
-  vec3 markCol = gMark > 1.5 ? vec3(0.75, 0.75, 0.8) : vec3(0.9, 0.62, 0.08);
+  vec3 markCol = gMark > 1.5 ? vec3(0.7, 0.66, 0.61) : vec3(0.65, 0.49, 0.47);
   c = mix(c, markCol, step(0.5, gMark) * gRoad);
   diffuseColor.rgb = c * (1.0 - gWet * 0.35 * gRoad);
 }`,
@@ -223,7 +224,7 @@ roughnessFactor = mix(roughnessFactor, 0.95, gBeach);`,
       .replace(
         '#include <emissivemap_fragment>',
         `#include <emissivemap_fragment>
-totalEmissiveRadiance += step(0.5, gMark) * gRoad * (gMark > 1.5 ? vec3(0.05, 0.05, 0.07) : vec3(0.09, 0.05, 0.0));`,
+totalEmissiveRadiance += step(0.5, gMark) * gRoad * (gMark > 1.5 ? vec3(0.045, 0.04, 0.036) : vec3(0.06, 0.035, 0.03));`,
       );
   };
   mat.customProgramCacheKey = () => 'nv-ground';
@@ -295,24 +296,23 @@ export function createNeonSignTexture(text: string, color: string, opts: { font?
   const g = c.getContext('2d')!;
   g.clearRect(0, 0, w, h);
   const size = Math.floor(h * (opts.sub ? 0.5 : 0.62));
-  g.font = opts.font ?? `700 ${size}px "Trebuchet MS", "Segoe UI", sans-serif`;
+  g.font = opts.font ?? `700 ${size}px "Zilla Slab", Georgia, serif`;
   g.textAlign = 'center';
   g.textBaseline = 'middle';
   const y = opts.sub ? h * 0.4 : h / 2;
+  // Painted frontier signboard: one soft warm halo, tinted outline, bone lettering.
   g.shadowColor = color;
   g.lineJoin = 'round';
-  for (const blur of [h * 0.28, h * 0.14]) {
-    g.shadowBlur = blur;
-    g.strokeStyle = color;
-    g.lineWidth = h * 0.05;
-    g.strokeText(text, w / 2, y);
-  }
-  g.shadowBlur = h * 0.06;
-  g.fillStyle = '#ffffff';
+  g.shadowBlur = h * 0.16;
+  g.strokeStyle = color;
+  g.lineWidth = h * 0.045;
+  g.strokeText(text, w / 2, y);
+  g.shadowBlur = h * 0.03;
+  g.fillStyle = '#F1EDE7';
   g.fillText(text, w / 2, y);
   if (opts.sub) {
-    g.font = `600 ${Math.floor(h * 0.2)}px "Trebuchet MS", "Segoe UI", sans-serif`;
-    g.shadowBlur = h * 0.1;
+    g.font = `600 ${Math.floor(h * 0.2)}px "Zilla Slab", Georgia, serif`;
+    g.shadowBlur = h * 0.06;
     g.fillStyle = color;
     g.fillText(opts.sub, w / 2, h * 0.8);
   }

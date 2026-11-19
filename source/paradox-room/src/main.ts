@@ -1,8 +1,13 @@
 import '@fontsource/spectral/latin-400.css';
-import '@fontsource/spectral/latin-500.css';
 import '@fontsource/spectral/latin-400-italic.css';
-import '@fontsource/barlow-condensed/latin-500.css';
-import '@fontsource/barlow-condensed/latin-600.css';
+// 19_mystical-western type: Rye for short titles, Zilla Slab for labels and numbers, Public Sans for reading.
+// Spectral (italic margin prose) and Caveat (Ilse's hand) stay for the notes.
+import '@fontsource/rye/latin-400.css';
+import '@fontsource/zilla-slab/latin-500.css';
+import '@fontsource/zilla-slab/latin-600.css';
+import '@fontsource/zilla-slab/latin-700.css';
+import '@fontsource/public-sans/latin-400.css';
+import '@fontsource/public-sans/latin-600.css';
 import '@fontsource/caveat/latin-500.css';
 import './ui/styles.css';
 import { Game } from './state/game.ts';
@@ -28,4 +33,12 @@ function boot(): void {
   }
 }
 
-boot();
+/** The lever letters are painted into canvases once, so wait (briefly) for the slab face. */
+function whenFonts(): Promise<unknown> {
+  const f = document.fonts;
+  if (!f?.load) return Promise.resolve();
+  const want = Promise.all(['700 40px "Zilla Slab"', '400 40px "Rye"'].map((d) => f.load(d).catch(() => [])));
+  return Promise.race([want, new Promise((r) => setTimeout(r, 1500))]);
+}
+
+whenFonts().then(boot, boot);

@@ -1,3 +1,9 @@
+import '@fontsource/rye/400.css';
+import '@fontsource/zilla-slab/500.css';
+import '@fontsource/zilla-slab/600.css';
+import '@fontsource/zilla-slab/700.css';
+import '@fontsource/public-sans/400.css';
+import '@fontsource/public-sans/600.css';
 import './styles.css';
 import { Game } from './game/Game.ts';
 
@@ -41,5 +47,8 @@ function boot(): void {
   if (import.meta.env.DEV) void import('./dev/capture.ts').then((m) => m.install(game));
 }
 
-// Yield so the loading screen paints first.
-window.setTimeout(boot, 30);
+/// Yield so the loading screen paints first; give the slab face a moment so baked sign textures use it.
+window.setTimeout(() => {
+  const faces = Promise.all([document.fonts.load('700 50px "Zilla Slab"'), document.fonts.load('400 40px Rye')]).catch(() => undefined);
+  void Promise.race([faces, new Promise((r) => setTimeout(r, 1500))]).then(boot);
+}, 30);

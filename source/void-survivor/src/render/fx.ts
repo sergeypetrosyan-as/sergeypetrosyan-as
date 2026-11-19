@@ -3,6 +3,7 @@
 import { ENEMY_DEFS } from '../sim/enemies.ts';
 import type { EnemyKind, World } from '../sim/types.ts';
 import type { Settings } from '../storage/save.ts';
+import { C } from './theme.ts';
 
 export interface Particle {
   alive: boolean;
@@ -99,7 +100,7 @@ export class Fx {
 
   constructor() {
     for (let i = 0; i < MAX_PARTICLES; i++)
-      this.particles.push({ alive: false, x: 0, y: 0, z: 0, vx: 0, vy: 0, vz: 0, rx: 0, ry: 0, spin: 0, life: 0, max: 1, size: 2, color: '#fff', kind: 0 });
+      this.particles.push({ alive: false, x: 0, y: 0, z: 0, vx: 0, vy: 0, vz: 0, rx: 0, ry: 0, spin: 0, life: 0, max: 1, size: 2, color: '#ffffff', kind: 0 });
   }
 
   reset(): void {
@@ -199,13 +200,13 @@ export class Fx {
     for (const ev of w.events) {
       switch (ev.t) {
         case 'hit': {
-          this.burst(ev.x, ev.y, 3, '#ffffff', 120, 0.25, 2, 0, 12);
-          if (s.numbers && (ev.a ?? 0) >= 1 && (this.pops.length < 24 || Math.random() < 0.4)) this.pop(ev.x, ev.y, String(Math.round(ev.a ?? 0)), '#e9fbff');
+          this.burst(ev.x, ev.y, 3, C.bone, 120, 0.25, 2, 0, 12);
+          if (s.numbers && (ev.a ?? 0) >= 1 && (this.pops.length < 24 || Math.random() < 0.4)) this.pop(ev.x, ev.y, String(Math.round(ev.a ?? 0)), C.bone);
           break;
         }
         case 'kill': {
           const kind = (ev.s as EnemyKind) ?? 'swarm';
-          const col = ENEMY_DEFS[kind]?.color ?? '#fff';
+          const col = ENEMY_DEFS[kind]?.color ?? C.red;
           const n = (ev.b ? 20 : 8) * k;
           this.burst(ev.x, ev.y, Math.round(n * 0.6), col, 200, 0.9, kind === 'cleaver' ? 5 : 3.5, 1, 12);
           this.burst(ev.x, ev.y, Math.round(n * 0.5), col, 240, 0.4, 2.2, 0, 12);
@@ -215,105 +216,105 @@ export class Fx {
         case 'hurt':
           shake(0.45);
           if (!calm && !ev.b) this.flash = Math.max(this.flash, 0.25);
-          this.flashColor = '#ff2e5a';
-          this.burst(w.player.x, w.player.y, 14, '#ff5d8f', 200, 0.5, 3, 0, 14);
-          this.flare(w.player.x, w.player.y, '#ff2e5a', 0.8, 0.25, 400, 60);
+          this.flashColor = C.red;
+          this.burst(w.player.x, w.player.y, 14, C.red, 200, 0.5, 3, 0, 14);
+          this.flare(w.player.x, w.player.y, C.red, 0.8, 0.25, 400, 60);
           break;
         case 'mote':
-          this.burst(ev.x, ev.y, 2, '#59ffb5', 60, 0.25, 2);
+          this.burst(ev.x, ev.y, 2, C.rose, 60, 0.25, 2);
           break;
         case 'shard':
-          this.burst(ev.x, ev.y, 6, '#ffd24a', 120, 0.4, 2.5);
-          this.pop(ev.x, ev.y, '+1 shard', '#ffd24a', true);
+          this.burst(ev.x, ev.y, 6, C.rose, 120, 0.4, 2.5);
+          this.pop(ev.x, ev.y, '+1 shard', C.rose, true);
           break;
         case 'chest':
-          this.burst(ev.x, ev.y, 24, '#ffd24a', 220, 0.7, 3);
-          this.ring(ev.x, ev.y, 10, 220, 0.6, '#ffd24a');
-          this.flare(ev.x, ev.y, '#ffc65a', 1.2, 0.6, 500);
-          this.announce('Chest opened', '#ffd24a', 1.6);
+          this.burst(ev.x, ev.y, 24, C.rose, 220, 0.7, 3);
+          this.ring(ev.x, ev.y, 10, 220, 0.6, C.rose);
+          this.flare(ev.x, ev.y, C.rose, 1.2, 0.6, 500);
+          this.announce('Chest opened', C.rose, 1.6);
           break;
         case 'levelup':
-          this.burst(w.player.x, w.player.y, Math.round(40 * k), '#59ffb5', 260, 0.8, 3, 0, 16);
-          this.ring(w.player.x, w.player.y, 10, 380, 0.7, '#59ffb5', 5);
-          this.flare(w.player.x, w.player.y, '#59ffb5', 1, 0.6, 500);
+          this.burst(w.player.x, w.player.y, Math.round(40 * k), C.tan, 260, 0.8, 3, 0, 16);
+          this.ring(w.player.x, w.player.y, 10, 380, 0.7, C.bone, 5);
+          this.flare(w.player.x, w.player.y, C.bone, 1, 0.6, 500);
           break;
         case 'fieldUp':
-          this.ring(ev.x, ev.y, 20, 240, 0.4, '#35f2ff');
-          this.flare(ev.x, ev.y, '#35f2ff', 0.8, 0.4, 500);
+          this.ring(ev.x, ev.y, 20, 240, 0.4, C.bone);
+          this.flare(ev.x, ev.y, C.bone, 0.8, 0.4, 500);
           break;
         case 'fieldBreak':
-          this.burst(ev.x, ev.y, Math.round(24 * k), '#35f2ff', 280, 0.6, 3, 0, 20);
+          this.burst(ev.x, ev.y, Math.round(24 * k), C.tan, 280, 0.6, 3, 0, 20);
           shake(0.2);
           break;
         case 'absorb':
-          this.burst(ev.x, ev.y, 4, '#35f2ff', 120, 0.3, 2, 0, 12);
+          this.burst(ev.x, ev.y, 4, C.bone, 120, 0.3, 2, 0, 12);
           this.fieldPulse = Math.min(1, this.fieldPulse + 0.35);
           break;
         case 'detonate': {
           const r = ev.a ?? 100;
-          this.ring(ev.x, ev.y, 10, r * 3.2, 0.45, '#ff2e88', 8);
-          this.ring(ev.x, ev.y, 10, r * 2.2, 0.35, '#ffffff', 4);
-          this.burst(ev.x, ev.y, Math.round(60 * k), '#ff7ac0', 420, 0.8, 3.5, 0, 16);
-          this.flare(ev.x, ev.y, '#ff6ab4', calm ? 2 : 4, 0.5, r * 2.4, 120);
+          this.ring(ev.x, ev.y, 10, r * 3.2, 0.45, C.blush, 8);
+          this.ring(ev.x, ev.y, 10, r * 2.2, 0.35, C.bone, 4);
+          this.burst(ev.x, ev.y, Math.round(60 * k), C.tan, 420, 0.8, 3.5, 0, 16);
+          this.flare(ev.x, ev.y, C.blush, calm ? 2 : 4, 0.5, r * 2.4, 120);
           if (!calm) this.shock(ev.x, ev.y, r * 1.4);
           shake(Math.min(0.9, 0.3 + r / 500));
           if (!calm) {
             this.flash = Math.max(this.flash, 0.3);
-            this.flashColor = '#ff7ac0';
+            this.flashColor = C.blush;
           }
           break;
         }
         case 'beam':
-          this.beam([ev.x, ev.y, ev.a ?? ev.x, ev.b ?? ev.y], 0.16, '#e9fbff', 6);
+          this.beam([ev.x, ev.y, ev.a ?? ev.x, ev.b ?? ev.y], 0.16, C.bone, 6);
           break;
         case 'arc':
-          if (ev.pts) this.beam(ev.pts, 0.22, '#b58cff', 3, true);
+          if (ev.pts) this.beam(ev.pts, 0.22, C.blush, 3, true);
           break;
         case 'shieldBlock':
-          this.burst(ev.x, ev.y, 4, '#35f2ff', 140, 0.2, 2, 0, 12);
+          this.burst(ev.x, ev.y, 4, C.tan, 140, 0.2, 2, 0, 12);
           break;
         case 'telegraph':
           break;
         case 'pool':
-          this.ring(ev.x, ev.y, 10, 120, 0.5, '#8a5cff');
+          this.ring(ev.x, ev.y, 10, 120, 0.5, C.ember);
           break;
         case 'lane':
           shake(0.05);
           break;
         case 'bossWarn':
-          this.announce(ev.s === 'FINAL WARDEN' ? 'Warning: the Final Warden' : 'Warning: Core Warden inbound', '#ff2e88', 3);
+          this.announce(ev.s === 'FINAL WARDEN' ? 'Warning: the Final Warden' : 'Warning: Core Warden inbound', C.red, 3);
           shake(0.4);
           break;
         case 'bossPhase':
-          this.announce('The Warden opens up', '#ff2e88', 2);
-          this.ring(ev.x, ev.y, 20, 500, 0.6, '#ff2e88', 6);
-          this.flare(ev.x, ev.y, '#ff2e88', 2.5, 0.7, 900, 140);
+          this.announce('The Warden opens up', C.red, 2);
+          this.ring(ev.x, ev.y, 20, 500, 0.6, C.red, 6);
+          this.flare(ev.x, ev.y, C.red, 2.5, 0.7, 900, 140);
           shake(0.5);
           break;
         case 'bossDown':
-          this.announce('Warden down', '#ffd24a', 3);
-          this.burst(ev.x, ev.y, Math.round(150 * k), '#ffffff', 520, 1.1, 4, 1, 30);
-          this.ring(ev.x, ev.y, 10, 700, 0.8, '#ffd24a', 8);
-          this.flare(ev.x, ev.y, '#ffe2a0', calm ? 2.5 : 5, 1.1, 1200, 160);
+          this.announce('Warden down', C.bone, 3);
+          this.burst(ev.x, ev.y, Math.round(150 * k), C.bone, 520, 1.1, 4, 1, 30);
+          this.ring(ev.x, ev.y, 10, 700, 0.8, C.blush, 8);
+          this.flare(ev.x, ev.y, C.blush, calm ? 2.5 : 5, 1.1, 1200, 160);
           if (!calm) this.shock(ev.x, ev.y, 520, 0.8);
           shake(0.9);
           this.slow = 0.5;
           break;
         case 'wave':
-          if ((ev.a ?? 1) > 1) this.announce(`Wave ${ev.a}`, '#7af8ff', 2);
+          if ((ev.a ?? 1) > 1) this.announce(`Wave ${ev.a}`, C.bone, 2);
           break;
         case 'chain':
-          this.burst(w.player.x, w.player.y, 12, '#ffd24a', 200, 0.5, 2.5, 0, 16);
-          this.pop(w.player.x, w.player.y - 30, `Chain ×${ev.a}`, '#ffd24a', true);
+          this.burst(w.player.x, w.player.y, 12, C.tan, 200, 0.5, 2.5, 0, 16);
+          this.pop(w.player.x, w.player.y - 30, `Chain ×${ev.a}`, C.blush, true);
           break;
         case 'dead':
-          this.burst(ev.x, ev.y, Math.round(80 * k), '#e9fbff', 360, 1, 3.5, 1, 14);
-          this.flare(ev.x, ev.y, '#e9fbff', 2, 0.8, 700);
+          this.burst(ev.x, ev.y, Math.round(80 * k), C.bone, 360, 1, 3.5, 1, 14);
+          this.flare(ev.x, ev.y, C.bone, 2, 0.8, 700);
           shake(0.8);
           this.slow = 0.8;
           break;
         case 'win':
-          this.announce('Victory', '#59ffb5', 3);
+          this.announce('Victory', C.bone, 3);
           break;
         default:
           break;

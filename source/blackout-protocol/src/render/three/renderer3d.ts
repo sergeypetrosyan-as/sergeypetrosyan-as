@@ -24,6 +24,9 @@ import { flatPlane, ringMaterial, ringMesh } from './ring.ts';
 import { canvas } from './textures.ts';
 
 const BASE_GAIN = 12;
+const LANTERN = new THREE.Color(1, 0.9, 0.84);
+const LANTERN_WARY = new THREE.Color(1, 0.74, 0.72);
+const LANTERN_ALERT = new THREE.Color(1, 0.16, 0.18);
 const PITCH = (60 * Math.PI) / 180;
 
 interface GuardView { rig: Rig; spot: THREE.SpotLight | null; cone: ConeDecal; icon: THREE.Sprite; bar: SusBar; volume: THREE.Mesh | null }
@@ -41,10 +44,10 @@ class SusBar {
         void main(){
           vec2 px = vUv * vec2(120.0, 14.0);
           bool border = px.x < 1.5 || px.x > 118.5 || px.y < 1.5 || px.y > 12.5;
-          vec3 c = vec3(0.03, 0.035, 0.04); float a = 0.82;
+          vec3 c = vec3(0.08, 0.024, 0.027); float a = 0.85;
           if (vUv.x < uFill && !border) c = uColor;
           if (abs(vUv.x - uThresh) < 0.012) { c = vec3(1.0); }
-          if (border) c = vec3(0.6, 0.64, 0.66);
+          if (border) c = vec3(0.83, 0.73, 0.72);
           gl_FragColor = vec4(c, a); }`,
     });
     this.mesh = new THREE.Mesh(geo, this.mat);
@@ -76,11 +79,11 @@ class Label {
     g.clearRect(0, 0, 256, 64);
     if (!text) { this.tex.needsUpdate = true; this.sprite.visible = false; return; }
     this.sprite.visible = true;
-    g.font = '600 30px "IBM Plex Sans Condensed", "Segoe UI", sans-serif';
+    g.font = '700 30px "Zilla Slab", Georgia, serif';
     const tw = g.measureText(text).width;
-    g.fillStyle = 'rgba(13,16,19,0.86)';
+    g.fillStyle = 'rgba(10, 4, 4,0.86)';
     g.fillRect(128 - tw / 2 - 12, 10, tw + 24, 44);
-    g.fillStyle = '#dce4e6';
+    g.fillStyle = '#f6f3ef';
     g.textAlign = 'center'; g.textBaseline = 'middle';
     g.fillText(text, 128, 33);
     this.tex.needsUpdate = true;
@@ -92,20 +95,20 @@ function iconTexture(state: GuardState, col: THREE.Color): THREE.CanvasTexture {
   const [c, g] = canvas(96, 96);
   const hex = `#${col.getHexString()}`;
   g.lineWidth = 7; g.strokeStyle = hex; g.fillStyle = hex;
-  g.font = '700 46px "IBM Plex Sans Condensed", "Segoe UI", sans-serif';
+  g.font = '700 50px "Zilla Slab", Georgia, serif';
   g.textAlign = 'center'; g.textBaseline = 'middle';
   // dark backing so the icon reads on any floor
-  g.shadowColor = 'rgba(0,0,0,0.9)'; g.shadowBlur = 8;
+  g.shadowColor = 'rgba(3, 3, 3,0.9)'; g.shadowBlur = 8;
   if (state === 'suspicious') {
     g.beginPath(); g.moveTo(48, 10); g.lineTo(88, 82); g.lineTo(8, 82); g.closePath();
-    g.fillStyle = 'rgba(13,16,19,0.85)'; g.fill(); g.stroke();
+    g.fillStyle = 'rgba(10, 4, 4,0.85)'; g.fill(); g.stroke();
     g.fillStyle = hex; g.shadowBlur = 0; g.fillText('?', 48, 60);
   } else if (state === 'alert') {
     g.beginPath(); g.moveTo(48, 6); g.lineTo(90, 48); g.lineTo(48, 90); g.lineTo(6, 48); g.closePath(); g.fill();
-    g.fillStyle = '#0d1013'; g.shadowBlur = 0; g.fillText('!', 48, 50);
+    g.fillStyle = '#0a0404'; g.shadowBlur = 0; g.fillText('!', 48, 50);
   } else if (state === 'search') {
     g.beginPath(); g.arc(48, 48, 34, 0, Math.PI * 2);
-    g.fillStyle = 'rgba(13,16,19,0.85)'; g.fill(); g.stroke();
+    g.fillStyle = 'rgba(10, 4, 4,0.85)'; g.fill(); g.stroke();
     g.fillStyle = hex; g.shadowBlur = 0;
     for (const x of [30, 48, 66]) { g.beginPath(); g.arc(x, 48, 5.5, 0, Math.PI * 2); g.fill(); }
   }
@@ -139,7 +142,7 @@ export class Renderer3D implements GameRenderer {
   private def: MissionDef | null = null;
   private dyn = new THREE.Group();
   private player: Rig | null = null;
-  private rim = { value: new THREE.Color(0.1, 0.16, 0.2) };
+  private rim = { value: new THREE.Color(0.16, 0.14, 0.13) };
   private guards: GuardView[] = [];
   private camsV: CamView[] = [];
   private icons = new Map<string, THREE.CanvasTexture>();
@@ -186,9 +189,9 @@ export class Renderer3D implements GameRenderer {
     r.toneMapping = THREE.ACESFilmicToneMapping;
     r.toneMappingExposure = 1.15;
     this.pmrem = new THREE.PMREMGenerator(r);
-    this.scene.background = new THREE.Color(0x07090c);
-    this.scene.fog = new THREE.FogExp2(0x07090c, 0.02);
-    this.hemi = new THREE.HemisphereLight(0x223042, 0x050607, 0.35);
+    this.scene.background = new THREE.Color(0x070404);
+    this.scene.fog = new THREE.FogExp2(0x070404, 0.02);
+    this.hemi = new THREE.HemisphereLight(0x170608, 0x050304, 0.35);
     this.scene.add(this.hemi);
     this.scene.add(this.dyn);
     this.visRing = ringMesh(0.62, this.visMat, this.ringGeo);
@@ -196,7 +199,7 @@ export class Renderer3D implements GameRenderer {
     this.focusMat.uniforms.uDashN.value = 10;
     this.focusMat.uniforms.uR0.value = 0.78; this.focusMat.uniforms.uR1.value = 0.86;
     const lg = new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute([0, 0, 0, 1, 0, 1], 3));
-    this.focusLine = new THREE.Line(lg, new THREE.LineBasicMaterial({ color: 0x5ef2ff, transparent: true, opacity: 0.45, depthWrite: false }));
+    this.focusLine = new THREE.Line(lg, new THREE.LineBasicMaterial({ color: 0xf7f5f1, transparent: true, opacity: 0.45, depthWrite: false }));
     this.focusLine.frustumCulled = false;
     this.scene.add(this.visRing, this.focusRing, this.focusLine);
     for (let i = 0; i < 24; i++) {
@@ -208,9 +211,9 @@ export class Renderer3D implements GameRenderer {
       this.noise.push({ mesh, mat });
     }
     this.decoy = new THREE.Group();
-    const puck = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.13, 0.06, 18), new THREE.MeshStandardMaterial({ color: 0x23272b, metalness: 0.6, roughness: 0.4 }));
+    const puck = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.13, 0.06, 18), new THREE.MeshStandardMaterial({ color: 0x130607, metalness: 0.6, roughness: 0.4 }));
     puck.position.y = 0.03;
-    this.decoyLed = new THREE.MeshStandardMaterial({ color: 0x120a02, emissive: 0xf0a541, emissiveIntensity: 3 });
+    this.decoyLed = new THREE.MeshStandardMaterial({ color: 0x080404, emissive: 0xe9646e, emissiveIntensity: 3 });
     const led = new THREE.Mesh(new THREE.SphereGeometry(0.03, 10, 8), this.decoyLed);
     led.position.y = 0.075;
     this.decoyArc = ringMaterial(true);
@@ -333,7 +336,7 @@ export class Renderer3D implements GameRenderer {
       this.dyn.add(rig.root);
       let spot: THREE.SpotLight | null = null;
       if (this.q.spots) {
-        spot = new THREE.SpotLight(0xfff0d8, 0, g.range, g.fov / 2, 0.42, 1.35);
+        spot = new THREE.SpotLight(0xfbf9f7, 0, g.range, g.fov / 2, 0.42, 1.35);
         this.setupShadow(spot, this.q.shadowSize, g.range + 1.5);
         this.scene.add(spot, spot.target);
       }
@@ -355,7 +358,7 @@ export class Renderer3D implements GameRenderer {
     w.cameras.forEach((c) => {
       let spot: THREE.SpotLight | null = null;
       if (this.q.spots) {
-        spot = new THREE.SpotLight(0xcfe4ff, 0, c.range, c.fov / 2, 0.35, 1.3);
+        spot = new THREE.SpotLight(0xfaf9f7, 0, c.range, c.fov / 2, 0.35, 1.3);
         this.setupShadow(spot, Math.max(256, this.q.shadowSize / 2), c.range + 2);
         this.scene.add(spot, spot.target);
       }
@@ -387,7 +390,7 @@ export class Renderer3D implements GameRenderer {
     geo.rotateZ(Math.PI / 2); // apex at origin, opening along +X
     const mat = new THREE.ShaderMaterial({
       transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
-      uniforms: { uColor: { value: new THREE.Color(1, 0.94, 0.85) }, uAlpha: { value: 0.05 } },
+      uniforms: { uColor: { value: new THREE.Color(1, 0.86, 0.78) }, uAlpha: { value: 0.05 } },
       vertexShader: 'varying float vX; varying vec3 vN; varying vec3 vV; void main(){ vX = position.x; vec4 mv = modelViewMatrix * vec4(position,1.0); vN = normalize(normalMatrix * normal); vV = normalize(-mv.xyz); gl_Position = projectionMatrix * mv; }',
       fragmentShader: 'uniform vec3 uColor; uniform float uAlpha; varying float vX; varying vec3 vN; varying vec3 vV; void main(){ float f = pow(1.0 - clamp(vX,0.0,1.0), 1.6); float e = pow(abs(dot(vN, vV)), 1.5); gl_FragColor = vec4(uColor * f * e * uAlpha, 1.0); }',
     });
@@ -432,7 +435,7 @@ export class Renderer3D implements GameRenderer {
     u.uEmerg.value = w.blackout ? 0.7 : 0;
     level.fixtureMat.emissiveIntensity = 2.6 * this.fixtureLevel;
     level.beaconMat.emissive.copy(u.uAlertCol.value);
-    level.beaconMat.emissiveIntensity = (u.uAlert.value > 0.05 || w.blackout) ? (reduce ? 2.5 : 1.5 + 1.5 * Math.abs(Math.sin(time * 2.4))) : 0;
+    level.beaconMat.emissiveIntensity = (u.uAlert.value > 0.05 || w.blackout) ? (reduce ? 1.1 : 0.6 + 0.8 * Math.abs(Math.sin(time * 2.4))) : 0;
     level.update(w, dt, time, reduce, pal, !!o.menu);
 
     // ---- operative
@@ -441,7 +444,7 @@ export class Renderer3D implements GameRenderer {
     pr.root.visible = !p.hidden && !o.menu;
     animateRig(pr, p.x, p.y, { face: p.dir, sneak: p.sneak, alert: false, suspicious: false, headLead: true }, dt, reduce);
     const lit = isLit(w, p.x, p.y);
-    this.rim.value.setRGB(0.08, 0.13, 0.17).multiplyScalar(lit ? 0.6 : 1.4);
+    this.rim.value.setRGB(0.15, 0.13, 0.12).multiplyScalar(lit ? 0.6 : 1.4);
     const vm = this.visMat.uniforms;
     this.visRing.visible = !p.hidden && !o.menu;
     this.visRing.position.set(p.x, 0.02, p.y);
@@ -473,11 +476,11 @@ export class Renderer3D implements GameRenderer {
         v.spot.target.position.set(c.x + Math.cos(c.dir) * range * 0.62, 0, c.y + Math.sin(c.dir) * range * 0.62);
         v.spot.distance = range * 1.1;
         v.spot.angle = c.fov / 2;
-        v.spot.color.copy(hot ? new THREE.Color(1, 0.55, 0.5) : new THREE.Color(0.82, 0.9, 1));
+        v.spot.color.copy(hot ? new THREE.Color(1, 0.35, 0.33) : new THREE.Color(1, 0.9, 0.86));
         v.spot.intensity = live ? 26 : 0;
       }
       const style: ConeStyle = { color: camCol, fill: 0.07, edge: 0.45, pattern: 3, edgeStyle: 1 };
-      v.cone.update(w, c.x, c.y, c.dir, c.fov, range, range * K.SHADOW_RANGE, style, new THREE.Color(0.55, 0.62, 0.7));
+      v.cone.update(w, c.x, c.y, c.dir, c.fov, range, range * K.SHADOW_RANGE, style, new THREE.Color(0.7, 0.6, 0.58));
       v.cone.mesh.visible = coneOn && live;
       v.cone.light.visible = !this.q.spots && live && !o.menu;
       v.bar.mesh.visible = live && c.sus > 1 && !o.menu;
@@ -508,6 +511,8 @@ export class Renderer3D implements GameRenderer {
       v.spot.distance = range * 1.08;
       v.spot.angle = g.fov / 2;
       v.spot.intensity = g.state === 'alert' ? 40 : g.state === 'patrol' ? 28 : 34;
+      // lantern light: warm tan on patrol, blushing when suspicious, brand red when alert
+      v.spot.color.copy(g.state === 'alert' ? LANTERN_ALERT : g.state === 'patrol' ? LANTERN : LANTERN_WARY);
     }
     if (v.volume) {
       // light volume stops at the first wall on the centre ray
@@ -524,7 +529,7 @@ export class Renderer3D implements GameRenderer {
       : g.state === 'suspicious' ? { color: col, fill: 0.07, edge: 0.7, pattern: 1, edgeStyle: 1 }
         : g.state === 'alert' ? { color: col, fill: 0.09, edge: 0.9, pattern: 2, edgeStyle: 2 }
           : { color: col, fill: 0.06, edge: 0.65, pattern: 3, edgeStyle: 3 };
-    v.cone.update(w, g.x, g.y, g.dir, g.fov, range, range * K.SHADOW_RANGE, style, new THREE.Color(0.95, 0.88, 0.72));
+    v.cone.update(w, g.x, g.y, g.dir, g.fov, range, range * K.SHADOW_RANGE, style, new THREE.Color(0.96, 0.84, 0.76));
     v.cone.mesh.visible = coneOn;
     v.cone.light.visible = !this.q.spots;
     const tex = this.icon(g.state, pal);

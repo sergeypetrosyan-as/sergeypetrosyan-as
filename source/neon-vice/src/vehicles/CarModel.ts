@@ -67,10 +67,10 @@ function getShared() {
     sportsCabin: extrudeProfile([
       [-1.45, 0.92], [0.85, 0.86], [0.05, 1.3], [-0.95, 1.32],
     ], 1.5),
-    tire: new THREE.MeshStandardMaterial({ color: 0x0b0b10, roughness: 0.9 }),
-    rimMat: new THREE.MeshStandardMaterial({ color: 0xc8c8d8, roughness: 0.25, metalness: 0.9 }),
-    glass: new THREE.MeshStandardMaterial({ color: 0x0a0c1c, roughness: 0.05, metalness: 0.6, envMapIntensity: 1.6 }),
-    dark: new THREE.MeshStandardMaterial({ color: 0x08080e, roughness: 0.6 }),
+    tire: new THREE.MeshStandardMaterial({ color: 0x080404, roughness: 0.9 }),
+    rimMat: new THREE.MeshStandardMaterial({ color: 0xe9dfda, roughness: 0.25, metalness: 0.9 }),
+    glass: new THREE.MeshStandardMaterial({ color: 0x080404, roughness: 0.05, metalness: 0.6, envMapIntensity: 1.6 }),
+    dark: new THREE.MeshStandardMaterial({ color: 0x070404, roughness: 0.6 }),
     glow: createGlowTexture(),
   };
   return shared;
@@ -99,8 +99,8 @@ export function buildCarModel(style: CarStyle, color: number, accent: number, wi
   const body = new THREE.Group();
   group.add(body);
   const bodyMat = paint(color);
-  const headMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(0xfff2d0).multiplyScalar(2.2), toneMapped: false });
-  const tailMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(0xff1030).multiplyScalar(1.4), toneMapped: false });
+  const headMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(0xf1ede7).multiplyScalar(2), toneMapped: false });
+  const tailMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(0xab0b1a).multiplyScalar(1.4), toneMapped: false });
 
   let length: number, width: number, wheelZ: number, wheelX: number;
   if (style === 'sports') {
@@ -122,7 +122,7 @@ export function buildCarModel(style: CarStyle, color: number, accent: number, wi
   } else {
     length = 4.5; width = 1.9; wheelZ = 1.4; wheelX = 0.86;
     const isTaxi = style === 'taxi';
-    const mat = paint(isTaxi ? 0xd9a21a : color);
+    const mat = paint(isTaxi ? 0xd3b9b7 : color);
     body.add(part(s.box, mat, 0, 0.66, 0, 1.86, 0.62, 4.4));
     body.add(part(s.box, s.glass, 0, 1.2, -0.25, 1.64, 0.5, 2.2));
     body.add(part(s.box, mat, 0, 1.47, -0.25, 1.66, 0.06, 2.0));
@@ -131,7 +131,7 @@ export function buildCarModel(style: CarStyle, color: number, accent: number, wi
     body.add(part(s.box, tailMat, 0.68, 0.76, -2.21, 0.36, 0.12, 0.04));
     body.add(part(s.box, tailMat, -0.68, 0.76, -2.21, 0.36, 0.12, 0.04));
     if (isTaxi) {
-      const signMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(0xffe27a).multiplyScalar(1.5), toneMapped: false });
+      const signMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(0xf1ede7).multiplyScalar(1.3), toneMapped: false });
       body.add(part(s.box, signMat, 0, 1.62, -0.25, 0.7, 0.22, 0.3));
     }
   }

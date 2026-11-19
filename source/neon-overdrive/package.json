@@ -17,8 +17,9 @@
     "vite": "5.4.11"
   },
   "dependencies": {
-    "@fontsource/barlow": "5.1.0",
-    "@fontsource/barlow-condensed": "5.1.0",
+    "@fontsource/public-sans": "5.1.0",
+    "@fontsource/rye": "5.1.0",
+    "@fontsource/zilla-slab": "5.1.0",
     "three": "0.170.0"
   }
 }

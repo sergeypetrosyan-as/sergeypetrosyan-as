@@ -123,8 +123,8 @@ export class Hud {
     this.el.mode.textContent = `${m.name} · ${world.config.scoreLimit}`;
     this.el.cpMeter.classList.toggle('hidden', world.mode !== 'cp');
     const teams = m.teams;
-    this.el.sBlueLbl.textContent = teams ? 'BLUE' : 'YOU';
-    this.el.sMagLbl.textContent = teams ? 'MAGENTA' : 'LEADER';
+    this.el.sBlueLbl.textContent = teams ? 'RIDERS' : 'YOU';
+    this.el.sMagLbl.textContent = teams ? 'OUTLAWS' : 'LEADER';
     if (this.player) {
       const w = this.player.weapon;
       this.el.wName.textContent = w.name;
@@ -431,9 +431,9 @@ export class Hud {
     const s = size / (a.half * 2 + 8);
     const X = (x: number) => (x + a.half + 4) * s;
     const Z = (z: number) => (z + a.half + 4) * s;
-    g.fillStyle = 'rgba(8,14,26,0.9)';
+    g.fillStyle = 'rgba(21, 6, 7, 0.92)';
     g.fillRect(0, 0, size, size);
-    g.strokeStyle = 'rgba(46,242,255,0.08)';
+    g.strokeStyle = 'rgba(171, 11, 26, 0.22)';
     for (let i = -a.half; i <= a.half; i += 10) {
       g.beginPath(); g.moveTo(X(i), Z(-a.half)); g.lineTo(X(i), Z(a.half)); g.stroke();
       g.beginPath(); g.moveTo(X(-a.half), Z(i)); g.lineTo(X(a.half), Z(i)); g.stroke();
@@ -441,16 +441,17 @@ export class Hud {
     const sorted = [...a.boxes].sort((p, q) => p.maxY - q.maxY);
     for (const b of sorted) {
       if (b.hidden) continue;
-      if (b.mat === 'barrier') g.fillStyle = 'rgba(46,242,255,0.55)';
-      else if (b.mat === 'boundary') g.fillStyle = 'rgba(46,242,255,0.35)';
+      if (b.mat === 'barrier') g.fillStyle = 'rgba(241, 237, 231, 0.55)';
+      else if (b.mat === 'boundary') g.fillStyle = 'rgba(175, 125, 126, 0.5)';
       else {
         const l = Math.min(1, b.maxY / 8);
-        g.fillStyle = `rgba(${90 + l * 60},${110 + l * 70},${140 + l * 70},${0.35 + l * 0.4})`;
+        // Taller blocks read lighter: saddle → tan, as on an engraved survey map.
+        g.fillStyle = `rgba(${Math.round(150 + l * 61)},${Math.round(100 + l * 85)},${Math.round(102 + l * 81)},${0.35 + l * 0.4})`;
       }
       g.fillRect(X(b.minX), Z(b.minZ), Math.max(1, (b.maxX - b.minX) * s), Math.max(1, (b.maxZ - b.minZ) * s));
     }
     for (const r of a.ramps) {
-      g.fillStyle = r.bridge ? 'rgba(46,242,255,0.3)' : 'rgba(255,176,46,0.35)';
+      g.fillStyle = r.bridge ? 'rgba(241, 237, 231, 0.3)' : 'rgba(175, 125, 126, 0.4)';
       g.fillRect(X(r.minX), Z(r.minZ), (r.maxX - r.minX) * s, (r.maxZ - r.minZ) * s);
     }
     this.mapBase = c;
@@ -475,22 +476,22 @@ export class Hud {
       const cp = w.arena.controlPoint;
       g.beginPath();
       g.arc(X(cp.x), Z(cp.z), cp.r * s, 0, Math.PI * 2);
-      g.fillStyle = w.cp.owner === 'blue' ? 'rgba(42,157,255,0.35)' : w.cp.owner === 'magenta' ? 'rgba(255,47,200,0.35)' : 'rgba(255,255,255,0.15)';
+      g.fillStyle = w.cp.owner === 'blue' ? 'rgba(211, 185, 183, 0.4)' : w.cp.owner === 'magenta' ? 'rgba(227, 0, 22, 0.4)' : 'rgba(233, 107, 116, 0.18)';
       g.fill();
-      g.strokeStyle = w.cp.contested ? '#ffb02e' : 'rgba(255,255,255,0.6)';
+      g.strokeStyle = w.cp.contested ? '#E30016' : '#E96B74';
       g.stroke();
     }
     for (let i = 0; i < w.pickups.length; i++) {
       const pk = w.pickups[i];
       if (!pk.active) continue;
-      g.fillStyle = pk.def.kind === 'repair' ? '#4dff9a' : pk.def.kind === 'overdrive' ? '#ffb02e' : '#2ef2ff';
+      g.fillStyle = pk.def.kind === 'repair' ? '#EEB9B9' : pk.def.kind === 'overdrive' ? '#E96B74' : '#F1EDE7';
       g.fillRect(X(pk.def.x) - 2.5, Z(pk.def.z) - 2.5, 5, 5);
     }
     for (const t of w.tanks) {
       if (!t.alive || t === p) continue;
       const enemy = p.isEnemyOf(t);
       if (enemy && !this.spotted[t.id]) continue;
-      g.fillStyle = enemy ? '#ff2fc8' : '#2a9dff';
+      g.fillStyle = enemy ? '#E30016' : '#D3B9B7';
       g.beginPath();
       g.arc(X(t.x), Z(t.z), 3.2, 0, Math.PI * 2);
       g.fill();
@@ -498,7 +499,7 @@ export class Hud {
     if (p.alive) {
       const px = X(p.x), pz = Z(p.z);
       // View cone.
-      g.fillStyle = 'rgba(46,242,255,0.12)';
+      g.fillStyle = 'rgba(241, 237, 231, 0.12)';
       g.beginPath();
       g.moveTo(px, pz);
       const phi = Math.atan2(-Math.cos(camYaw), -Math.sin(camYaw));
@@ -508,7 +509,7 @@ export class Hud {
       g.save();
       g.translate(px, pz);
       g.rotate(-p.heading);
-      g.fillStyle = '#2ef2ff';
+      g.fillStyle = '#F1EDE7';
       g.beginPath();
       g.moveTo(0, -6); g.lineTo(4.5, 5); g.lineTo(-4.5, 5);
       g.closePath();
@@ -535,7 +536,7 @@ export function scoreboardHtml(w: World): string {
   if (MODES[w.mode].teams) {
     const blue = ranked.filter((t) => t.team === 'blue');
     const mag = ranked.filter((t) => t.team === 'magenta');
-    return `<div class="sb-cols"><div><div class="sb-title blue">BLUE · ${w.score.blue}</div><table class="sb">${head}${blue.map(row).join('')}</table></div><div><div class="sb-title magenta">MAGENTA · ${w.score.magenta}</div><table class="sb">${head}${mag.map(row).join('')}</table></div></div>`;
+    return `<div class="sb-cols"><div><div class="sb-title blue">RIDERS · ${w.score.blue}</div><table class="sb">${head}${blue.map(row).join('')}</table></div><div><div class="sb-title magenta">OUTLAWS · ${w.score.magenta}</div><table class="sb">${head}${mag.map(row).join('')}</table></div></div>`;
   }
   return `<div class="sb-cols one"><div><div class="sb-title">FREE-FOR-ALL · FIRST TO ${w.config.scoreLimit}</div><table class="sb">${head}${ranked.map(row).join('')}</table></div></div>`;
 }

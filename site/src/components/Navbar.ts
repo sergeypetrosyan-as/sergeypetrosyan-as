@@ -15,7 +15,7 @@ export function Navbar(playHref: string): string {
   <nav class="nav-inner container" aria-label="Primary">
     <a class="brand" href="#home" aria-label="${SITE.name} — home">
       ${Logo()}
-      <span class="brand-word">NEON<span>ARCADE</span></span>
+      <span class="brand-word">NEON ARCADE</span>
     </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" data-nav-toggle>
       <span class="nav-toggle-open">${icon('menu', 22)}</span>
@@ -27,7 +27,7 @@ export function Navbar(playHref: string): string {
         ${LINKS.map((l) => `<li><a class="nav-link" href="${l.href}" data-nav-link>${l.label}</a></li>`).join('')}
         <li><a class="nav-link" href="${SITE.githubProfile}" target="_blank" rel="noopener noreferrer">GitHub ${icon('external', 13)}</a></li>
       </ul>
-      <a class="btn btn-primary btn-sm nav-cta" href="${playHref}">${icon('play', 14)} PLAY NOW</a>
+      <a class="btn btn-primary btn-sm nav-cta" href="${playHref}">${icon('play', 14)} Play now</a>
     </div>
   </nav>
 </header>`;

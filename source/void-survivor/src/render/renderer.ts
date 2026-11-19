@@ -7,6 +7,8 @@ import type { Fx } from './fx.ts';
 import { Visor, type StickView } from './hud.ts';
 import type { Preset } from './quality.ts';
 import type { GameRenderer } from './types.ts';
+import { constellation, stampStar, starGlyph } from '../../../../design/19_mystical-western/primitives.mjs';
+import { C, FONT, rgba } from './theme.ts';
 
 const TAU = Math.PI * 2;
 
@@ -80,7 +82,7 @@ export class Renderer implements GameRenderer {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.globalAlpha = 1;
     ctx.globalCompositeOperation = 'source-over';
-    ctx.fillStyle = '#07080c';
+    ctx.fillStyle = C.night;
     ctx.fillRect(0, 0, W, H);
 
     let sx = 0;
@@ -133,15 +135,15 @@ export class Renderer implements GameRenderer {
 
   private drawFloor(arena: string, l: number, r: number, t: number, b: number, time: number): void {
     const ctx = this.ctx;
-    const accent = arena === 'foundry' ? '#ff8a3a' : '#35f2ff';
-    ctx.fillStyle = '#0d0920';
+    const accent = arena === 'foundry' ? C.ember : C.tan;
+    ctx.fillStyle = arena === 'foundry' ? C.umber : C.night;
     if (arena === 'foundry') {
       ctx.beginPath();
       ctx.arc(0, 0, ARENA_RADIUS, 0, TAU);
       ctx.fill();
     } else ctx.fillRect(-ARENA_HALF, -ARENA_HALF, ARENA_HALF * 2, ARENA_HALF * 2);
     ctx.lineWidth = 1;
-    ctx.strokeStyle = arena === 'foundry' ? 'rgba(255,138,58,0.08)' : 'rgba(120,140,255,0.09)';
+    ctx.strokeStyle = arena === 'foundry' ? rgba(C.ember, 0.18) : rgba(C.tan, 0.09);
     ctx.beginPath();
     const g = 80;
     for (let x = Math.floor(l / g) * g; x < r; x += g) {
@@ -153,6 +155,23 @@ export class Renderer implements GameRenderer {
       ctx.lineTo(r, y);
     }
     ctx.stroke();
+    // star chart: quiet stars and one constellation per 320-unit cell, seeded by the cell
+    const cs = 320;
+    for (let cx = Math.floor(l / cs) * cs; cx < r; cx += cs)
+      for (let cy = Math.floor(t / cs) * cs; cy < b; cy += cs) {
+        let h = (Math.imul(cx | 0, 73856093) ^ Math.imul(cy | 0, 19349663)) >>> 0;
+        const rnd = () => ((h = (Math.imul(h ^ (h >>> 15), 2246822507) + 0x6d2b79f5) >>> 0) / 4294967296);
+        for (let i = 0; i < 10; i++) starGlyph(ctx, cx + rnd() * cs, cy + rnd() * cs, 1.5 + rnd() * 2.5, C.ash, 0.25 + rnd() * 0.2);
+        const pts: Array<[number, number]> = [];
+        let px = cx + 30 + rnd() * 60;
+        let py = cy + 60 + rnd() * 200;
+        for (let i = 0; i < 4; i++) {
+          pts.push([px, py]);
+          px += 40 + rnd() * 30;
+          py += (rnd() - 0.5) * 80;
+        }
+        constellation(ctx, pts, { color: arena === 'foundry' ? C.ember : C.quiet, node: C.ash, alpha: 0.6, dash: [3, 5], width: 1, nodeR: 1.8 });
+      }
     // wall
     ctx.save();
     ctx.beginPath();
@@ -160,7 +179,7 @@ export class Renderer implements GameRenderer {
     if (arena === 'foundry') ctx.arc(0, 0, ARENA_RADIUS, 0, TAU, true);
     else ctx.rect(-ARENA_HALF, -ARENA_HALF, ARENA_HALF * 2, ARENA_HALF * 2);
     ctx.clip('evenodd');
-    ctx.fillStyle = '#04030a';
+    ctx.fillStyle = C.ink;
     ctx.fillRect(l - 400, t - 400, r - l + 800, b - t + 800);
     ctx.restore();
     ctx.strokeStyle = accent;
@@ -177,7 +196,7 @@ export class Renderer implements GameRenderer {
   private drawAttract(time: number): void {
     const ctx = this.ctx;
     ctx.globalCompositeOperation = 'lighter';
-    const cols = ['#35f2ff', '#ff2e88', '#a6ff4d', '#ffa23a', '#8a5cff'];
+    const cols = [C.bone, C.ember, C.tan, C.wine, C.saddle];
     for (let i = 0; i < 14; i++) {
       const a = time * (0.1 + i * 0.013) + i * 1.7;
       const d = 160 + i * 40;
@@ -193,7 +212,7 @@ export class Renderer implements GameRenderer {
       if (h.kind === 'pool') {
         if (h.t < h.tele) {
           const k = h.t / h.tele;
-          ctx.strokeStyle = '#c7a8ff';
+          ctx.strokeStyle = C.red;
           ctx.lineWidth = 3;
           ctx.setLineDash([8, 8]);
           ctx.globalAlpha = 0.4 + 0.5 * Math.sin(time * 18);
@@ -202,19 +221,19 @@ export class Renderer implements GameRenderer {
           ctx.stroke();
           ctx.setLineDash([]);
           ctx.globalAlpha = 0.25 * k;
-          ctx.fillStyle = '#8a5cff';
+          ctx.fillStyle = C.wine;
           ctx.fill();
         } else {
           const g = ctx.createRadialGradient(h.x, h.y, 0, h.x, h.y, h.r);
-          g.addColorStop(0, 'rgba(60,10,120,0.85)');
-          g.addColorStop(0.8, 'rgba(120,60,255,0.5)');
-          g.addColorStop(1, 'rgba(190,140,255,0.85)');
+          g.addColorStop(0, rgba(C.night, 0.85));
+          g.addColorStop(0.8, rgba(C.wine, 0.5));
+          g.addColorStop(1, rgba(C.ember, 0.85));
           ctx.globalAlpha = 1;
           ctx.fillStyle = g;
           ctx.beginPath();
           ctx.arc(h.x, h.y, h.r, 0, TAU);
           ctx.fill();
-          ctx.strokeStyle = '#e6d4ff';
+          ctx.strokeStyle = C.red;
           ctx.lineWidth = 3;
           ctx.stroke();
         }
@@ -225,7 +244,7 @@ export class Renderer implements GameRenderer {
         if (!active) {
           const a = 0.18 + 0.25 * (0.5 + 0.5 * Math.sin(time * 22));
           ctx.globalAlpha = a;
-          ctx.strokeStyle = '#ffd24a';
+          ctx.strokeStyle = C.wine;
           ctx.lineWidth = h.width;
           ctx.beginPath();
           ctx.moveTo(h.x, h.y);
@@ -234,7 +253,7 @@ export class Renderer implements GameRenderer {
           ctx.globalAlpha = 0.9;
           ctx.setLineDash([22, 22]);
           ctx.lineWidth = 3;
-          ctx.strokeStyle = '#ff2e88';
+          ctx.strokeStyle = C.red;
           ctx.beginPath();
           ctx.moveTo(h.x, h.y);
           ctx.lineTo(h.x2, h.y2);
@@ -242,13 +261,13 @@ export class Renderer implements GameRenderer {
           ctx.setLineDash([]);
         } else {
           ctx.globalAlpha = 1;
-          ctx.strokeStyle = '#fff6c4';
+          ctx.strokeStyle = C.blush;
           ctx.lineWidth = h.width;
           ctx.beginPath();
           ctx.moveTo(h.x, h.y);
           ctx.lineTo(h.x2, h.y2);
           ctx.stroke();
-          ctx.strokeStyle = '#ffd24a';
+          ctx.strokeStyle = C.red;
           ctx.lineWidth = h.width * 1.6;
           ctx.globalAlpha = 0.35;
           ctx.stroke();
@@ -264,33 +283,25 @@ export class Renderer implements GameRenderer {
     ctx.globalCompositeOperation = 'lighter';
     for (const o of w.pickups.list) {
       if (o.x < l || o.x > r || o.y < t || o.y > b) continue;
-      if (o.kind === 'mote') this.drawGlow(o.x, o.y, 9, '#59ffb5', 0.8);
-      else if (o.kind === 'shard') this.drawGlow(o.x, o.y, 13, '#ffd24a', 0.9);
-      else this.drawGlow(o.x, o.y, 28 + Math.sin(time * 6) * 4, '#ffd24a', 0.8);
+      if (o.kind === 'mote') this.drawGlow(o.x, o.y, 9, C.rose, 0.5);
+      else if (o.kind === 'shard') this.drawGlow(o.x, o.y, 13, C.rose, 0.6);
+      else this.drawGlow(o.x, o.y, 28 + Math.sin(time * 6) * 4, C.rose, 0.5);
     }
     ctx.globalAlpha = 1;
     ctx.globalCompositeOperation = 'source-over';
     for (const o of w.pickups.list) {
       if (o.x < l || o.x > r || o.y < t || o.y > b) continue;
       if (o.kind === 'mote') {
-        ctx.fillStyle = '#baffe0';
-        ctx.beginPath();
-        ctx.moveTo(o.x, o.y - 5);
-        ctx.lineTo(o.x + 3.5, o.y);
-        ctx.lineTo(o.x, o.y + 5);
-        ctx.lineTo(o.x - 3.5, o.y);
-        ctx.closePath();
-        ctx.fill();
+        stampStar(ctx, o.x, o.y, 5, { fill: C.rose, edge: C.blush });
       } else if (o.kind === 'shard') {
-        this.poly(o.x, o.y, 7, 6, time * 2, '#ffe9a0', '#ffd24a', 2);
+        stampStar(ctx, o.x, o.y, 9, { fill: C.rose, edge: C.bone, rot: -Math.PI / 2 + Math.sin(time * 2) * 0.3 });
       } else {
-        ctx.fillStyle = '#2b2108';
-        ctx.strokeStyle = '#ffd24a';
+        ctx.fillStyle = C.saddle;
+        ctx.strokeStyle = C.umber;
         ctx.lineWidth = 3;
         ctx.fillRect(o.x - 12, o.y - 9, 24, 18);
         ctx.strokeRect(o.x - 12, o.y - 9, 24, 18);
-        ctx.fillStyle = '#ffd24a';
-        ctx.fillRect(o.x - 3, o.y - 3, 6, 6);
+        stampStar(ctx, o.x, o.y, 5, { fill: C.rose, edge: C.bone });
       }
     }
   }
@@ -328,7 +339,7 @@ export class Renderer implements GameRenderer {
     for (const e of w.enemies.list) {
       if (!e.alive || e.x < l || e.x > r || e.y < t || e.y > b) continue;
       const def = ENEMY_DEFS[e.kind];
-      const col = e.flash > 0 ? '#ffffff' : def.color;
+      const col = e.flash > 0 ? C.white : def.color;
       const face = Math.atan2(p.y - e.y, p.x - e.x);
       let x = e.x;
       let y = e.y;
@@ -338,7 +349,7 @@ export class Renderer implements GameRenderer {
       }
       ctx.lineWidth = 2.5;
       ctx.lineJoin = 'round';
-      const fillA = e.flash > 0 ? '#ffffff' : def.color + '44';
+      const fillA = e.flash > 0 ? C.white : def.color + '44';
       switch (e.kind) {
         case 'swarm':
         case 'splitlet':
@@ -346,7 +357,7 @@ export class Renderer implements GameRenderer {
           break;
         case 'spitter':
           this.poly(x, y, e.r * 1.2, 4, face, fillA, col, 2.5);
-          ctx.fillStyle = e.state === 1 && Math.floor(time * 24) % 2 === 0 ? '#ffffff' : col;
+          ctx.fillStyle = e.state === 1 && Math.floor(time * 24) % 2 === 0 ? C.white : col;
           ctx.beginPath();
           ctx.arc(x, y, 3.5, 0, TAU);
           ctx.fill();
@@ -385,7 +396,7 @@ export class Renderer implements GameRenderer {
           ctx.arc(x, y, e.r, 0, TAU);
           ctx.fill();
           ctx.stroke();
-          ctx.strokeStyle = e.flash > 0 ? '#ffffff' : '#bff9ff';
+          ctx.strokeStyle = e.flash > 0 ? C.white : C.tan;
           ctx.lineWidth = 6;
           ctx.lineCap = 'round';
           ctx.beginPath();
@@ -399,26 +410,26 @@ export class Renderer implements GameRenderer {
           ctx.beginPath();
           ctx.arc(x, y, e.r * 0.7, 0, TAU);
           ctx.fill();
-          ctx.fillStyle = e.state === 1 ? '#ffffff' : col;
+          ctx.fillStyle = e.state === 1 ? C.white : col;
           ctx.beginPath();
           ctx.arc(x, y, 3.5, 0, TAU);
           ctx.fill();
           break;
         case 'warden': {
           ctx.globalCompositeOperation = 'lighter';
-          this.drawGlow(x, y, e.r * 2.6, e.phase ? '#ff2e88' : '#8a8aff', 0.45 + (e.state === 1 ? 0.35 * Math.sin(time * 30) : 0));
+          this.drawGlow(x, y, e.r * 2.6, e.phase ? C.red : C.ember, 0.45 + (e.state === 1 ? 0.35 * Math.sin(time * 30) : 0));
           ctx.globalAlpha = 1;
           ctx.globalCompositeOperation = 'source-over';
-          this.poly(x, y, e.r, 8, time * 0.4, e.flash > 0 ? '#fff' : 'rgba(20,10,40,0.9)', e.phase ? '#ff2e88' : '#ffffff', 4);
-          this.poly(x, y, e.r * 0.55, 8, -time * 0.8, null, e.phase ? '#ffa23a' : '#7af8ff', 3);
+          this.poly(x, y, e.r, 8, time * 0.4, e.flash > 0 ? C.white : rgba(C.umber, 0.92), e.phase ? C.red : C.saddle, 4);
+          this.poly(x, y, e.r * 0.55, 8, -time * 0.8, null, e.phase ? C.red : C.blush, 3);
           for (let i = 0; i < 8; i++) {
             const a = time * (e.phase ? 1.8 : 1) + (i / 8) * TAU;
-            ctx.fillStyle = e.phase ? '#ff2e88' : '#e9fbff';
+            ctx.fillStyle = e.phase ? C.red : C.blush;
             ctx.beginPath();
             ctx.arc(x + Math.cos(a) * (e.r + 16), y + Math.sin(a) * (e.r + 16), 5, 0, TAU);
             ctx.fill();
           }
-          ctx.fillStyle = '#fff';
+          ctx.fillStyle = e.phase ? C.red : C.blush;
           ctx.beginPath();
           ctx.arc(x, y, 8, 0, TAU);
           ctx.fill();
@@ -426,7 +437,7 @@ export class Renderer implements GameRenderer {
         }
       }
       if (e.elite) {
-        ctx.strokeStyle = '#ffd24a';
+        ctx.strokeStyle = C.blush;
         ctx.lineWidth = 3;
         ctx.setLineDash([6, 4]);
         ctx.beginPath();
@@ -443,7 +454,7 @@ export class Renderer implements GameRenderer {
     const blink = 0.45 + 0.4 * Math.sin(time * 40);
     if (e.kind === 'spitter' && e.state === 1) {
       const k = 1 - e.timer / 0.7;
-      ctx.strokeStyle = '#ff4fa0';
+      ctx.strokeStyle = C.red;
       ctx.globalAlpha = 0.25 + 0.6 * k;
       ctx.lineWidth = 2 + 4 * k;
       ctx.beginPath();
@@ -452,8 +463,8 @@ export class Renderer implements GameRenderer {
       ctx.stroke();
       ctx.globalAlpha = 1;
     } else if (e.kind === 'rammer' && e.state === 1) {
-      ctx.fillStyle = '#ffa23a';
-      ctx.globalAlpha = 0.18 + 0.2 * blink;
+      ctx.fillStyle = C.blush;
+      ctx.globalAlpha = 0.14 + 0.18 * blink;
       const len = 480 * 0.55 + 40;
       ctx.save();
       ctx.translate(e.x, e.y);
@@ -462,7 +473,7 @@ export class Renderer implements GameRenderer {
       ctx.restore();
       ctx.globalAlpha = 1;
     } else if (e.kind === 'caster' && e.state === 1) {
-      ctx.strokeStyle = '#c7a8ff';
+      ctx.strokeStyle = C.red;
       ctx.globalAlpha = 0.7;
       ctx.lineWidth = 2;
       ctx.setLineDash([6, 6]);
@@ -472,7 +483,7 @@ export class Renderer implements GameRenderer {
       ctx.setLineDash([]);
       ctx.globalAlpha = 1;
     } else if (e.kind === 'warden' && e.state === 1) {
-      ctx.strokeStyle = '#ff2e88';
+      ctx.strokeStyle = C.red;
       ctx.globalAlpha = 0.5 + 0.4 * Math.sin(time * 28);
       ctx.lineWidth = 5;
       ctx.beginPath();
@@ -496,15 +507,15 @@ export class Renderer implements GameRenderer {
     for (const bl of w.bullets.list) {
       if (bl.x < l || bl.x > r || bl.y < t || bl.y > b) continue;
       if (bl.friendly) {
-        this.drawGlow(bl.x, bl.y, bl.kind === 1 ? 16 : 12, bl.kind === 1 ? '#ffa23a' : bl.kind === 2 ? '#ff7ac0' : '#7af8ff', 0.9);
-      } else this.drawGlow(bl.x, bl.y, bl.r * 3.4, bl.kind === 1 ? '#ffa23a' : '#ff2e88', 0.85);
+        this.drawGlow(bl.x, bl.y, bl.kind === 1 ? 16 : 12, bl.kind === 1 ? C.tan : bl.kind === 2 ? C.white : C.bone, 0.6);
+      } else this.drawGlow(bl.x, bl.y, bl.r * 3.4, bl.kind === 1 ? C.blush : C.red, 0.7);
     }
     ctx.globalAlpha = 1;
     ctx.globalCompositeOperation = 'source-over';
     for (const bl of w.bullets.list) {
       if (bl.x < l || bl.x > r || bl.y < t || bl.y > b) continue;
       if (bl.friendly) {
-        ctx.strokeStyle = bl.kind === 1 ? '#ffd0a0' : '#e9fbff';
+        ctx.strokeStyle = bl.kind === 1 ? C.tan : C.bone;
         ctx.lineWidth = bl.kind === 1 ? 4 : 3;
         ctx.lineCap = 'round';
         const sp = Math.hypot(bl.vx, bl.vy) || 1;
@@ -515,16 +526,16 @@ export class Renderer implements GameRenderer {
         ctx.lineCap = 'butt';
       } else {
         if (s.outline) {
-          ctx.fillStyle = '#000000';
+          ctx.fillStyle = C.ink;
           ctx.beginPath();
           ctx.arc(bl.x, bl.y, bl.r + 3, 0, TAU);
           ctx.fill();
         }
-        ctx.fillStyle = bl.kind === 1 ? '#ffa23a' : '#ff2e88';
+        ctx.fillStyle = bl.kind === 1 ? C.blush : C.red;
         ctx.beginPath();
         ctx.arc(bl.x, bl.y, bl.r, 0, TAU);
         ctx.fill();
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = C.bone;
         ctx.beginPath();
         ctx.arc(bl.x, bl.y, bl.r * 0.45, 0, TAU);
         ctx.fill();
@@ -542,27 +553,27 @@ export class Renderer implements GameRenderer {
       if (p.fieldOn) {
         const R = p.fieldR;
         const g = ctx.createRadialGradient(p.x, p.y, R * 0.4, p.x, p.y, R);
-        g.addColorStop(0, 'rgba(53,242,255,0.02)');
-        g.addColorStop(1, 'rgba(53,242,255,0.28)');
+        g.addColorStop(0, rgba(C.bone, 0.02));
+        g.addColorStop(1, rgba(C.bone, 0.2));
         ctx.fillStyle = g;
         ctx.beginPath();
         ctx.arc(p.x, p.y, R, 0, TAU);
         ctx.fill();
-        ctx.strokeStyle = '#9ff7ff';
+        ctx.strokeStyle = C.bone;
         ctx.lineWidth = 3;
         ctx.beginPath();
         ctx.arc(p.x, p.y, R, 0, TAU);
         ctx.stroke();
         ctx.setLineDash([10, 14]);
         ctx.lineWidth = 2;
-        ctx.strokeStyle = '#35f2ff';
+        ctx.strokeStyle = C.tan;
         ctx.lineDashOffset = -time * 40;
         ctx.beginPath();
         ctx.arc(p.x, p.y, R - 8, 0, TAU);
         ctx.stroke();
         ctx.setLineDash([]);
       } else if (p.hold) {
-        ctx.strokeStyle = '#ffd24a';
+        ctx.strokeStyle = C.tan;
         ctx.lineWidth = 2;
         ctx.setLineDash([4, 6]);
         ctx.beginPath();
@@ -583,8 +594,8 @@ export class Renderer implements GameRenderer {
         ctx.save();
         ctx.translate(bx, by);
         ctx.rotate(a + Math.PI / 2);
-        ctx.fillStyle = '#baffe0';
-        ctx.strokeStyle = '#59ffb5';
+        ctx.fillStyle = C.bone;
+        ctx.strokeStyle = C.tan;
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(0, -11);
@@ -600,15 +611,15 @@ export class Renderer implements GameRenderer {
     // player ship
     const blink = p.iframes > 0 && Math.floor(time * 18) % 2 === 0;
     ctx.globalCompositeOperation = 'lighter';
-    this.drawGlow(p.x, p.y, 34, p.flash > 0 ? '#ff5d8f' : '#35f2ff', 0.7);
+    this.drawGlow(p.x, p.y, 34, p.flash > 0 ? C.red : C.bone, 0.45);
     ctx.globalAlpha = 1;
     ctx.globalCompositeOperation = 'source-over';
     if (!blink) {
       ctx.save();
       ctx.translate(p.x, p.y);
       ctx.rotate(p.facing);
-      ctx.fillStyle = '#e9fbff';
-      ctx.strokeStyle = '#35f2ff';
+      ctx.fillStyle = C.bone;
+      ctx.strokeStyle = C.tan;
       ctx.lineWidth = 3;
       ctx.lineJoin = 'round';
       ctx.beginPath();
@@ -619,7 +630,7 @@ export class Renderer implements GameRenderer {
       ctx.closePath();
       ctx.fill();
       ctx.stroke();
-      ctx.fillStyle = '#ff2e88';
+      ctx.fillStyle = C.wine;
       ctx.beginPath();
       ctx.arc(-1, 0, 3, 0, TAU);
       ctx.fill();
@@ -663,8 +674,8 @@ export class Renderer implements GameRenderer {
     ctx.textAlign = 'center';
     for (const p of fx.pops) {
       ctx.globalAlpha = Math.min(1, p.life / 0.3);
-      ctx.font = p.big ? '600 16px "IBM Plex Sans", system-ui, sans-serif' : '500 12px "IBM Plex Mono", monospace';
-      ctx.fillStyle = '#000';
+      ctx.font = p.big ? `700 16px ${FONT.slab}` : `600 13px ${FONT.slab}`;
+      ctx.fillStyle = C.ink;
       ctx.fillText(p.text, p.x + 1, p.y + 1);
       ctx.fillStyle = p.color;
       ctx.fillText(p.text, p.x, p.y);

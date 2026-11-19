@@ -58,13 +58,13 @@ interface BuildingSpec {
 }
 
 const WALL_COLORS: Record<BuildingKind, number[]> = {
-  mid: [0x2a2140, 0x1f2a44, 0x33213a, 0x252536, 0x2c1f30, 0x1c2638],
-  tower: [0x1a2240, 0x221a3a, 0x162032, 0x2a2448, 0x1d1d33],
-  hotel: [0x8c4c72, 0x3f7f78, 0x6c5ca8, 0x9a5a62, 0x4a6a9a, 0xa07a5a],
-  alley: [0x2b2028, 0x262126, 0x2d2420, 0x1f2224],
-  backdrop: [0x151226, 0x1a1530, 0x120f20, 0x1c1830],
+  mid: [0x130606, 0x150607, 0x130607, 0x130607, 0x120506, 0x130606],
+  tower: [0x120506, 0x100506, 0x100506, 0x140607, 0x100506],
+  hotel: [0x8f6263, 0xb68889, 0x5a2a2c, 0x6e3b3c, 0xb07f80, 0x72151d], // adobe: saddle, tan, mesa, wine
+  alley: [0x120506, 0x120506, 0x130607, 0x110506],
+  backdrop: [0x0c0405, 0x0d0505, 0x0a0405, 0x0e0506],
 };
-const ACCENTS = [PALETTE.magenta, PALETTE.cyan, PALETTE.purple, PALETTE.pink, PALETTE.blue, PALETTE.orange];
+const ACCENTS = [PALETTE.ember, PALETTE.bone, PALETTE.wine, PALETTE.blush, PALETTE.tan, PALETTE.saddle];
 
 /** Collects transforms per prop type, then emits one InstancedMesh each. */
 class PropBatch {
@@ -168,7 +168,7 @@ export class CityGenerator {
     this.group.add(ground);
 
     // Kerbs: thin raised strips along every sidewalk edge that read in the headlights.
-    const kerbMat = new THREE.MeshStandardMaterial({ color: 0x2a2236, roughness: 0.5 });
+    const kerbMat = new THREE.MeshStandardMaterial({ color: 0x130606, roughness: 0.5 });
     const kerb = new THREE.BoxGeometry(1, 1, 1);
     this.props.define('kerb', kerb, kerbMat, false);
     for (const rx of ROADS) {
@@ -216,7 +216,7 @@ export class CityGenerator {
     }
     if (spire) {
       this.props.add('spire', x, y, z, 0, 1, this.r(6, 12), 1);
-      const blink = new THREE.MeshBasicMaterial({ color: new THREE.Color(0xff2040).multiplyScalar(3), toneMapped: false });
+      const blink = new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.ember).multiplyScalar(2.2), toneMapped: false });
       const light = new THREE.Mesh(new THREE.SphereGeometry(0.35, 8, 6), blink);
       light.position.set(x, y + 12.2, z);
       this.group.add(light);
@@ -251,7 +251,7 @@ export class CityGenerator {
         this.addTieredTower('tower', x, z, w, d, h, this.rng() < 0.7 ? 3 : 2, this.rng() < 0.6);
         if (signTower) {
           // Corporate name glowing high on the street-facing facade.
-          this.addSign(this.pick(names), x, Math.min(22, h * 0.4), z + d / 2 + 0.08, 0, w * 0.85, 2.4, this.pick([PALETTE.cyan, PALETTE.magenta, PALETTE.purple]), 'pulse', false);
+          this.addSign(this.pick(names), x, Math.min(22, h * 0.4), z + d / 2 + 0.08, 0, w * 0.85, 2.4, this.pick([PALETTE.bone, PALETTE.ember, PALETTE.wine]), 'pulse', false);
         }
       }
     }
@@ -262,7 +262,7 @@ export class CityGenerator {
       ['HOTEL SOLANA', 'VACANCY'], ['CORAL PALMS', 'COCKTAILS'], ['FLAMINGO NOIR', 'HOTEL'],
       ['BLUE MARLIN', 'SUITES'], ['MOONGLOW', 'MOTOR INN'], ['STARLIGHT', 'CASINO'],
     ];
-    const signColors = [PALETTE.pink, PALETTE.cyan, PALETTE.magenta, PALETTE.blue, PALETTE.purple, PALETTE.orange];
+    const signColors = [PALETTE.blush, PALETTE.bone, PALETTE.ember, PALETTE.tan, PALETTE.wine, PALETTE.saddle];
     for (let j = 0; j < 2; j++) {
       const z = cz - 7.4 + j * 14.8;
       const h = this.r(13, 24);
@@ -277,7 +277,7 @@ export class CityGenerator {
       this.props.add('canopy', cx + 15.3, 3.4, z, 0, 2.6, 0.25, 6);
       this.world.addCentered(cx + 15.3, z, 2.6, 6, 0.25, 3.3, false);
     }
-    this.layout.lightSpots.push({ x: cx + 18, y: 5, z: cz, color: PALETTE.cyan, intensity: 30, distance: 26 });
+    this.layout.lightSpots.push({ x: cx + 18, y: 5, z: cz, color: PALETTE.bone, intensity: 30, distance: 26 });
   }
 
   private buildPlaza(cx: number, cz: number): void {
@@ -285,7 +285,7 @@ export class CityGenerator {
     const deckTex = this.createPlazaTexture();
     const deck = new THREE.Mesh(
       new THREE.PlaneGeometry(30, 30),
-      new THREE.MeshStandardMaterial({ map: deckTex, emissiveMap: deckTex, emissive: 0xffffff, emissiveIntensity: 0.55, roughness: 0.18, metalness: 0.3, envMapIntensity: 1.2 }),
+      new THREE.MeshStandardMaterial({ map: deckTex, emissiveMap: deckTex, emissive: 0xffffff, emissiveIntensity: 0.2, roughness: 0.3, metalness: 0.3, envMapIntensity: 1.2 }),
     );
     deck.rotation.x = -Math.PI / 2;
     deck.position.set(cx, 0.02, cz);
@@ -293,30 +293,30 @@ export class CityGenerator {
     this.group.add(deck);
 
     // Fountain: rim, water disc and glowing core.
-    const rim = new THREE.Mesh(new THREE.CylinderGeometry(3.6, 3.8, 0.7, 28, 1, true), new THREE.MeshStandardMaterial({ color: 0x3a2d55, roughness: 0.4, side: THREE.DoubleSide }));
+    const rim = new THREE.Mesh(new THREE.CylinderGeometry(3.6, 3.8, 0.7, 28, 1, true), new THREE.MeshStandardMaterial({ color: 0x1a0708, roughness: 0.4, side: THREE.DoubleSide }));
     rim.position.set(cx, 0.35, cz);
-    const water = new THREE.Mesh(new THREE.CircleGeometry(3.6, 28), new THREE.MeshStandardMaterial({ color: 0x0a1030, roughness: 0.02, metalness: 0.8, emissive: 0x2a3cff, emissiveIntensity: 0.35 }));
+    const water = new THREE.Mesh(new THREE.CircleGeometry(3.6, 28), new THREE.MeshStandardMaterial({ color: 0x0a0405, roughness: 0.02, metalness: 0.8, emissive: 0xb28182, emissiveIntensity: 0.35 }));
     water.rotation.x = -Math.PI / 2;
     water.position.set(cx, 0.55, cz);
-    const core = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.5, 4.5, 10), new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.cyan).multiplyScalar(1.6), toneMapped: false }));
+    const core = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.5, 4.5, 10), new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.bone).multiplyScalar(1.6), toneMapped: false }));
     core.position.set(cx, 2.25, cz);
     this.group.add(rim, water, core);
     this.world.addCentered(cx, cz, 6.6, 6.6, 0.7);
     this.world.addCentered(cx, cz, 1.2, 1.2, 4.5);
-    this.layout.lightSpots.push({ x: cx, y: 3.5, z: cz, color: PALETTE.magenta, intensity: 45, distance: 30 });
+    this.layout.lightSpots.push({ x: cx, y: 3.5, z: cz, color: PALETTE.ember, intensity: 45, distance: 30 });
 
     // Monument sign on the south edge.
     this.props.add('pylon', cx - 9, 0, cz + 13, 0, 1, 7, 1);
     this.props.add('pylon', cx + 9, 0, cz + 13, 0, 1, 7, 1);
     this.world.addCentered(cx - 9, cz + 13, 0.8, 0.8, 7);
     this.world.addCentered(cx + 9, cz + 13, 0.8, 0.8, 7);
-    this.addSign('PALMWAVE PLAZA', cx, 6.6, cz + 13, 0, 17, 3.4, PALETTE.magenta, 'chase', true);
-    this.addSign('PALMWAVE PLAZA', cx, 6.6, cz + 12.98, Math.PI, 17, 3.4, PALETTE.magenta, 'chase', false);
+    this.addSign('PALMWAVE PLAZA', cx, 6.6, cz + 13, 0, 17, 3.4, PALETTE.tan, 'chase', true);
+    this.addSign('PALMWAVE PLAZA', cx, 6.6, cz + 12.98, Math.PI, 17, 3.4, PALETTE.tan, 'chase', false);
 
     // Neon arches over the plaza entrances.
     const archGeo = new THREE.TorusGeometry(5, 0.14, 8, 32, Math.PI);
-    for (const [ax, az, ry, col] of [[cx, cz - 14.6, 0, PALETTE.cyan], [cx - 14.6, cz, Math.PI / 2, PALETTE.pink]] as const) {
-      const arch = new THREE.Mesh(archGeo, new THREE.MeshBasicMaterial({ color: new THREE.Color(col).multiplyScalar(2.2), toneMapped: false }));
+    for (const [ax, az, ry, col] of [[cx, cz - 14.6, 0, PALETTE.bone], [cx - 14.6, cz, Math.PI / 2, PALETTE.blush]] as const) {
+      const arch = new THREE.Mesh(archGeo, new THREE.MeshBasicMaterial({ color: new THREE.Color(col).multiplyScalar(0.3), toneMapped: false })); // lantern-lit iron arch, no neon bloom
       arch.position.set(ax, 0, az);
       arch.rotation.y = ry;
       this.group.add(arch);
@@ -340,7 +340,7 @@ export class CityGenerator {
 
   private buildGarage(cx: number, cz: number): void {
     const H = 5.2;
-    const concrete = new THREE.MeshStandardMaterial({ color: 0x3a3646, roughness: 0.85 });
+    const concrete = new THREE.MeshStandardMaterial({ color: 0x1d0709, roughness: 0.85 });
     const box = new THREE.BoxGeometry(1, 1, 1);
     const addSlab = (x: number, y: number, z: number, w: number, h: number, d: number, mat: THREE.Material = concrete, collide = true) => {
       const m = new THREE.Mesh(box, mat);
@@ -363,14 +363,14 @@ export class CityGenerator {
     this.addBuilding('mid', cx, cz, 30, 30, 9, H + 0.6);
     for (const px of [-7, 0, 7]) for (const pz of [-7, 7]) addSlab(cx + px, 0, cz + pz, 0.9, H, 0.9);
     // Fluorescent ceiling strips + painted bays.
-    const strip = new THREE.MeshBasicMaterial({ color: new THREE.Color(0xbff6ff).multiplyScalar(1.8), toneMapped: false });
+    const strip = new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.bone).multiplyScalar(1.3), toneMapped: false });
     for (const lz of [-10, -3.5, 3.5, 10]) {
       const m = new THREE.Mesh(box, strip);
       m.position.set(cx, H - 0.08, cz + lz);
       m.scale.set(22, 0.08, 0.25);
       this.group.add(m);
     }
-    const bayMat = new THREE.MeshBasicMaterial({ color: 0xffd84a, transparent: true, opacity: 0.6 });
+    const bayMat = new THREE.MeshBasicMaterial({ color: PALETTE.tan, transparent: true, opacity: 0.45 });
     for (let i = -3; i <= 3; i++) {
       for (const side of [-1, 1]) {
         const m = new THREE.Mesh(box, bayMat);
@@ -379,10 +379,10 @@ export class CityGenerator {
         this.group.add(m);
       }
     }
-    this.addSign('P  LEVEL 1', cx + 15.1, 4.1, cz, Math.PI / 2, 6, 1.3, PALETTE.cyan, 'flicker', false);
-    this.addSign('MIDNIGHT PARKING', cx + 15.1, 8.2, cz, Math.PI / 2, 14, 2.4, PALETTE.yellow, 'steady', true);
-    this.layout.lightSpots.push({ x: cx, y: 4.2, z: cz, color: 0x9fe8ff, intensity: 40, distance: 24 });
-    this.layout.drivableCars.push({ x: cx + 4, z: cz - 3, heading: Math.PI / 2, color: 0x16161f, accent: PALETTE.cyan });
+    this.addSign('P  LEVEL 1', cx + 15.1, 4.1, cz, Math.PI / 2, 6, 1.3, PALETTE.bone, 'flicker', false);
+    this.addSign('MIDNIGHT PARKING', cx + 15.1, 8.2, cz, Math.PI / 2, 14, 2.4, PALETTE.blush, 'steady', true);
+    this.layout.lightSpots.push({ x: cx, y: 4.2, z: cz, color: PALETTE.bone, intensity: 40, distance: 24 });
+    this.layout.drivableCars.push({ x: cx + 4, z: cz - 3, heading: Math.PI / 2, color: 0x0d0505, accent: PALETTE.bone });
     for (const [px, pz] of [[-8, -11], [-4.4, 11], [8, 11]]) this.addParkedCar(cx + px, cz + pz, 0);
     for (const [px, pz] of [[-10, 2], [10, -1]]) this.addCrateStack(cx + px, cz + pz);
   }
@@ -407,15 +407,15 @@ export class CityGenerator {
     this.addBarrier(cx - 13, cz, Math.PI / 2);
     for (const [bx, bz] of [[1.8, -4], [-1.8, 5], [5, 1.8], [-5, -1.8]]) this.props.add('barrel', cx + bx, 0, cz + bz);
     for (const [bx, bz] of [[1.8, -4], [-1.8, 5], [5, 1.8], [-5, -1.8]]) this.world.addCentered(cx + bx, cz + bz, 0.8, 0.8, 1.1);
-    this.addSign('BACK ALLEY', cx - 2.94, 4.5, cz - 7, Math.PI / 2, 5.5, 1.5, PALETTE.orange, 'flicker', false);
-    this.addSign('NOODLE BAR', cx + 2.94, 4, cz + 8.5, -Math.PI / 2, 5.5, 1.5, PALETTE.green, 'steady', false);
+    this.addSign('BACK ALLEY', cx - 2.94, 4.5, cz - 7, Math.PI / 2, 5.5, 1.5, PALETTE.saddle, 'flicker', false);
+    this.addSign('NOODLE BAR', cx + 2.94, 4, cz + 8.5, -Math.PI / 2, 5.5, 1.5, PALETTE.tan, 'steady', false);
     this.addSign('NO EXIT', cx + 8, 3.6, cz - 2.94, 0, 4.5, 1.2, PALETTE.red, 'flicker', false);
     this.layout.steamVents.push(new THREE.Vector3(cx - 0.5, 0, cz - 4), new THREE.Vector3(cx + 4, 0, cz + 0.5), new THREE.Vector3(cx - 6, 0, cz - 0.6));
-    this.layout.lightSpots.push({ x: cx, y: 5, z: cz, color: PALETTE.orange, intensity: 32, distance: 20 });
+    this.layout.lightSpots.push({ x: cx, y: 5, z: cz, color: PALETTE.saddle, intensity: 32, distance: 20 });
   }
 
   private buildParkingLot(cx: number, cz: number): void {
-    const lineMat = new THREE.MeshBasicMaterial({ color: 0xe0e0f0, transparent: true, opacity: 0.45 });
+    const lineMat = new THREE.MeshBasicMaterial({ color: 0xf5f2ee, transparent: true, opacity: 0.45 });
     const box = new THREE.BoxGeometry(1, 1, 1);
     for (let i = -4; i <= 4; i++) {
       for (const sz of [-1, 1]) {
@@ -426,10 +426,10 @@ export class CityGenerator {
       }
     }
     for (const [px, pz] of [[-6.4, -9], [3.2, -9], [-9.6, 9], [9.6, 9]]) this.addParkedCar(cx + px, cz + pz, 0);
-    this.layout.drivableCars.push({ x: cx + 3.2, z: cz + 9, heading: Math.PI, color: 0x6a1bff, accent: PALETTE.pink });
+    this.layout.drivableCars.push({ x: cx + 3.2, z: cz + 9, heading: Math.PI, color: 0x460e13, accent: PALETTE.blush });
     // Retro diner kiosk.
-    this.addBuilding('hotel', cx - 8, cz + 1, 9, 5, 4.2, 0, true, PALETTE.pink);
-    this.addSign('MIDNIGHT DINER', cx - 8, 5.6, cz + 3.7, 0, 9, 2, PALETTE.pink, 'chase', true, 'OPEN 24/7');
+    this.addBuilding('hotel', cx - 8, cz + 1, 9, 5, 4.2, 0, true, PALETTE.blush);
+    this.addSign('MIDNIGHT DINER', cx - 8, 5.6, cz + 3.7, 0, 9, 2, PALETTE.blush, 'chase', true, 'OPEN 24/7');
     for (const [px, pz] of [[13, -14], [13, 14], [-14, -14]]) this.addPalm(cx + px, cz + pz, 1);
     this.addBarrier(cx + 6, cz, 0);
     this.addBarrier(cx + 10, cz, 0);
@@ -469,10 +469,10 @@ export class CityGenerator {
     }
     // Billboards on long walls facing the main avenue.
     const ads: Array<[string, string, number]> = [
-      ['SOLAR COLA', 'TASTE THE SUNSET', PALETTE.orange],
-      ['RETROWAVE FM', '88.6 ALL NIGHT', PALETTE.magenta],
-      ['VISIT CORAL KEY', 'PARADISE AWAITS', PALETTE.cyan],
-      ['TURBO ARCADE', 'INSERT COIN', PALETTE.purple],
+      ['SOLAR COLA', 'TASTE THE SUNSET', PALETTE.saddle],
+      ['RETROWAVE FM', '88.6 ALL NIGHT', PALETTE.ember],
+      ['VISIT CORAL KEY', 'PARADISE AWAITS', PALETTE.bone],
+      ['TURBO ARCADE', 'INSERT COIN', PALETTE.wine],
     ];
     const spots: Array<[number, number, number]> = [[-25, -40.6, Math.PI], [25, -59.4, 0], [-59.4, 25, Math.PI / 2], [59.4, -25, -Math.PI / 2]];
     spots.forEach(([x, z, ry], i) => {
@@ -489,20 +489,20 @@ export class CityGenerator {
     }
     for (let z = -95; z <= 95; z += 18) this.addBench(111, z, -Math.PI / 2);
     // Neon guard rail along the sea wall.
-    const railMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.cyan).multiplyScalar(1.6), toneMapped: false });
+    const railMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.bone).multiplyScalar(1.6), toneMapped: false });
     const rail = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.08, 224), railMat);
     rail.position.set(112.6, 1.05, 0);
     this.group.add(rail);
     for (let z = -110; z <= 110; z += 4) this.props.add('post', 112.6, 0, z, 0, 1, 1, 1);
     // Lifeguard tower on the beach.
     this.props.add('tower', 117, 0, -30, 0, 1, 1, 1);
-    this.addSign('LIFEGUARD', 117, 4.4, -28.7, 0, 3.2, 0.8, PALETTE.pink, 'steady', false);
-    this.layout.lightSpots.push({ x: 108, y: 5, z: 40, color: PALETTE.magenta, intensity: 28, distance: 26 });
+    this.addSign('LIFEGUARD', 117, 4.4, -28.7, 0, 3.2, 0.8, PALETTE.blush, 'steady', false);
+    this.layout.lightSpots.push({ x: 108, y: 5, z: 40, color: PALETTE.ember, intensity: 28, distance: 26 });
   }
 
   private buildBoundary(): void {
-    const wallMat = new THREE.MeshStandardMaterial({ color: 0x241a34, roughness: 0.7 });
-    const glow = new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.magenta).multiplyScalar(1.4), toneMapped: false });
+    const wallMat = new THREE.MeshStandardMaterial({ color: 0x100506, roughness: 0.7 });
+    const glow = new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.ember).multiplyScalar(1.4), toneMapped: false });
     const box = new THREE.BoxGeometry(1, 1, 1);
     const segs: Array<[number, number, number, number]> = [
       [0, -110.5, 222, 1], [0, 110.5, 222, 1], [-110.5, 0, 1, 222],
@@ -538,11 +538,11 @@ export class CityGenerator {
 
   private buildBridge(): void {
     // A causeway out over the water; its cable lights draw a line across the horizon.
-    const mat = new THREE.MeshStandardMaterial({ color: 0x1a1428, roughness: 0.8 });
+    const mat = new THREE.MeshStandardMaterial({ color: 0x0d0505, roughness: 0.8 });
     const deck = new THREE.Mesh(new THREE.BoxGeometry(520, 1.2, 10), mat);
     deck.position.set(380, 7, -175);
     this.group.add(deck);
-    const lightMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.yellow).multiplyScalar(2), toneMapped: false });
+    const lightMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.blush).multiplyScalar(2), toneMapped: false });
     const geo = new THREE.SphereGeometry(0.6, 6, 4);
     const lights = new THREE.InstancedMesh(geo, lightMat, 52);
     const m = new THREE.Matrix4();
@@ -552,12 +552,12 @@ export class CityGenerator {
       const pylon = new THREE.Mesh(new THREE.BoxGeometry(3, 46, 3), mat);
       pylon.position.set(px, 23, -175);
       this.group.add(pylon);
-      const tip = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: new THREE.Color(0xff2040).multiplyScalar(3), toneMapped: false }));
+      const tip = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.ember).multiplyScalar(2.2), toneMapped: false }));
       tip.position.set(px, 46.5, -175);
       tip.scale.setScalar(1.4);
       this.group.add(tip);
       this.layout.blinkers.push(tip.material as THREE.MeshBasicMaterial);
-      const cableMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.cyan).multiplyScalar(1.2), toneMapped: false });
+      const cableMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.bone).multiplyScalar(1.2), toneMapped: false });
       for (const dir of [-1, 1]) {
         const len = Math.hypot(95, 38);
         const cable = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, len, 4), cableMat);
@@ -570,7 +570,7 @@ export class CityGenerator {
 
   private buildParkedCars(): void {
     // Curbside parking on the avenues; the first spot holds the player's ride.
-    this.layout.drivableCars.unshift({ x: 25, z: 5.3, heading: Math.PI / 2, color: 0xff2f7d, accent: PALETTE.cyan });
+    this.layout.drivableCars.unshift({ x: 25, z: 5.3, heading: Math.PI / 2, color: 0xc9b0ae, accent: PALETTE.ember });
     const spots: Array<[number, number, number]> = [
       [-30, 5.3, Math.PI / 2], [-18, -5.3, -Math.PI / 2], [5.3, -30, Math.PI], [-5.3, 22, 0],
       [55.3, 70, 0], [44.7, -80, Math.PI], [-44.7, -30, Math.PI], [-55.3, 38, 0],
@@ -588,27 +588,27 @@ export class CityGenerator {
     // Streetlight: pole + arm merged, glowing head separate.
     const pole = new THREE.CylinderGeometry(0.09, 0.13, 6.5, 6).translate(0, 3.25, 0);
     const arm = new THREE.BoxGeometry(0.1, 0.1, 1.8).translate(0, 6.4, 0.9);
-    this.props.define('lightpole', mergeGeometries([pole, arm])!, std(0x2a2a3a, 0.4, 0.7));
-    this.props.define('lighthead', new THREE.BoxGeometry(0.5, 0.12, 0.8).translate(0, 6.3, 1.7), new THREE.MeshBasicMaterial({ color: new THREE.Color(0xffc8f0).multiplyScalar(2.2), toneMapped: false }), false);
+    this.props.define('lightpole', mergeGeometries([pole, arm])!, std(0x150607, 0.4, 0.7));
+    this.props.define('lighthead', new THREE.BoxGeometry(0.5, 0.12, 0.8).translate(0, 6.3, 1.7), new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.tan).multiplyScalar(2), toneMapped: false }), false);
 
-    this.props.define('spire', new THREE.CylinderGeometry(0.12, 0.45, 1, 6).translate(0, 0.5, 0), std(0x40405a, 0.4, 0.8));
-    this.props.define('canopy', box, new THREE.MeshStandardMaterial({ color: 0x1a1a28, emissive: 0xff2fd2, emissiveIntensity: 0.25 }));
-    this.props.define('pylon', box, std(0x2a2440, 0.4, 0.6));
-    this.props.define('planter', box, std(0x3a2c4c, 0.8));
-    this.props.define('post', new THREE.CylinderGeometry(0.05, 0.05, 1.05, 4).translate(0, 0.52, 0), std(0x6a6a80, 0.3, 0.9), false);
-    this.props.define('hydrant', new THREE.CylinderGeometry(0.18, 0.22, 0.8, 8).translate(0, 0.4, 0), std(0xd23a5a, 0.5));
-    this.props.define('bin', new THREE.CylinderGeometry(0.32, 0.28, 1.05, 8).translate(0, 0.52, 0), std(0x2e3a48, 0.6, 0.4));
-    this.props.define('barrel', new THREE.CylinderGeometry(0.38, 0.38, 1.1, 10).translate(0, 0.55, 0), std(0x2a5a7a, 0.5, 0.5));
-    this.props.define('crate', box, std(0x5a3f2c, 0.9));
-    this.props.define('dumpster', box, std(0x1f4a3c, 0.6, 0.3));
-    this.props.define('dumplid', box, std(0x16302a, 0.6, 0.3));
+    this.props.define('spire', new THREE.CylinderGeometry(0.12, 0.45, 1, 6).translate(0, 0.5, 0), std(0x22080a, 0.4, 0.8));
+    this.props.define('canopy', box, new THREE.MeshStandardMaterial({ color: 0x0e0506, emissive: PALETTE.ember, emissiveIntensity: 0.2 }));
+    this.props.define('pylon', box, std(0x140607, 0.4, 0.6));
+    this.props.define('planter', box, std(0x190708, 0.8));
+    this.props.define('post', new THREE.CylinderGeometry(0.05, 0.05, 1.05, 4).translate(0, 0.52, 0), std(0x503e3e, 0.3, 0.9), false);
+    this.props.define('hydrant', new THREE.CylinderGeometry(0.18, 0.22, 0.8, 8).translate(0, 0.4, 0), std(PALETTE.wine, 0.5));
+    this.props.define('bin', new THREE.CylinderGeometry(0.32, 0.28, 1.05, 8).translate(0, 0.52, 0), std(0x1d0709, 0.6, 0.4));
+    this.props.define('barrel', new THREE.CylinderGeometry(0.38, 0.38, 1.1, 10).translate(0, 0.55, 0), std(0x976768, 0.5, 0.5));
+    this.props.define('crate', box, std(0x6b3a3b, 0.9));
+    this.props.define('dumpster', box, std(0x21080a, 0.6, 0.3));
+    this.props.define('dumplid', box, std(0x150607, 0.6, 0.3));
 
     // Jersey barrier: trapezoid profile with a reflective stripe.
     const shape = new THREE.Shape();
     shape.moveTo(-0.32, 0); shape.lineTo(0.32, 0); shape.lineTo(0.14, 0.3); shape.lineTo(0.1, 0.85); shape.lineTo(-0.1, 0.85); shape.lineTo(-0.14, 0.3); shape.closePath();
     const jersey = new THREE.ExtrudeGeometry(shape, { depth: 2.8, bevelEnabled: false }).translate(0, 0, -1.4);
-    this.props.define('barrier', jersey, std(0x8a8494, 0.8));
-    this.props.define('barrierStripe', new THREE.BoxGeometry(0.22, 0.06, 2.6).translate(0, 0.62, 0), new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.orange).multiplyScalar(1.4), toneMapped: false }), false);
+    this.props.define('barrier', jersey, std(0x7e7977, 0.8));
+    this.props.define('barrierStripe', new THREE.BoxGeometry(0.22, 0.06, 2.6).translate(0, 0.62, 0), new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.saddle).multiplyScalar(1.4), toneMapped: false }), false);
 
     const bench = mergeGeometries([
       new THREE.BoxGeometry(2, 0.08, 0.6).translate(0, 0.48, 0),
@@ -616,7 +616,7 @@ export class CityGenerator {
       new THREE.BoxGeometry(0.1, 0.46, 0.5).translate(-0.9, 0.23, 0),
       new THREE.BoxGeometry(0.1, 0.46, 0.5).translate(0.9, 0.23, 0),
     ])!;
-    this.props.define('bench', bench, std(0x6b4a7a, 0.6, 0.2));
+    this.props.define('bench', bench, std(0x310b0e, 0.6, 0.2));
 
     const tower = mergeGeometries([
       new THREE.BoxGeometry(2.4, 0.2, 2.4).translate(0, 2.6, 0),
@@ -624,7 +624,7 @@ export class CityGenerator {
       new THREE.ConeGeometry(1.8, 0.9, 4).rotateY(Math.PI / 4).translate(0, 4.55, 0),
       ...[-1, 1].flatMap((sx) => [-1, 1].map((sz) => new THREE.BoxGeometry(0.15, 2.6, 0.15).translate(sx, 1.3, sz))),
     ])!;
-    this.props.define('tower', tower, std(0x4fb0c8, 0.6));
+    this.props.define('tower', tower, std(0xd6bebb, 0.6));
 
     // Palm: curved, segmented trunk + drooping fronds, merged with vertex colours.
     this.props.define('palm', this.createPalmGeometry(), new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.85, side: THREE.DoubleSide }));
@@ -639,7 +639,7 @@ export class CityGenerator {
       geo.setAttribute('color', new THREE.BufferAttribute(arr, 3));
       return geo;
     };
-    const trunkCol = new THREE.Color(0x4a3428);
+    const trunkCol = new THREE.Color(0x1d0709);
     const segs = 7;
     let x = 0, y = 0;
     for (let i = 0; i < segs; i++) {
@@ -653,7 +653,7 @@ export class CityGenerator {
       x += Math.sin(lean * (i + 1) * 0.6) * h;
       y += Math.cos(lean * (i + 1) * 0.6) * h;
     }
-    const frondCol = new THREE.Color(0x1f5a3c);
+    const frondCol = new THREE.Color(0x400d11);
     const fronds = 9;
     for (let i = 0; i < fronds; i++) {
       const frond = new THREE.PlaneGeometry(0.75, 3.4, 1, 4);
@@ -680,7 +680,7 @@ export class CityGenerator {
     this.props.add('lighthead', x, 0, z, rotY);
     this.world.addCentered(x, z, 0.35, 0.35, 6.5);
     const hx = x + Math.sin(rotY) * 1.7, hz = z + Math.cos(rotY) * 1.7;
-    this.pools.push({ x: hx, z: hz, color: this.rng() < 0.6 ? 0xff7ac8 : 0x6ad8ff, size: 7.5 });
+    this.pools.push({ x: hx, z: hz, color: this.rng() < 0.6 ? PALETTE.tan : PALETTE.bone, size: 7.5 });
   }
 
   private addPalm(x: number, z: number, scale: number): void {
@@ -718,7 +718,7 @@ export class CityGenerator {
   }
 
   private addParkedCar(x: number, z: number, heading: number): void {
-    const colors = [0x2a6a9a, 0x8a2a4a, 0xd0d0d8, 0x3a3a48, 0x1a5a4a, 0x9a6a2a];
+    const colors = [0xaf7d7e, 0x72151d, 0xe6dfd8, 0x2d0a0d, 0x8f6263, 0x480e13];
     const style = this.rng() < 0.25 ? 'taxi' : 'sedan';
     const car = buildCarModel(style, this.pick(colors), 0, false);
     car.group.position.set(x, 0, z);
@@ -747,7 +747,7 @@ export class CityGenerator {
     const hex = '#' + new THREE.Color(color).getHexString();
     const aspect = w / h;
     const tex = createNeonSignTexture(text, hex, { width: 512, height: Math.max(64, Math.round(512 / aspect)), sub });
-    const base = new THREE.Color(0xffffff).multiplyScalar(1.7);
+    const base = new THREE.Color(0xffffff).multiplyScalar(1.35);
     const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, toneMapped: false, depthWrite: false, color: base.clone() });
     const plane = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat);
     plane.position.set(x, y, z);
@@ -756,7 +756,7 @@ export class CityGenerator {
     this.group.add(plane);
     if (postBase !== undefined) {
       // Billboard: dark double-sided backing board on a steel post.
-      const back = new THREE.Mesh(new THREE.PlaneGeometry(w * 1.04, h * 1.08), new THREE.MeshStandardMaterial({ color: 0x0b0814, roughness: 0.6, side: THREE.DoubleSide }));
+      const back = new THREE.Mesh(new THREE.PlaneGeometry(w * 1.04, h * 1.08), new THREE.MeshStandardMaterial({ color: 0x070404, roughness: 0.6, side: THREE.DoubleSide }));
       back.position.set(x - Math.sin(rotY) * 0.06, y, z - Math.cos(rotY) * 0.06);
       back.rotation.y = rotY;
       this.group.add(back);
@@ -819,28 +819,62 @@ export class CityGenerator {
     const cnv = document.createElement('canvas');
     cnv.width = cnv.height = s;
     const g = cnv.getContext('2d')!;
-    g.fillStyle = '#0b0716';
+    // Dark flagstones in night / umber.
+    g.fillStyle = '#150607';
     g.fillRect(0, 0, s, s);
     const step = s / 12;
     for (let i = 0; i < 12; i++) {
       for (let j = 0; j < 12; j++) {
-        g.fillStyle = (i + j) % 2 ? '#120c22' : '#0e0a1c';
+        g.fillStyle = (i + j) % 2 ? '#1E0709' : '#1A0608';
         g.fillRect(i * step + 1, j * step + 1, step - 2, step - 2);
       }
     }
-    g.strokeStyle = '#ff2fd2';
+    // Engraved grid, every third joint.
+    g.strokeStyle = '#5A2A2C';
     g.lineWidth = 2;
-    g.shadowColor = '#ff2fd2';
-    g.shadowBlur = 8;
     for (let i = 0; i <= 12; i += 3) {
       g.beginPath(); g.moveTo(i * step, 0); g.lineTo(i * step, s); g.stroke();
       g.beginPath(); g.moveTo(0, i * step); g.lineTo(s, i * step); g.stroke();
     }
-    g.strokeStyle = '#2ef2ff';
-    g.shadowColor = '#2ef2ff';
+    // Carved rings and an eight-point compass star in tan / bone.
+    const c = s / 2;
+    g.strokeStyle = '#D3B9B7';
     g.lineWidth = 3;
-    g.beginPath(); g.arc(s / 2, s / 2, s * 0.2, 0, Math.PI * 2); g.stroke();
-    g.beginPath(); g.arc(s / 2, s / 2, s * 0.32, 0, Math.PI * 2); g.stroke();
+    g.beginPath(); g.arc(c, c, s * 0.32, 0, Math.PI * 2); g.stroke();
+    g.lineWidth = 1.5;
+    g.setLineDash([4, 6]);
+    g.beginPath(); g.arc(c, c, s * 0.28, 0, Math.PI * 2); g.stroke();
+    g.setLineDash([]);
+    g.strokeStyle = '#AB0B1A';
+    g.lineWidth = 2;
+    g.beginPath(); g.arc(c, c, s * 0.2, 0, Math.PI * 2); g.stroke();
+    const star = (r: number, inner: number, rot: number, fill: string) => {
+      g.beginPath();
+      for (let i = 0; i < 16; i++) {
+        const rr = i % 2 === 0 ? r : r * inner;
+        const a = rot + (i * Math.PI) / 8;
+        const px = c + Math.cos(a) * rr, py = c + Math.sin(a) * rr;
+        if (i === 0) g.moveTo(px, py); else g.lineTo(px, py);
+      }
+      g.closePath();
+      g.fillStyle = fill;
+      g.fill();
+    };
+    star(s * 0.18, 0.3, -Math.PI / 2, '#AF7D7E');
+    star(s * 0.11, 0.32, -Math.PI / 2 + Math.PI / 8, '#F1EDE7');
+    // A faint constellation crossing the deck.
+    const pts: Array<[number, number]> = [[0.12, 0.2], [0.24, 0.12], [0.38, 0.18], [0.62, 0.84], [0.78, 0.8], [0.9, 0.9]];
+    g.strokeStyle = 'rgba(211, 185, 183, 0.35)';
+    g.lineWidth = 1.2;
+    g.setLineDash([3, 6]);
+    g.beginPath();
+    pts.slice(0, 3).forEach(([x, y], i) => (i ? g.lineTo(x * s, y * s) : g.moveTo(x * s, y * s)));
+    g.moveTo(pts[3][0] * s, pts[3][1] * s);
+    pts.slice(4).forEach(([x, y]) => g.lineTo(x * s, y * s));
+    g.stroke();
+    g.setLineDash([]);
+    g.fillStyle = '#D3B9B7';
+    for (const [x, y] of pts) { g.beginPath(); g.arc(x * s, y * s, 3, 0, Math.PI * 2); g.fill(); }
     const tex = new THREE.CanvasTexture(cnv);
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.anisotropy = 8;

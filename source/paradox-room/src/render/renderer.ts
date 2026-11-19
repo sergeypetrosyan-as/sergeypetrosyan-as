@@ -422,7 +422,7 @@ export class Renderer implements ViewRenderer {
     if (this.caption.t > 0) {
       ctx.globalAlpha = Math.min(1, this.caption.t);
       ctx.fillStyle = P.rgba(P.PAPER, 0.9);
-      ctx.font = '600 14px system-ui, sans-serif';
+      ctx.font = '600 15px "Zilla Slab", Georgia, serif';
       ctx.textAlign = 'center';
       ctx.fillText(this.caption.text.toUpperCase().split('').join(' '), this.W / 2, this.H - this.insetBottom - 12);
       ctx.globalAlpha = 1;
@@ -445,8 +445,8 @@ export class Renderer implements ViewRenderer {
     ctx.fillStyle = P.INK;
     ctx.fillRect(0, 0, W, H);
     const g = ctx.createRadialGradient(W / 2, H * 0.5, 10, W / 2, H * 0.5, Math.max(W, H) * 0.7);
-    g.addColorStop(0, 'rgba(40,60,120,0.22)');
-    g.addColorStop(1, 'rgba(5,6,11,0)');
+    g.addColorStop(0, 'rgba(106, 62, 65,0.22)');
+    g.addColorStop(1, 'rgba(6, 3, 4,0)');
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);
   }
@@ -461,7 +461,7 @@ export class Renderer implements ViewRenderer {
       sys.push(this.sy([cv[0] + rv[i][0], cv[1] + rv[i][1], cv[2] + rv[i][2]]));
     }
     const base = isDoor ? P.mix(P.FACE, P.PINK, 0.4) : P.FACE;
-    const edge = isDoor ? P.PINK : [110, 190, 255];
+    const edge = isDoor ? P.PINK : P.EDGE;
     for (const f of FACES) {
       const n: number[] = [0, 0, 0];
       n[f.a] = f.s;
@@ -548,7 +548,7 @@ export class Renderer implements ViewRenderer {
     const sq = this.squash * 0.06;
     const bw = 0.2 * S * (1 + sq);
     const bh = 0.78 * S * (1 - sq);
-    ctx.fillStyle = 'rgba(0,0,0,0.45)';
+    ctx.fillStyle = 'rgba(3, 3, 3,0.45)';
     ctx.beginPath();
     ctx.ellipse(sxp, base, 0.26 * S, 0.11 * S, 0, 0, Math.PI * 2);
     ctx.fill();

@@ -1,3 +1,11 @@
+// 19_mystical-western type: Rye for short titles, Zilla Slab for labels and numbers,
+// Public Sans for instructions. Self-hosted through @fontsource (no CDN).
+import '@fontsource/rye/400.css';
+import '@fontsource/zilla-slab/500.css';
+import '@fontsource/zilla-slab/600.css';
+import '@fontsource/zilla-slab/700.css';
+import '@fontsource/public-sans/400.css';
+import '@fontsource/public-sans/600.css';
 import './styles/main.css';
 import { Game } from './game/Game';
 
@@ -39,5 +47,7 @@ function boot(): void {
   if (import.meta.env.DEV) (window as unknown as { __nv: unknown }).__nv = game;
 }
 
-// Yield briefly so the loading screen paints before the city is generated.
-setTimeout(boot, 30);
+// Yield briefly so the loading screen paints before the city is generated. Street signs are
+// painted into canvases at build time, so wait (briefly) for their slab face first.
+const signFont = document.fonts?.load('700 32px "Zilla Slab"').catch(() => undefined) ?? Promise.resolve();
+Promise.race([signFont, new Promise((r) => setTimeout(r, 1500))]).then(() => setTimeout(boot, 30));

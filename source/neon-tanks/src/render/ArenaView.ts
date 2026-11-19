@@ -5,6 +5,7 @@ import type { ControlPointState, PickupState } from '../sim/world.ts';
 import { bar, merge, MeshBatcher, prism, worldBox } from './geometry.ts';
 import { MaterialSet, PALETTE, timeUniform, type GlowColor } from './materials.ts';
 import { glowTexture, signTexture } from './textures.ts';
+import { mesaTexture, moonTexture, starTexture } from './frontier.ts';
 import type { QualityPreset } from './quality.ts';
 
 const CONTAINER_MATS = new Set<SurfaceMat>(['containerCyan', 'containerMagenta', 'containerSteel', 'containerAmber']);
@@ -139,7 +140,7 @@ export class ArenaView {
 
   /** Rows of lit windows on tall facility blocks. */
   private addWindows(glow: MeshBatcher, b: Box): void {
-    const m = this.mats.glow(0x9fe8ff, 1.3);
+    const m = this.mats.glow(0xd3b9b7, 0.95); // lamp-lit tan windows
     const o = 0.04;
     for (const frac of [0.38, 0.7]) {
       const y0 = b.minY + (b.maxY - b.minY) * frac;
@@ -164,13 +165,25 @@ export class ArenaView {
     }
   }
 
+  /**
+   * Frontier night: a dusk-to-night gradient with quiet engraved stars, a carved
+   * moon low over the far side, and a ring of mesa silhouettes on the horizon.
+   */
   private buildSky(): void {
     const a = this.arena;
+    const reduced = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
     const mat = this.mats.track(new THREE.ShaderMaterial({
       side: THREE.BackSide,
       depthWrite: false,
       fog: false,
-      uniforms: { uTop: { value: new THREE.Color(a.sky.top) }, uBottom: { value: new THREE.Color(a.sky.bottom) }, uTime: timeUniform },
+      uniforms: {
+        uTop: { value: new THREE.Color(a.sky.top) },
+        uBottom: { value: new THREE.Color(a.sky.bottom) },
+        uHaze: { value: new THREE.Color(0x480e13).multiplyScalar(0.55) },
+        uStar: { value: new THREE.Color(0xd3b9b7).multiplyScalar(0.55) },
+        uTwinkle: { value: reduced ? 0 : 0.3 },
+        uTime: timeUniform,
+      },
       vertexShader: /* glsl */ `
         varying vec3 vDir;
         void main() {
@@ -181,18 +194,21 @@ export class ArenaView {
       fragmentShader: /* glsl */ `
         uniform vec3 uTop;
         uniform vec3 uBottom;
+        uniform vec3 uHaze;
+        uniform vec3 uStar;
+        uniform float uTwinkle;
         uniform float uTime;
         varying vec3 vDir;
         float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
         void main() {
           float h = vDir.y;
           vec3 c = mix(uBottom, uTop, smoothstep(-0.05, 0.55, h));
-          // Horizon haze band.
-          c += vec3(0.05, 0.09, 0.16) * exp(-abs(h) * 14.0);
-          // Stars.
+          // Warm dusk band along the horizon.
+          c += uHaze * exp(-abs(h) * 9.0);
+          // Quiet engraved stars, low contrast so they never compete with pickups.
           vec2 g = floor(vDir.xz / max(0.15, h + 0.2) * 220.0);
-          float s = step(0.996, hash(g)) * smoothstep(0.1, 0.5, h);
-          c += vec3(0.7, 0.8, 1.0) * s * (0.6 + 0.4 * sin(uTime * 2.0 + hash(g) * 30.0));
+          float s = step(0.9965, hash(g)) * smoothstep(0.12, 0.5, h);
+          c += uStar * s * (1.0 - uTwinkle + uTwinkle * sin(uTime * 1.5 + hash(g) * 30.0));
           gl_FragColor = vec4(c, 1.0);
         }`,
     }));
@@ -201,44 +217,33 @@ export class ArenaView {
     sky.frustumCulled = false;
     this.group.add(sky);
 
-    // Distant skyline: one instanced draw for the whole ring of towers.
-    const count = 110;
-    const geo = this.track(new THREE.BoxGeometry(1, 1, 1));
-    geo.translate(0, 0.5, 0);
-    const towerMat = this.mats.track(new THREE.MeshBasicMaterial({ color: 0x0b1020, fog: true }));
-    const towers = new THREE.InstancedMesh(geo, towerMat, count);
-    const lights = new THREE.InstancedMesh(geo, this.mats.glow(0x58c8ff, 1.2), count);
-    const m = new THREE.Matrix4();
-    const q = new THREE.Quaternion();
-    const s = new THREE.Vector3();
-    const p = new THREE.Vector3();
-    let seed = a.id === 'docks' ? 3 : 9;
-    const rnd = () => ((seed = (seed * 9301 + 49297) % 233280) / 233280);
-    for (let i = 0; i < count; i++) {
-      const ang = (i / count) * Math.PI * 2 + rnd() * 0.05;
-      const dist = 190 + rnd() * 160;
-      const w = 10 + rnd() * 22;
-      const h = 25 + rnd() * rnd() * 140;
-      p.set(Math.sin(ang) * dist, -2, Math.cos(ang) * dist);
-      q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), ang);
-      s.set(w, h, w * (0.6 + rnd() * 0.8));
-      m.compose(p, q, s);
-      towers.setMatrixAt(i, m);
-      // A lit crown band near the top.
-      p.y = -2 + h * (0.82 + rnd() * 0.12);
-      s.set(w * 1.02, 0.8 + rnd() * 1.5, s.z * 1.02);
-      m.compose(p, q, s);
-      lights.setMatrixAt(i, m);
-      lights.setColorAt(i, new THREE.Color(rnd() < 0.5 ? PALETTE.cyan : rnd() < 0.5 ? PALETTE.magenta : 0x8f7dff).multiplyScalar(1.4));
-    }
-    this.group.add(towers, lights);
+    // Carved moon, low over the far side of the arena from the allied spawns.
+    const dir = a.id === 'docks' ? new THREE.Vector3(1, 0.22, 0.6) : new THREE.Vector3(0.6, 0.22, 1);
+    dir.normalize().multiplyScalar(640);
+    const moon = new THREE.Sprite(this.mats.track(new THREE.SpriteMaterial({ map: moonTexture(), transparent: true, depthWrite: false, fog: false, toneMapped: false, color: new THREE.Color(0.92, 0.9, 0.88) })));
+    moon.position.copy(dir);
+    moon.scale.set(150, 150, 1);
+    moon.renderOrder = -9;
+    moon.frustumCulled = false;
+    this.group.add(moon);
+
+    // Distant mesa horizon: one open cylinder with an engraved ridge texture.
+    const band = new THREE.Mesh(
+      this.track(new THREE.CylinderGeometry(560, 560, 130, 96, 1, true)),
+      this.mats.track(new THREE.MeshBasicMaterial({ map: mesaTexture(a.id === 'docks' ? 3 : 9), side: THREE.BackSide, transparent: true, alphaTest: 0.5, depthWrite: false, fog: false, color: new THREE.Color(0.5, 0.46, 0.46) })),
+    );
+    band.position.y = 40;
+    band.renderOrder = -8;
+    band.frustumCulled = false;
+    this.group.add(band);
   }
 
   private buildDecor(d: Decor, q: QualityPreset): void {
     switch (d.kind) {
       case 'sign': {
-        const color = '#' + PALETTE[d.color].toString(16).padStart(6, '0');
-        const mat = this.mats.track(new THREE.MeshBasicMaterial({ map: signTexture(d.text, color), toneMapped: false, color: new THREE.Color(1.5, 1.5, 1.5) }));
+        // Painted lettering: bone, blush or tan on a night plank (readable, never neon).
+        const color = { cyan: '#F1EDE7', magenta: '#EEB9B9', amber: '#D3B9B7' }[d.color];
+        const mat = this.mats.track(new THREE.MeshBasicMaterial({ map: signTexture(d.text, color), toneMapped: false, color: new THREE.Color(1.15, 1.15, 1.15) }));
         const plane = new THREE.Mesh(this.track(new THREE.PlaneGeometry(d.w, d.h)), mat);
         plane.position.set(d.x, d.y, d.z);
         plane.rotation.y = d.yaw;
@@ -246,7 +251,7 @@ export class ArenaView {
         break;
       }
       case 'light': {
-        const lamp = this.sprite(PALETTE[d.color], 2.2, 0.9);
+        const lamp = this.sprite(PALETTE[d.color], 2.2, 0.55);
         lamp.position.set(d.x, d.y, d.z);
         this.group.add(lamp);
         if (q.maxLights > 0 && this.group.children.filter((c) => (c as THREE.PointLight).isPointLight).length < q.maxLights) {
@@ -302,7 +307,7 @@ export class ArenaView {
         this.group.add(this.staticMesh(cable, this.mats.surface('trim')));
         this.group.add(this.staticMesh(bar(d.x, d.z - span / 2, d.x, d.z + span / 2, d.h - 0.05, 0.25, 0.1), this.mats.glow('amber', 2)));
         for (const z of [d.z - span / 2, d.z + span / 2, d.z]) {
-          const s = this.sprite(PALETTE.red, 1.6, 1);
+          const s = this.sprite(PALETTE.magenta, 1.6, 1);
           s.position.set(d.x, d.h + 2.4, z);
           this.blinkers.push(s);
           this.group.add(s);
@@ -313,13 +318,13 @@ export class ArenaView {
         const g = merge([worldBox(d.x - 0.3, 0, d.z - 0.3, d.x + 0.3, d.h, d.z + 0.3)])!;
         this.group.add(this.staticMesh(g, this.mats.surface('darkMetal')));
         this.group.add(this.staticMesh(worldBox(d.x - 0.36, d.h - 3, d.z - 0.36, d.x + 0.36, d.h - 2.7, d.z + 0.36), this.mats.glow(d.color, 2.4)));
-        const s = this.sprite(PALETTE[d.color], 3.5, 0.9);
+        const s = this.sprite(PALETTE[d.color], 3.5, 0.55);
         s.position.set(d.x, d.h + 0.4, d.z);
         this.group.add(s);
         break;
       }
       case 'water': {
-        const mat = this.mats.track(new THREE.MeshStandardMaterial({ color: 0x03101c, roughness: 0.12, metalness: 0.9, envMapIntensity: 1.4 }));
+        const mat = this.mats.track(new THREE.MeshStandardMaterial({ color: 0x150607, roughness: 0.18, metalness: 0.85, envMapIntensity: 1.2 }));
         const water = new THREE.Mesh(this.track(new THREE.PlaneGeometry(1400, 1400)), mat);
         water.rotation.x = -Math.PI / 2;
         water.position.y = d.y;
@@ -349,7 +354,7 @@ export class ArenaView {
       transparent: true,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
-      uniforms: { uTime: timeUniform, uProgress: { value: 0 }, uColor: { value: new THREE.Color(PALETTE.white) }, uFill: { value: new THREE.Color(PALETTE.blue) }, uContested: { value: 0 } },
+      uniforms: { uTime: timeUniform, uProgress: { value: 0 }, uColor: { value: new THREE.Color(PALETTE.amber) }, uFill: { value: new THREE.Color(PALETTE.blue) }, uContested: { value: 0 } },
       vertexShader: /* glsl */ `varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
       fragmentShader: /* glsl */ `
         uniform float uTime; uniform float uProgress; uniform vec3 uColor; uniform vec3 uFill; uniform float uContested;
@@ -378,7 +383,7 @@ export class ArenaView {
       depthWrite: false,
       side: THREE.DoubleSide,
       blending: THREE.AdditiveBlending,
-      uniforms: { uTime: timeUniform, uColor: { value: new THREE.Color(PALETTE.white) } },
+      uniforms: { uTime: timeUniform, uColor: { value: new THREE.Color(PALETTE.amber) } },
       vertexShader: /* glsl */ `varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
       fragmentShader: /* glsl */ `
         uniform float uTime; uniform vec3 uColor; varying vec2 vUv;
@@ -423,7 +428,12 @@ export class ArenaView {
           icon.add(c);
         }
       }
-      const halo = this.sprite(color, 3, 0.5);
+      // Collectibles read as a bright stamped star over a soft warm halo.
+      const halo = this.sprite(color, 3, 0.35);
+      const star = new THREE.Sprite(this.mats.track(new THREE.SpriteMaterial({ map: starTexture(), color, transparent: true, depthWrite: false, toneMapped: false })));
+      star.scale.set(1.5, 1.5, 1);
+      star.position.y = 1.35;
+      icon.add(star);
       icon.add(halo);
       icon.position.y = 1.6;
       g.add(icon);
@@ -432,8 +442,8 @@ export class ArenaView {
     }
   }
 
-  private sprite(color: number, size: number, opacity: number): THREE.Sprite {
-    const mat = this.mats.track(new THREE.SpriteMaterial({ map: glowTexture(), color: new THREE.Color(color).multiplyScalar(1.6), transparent: true, opacity, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }));
+  private sprite(color: number, size: number, opacity: number, map: THREE.Texture = glowTexture()): THREE.Sprite {
+    const mat = this.mats.track(new THREE.SpriteMaterial({ map, color: new THREE.Color(color).multiplyScalar(1.3), transparent: true, opacity, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }));
     const s = new THREE.Sprite(mat);
     s.scale.set(size, size, 1);
     return s;
@@ -457,8 +467,8 @@ export class ArenaView {
     if (cp && this.cpRingMat && this.cpBeamMat) {
       const u = this.cpRingMat.uniforms;
       u.uProgress.value = Math.abs(cp.progress);
-      (u.uFill.value as THREE.Color).setHex(cp.progress >= 0 ? PALETTE.blue : PALETTE.magenta);
-      const ownerColor = cp.owner === 'blue' ? PALETTE.blue : cp.owner === 'magenta' ? PALETTE.magenta : PALETTE.white;
+      (u.uFill.value as THREE.Color).setHex(cp.progress >= 0 ? PALETTE.blue : PALETTE.red);
+      const ownerColor = cp.owner === 'blue' ? PALETTE.blue : cp.owner === 'magenta' ? PALETTE.red : PALETTE.amber;
       (u.uColor.value as THREE.Color).setHex(ownerColor);
       u.uContested.value = cp.contested ? 1 : 0;
       (this.cpBeamMat.uniforms.uColor.value as THREE.Color).setHex(ownerColor);

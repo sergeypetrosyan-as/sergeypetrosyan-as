@@ -6,6 +6,7 @@ import type { RunSummary } from '../sim/world.ts';
 import type { ArenaId, World } from '../sim/types.ts';
 import type { Quality, Save } from '../storage/save.ts';
 import { VAULT, arenaUnlocked, canBuy, nextCost, tierOf } from '../meta/unlocks.ts';
+import { drawScenery } from './scenery.ts';
 
 export type ScreenId = 'menu' | 'vault' | 'settings' | 'howto' | 'pause' | 'levelup' | 'summary';
 const SCREENS: ScreenId[] = ['menu', 'vault', 'settings', 'howto', 'pause', 'levelup', 'summary'];
@@ -47,6 +48,8 @@ const CASING: Record<UpgradeDef['kind'], string> = {
   passive: 'Passive',
   filler: 'One-time fix',
 };
+
+const NUMERAL = ['I', 'II', 'III'];
 
 export class Ui {
   current: ScreenId | null = null;
@@ -114,6 +117,10 @@ export class Ui {
       h.settingsChanged();
     });
 
+    window.addEventListener('resize', () => {
+      if (this.current === 'menu') drawScenery($('menuSky') as HTMLCanvasElement);
+    });
+
     // Focus trap inside dialogs
     document.addEventListener('keydown', (e) => {
       if (e.key !== 'Tab' || !this.current || this.current === 'menu') return;
@@ -137,7 +144,10 @@ export class Ui {
     if (this.current === null) this.opener = document.activeElement as HTMLElement | null;
     for (const s of SCREENS) $(s).classList.toggle('hidden', s !== id);
     this.current = id;
-    if (id === 'menu') this.renderMenu();
+    if (id === 'menu') {
+      this.renderMenu();
+      drawScenery($('menuSky') as HTMLCanvasElement);
+    }
     if (id === 'vault') this.renderVault();
     if (id === 'settings') this.syncSettings();
     const root = $(id);
@@ -253,7 +263,7 @@ export class Ui {
     this.announce(`${ch.chest ? 'Chest salvage' : 'Level up'}. Choose one of three modules.`);
   }
 
-  /** One cartridge in the rig. */
+  /** One card in the rig: a small tarot card with a numeral, a seal, the module name and what it does. */
   private module(d: UpgradeDef, levels: Levels, i: number): HTMLButtonElement {
     const lv = levels[d.id];
     const filler = d.kind === 'filler';
@@ -265,11 +275,13 @@ export class Ui {
     const state = filler ? 'single use' : lv === 0 ? `new, level 1 of ${d.maxLevel}` : `level ${next} of ${d.maxLevel}`;
     b.setAttribute('aria-label', `Install ${d.name}, ${state}. ${desc} Key ${i + 1}.`);
 
-    const slot = el('span', 'mod-slot', String(i + 1));
+    const slot = el('span', 'mod-slot', NUMERAL[i] ?? String(i + 1));
     slot.setAttribute('aria-hidden', 'true');
-    const led = el('span', 'mod-led');
-    led.setAttribute('aria-hidden', 'true');
-    b.append(slot, led, el('span', 'mod-kind', CASING[d.kind]), el('span', 'mod-name', d.name));
+    const key = el('span', 'mod-key', String(i + 1));
+    key.setAttribute('aria-hidden', 'true');
+    const seal = el('span', 'mod-seal', d.icon);
+    seal.setAttribute('aria-hidden', 'true');
+    b.append(slot, key, seal, el('span', 'mod-kind', CASING[d.kind]), el('span', 'mod-name', d.name));
     if (!filler) {
       const ticks = el('span', 'ticks');
       for (let k = 0; k < d.maxLevel; k++) ticks.append(el('i', k < lv ? 'on' : k === lv ? 'new' : undefined));
@@ -326,7 +338,7 @@ export class Ui {
       const li = el('li');
       const bar = el('i');
       bar.style.setProperty('--w', String(Math.max(0.04, sum.killsBy[k] / top)));
-      bar.style.setProperty('--c', d?.color ?? '#cfe9ea');
+      bar.style.setProperty('--c', d?.color ?? 'var(--mw-bone)');
       bar.setAttribute('aria-hidden', 'true');
       li.append(el('span', undefined, d?.name ?? k), bar, el('span', 'num', String(sum.killsBy[k])));
       kills.append(li);

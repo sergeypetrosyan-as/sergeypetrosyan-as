@@ -1,4 +1,5 @@
 import type { Palette } from '../state/types';
+import { FONT_SLAB, FONT_TITLE, PALETTE, mesa, observatory, stampBorder } from '../theme';
 
 function mk(w: number, h: number): [HTMLCanvasElement, CanvasRenderingContext2D] {
   const c = document.createElement('canvas');
@@ -20,8 +21,7 @@ function rng(seed: number): () => number {
   };
 }
 
-const WORDS = ['VOLT', 'HALO', 'NOVA', 'KAI', 'SPINE', 'DRIVE', 'AXIS', 'ZEN', 'LUMA', 'PRISM', 'ARC', 'ION'];
-const FONT = '"Arial Black", Impact, "Segoe UI", sans-serif';
+const WORDS = ['MOTEL', 'DINER', 'DEPOT', 'OASIS', 'ASSAY', 'SALOON', 'STAR', 'COMET', 'ORBIT', 'MESA', 'FUEL', 'INN'];
 
 export interface Art {
   towers: HTMLCanvasElement[];
@@ -39,10 +39,16 @@ function tower(pal: Palette, seed: number, w: number, h: number, hc: boolean): H
   const tint = pal.tints[Math.floor(r() * pal.tints.length)];
   const grd = g.createLinearGradient(0, 0, w, 0);
   grd.addColorStop(0, tint);
-  grd.addColorStop(0.5, '#05081c');
+  grd.addColorStop(0.5, PALETTE.mesa);
   grd.addColorStop(1, tint);
   g.fillStyle = grd;
+  g.globalAlpha = 0.75;
   g.fillRect(0, 0, w, h);
+  g.globalAlpha = 1;
+  g.fillStyle = PALETTE.umber;
+  g.globalAlpha = 0.35;
+  for (let y = 4; y < h; y += 7) g.fillRect(0, y, w, 1);
+  g.globalAlpha = 1;
   const cols = Math.floor(w / 14);
   const rows = Math.floor(h / 18);
   for (let y = 1; y < rows; y++) {
@@ -50,7 +56,7 @@ function tower(pal: Palette, seed: number, w: number, h: number, hc: boolean): H
       if (r() < 0.45) {
         const col = pal.signs[Math.floor(r() * pal.signs.length)];
         g.globalAlpha = 0.35 + r() * 0.6;
-        g.fillStyle = r() < 0.7 ? '#ffe9a8' : col;
+        g.fillStyle = r() < 0.7 ? PALETTE.blush : col;
         g.fillRect(6 + x * 14, 6 + y * 18, 8, 9);
       }
     }
@@ -61,9 +67,6 @@ function tower(pal: Palette, seed: number, w: number, h: number, hc: boolean): H
   g.fillRect(0, 0, 3, h);
   g.fillRect(w - 3, 0, 3, h);
   g.fillRect(0, 0, w, hc ? 6 : 3);
-  g.shadowColor = rim;
-  g.shadowBlur = 12;
-  g.fillRect(w / 2 - 2, 0, 4, 10);
   return c;
 }
 
@@ -71,24 +74,24 @@ function sign(pal: Palette, seed: number, hc: boolean): HTMLCanvasElement {
   const r = rng(seed);
   const [c, g] = mk(220, 320);
   const col = pal.signs[Math.floor(r() * pal.signs.length)];
-  g.fillStyle = '#1a2040';
+  g.fillStyle = PALETTE.mesa;
   g.fillRect(104, 120, 12, 200);
-  g.fillStyle = '#05081c';
+  g.fillStyle = PALETTE.umber;
   g.fillRect(6, 6, 208, 118);
-  g.lineWidth = hc ? 8 : 5;
-  g.strokeStyle = col;
-  g.shadowColor = col;
-  g.shadowBlur = hc ? 0 : 18;
-  g.strokeRect(10, 10, 200, 110);
+  stampBorder(g, 6, 6, 208, 118, { color: col, stitch: PALETTE.tan, radius: 8, inset: 7, corner: 5 });
+  if (hc) {
+    g.lineWidth = 6;
+    g.strokeStyle = col;
+    g.strokeRect(10, 10, 200, 110);
+  }
   g.fillStyle = col;
-  g.font = `900 52px ${FONT}`;
+  g.font = `38px ${FONT_TITLE}`;
   g.textAlign = 'center';
   g.textBaseline = 'middle';
-  g.fillText(WORDS[Math.floor(r() * WORDS.length)], 110, 66);
-  g.shadowBlur = 0;
-  g.fillStyle = col;
-  g.globalAlpha = 0.8;
-  g.fillRect(70, 94, 80, 4);
+  g.fillText(WORDS[Math.floor(r() * WORDS.length)], 110, 60);
+  g.fillStyle = PALETTE.tan;
+  g.font = `600 15px ${FONT_SLAB}`;
+  g.fillText('OPEN ALL NIGHT', 110, 96);
   return c;
 }
 
@@ -96,10 +99,8 @@ function pylon(pal: Palette, seed: number): HTMLCanvasElement {
   const r = rng(seed);
   const [c, g] = mk(48, 320);
   const col = pal.signs[Math.floor(r() * pal.signs.length)];
-  g.fillStyle = '#10163a';
+  g.fillStyle = PALETTE.umber;
   g.fillRect(20, 20, 8, 300);
-  g.shadowColor = col;
-  g.shadowBlur = 16;
   g.fillStyle = col;
   g.fillRect(12, 4, 24, 26);
   g.fillRect(22, 40, 4, 260);
@@ -109,10 +110,19 @@ function pylon(pal: Palette, seed: number): HTMLCanvasElement {
 function skyline(pal: Palette, seed: number, w: number, h: number, near: boolean): HTMLCanvasElement {
   const r = rng(seed);
   const [c, g] = mk(w, h);
+  if (!near) {
+    g.globalAlpha = 0.8;
+    mesa(g, 0, w, h, { seed: seed * 3 + 1, height: h * 0.7, fill: pal.skyline, strata: PALETTE.ember, plateaus: 5, strataAlpha: 0.25 });
+    g.fillStyle = pal.skyline;
+    g.fillRect(0, h * 0.75, w, h * 0.25);
+    g.globalAlpha = 1;
+    return c;
+  }
+  let dome = Math.floor(w * 0.45);
   let x = 0;
   while (x < w) {
-    const bw = 28 + Math.floor(r() * (near ? 70 : 50));
-    const bh = (near ? 70 : 50) + Math.floor(r() * (near ? 170 : 130));
+    const bw = 28 + Math.floor(r() * 70);
+    const bh = 30 + Math.floor(r() * 80);
     g.fillStyle = pal.skyline;
     g.globalAlpha = near ? 1 : 0.7;
     g.fillRect(x, h - bh, bw, bh);
@@ -120,7 +130,7 @@ function skyline(pal: Palette, seed: number, w: number, h: number, near: boolean
     for (let wy = h - bh + 8; wy < h - 6; wy += 11) {
       for (let wx = x + 5; wx < x + bw - 6; wx += 9) {
         if (r() < (near ? 0.3 : 0.2)) {
-          g.fillStyle = r() < 0.6 ? '#ffd98a' : pal.signs[Math.floor(r() * pal.signs.length)];
+          g.fillStyle = r() < 0.6 ? PALETTE.blush : pal.signs[Math.floor(r() * pal.signs.length)];
           g.fillRect(wx, wy, 3, 4);
         }
       }
@@ -131,10 +141,10 @@ function skyline(pal: Palette, seed: number, w: number, h: number, near: boolean
       g.globalAlpha = 0.85;
       g.fillRect(x, h - bh, bw, 2);
     }
-    if (r() < 0.25) {
+    if (x <= dome && dome < x + bw + 6) {
       g.globalAlpha = 1;
-      g.fillStyle = '#ff2e63';
-      g.fillRect(x + bw / 2 - 1, h - bh - 14, 2, 14);
+      observatory(g, x + bw / 2, h - bh, 40, { fill: pal.skyline, slit: PALETTE.rose });
+      dome = -1;
     }
     g.globalAlpha = 1;
     x += bw + Math.floor(r() * 6);
@@ -159,10 +169,10 @@ export function buildArt(pal: Palette, seed: number, hc: boolean): Art {
 
 export type CarLook = { body: string; body2: string; accent: string; glow: string };
 export const LOOKS: CarLook[] = [
-  { body: '#2cf6ff', body2: '#0a5a7a', accent: '#ffffff', glow: '#2cf6ff' }, // player
-  { body: '#ff2ea6', body2: '#6b0f55', accent: '#ffd0ee', glow: '#ff2ea6' }, // Rook
-  { body: '#8a4dff', body2: '#2a1470', accent: '#e0d0ff', glow: '#8a4dff' }, // Sable
-  { body: '#ffb347', body2: '#7a3d0a', accent: '#fff0d0', glow: '#ffb347' }, // Cinder
+  { body: PALETTE.bone, body2: PALETTE.tan, accent: PALETTE.white, glow: PALETTE.bone }, // player: moonlight
+  { body: PALETTE.red, body2: PALETTE.ember, accent: PALETTE.rose, glow: PALETTE.red }, // Rook
+  { body: PALETTE.wine, body2: PALETTE.umber, accent: PALETTE.ember, glow: PALETTE.ember }, // Sable
+  { body: PALETTE.saddle, body2: PALETTE.mesa, accent: PALETTE.red, glow: PALETTE.red }, // Cinder
 ];
 
 /** Rear view of a wedge racer. Drawn once, then scaled with drawImage. */
@@ -175,10 +185,10 @@ export function carSprite(look: CarLook): HTMLCanvasElement {
   g.fillStyle = ug;
   g.fillRect(0, 70, 256, 60);
   // wheels
-  g.fillStyle = '#05060f';
+  g.fillStyle = PALETTE.ink;
   g.fillRect(24, 74, 40, 46);
   g.fillRect(192, 74, 40, 46);
-  g.fillStyle = '#1b2250';
+  g.fillStyle = PALETTE.umber;
   g.fillRect(28, 78, 6, 38);
   g.fillRect(222, 78, 6, 38);
   // lower body
@@ -197,8 +207,8 @@ export function carSprite(look: CarLook): HTMLCanvasElement {
   g.fill();
   // cabin
   const cg = g.createLinearGradient(0, 22, 0, 58);
-  cg.addColorStop(0, '#1b2a6a');
-  cg.addColorStop(1, '#050816');
+  cg.addColorStop(0, PALETTE.mesa);
+  cg.addColorStop(1, PALETTE.ink);
   g.fillStyle = cg;
   g.beginPath();
   g.moveTo(70, 58);
@@ -224,25 +234,25 @@ export function carSprite(look: CarLook): HTMLCanvasElement {
   g.fillStyle = look.accent;
   g.fillRect(34, 28, 188, 2);
   // tail bar
-  g.shadowColor = '#ff2e63';
-  g.shadowBlur = 16;
-  g.fillStyle = '#ff5a7e';
+  g.shadowColor = PALETTE.red;
+  g.shadowBlur = 8;
+  g.fillStyle = PALETTE.red;
   g.fillRect(40, 70, 176, 9);
-  g.fillStyle = '#ffd0d8';
+  g.fillStyle = PALETTE.blush;
   g.fillRect(60, 72, 136, 3);
   g.shadowBlur = 0;
   // diffuser
-  g.fillStyle = '#05060f';
+  g.fillStyle = '#060304';
   g.fillRect(62, 90, 132, 20);
   g.fillStyle = look.body2;
   for (let i = 0; i < 6; i++) g.fillRect(70 + i * 21, 92, 4, 16);
   // exhausts
-  g.fillStyle = '#c8d0ff';
+  g.fillStyle = '#f7f4f0';
   g.beginPath();
   g.arc(96, 100, 6, 0, 7);
   g.arc(160, 100, 6, 0, 7);
   g.fill();
-  g.fillStyle = '#05060f';
+  g.fillStyle = '#060304';
   g.beginPath();
   g.arc(96, 100, 3.5, 0, 7);
   g.arc(160, 100, 3.5, 0, 7);

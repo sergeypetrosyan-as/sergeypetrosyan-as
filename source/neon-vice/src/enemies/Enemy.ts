@@ -37,7 +37,7 @@ export const ENEMY_DEFS: Record<EnemyKind, EnemyDef> = {
     score: 100,
     radius: 0.5,
     height: 1.95,
-    look: { skin: 0x8a5a44, jacket: 0x3a0f14, shirt: 0xd8323e, pants: 0x14141c, shoes: 0x0c0c0c, hair: 0x0c0806, neon: PALETTE.orange, bulk: 1.28, height: 1.08, visor: true, weapon: 'knuckles' },
+    look: { skin: 0x8f6263, jacket: 0x2d0a0d, shirt: 0x72151d, pants: 0x150607, shoes: 0x030303, hair: 0x030303, neon: PALETTE.hostile, bulk: 1.28, height: 1.08, visor: true, weapon: 'knuckles' },
   },
   gunner: {
     kind: 'gunner',
@@ -52,7 +52,7 @@ export const ENEMY_DEFS: Record<EnemyKind, EnemyDef> = {
     score: 150,
     radius: 0.42,
     height: 1.8,
-    look: { skin: 0xd0a080, jacket: 0x2a1650, shirt: 0x14102a, pants: 0x1c1830, shoes: 0x2a2a3a, hair: 0xd8d8f0, neon: PALETTE.cyan, bulk: 0.92, height: 1, visor: true, weapon: 'rifle' },
+    look: { skin: 0xaf7d7e, jacket: 0x480e13, shirt: 0x150607, pants: 0x2d0a0d, shoes: 0x030303, hair: 0x150607, neon: PALETTE.hostile, bulk: 0.92, height: 1, visor: true, weapon: 'rifle' },
   },
 };
 
@@ -216,9 +216,9 @@ export class Enemy implements ShotTarget {
     const g = this.barCanvas.getContext('2d')!;
     const pct = Math.max(0, this.health / this.maxHealth);
     g.clearRect(0, 0, 64, 8);
-    g.fillStyle = 'rgba(10,6,20,0.85)';
+    g.fillStyle = 'rgba(21, 6, 7, 0.85)';
     g.fillRect(0, 0, 64, 8);
-    g.fillStyle = this.def.kind === 'gunner' ? '#2ef2ff' : '#ff8a3d';
+    g.fillStyle = '#E30016'; // hostile red for every enemy
     g.fillRect(1, 1, Math.round(62 * pct), 6);
     this.barTex.needsUpdate = true;
   }

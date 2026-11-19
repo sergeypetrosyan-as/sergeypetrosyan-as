@@ -233,11 +233,11 @@ export class TankModel {
     this.look = look;
     const h = HULLS[look.hull];
     this.bodyMat = new THREE.MeshStandardMaterial({ color: look.body, metalness: look.metal, roughness: 0.45, envMap: env, envMapIntensity: 0.5 });
-    this.darkMat = new THREE.MeshStandardMaterial({ color: 0x14171d, metalness: 0.8, roughness: 0.45, envMap: env, envMapIntensity: 0.8 });
-    this.accentColor.setHex(look.accent).multiplyScalar(2.2);
+    this.darkMat = new THREE.MeshStandardMaterial({ color: 0x0d0505, metalness: 0.8, roughness: 0.45, envMap: env, envMapIntensity: 0.8 });
+    this.accentColor.setHex(look.accent).multiplyScalar(1.45);
     this.baseBody.setHex(look.body);
     this.accentMat = new THREE.MeshBasicMaterial({ color: this.accentColor.clone(), toneMapped: false });
-    this.lightMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(look.light).multiplyScalar(1.6), toneMapped: false });
+    this.lightMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(look.light).multiplyScalar(1.25), toneMapped: false });
 
     const add = (parent: THREE.Object3D, g: PartGeo) => {
       const slots: Array<[THREE.BufferGeometry | null, THREE.Material]> = [[g.body, this.bodyMat], [g.dark, this.darkMat], [g.accent, this.accentMat], [g.light, this.lightMat]];
@@ -261,7 +261,7 @@ export class TankModel {
     }
     this.trackTex = [texL, texR];
     for (const [s, tex] of [[1, texL], [-1, texR]] as Array<[number, THREE.Texture]>) {
-      const mat = new THREE.MeshStandardMaterial({ map: tex, color: 0x8a909c, metalness: 0.6, roughness: 0.7 });
+      const mat = new THREE.MeshStandardMaterial({ map: tex, color: 0x948987, metalness: 0.6, roughness: 0.7 });
       this.trackMats.push(mat);
       const g = new THREE.BoxGeometry(tw, 0.86, h.length + 0.1);
       // Planar UVs along Z on every face so the tread scrolls lengthwise.
@@ -290,7 +290,7 @@ export class TankModel {
       transparent: true,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
-      uniforms: { uColor: { value: new THREE.Color(0x7fe9ff) }, uTime: { value: 0 }, uAlpha: { value: 1 } },
+      uniforms: { uColor: { value: new THREE.Color(0xf7f5f1) }, uTime: { value: 0 }, uAlpha: { value: 1 } },
       vertexShader: /* glsl */ `
         varying vec3 vN; varying vec3 vV; varying vec3 vP;
         void main() {

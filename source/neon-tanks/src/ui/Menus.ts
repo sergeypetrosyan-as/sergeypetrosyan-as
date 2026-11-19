@@ -390,7 +390,7 @@ export class Menus {
     title.className = `result ${summary.result}`;
     $('endKicker').textContent = `${MODES[w.mode].name} · ${w.arena.name} · ${DIFFICULTIES[w.config.difficulty].name}`;
     const teams = MODES[w.mode].teams;
-    if (teams) $('endScore').innerHTML = `<span class="blue">BLUE ${w.score.blue}</span> — <span class="magenta">${w.score.magenta} MAGENTA</span>`;
+    if (teams) $('endScore').innerHTML = `<span class="blue">RIDERS ${w.score.blue}</span> — <span class="magenta">${w.score.magenta} OUTLAWS</span>`;
     else {
       const rank = w.ranking().findIndex((t) => t === w.player) + 1;
       $('endScore').textContent = `PLACED #${rank} OF ${w.tanks.length}`;

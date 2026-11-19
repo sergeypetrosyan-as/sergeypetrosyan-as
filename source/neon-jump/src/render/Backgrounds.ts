@@ -1,4 +1,11 @@
 import { THEMES, type Theme } from '../game/Config';
+import { PALETTE, ROLES, cactus, constellation, disc, mesa, mix, rng, starGlyph, starfield } from '../../../../design/19_mystical-western/primitives.mjs';
+
+/**
+ * 19_mystical-western night-desert parallax: quiet star chart, a carved moon, low mesas
+ * and a sparse foreground (adobe town / timber mine works / star-chart canyon).
+ * Every strip is baked once per world, so a frame is a handful of blits.
+ */
 
 /** A repeating parallax strip, bottom-aligned to the level floor. */
 export interface Layer {
@@ -6,29 +13,21 @@ export interface Layer {
   /** Horizontal / vertical scroll factors relative to the camera. */
   fx: number;
   fy: number;
-  /** Ambient drift in px/s (clouds, smoke). */
+  /** Ambient drift in px/s (dust). */
   drift: number;
 }
 
 export interface Backdrop {
   theme: Theme;
   stars: HTMLCanvasElement;
+  /** The carved moon disc, centred in its canvas. */
+  moon: HTMLCanvasElement;
   layers: Layer[];
 }
 
 const W = 512;
 const H = 280;
-
-function rng(seed: number): () => number {
-  let s = seed >>> 0;
-  return () => {
-    s = (s + 0x6d2b79f5) >>> 0;
-    let t = s;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
+const MOON_R = 22;
 
 function canvas(w = W, h = H): [HTMLCanvasElement, CanvasRenderingContext2D] {
   const c = document.createElement('canvas');
@@ -37,75 +36,85 @@ function canvas(w = W, h = H): [HTMLCanvasElement, CanvasRenderingContext2D] {
   return [c, c.getContext('2d')!];
 }
 
-function stars(theme: Theme, seed: number): HTMLCanvasElement {
+/** Quiet sky: small low-contrast stars and one engraved constellation. */
+function stars(world: number): HTMLCanvasElement {
   const [c, ctx] = canvas(W, 220);
-  const r = rng(seed);
-  for (let i = 0; i < 90; i++) {
-    ctx.globalAlpha = 0.25 + r() * 0.6;
-    ctx.fillStyle = r() < 0.15 ? theme.window[Math.floor(r() * theme.window.length)] : '#cfd6ff';
-    ctx.fillRect(Math.floor(r() * W), Math.floor(r() * 220), 1, 1);
+  starfield(ctx, 0, 0, W, 220, { seed: 5 + world * 13, count: 90, color: PALETTE.ash, max: 1, alpha: 0.4 });
+  const r = rng(91 + world);
+  const pts: Array<[number, number]> = [];
+  let x = 40 + r() * 60;
+  for (let i = 0; i < 5; i++) {
+    pts.push([Math.round(x), Math.round(24 + r() * 90)]);
+    x += 34 + r() * 40;
   }
-  ctx.globalAlpha = 1;
+  constellation(ctx, pts, { color: ROLES.quiet, node: PALETTE.ash, alpha: 0.32, nodeR: 0.9, dash: [1, 3] });
+  if (world === 2) {
+    // The star-chart world: a second figure and a faint chart ring.
+    constellation(ctx, [[330, 40], [372, 70], [410, 52], [452, 96]], { color: ROLES.quiet, node: PALETTE.ash, alpha: 0.3, nodeR: 0.9, dash: [1, 3] });
+    ctx.strokeStyle = ROLES.quiet;
+    ctx.globalAlpha = 0.3;
+    ctx.setLineDash([2, 4]);
+    ctx.beginPath();
+    ctx.arc(256, 260, 210, Math.PI * 1.1, Math.PI * 1.9);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.globalAlpha = 1;
+  }
   return c;
 }
 
-/** Simple windowed tower; `lit` is the chance each window glows. */
-function tower(ctx: CanvasRenderingContext2D, r: () => number, theme: Theme, x: number, w: number, h: number, body: string, lit: number, win = 2): void {
-  ctx.fillStyle = body;
-  ctx.fillRect(x, H - h, w, h);
-  for (let y = H - h + 4; y < H - 4; y += win + 3) {
-    for (let wx = x + 2; wx < x + w - win - 1; wx += win + 2) {
-      if (r() > lit) continue;
-      ctx.globalAlpha = 0.35 + r() * 0.5;
-      ctx.fillStyle = theme.window[Math.floor(r() * theme.window.length)];
-      ctx.fillRect(wx, y, win, win === 1 ? 1 : 2);
-    }
-  }
-  ctx.globalAlpha = 1;
+/** Carved moon: full over the town, waning over the mine, a crescent over the canyon. */
+function moon(world: number): HTMLCanvasElement {
+  const s = MOON_R * 5;
+  const [c, ctx] = canvas(s, s);
+  disc(ctx, s / 2, s / 2, MOON_R, {
+    face: PALETTE.bone,
+    ink: PALETTE.wine,
+    rim: PALETTE.saddle,
+    shadow: PALETTE.night,
+    phase: [0, 0.18, 0.36][world],
+    rings: 2,
+    glow: 0.07,
+  });
+  return c;
 }
 
-function cityLayers(t: Theme): Layer[] {
+/** Flat-roofed adobe block with vigas and, sometimes, a lantern-lit window. */
+function adobe(ctx: CanvasRenderingContext2D, r: () => number, t: Theme, x: number, w: number, h: number): void {
+  ctx.fillStyle = t.near;
+  ctx.fillRect(x, H - h, w, h);
+  ctx.fillRect(x - 1, H - h - 2, w + 2, 2);
+  // Vigas (roof beams) poking out under the parapet.
+  for (let vx = x + 3; vx < x + w - 2; vx += 6) ctx.fillRect(vx, H - h + 3, 2, 2);
+  if (r() < 0.7) {
+    ctx.fillStyle = t.window[Math.floor(r() * t.window.length)];
+    ctx.globalAlpha = 0.55;
+    const wx = x + 4 + Math.floor(r() * Math.max(1, w - 12));
+    ctx.fillRect(wx, H - h + 9, 4, 5);
+    ctx.globalAlpha = 1;
+  }
+  // Door.
+  ctx.fillStyle = mix(t.near, PALETTE.ink, 0.5);
+  ctx.fillRect(x + Math.floor(w * 0.6), H - 12, 5, 12);
+}
+
+function townLayers(t: Theme): Layer[] {
   const r = rng(11);
   const [far, f] = canvas();
-  for (let x = -10; x < W; ) {
-    const w = 14 + Math.floor(r() * 26);
-    tower(f, r, t, x, w, 70 + Math.floor(r() * 90), t.far, 0.12, 1);
-    x += w + Math.floor(r() * 4);
-  }
+  mesa(f, -4, W + 4, H - 40, { seed: 4, height: 70, fill: t.far, strata: PALETTE.ember, strataAlpha: 0.12, plateaus: 3, bottom: H });
   const [mid, m] = canvas();
-  for (let x = -10; x < W; ) {
-    const w = 22 + Math.floor(r() * 30);
-    const h = 40 + Math.floor(r() * 100);
-    tower(m, r, t, x, w, h, t.mid, 0.28);
-    // Rooftop neon bars.
-    if (r() < 0.45) {
-      m.fillStyle = r() < 0.5 ? t.accent : t.groundEdge;
-      m.globalAlpha = 0.85;
-      m.fillRect(x + 3, H - h - 6, w - 6, 3);
-      m.globalAlpha = 1;
-      m.fillStyle = t.mid;
-      m.fillRect(x + 5, H - h - 3, 1, 3);
-      m.fillRect(x + w - 6, H - h - 3, 1, 3);
-    }
-    x += w + 6 + Math.floor(r() * 14);
-  }
+  mesa(m, -4, W + 4, H - 20, { seed: 9, height: 56, fill: t.mid, strata: PALETTE.ember, strataAlpha: 0.2, plateaus: 2, bottom: H });
   const [near, n] = canvas();
-  for (let x = -6; x < W; ) {
-    const w = 30 + Math.floor(r() * 40);
-    const h = 18 + Math.floor(r() * 46);
-    n.fillStyle = t.near;
-    n.fillRect(x, H - h, w, h);
-    if (r() < 0.6) n.fillRect(x + Math.floor(w * 0.6), H - h - 14, 1, 14);
-    if (r() < 0.5) {
-      n.fillRect(x + 4, H - h - 8, 10, 8);
-      n.fillRect(x + 5, H - h - 10, 8, 2);
-    }
-    n.fillStyle = t.accent;
-    n.globalAlpha = 0.5;
-    if (r() < 0.5) n.fillRect(x + 2, H - h + 3, w - 4, 1);
-    n.globalAlpha = 1;
-    x += w + 10 + Math.floor(r() * 26);
+  for (let x = 6; x < W - 40; ) {
+    const w = 26 + Math.floor(r() * 30);
+    const h = 34 + Math.floor(r() * 26);
+    adobe(n, r, t, x, w, h);
+    // A stepped second storey now and then.
+    if (r() < 0.4) adobe(n, r, t, x + 4, Math.floor(w * 0.5), h + 12);
+    x += w + 22 + Math.floor(r() * 40);
   }
+  cactus(n, 150, H, 58, { fill: t.near, seed: 2 });
+  cactus(n, 420, H, 46, { fill: t.near, seed: 5, arms: [0.5] });
   return [
     { canvas: far, fx: 0.12, fy: 0.08, drift: 0 },
     { canvas: mid, fx: 0.28, fy: 0.18, drift: 0 },
@@ -113,83 +122,72 @@ function cityLayers(t: Theme): Layer[] {
   ];
 }
 
-function factoryLayers(t: Theme): Layer[] {
+/** Timber headframe over a shaft: legs, cross-bracing and a sheave wheel. */
+function headframe(ctx: CanvasRenderingContext2D, x: number, w: number, h: number, col: string): void {
+  ctx.strokeStyle = col;
+  ctx.fillStyle = col;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(x, H);
+  ctx.lineTo(x + w * 0.35, H - h);
+  ctx.moveTo(x + w, H);
+  ctx.lineTo(x + w * 0.65, H - h);
+  ctx.stroke();
+  ctx.lineWidth = 1;
+  for (let k = 1; k < 5; k++) {
+    const y = H - (h * k) / 5;
+    const inset = (w * 0.35 * k) / 5;
+    ctx.beginPath();
+    ctx.moveTo(x + inset, y);
+    ctx.lineTo(x + w - inset, y);
+    ctx.lineTo(x + inset + (w * 0.35) / 5, y + h / 5);
+    ctx.stroke();
+  }
+  ctx.beginPath();
+  ctx.arc(x + w / 2, H - h, 7, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.fillRect(x + w / 2 - 1, H - h - 1, 2, 2);
+}
+
+function mineLayers(t: Theme): Layer[] {
   const r = rng(23);
   const [far, f] = canvas();
-  for (let i = 0; i < 4; i++) {
-    // Gears.
-    const cx = 40 + i * 130 + r() * 40;
-    const cy = H - 70 - r() * 60;
-    const rad = 26 + r() * 22;
-    f.fillStyle = t.far;
-    f.beginPath();
-    for (let k = 0; k < 24; k++) {
-      const a = (k / 24) * Math.PI * 2;
-      const rr = k % 2 ? rad : rad + 6;
-      f.lineTo(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr);
-    }
-    f.fill();
-    f.fillStyle = t.skyBottom;
-    f.beginPath();
-    f.arc(cx, cy, rad * 0.35, 0, Math.PI * 2);
-    f.fill();
-  }
-  for (let x = 0; x < W; x += 60 + Math.floor(r() * 50)) {
-    const h = 120 + r() * 100;
-    f.fillStyle = t.far;
-    f.fillRect(x, H - h, 10, h);
-    f.fillStyle = t.accent;
-    f.globalAlpha = 0.7;
-    f.fillRect(x, H - h, 10, 2);
-    f.globalAlpha = 1;
-  }
+  mesa(f, -4, W + 4, H - 50, { seed: 14, height: 84, fill: t.far, strata: PALETTE.ember, strataAlpha: 0.12, plateaus: 2, bottom: H });
   const [mid, m] = canvas();
-  m.strokeStyle = t.mid;
-  m.lineWidth = 2;
-  for (let x = 0; x < W; x += 32) {
-    // Girder lattice.
-    m.strokeRect(x + 0.5, H - 150.5, 32, 30);
-    m.beginPath();
-    m.moveTo(x, H - 150);
-    m.lineTo(x + 32, H - 120);
-    m.moveTo(x + 32, H - 150);
-    m.lineTo(x, H - 120);
-    m.stroke();
-  }
-  for (let x = 0; x < W; ) {
-    const w = 30 + Math.floor(r() * 50);
-    const h = 40 + Math.floor(r() * 70);
-    tower(m, r, t, x, w, h, t.mid, 0.18);
-    x += w + 8 + Math.floor(r() * 20);
-  }
-  m.fillStyle = t.mid;
-  m.fillRect(0, H - 96, W, 5);
-  for (let x = 12; x < W; x += 48) {
-    m.fillStyle = t.accent;
+  mesa(m, -4, W + 4, H - 24, { seed: 21, height: 46, fill: t.mid, strata: PALETTE.ember, strataAlpha: 0.18, plateaus: 3, bottom: H });
+  headframe(m, 70, 50, 120, t.mid);
+  headframe(m, 330, 40, 96, t.mid);
+  // Lanterns on the frames.
+  for (const [lx, ly] of [[95, H - 70], [350, H - 58]]) {
+    m.fillStyle = t.window[0];
     m.globalAlpha = 0.6;
-    m.fillRect(x, H - 97, 4, 7);
+    m.fillRect(lx - 1, ly, 3, 4);
     m.globalAlpha = 1;
   }
   const [near, n] = canvas();
   n.fillStyle = t.near;
+  // Spoil heaps, a water tower and timber posts.
   for (let x = 0; x < W; ) {
-    const w = 20 + Math.floor(r() * 40);
-    const h = 24 + Math.floor(r() * 40);
-    n.fillRect(x, H - h, w, h);
-    // Tanks.
-    if (r() < 0.5) {
-      n.beginPath();
-      n.arc(x + w / 2, H - h, w / 2.5, Math.PI, 0);
-      n.fill();
-    }
-    x += w + 16 + Math.floor(r() * 30);
+    const w = 40 + Math.floor(r() * 60);
+    const h = 26 + Math.floor(r() * 24);
+    n.beginPath();
+    n.moveTo(x, H);
+    n.lineTo(x + w * 0.4, H - h);
+    n.lineTo(x + w * 0.6, H - h);
+    n.lineTo(x + w, H);
+    n.fill();
+    x += w + 30 + Math.floor(r() * 60);
   }
-  // Hanging chains from the top.
-  for (let x = 20; x < W; x += 70 + Math.floor(r() * 40)) {
-    const len = 40 + r() * 70;
-    for (let y = 0; y < len; y += 4) n.fillRect(x, y, 2, 3);
-    n.fillRect(x - 3, len, 8, 4);
-  }
+  n.fillRect(240, H - 94, 30, 22);
+  n.beginPath();
+  n.moveTo(236, H - 94);
+  n.lineTo(255, H - 106);
+  n.lineTo(274, H - 94);
+  n.fill();
+  for (const lx of [242, 266]) n.fillRect(lx, H - 72, 2, 72);
+  n.fillRect(242, H - 50, 26, 2);
+  for (let x = 20; x < W; x += 90 + Math.floor(r() * 40)) n.fillRect(x, H - 40, 3, 40);
+  cactus(n, 460, H, 50, { fill: t.near, seed: 8 });
   return [
     { canvas: far, fx: 0.1, fy: 0.06, drift: 0 },
     { canvas: mid, fx: 0.26, fy: 0.16, drift: 0 },
@@ -197,79 +195,50 @@ function factoryLayers(t: Theme): Layer[] {
   ];
 }
 
-function glitchLayers(t: Theme): Layer[] {
+function canyonLayers(t: Theme): Layer[] {
   const r = rng(37);
   const [far, f] = canvas();
-  // Perspective grid floor.
-  f.strokeStyle = t.accent;
-  f.globalAlpha = 0.22;
-  f.lineWidth = 1;
-  for (let y = 0; y < 60; y += 0) {
-    f.beginPath();
-    f.moveTo(0, H - 60 + y + 0.5);
-    f.lineTo(W, H - 60 + y + 0.5);
-    f.stroke();
-    y += 3 + y * 0.35;
-  }
-  for (let x = -W; x < W * 2; x += 32) {
-    f.beginPath();
-    f.moveTo(W / 2 + (x - W / 2) * 0.2, H - 60);
-    f.lineTo(x, H);
-    f.stroke();
-  }
-  f.globalAlpha = 1;
-  // Floating wireframe cubes.
-  for (let i = 0; i < 7; i++) {
-    const x = r() * W;
-    const y = 20 + r() * 120;
-    const s = 8 + r() * 18;
-    f.strokeStyle = r() < 0.5 ? t.blockEdge : t.accent;
-    f.globalAlpha = 0.45;
-    f.strokeRect(Math.round(x) + 0.5, Math.round(y) + 0.5, s, s);
-    f.strokeRect(Math.round(x + s * 0.4) + 0.5, Math.round(y - s * 0.4) + 0.5, s, s);
-    f.beginPath();
-    f.moveTo(x, y);
-    f.lineTo(x + s * 0.4, y - s * 0.4);
-    f.moveTo(x + s, y);
-    f.lineTo(x + s * 1.4, y - s * 0.4);
-    f.moveTo(x + s, y + s);
-    f.lineTo(x + s * 1.4, y + s * 0.6);
-    f.stroke();
-  }
-  f.globalAlpha = 1;
+  mesa(f, -4, W + 4, H - 60, { seed: 33, height: 60, fill: t.far, strata: PALETTE.wine, strataAlpha: 0.2, plateaus: 4, bottom: H });
+  // Faint chart ticks along the horizon.
+  f.fillStyle = ROLES.quiet;
+  for (let x = 0; x < W; x += 16) f.fillRect(x, H - 58, 1, x % 64 === 0 ? 4 : 2);
   const [mid, m] = canvas();
+  // Hoodoo spires.
   for (let x = 0; x < W; ) {
-    const w = 18 + Math.floor(r() * 30);
-    const h = 50 + Math.floor(r() * 110);
-    tower(m, r, t, x, w, h, t.mid, 0.2);
-    x += w + 10 + Math.floor(r() * 16);
-  }
-  // Slice the strip and offset rows: the city is glitching.
-  for (let i = 0; i < 9; i++) {
-    const y = Math.floor(r() * H);
-    const h = 2 + Math.floor(r() * 5);
-    const dx = Math.floor((r() - 0.5) * 18);
-    const strip = m.getImageData(0, y, W, h);
-    m.clearRect(0, y, W, h);
-    m.putImageData(strip, dx, y);
+    const w = 12 + Math.floor(r() * 16);
+    const h = 60 + Math.floor(r() * 110);
+    m.fillStyle = t.mid;
+    m.beginPath();
+    m.moveTo(x, H);
+    m.lineTo(x + 2, H - h + 8);
+    m.lineTo(x - 2, H - h);
+    m.lineTo(x + w + 2, H - h);
+    m.lineTo(x + w - 2, H - h + 8);
+    m.lineTo(x + w, H);
+    m.fill();
+    m.fillStyle = PALETTE.wine;
+    m.globalAlpha = 0.16;
+    for (let y = H - h + 14; y < H; y += 9) m.fillRect(x + 1, y, w - 2, 1);
+    m.globalAlpha = 1;
+    x += w + 26 + Math.floor(r() * 50);
   }
   const [near, n] = canvas();
-  for (let i = 0; i < 9; i++) {
+  // Floating rock shards, each pinned by a tiny engraved star.
+  for (let i = 0; i < 7; i++) {
     const x = r() * W;
-    const y = H - 30 - r() * 170;
-    const s = 6 + r() * 12;
+    const y = H - 40 - r() * 160;
+    const s = 6 + r() * 10;
     n.fillStyle = t.near;
     n.beginPath();
-    n.moveTo(x, y - s);
-    n.lineTo(x + s * 0.5, y);
-    n.lineTo(x, y + s * 1.4);
-    n.lineTo(x - s * 0.5, y);
+    n.moveTo(x - s, y);
+    n.lineTo(x - s * 0.4, y - s * 0.6);
+    n.lineTo(x + s * 0.7, y - s * 0.5);
+    n.lineTo(x + s, y);
+    n.lineTo(x, y + s * 1.3);
     n.fill();
-    n.fillStyle = t.blockEdge;
-    n.globalAlpha = 0.6;
-    n.fillRect(Math.round(x), Math.round(y - s), 1, Math.round(s * 2.4));
-    n.globalAlpha = 1;
+    starGlyph(n, x, y - s * 0.9, 2, PALETTE.ash, 0.5);
   }
+  cactus(n, 300, H, 52, { fill: t.near, seed: 3 });
   return [
     { canvas: far, fx: 0.08, fy: 0.05, drift: 0 },
     { canvas: mid, fx: 0.25, fy: 0.15, drift: 0 },
@@ -283,8 +252,8 @@ export function backdrop(world: number): Backdrop {
   let b = cache.get(world);
   if (!b) {
     const theme = THEMES[world];
-    const layers = world === 0 ? cityLayers(theme) : world === 1 ? factoryLayers(theme) : glitchLayers(theme);
-    b = { theme, stars: stars(theme, 5 + world), layers };
+    const layers = world === 0 ? townLayers(theme) : world === 1 ? mineLayers(theme) : canyonLayers(theme);
+    b = { theme, stars: stars(world), moon: moon(world), layers };
     cache.set(world, b);
   }
   return b;

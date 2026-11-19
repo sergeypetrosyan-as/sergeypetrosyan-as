@@ -3,20 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0a0418" />
-  <meta name="description" content="NEON VICE — 3D NIGHTFALL. A neon-soaked third-person arcade shooter: explore the city, take the wheel, survive the night." />
+  <meta name="theme-color" content="#150607" />
+  <meta name="description" content="NEON VICE — 3D NIGHTFALL. A third-person arcade shooter in a night frontier town under a carved moon: explore the streets, take the wheel, survive the night." />
   <title>NEON VICE — 3D Nightfall</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Monoton&display=swap" rel="stylesheet" />
+  <link rel="icon" href="./assets/favicon-BpOcfHKn.svg" type="image/svg+xml" />
   <script>
     // The source folder is also served by GitHub Pages; send visitors to the built game.
     if (location.hostname.endsWith('github.io') && location.pathname.includes('/source/neon-vice')) {
       location.replace(location.pathname.replace(/source\/neon-vice\/?.*$/, 'games/neon-vice/'));
     }
   </script>
-  <script type="module" crossorigin src="./assets/index-PrdDjW_i.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-DR85NrbL.css">
+  <script type="module" crossorigin src="./assets/index-B03ysoqg.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-Be1zPeOn.css">
 </head>
 <body>
   <div id="app">
@@ -81,8 +79,8 @@
         <svg viewBox="0 0 200 120" aria-hidden="true">
           <defs>
             <linearGradient id="speedGrad" x1="0" x2="1">
-              <stop offset="0" stop-color="#2ef2ff" />
-              <stop offset="1" stop-color="#ff2fd2" />
+              <stop offset="0" stop-color="#D3B9B7" />
+              <stop offset="1" stop-color="#E30016" />
             </linearGradient>
           </defs>
           <path d="M20 110 A80 80 0 0 1 180 110" class="speed-track" />
@@ -113,7 +111,7 @@
           <span class="logo-vice">VICE</span>
         </h1>
         <p class="tagline">THE CITY NEVER SLEEPS</p>
-        <p class="sub">3D NIGHTFALL · A NEON-SOAKED ARCADE SHOOTER</p>
+        <p class="sub">3D NIGHTFALL · A FRONTIER-TOWN ARCADE SHOOTER</p>
         <div class="menu" role="menu">
           <button class="btn primary" id="btnStart" type="button">START MISSION <span aria-hidden="true">↗</span></button>
           <button class="btn" id="btnHow" type="button">HOW TO PLAY</button>
@@ -168,8 +166,8 @@
           </div>
         </div>
         <ul class="tips">
-          <li><b class="c-orange">Street Enforcers</b> rush you — keep moving and use cover.</li>
-          <li><b class="c-cyan">Neon Gunners</b> keep their distance; their visor flares white before they fire.</li>
+          <li><b class="c-enforcer">Street Enforcers</b> rush you — keep moving and use cover.</li>
+          <li><b class="c-gunner">Neon Gunners</b> keep their distance; their visor flares white before they fire.</li>
           <li>Headshots hit hard. Cars flatten anything in their path.</li>
         </ul>
         <button class="btn primary" data-close type="button">GOT IT</button>
@@ -260,6 +258,6 @@
         <p class="muted">Try a recent Chrome, Edge or Firefox with hardware acceleration enabled.</p>
       </div>
     </div>
-  </div>
+  </div>
 </body>
 </html>

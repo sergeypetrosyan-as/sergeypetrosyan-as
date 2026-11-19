@@ -12,7 +12,7 @@ interface GameBase {
   tagline: string;
   description: string;
   genre: string[];
-  /** Static poster image (repo-root relative, e.g. `./arcade/media/x.webp`). */
+  /** Tarot card still (repo-root relative, 3:5, `./arcade/media/<id>-card.webp`), drawn by tools/profile-art. */
   thumbnail: string;
   thumbnailAlt: string;
   /** Animated preview revealed on hover / in the spotlight. */
@@ -21,8 +21,6 @@ interface GameBase {
   controls?: GameControl[];
   platforms: Array<'desktop' | 'mobile'>;
   tech: string[];
-  /** Accent used for the card's neon edge. */
-  accent: 'cyan' | 'pink' | 'purple' | 'amber';
   featured?: boolean;
 }
 

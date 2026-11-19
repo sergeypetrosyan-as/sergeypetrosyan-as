@@ -17,14 +17,14 @@ export interface EnemyDef {
 }
 
 export const ENEMY_DEFS: Record<EnemyKind, EnemyDef> = {
-  swarm: { kind: 'swarm', name: 'Drifter', hp: 6, speed: 78, r: 9, dmg: 6, xp: 1, ess: 1, shard: 0.004, color: '#a6ff4d' },
-  spitter: { kind: 'spitter', name: 'Spitter', hp: 14, speed: 60, r: 11, dmg: 6, xp: 3, ess: 2, shard: 0.02, color: '#ff4fa0' },
-  rammer: { kind: 'rammer', name: 'Rammer', hp: 24, speed: 70, r: 13, dmg: 12, xp: 4, ess: 3, shard: 0.025, color: '#ffa23a' },
-  cleaver: { kind: 'cleaver', name: 'Cleaver', hp: 36, speed: 52, r: 16, dmg: 9, xp: 4, ess: 3, shard: 0.025, color: '#b06cff' },
-  splitlet: { kind: 'splitlet', name: 'Splitlet', hp: 5, speed: 120, r: 7, dmg: 4, xp: 1, ess: 0, shard: 0, color: '#d6a2ff' },
-  aegis: { kind: 'aegis', name: 'Aegis', hp: 44, speed: 58, r: 14, dmg: 10, xp: 7, ess: 5, shard: 0.05, color: '#35f2ff' },
-  caster: { kind: 'caster', name: 'Voidcaster', hp: 30, speed: 50, r: 12, dmg: 8, xp: 7, ess: 5, shard: 0.05, color: '#8a5cff' },
-  warden: { kind: 'warden', name: 'Core Warden', hp: 700, speed: 45, r: 40, dmg: 14, xp: 60, ess: 40, shard: 1, color: '#ffffff' },
+  swarm: { kind: 'swarm', name: 'Drifter', hp: 6, speed: 78, r: 9, dmg: 6, xp: 1, ess: 1, shard: 0.004, color: '#E30016' },
+  spitter: { kind: 'spitter', name: 'Spitter', hp: 14, speed: 60, r: 11, dmg: 6, xp: 3, ess: 2, shard: 0.02, color: '#EEB9B9' },
+  rammer: { kind: 'rammer', name: 'Rammer', hp: 24, speed: 70, r: 13, dmg: 12, xp: 4, ess: 3, shard: 0.025, color: '#C9061A' },
+  cleaver: { kind: 'cleaver', name: 'Cleaver', hp: 36, speed: 52, r: 16, dmg: 9, xp: 4, ess: 3, shard: 0.025, color: '#E30016' },
+  splitlet: { kind: 'splitlet', name: 'Splitlet', hp: 5, speed: 120, r: 7, dmg: 4, xp: 1, ess: 0, shard: 0, color: '#AB0B1A' },
+  aegis: { kind: 'aegis', name: 'Aegis', hp: 44, speed: 58, r: 14, dmg: 10, xp: 7, ess: 5, shard: 0.05, color: '#D3B9B7' },
+  caster: { kind: 'caster', name: 'Voidcaster', hp: 30, speed: 50, r: 12, dmg: 8, xp: 7, ess: 5, shard: 0.05, color: '#AB0B1A' },
+  warden: { kind: 'warden', name: 'Core Warden', hp: 700, speed: 45, r: 40, dmg: 14, xp: 60, ess: 40, shard: 1, color: '#E30016' },
 };
 
 export const ENEMY_KINDS: EnemyKind[] = ['swarm', 'spitter', 'rammer', 'cleaver', 'splitlet', 'aegis', 'caster', 'warden'];

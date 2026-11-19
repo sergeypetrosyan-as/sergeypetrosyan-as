@@ -93,5 +93,5 @@ export default defineConfig({
     assetsDir: 'arcade/assets',
     target: 'es2020',
   },
-  server: { port: 5210, strictPort: true },
+  server: { port: 5210, strictPort: true, fs: { allow: [REPO_ROOT] } },
 });

@@ -102,8 +102,8 @@ export const LEVEL_DEFS: LevelDef[] = [
     id: '2-2',
     chapter: 1,
     name: 'The Lever Room',
-    objective: 'Collect both axioms, then reach the gate. Free folds are locked; use the brass levers.',
-    intro: 'Some rooms refuse your hand. Brass levers fold them for you: stand at one and press E or Space.',
+    objective: 'Collect both axioms, then reach the gate. Free folds are locked; use the levers.',
+    intro: 'Some rooms refuse your hand. Levers fold them for you: stand at one and press E or Space.',
     hints: [
       'Each lever always performs the same fold. Read the bar on its base before you pull.',
       'Pulling a lever may drop you onto another wall. Look for the next lever from there.',
@@ -153,7 +153,7 @@ export const LEVEL_DEFS: LevelDef[] = [
     chapter: 2,
     name: 'Two Rooms',
     objective: 'Collect the axiom, then reach the gate.',
-    intro: 'Violet rings are portals. Each room remembers its own orientation while you are away.',
+    intro: 'Stamped rings are portals. Each room remembers its own orientation while you are away.',
     hints: [
       'A ring may have no floor under it until its room is folded.',
       'Fold the far room while you are in it, then walk back through the ring.',

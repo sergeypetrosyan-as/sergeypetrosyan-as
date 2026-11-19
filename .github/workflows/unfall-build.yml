@@ -8,11 +8,13 @@ on:
     branches: [main]
     paths:
       - 'source/unfall/**'
+      - 'design/19_mystical-western/**'
       - 'games/unfall/**'
       - '.github/workflows/unfall-build.yml'
   pull_request:
     paths:
       - 'source/unfall/**'
+      - 'design/19_mystical-western/**'
   workflow_dispatch:
 
 permissions:

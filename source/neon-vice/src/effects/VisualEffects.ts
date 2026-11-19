@@ -48,7 +48,7 @@ export class VisualEffects {
   private readonly flashes: Flash[] = [];
   private readonly beams: Beam[] = [];
   private readonly rings: Ring[] = [];
-  readonly muzzleLight = new THREE.PointLight(0xff4fd8, 0, 7, 2);
+  readonly muzzleLight = new THREE.PointLight(0xe30116, 0, 7, 2);
   private muzzleLife = 0;
   private readonly glow = createGlowTexture();
   private readonly box = new THREE.BoxGeometry(1, 1, 1);

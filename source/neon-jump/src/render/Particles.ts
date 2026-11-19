@@ -29,7 +29,7 @@ export class Particles {
   density = 1;
 
   constructor(size = 700) {
-    this.list = Array.from({ length: size }, () => ({ x: 0, y: 0, vx: 0, vy: 0, life: 0, max: 1, size: 1, color: '#fff', gravity: 0, glow: false }));
+    this.list = Array.from({ length: size }, () => ({ x: 0, y: 0, vx: 0, vy: 0, life: 0, max: 1, size: 1, color: '#ffffff', gravity: 0, glow: false }));
   }
 
   emit(x: number, y: number, vx: number, vy: number, life: number, color: string, size = 1, gravity = 0, glow = false): void {

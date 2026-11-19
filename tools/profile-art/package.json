@@ -1,0 +1,17 @@
+{
+  "name": "profile-art",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Generates every README banner, separator, tarot card and animation in the 19_mystical-western theme.",
+  "type": "module",
+  "scripts": {
+    "build": "node src/build.mjs",
+    "check": "node src/check.mjs"
+  },
+  "devDependencies": {
+    "@fontsource/rye": "5.1.0",
+    "@fontsource/zilla-slab": "5.1.0",
+    "@napi-rs/canvas": "0.1.65",
+    "gifenc": "1.0.3"
+  }
+}

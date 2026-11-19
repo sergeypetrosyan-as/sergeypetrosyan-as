@@ -3,11 +3,13 @@ import { HULLS } from '../sim/content.ts';
 import { MaterialSet, PALETTE, timeUniform } from './materials.ts';
 import { worldBox } from './geometry.ts';
 import { glowTexture } from './textures.ts';
+import { mesaTexture, moonTexture, starsTexture } from './frontier.ts';
 import { TankModel, type TankLook } from './TankModel.ts';
 
 /**
- * The hangar behind the menus: a turntable with the player's current build,
- * neon rings and a slow orbiting camera. Rebuilds the tank when the loadout changes.
+ * The stable behind the menus: a turntable with the player's current build in an
+ * open frontier yard at night (carved moon, mesa horizon, plank fence, lantern
+ * rings) and a slow orbiting camera. Rebuilds the tank when the loadout changes.
  */
 export class GarageStage {
   readonly scene = new THREE.Scene();
@@ -28,18 +30,19 @@ export class GarageStage {
   constructor(env: THREE.Texture) {
     this.env = env;
     this.mats = new MaterialSet(env);
-    this.scene.background = new THREE.Color(0x05070d);
-    this.scene.fog = new THREE.FogExp2(0x070a14, 0.035);
-    this.scene.add(new THREE.HemisphereLight(0x8fa8ff, 0x140a20, 0.7));
-    const key = new THREE.SpotLight(0xdff2ff, 70, 40, 0.5, 0.7, 1.4);
+    this.scene.background = new THREE.Color(0x1a0608);
+    this.scene.fog = new THREE.FogExp2(0x1d0709, 0.028);
+    this.scene.add(new THREE.HemisphereLight(0xe2d6d2, 0x1a0608, 0.75));
+    const key = new THREE.SpotLight(0xf1ede7, 70, 40, 0.5, 0.7, 1.4);
     key.position.set(4, 12, 6);
     key.target.position.set(0, 0, 0);
     key.castShadow = true;
     key.shadow.mapSize.set(1024, 1024);
     this.scene.add(key, key.target);
-    const cyan = new THREE.PointLight(PALETTE.cyan, 22, 18, 1.6);
+    // Lantern light from either side: moonlit bone and a warm ember.
+    const cyan = new THREE.PointLight(PALETTE.cyan, 18, 18, 1.6);
     cyan.position.set(-6, 2.5, -2);
-    const mag = new THREE.PointLight(PALETTE.magenta, 20, 18, 1.6);
+    const mag = new THREE.PointLight(PALETTE.amber, 16, 18, 1.6);
     mag.position.set(6, 2.5, -3);
     this.scene.add(cyan, mag);
 
@@ -53,23 +56,38 @@ export class GarageStage {
     this.turntable.add(plate);
     this.scene.add(this.turntable);
     for (let i = 0; i < 3; i++) {
-      const ring = new THREE.Mesh(this.geo(new THREE.TorusGeometry(4.6 + i * 1.1, 0.03 + i * 0.01, 6, 96).rotateX(Math.PI / 2)), this.mats.glow(i === 1 ? 'magenta' : 'cyan', 2));
+      const ring = new THREE.Mesh(this.geo(new THREE.TorusGeometry(4.6 + i * 1.1, 0.03 + i * 0.01, 6, 96).rotateX(Math.PI / 2)), this.mats.glow(i === 1 ? 'amber' : 'cyan', 1.6));
       ring.position.y = 0.05 + i * 0.02;
       this.rings.push(ring);
       this.scene.add(ring);
     }
-    // Back wall with vertical light bars.
+    // A low plank fence with lantern posts, so the horizon shows above it.
     for (let i = -6; i <= 6; i++) {
       const x = i * 2.4;
       const z = -11 - Math.abs(i) * 0.4;
-      const wall = new THREE.Mesh(this.geo(worldBox(x - 1.1, 0, z - 0.3, x + 1.1, 9, z + 0.3)), this.mats.surface('darkMetal'));
-      this.scene.add(wall);
-      if (i % 2 === 0) {
-        const bar = new THREE.Mesh(this.geo(worldBox(x - 0.06, 0.5, z + 0.31, x + 0.06, 8, z + 0.36)), this.mats.glow(i % 4 === 0 ? 'cyan' : 'magenta', 2));
-        this.scene.add(bar);
+      const plank = new THREE.Mesh(this.geo(worldBox(x - 1.15, 0, z - 0.2, x + 1.15, 2.2 + (i % 2 ? 0.25 : 0), z + 0.2)), this.mats.surface('darkMetal'));
+      this.scene.add(plank);
+      if (i % 3 === 0) {
+        const post = new THREE.Mesh(this.geo(worldBox(x - 0.18, 0, z - 0.25, x + 0.18, 3.6, z + 0.25)), this.mats.surface('metal'));
+        const lamp = new THREE.Mesh(this.geo(worldBox(x - 0.22, 3.6, z - 0.22, x + 0.22, 4.1, z + 0.22)), this.mats.glow(i === 0 ? 'amber' : 'blue', 1.1));
+        this.scene.add(post, lamp);
       }
     }
-    const haloMat = this.mats.track(new THREE.SpriteMaterial({ map: glowTexture(), color: new THREE.Color(PALETTE.cyan).multiplyScalar(0.25), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+    // Night sky: quiet stars, the carved moon and a ring of mesas on the horizon.
+    const sky = new THREE.Mesh(this.geo(new THREE.CylinderGeometry(90, 90, 70, 64, 1, true)), this.mats.track(new THREE.MeshBasicMaterial({ map: starsTexture(), side: THREE.BackSide, transparent: true, depthWrite: false, fog: false })));
+    sky.position.y = 40;
+    sky.renderOrder = -10;
+    this.scene.add(sky);
+    const moon = new THREE.Sprite(this.mats.track(new THREE.SpriteMaterial({ map: moonTexture(), transparent: true, depthWrite: false, fog: false, toneMapped: false, color: new THREE.Color(0.92, 0.9, 0.88) })));
+    moon.position.set(-36, 10, -62);
+    moon.scale.set(14, 14, 1);
+    moon.renderOrder = -9;
+    this.scene.add(moon);
+    const ridge = new THREE.Mesh(this.geo(new THREE.CylinderGeometry(80, 80, 15, 64, 1, true)), this.mats.track(new THREE.MeshBasicMaterial({ map: mesaTexture(5), side: THREE.BackSide, transparent: true, alphaTest: 0.5, depthWrite: false, fog: false, color: new THREE.Color(0.55, 0.5, 0.5) })));
+    ridge.position.y = 4.5;
+    ridge.renderOrder = -8;
+    this.scene.add(ridge);
+    const haloMat = this.mats.track(new THREE.SpriteMaterial({ map: glowTexture(), color: new THREE.Color(PALETTE.amber).multiplyScalar(0.18), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
     const halo = new THREE.Sprite(haloMat);
     halo.scale.set(16, 6, 1);
     halo.position.set(0, 0.3, 0);

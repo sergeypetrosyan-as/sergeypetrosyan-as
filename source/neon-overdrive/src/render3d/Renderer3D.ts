@@ -70,7 +70,8 @@ const POST_SHADER = {
       vec2 d = (vUv - 0.5) * vec2(1.0, 0.82);
       float v = smoothstep(0.78, 0.18, length(d));
       c.rgb *= mix(1.0, v, uVig);
-      c.rgb += vec3(0.08, 0.32, 0.42) * uBoost * (1.0 - v);
+      // boost: a warm rose-ember halo at the edges (no cold neon)
+      c.rgb += vec3(0.42, 0.11, 0.13) * uBoost * (1.0 - v);
       float n = fract(sin(dot(gl_FragCoord.xy + fract(uTime) * 917.0, vec2(12.9898, 78.233))) * 43758.5453);
       c.rgb += (n - 0.5) * uGrain;
       c.rgb = mix(c.rgb, vec3(1.0), uFlash);
@@ -96,12 +97,34 @@ function skyMaterial(): THREE.ShaderMaterial {
         float h = d.y;
         vec3 c = mix(uHor, uMid, smoothstep(-0.02, 0.16, h));
         c = mix(c, uTop, smoothstep(0.12, 0.65, h));
+        // quiet bone stars: small and low contrast, they never compete with the Spine
         vec3 q = floor(d * 380.0);
         float s = hash(q);
-        c += vec3(0.9, 0.95, 1.0) * step(0.9972, s) * smoothstep(0.06, 0.4, h) * (0.35 + 0.65 * hash(q + 3.1)) * uStars;
-        float m = dot(d, normalize(uMoon));
-        c += vec3(0.95, 0.97, 1.0) * smoothstep(0.99945, 0.99965, m) * 2.2;
-        c += vec3(0.25, 0.3, 0.42) * pow(max(m, 0.0), 220.0) * 0.5;
+        c += vec3(0.95, 0.91, 0.87) * step(0.9975, s) * smoothstep(0.06, 0.4, h) * (0.18 + 0.4 * hash(q + 3.1)) * uStars;
+        // the carved moon: bone face, engraved hatching, ember rings, a gibbous phase shadow
+        vec3 mz = normalize(uMoon);
+        vec3 mx = normalize(cross(vec3(0.0, 1.0, 0.0), mz));
+        vec3 my = cross(mz, mx);
+        const float R = 0.085;
+        vec2 p = vec2(dot(d, mx), dot(d, my)) / R;
+        float r = length(p);
+        float disk = (1.0 - smoothstep(0.965, 1.0, r)) * step(0.0, dot(d, mz)) * uStars;
+        vec3 mc = vec3(0.945, 0.929, 0.906);
+        float hz = smoothstep(0.05, 0.7, -(p.x * 0.55 + p.y * 0.85));
+        mc = mix(mc, vec3(0.447, 0.082, 0.114), hz * step(0.55, fract((p.x - p.y) * 6.5)) * 0.3);
+        float ring = 0.0;
+        for (int i = 1; i <= 3; i++) {
+          float rr = 1.0 - 0.1 * float(i);
+          ring = max(ring, (1.0 - smoothstep(0.0, 0.02, abs(r - rr))) * (0.55 - 0.12 * float(i)));
+        }
+        ring = max(ring, 1.0 - smoothstep(0.0, 0.035, abs(r - 0.97)));
+        mc = mix(mc, vec3(0.671, 0.043, 0.102), ring);
+        float term = -0.5 * sqrt(max(0.0, 1.0 - p.y * p.y));
+        float shade = 1.0 - smoothstep(term - 0.03, term + 0.03, p.x);
+        mc = mix(mc, uTop * 1.6 + vec3(0.03, 0.008, 0.01), shade * 0.9);
+        c = mix(c, mc * 1.08, disk);
+        float halo = 1.0 - smoothstep(0.0, R * 3.2, length(d - mz));
+        c += vec3(0.42, 0.27, 0.25) * halo * halo * 0.2 * (1.0 - disk) * uStars;
         gl_FragColor = vec4(c, 1.0);
       }`,
     side: THREE.BackSide,
@@ -139,8 +162,8 @@ export class Renderer3D implements RenderBackend {
   private smoke: THREE.Texture;
   private cars: CarRig[] = [];
   private fx: Fx3D;
-  private moon = new THREE.DirectionalLight(0x9fb2ff, 0.35);
-  private hemi = new THREE.HemisphereLight(0x3a4a7a, 0x07080c, 0.35);
+  private moon = new THREE.DirectionalLight(0xeee7e2, 0.35);
+  private hemi = new THREE.HemisphereLight(0x774a4c, 0x060404, 0.35);
   private pool: THREE.PointLight[] = [];
   private heads: THREE.SpotLight[] = [];
   private under: THREE.PointLight;
@@ -166,6 +189,7 @@ export class Renderer3D implements RenderBackend {
   private now = 0;
   private bodyRoll = 0;
   private bodyPitch = 0;
+  private moonYaw = NaN;
   private orbit = Number(new URLSearchParams(location.search).get('orbit') ?? 0) || 0;
   onLevelChange: (l: Level) => void = () => {};
   onContext: (lost: boolean) => void = () => {};
@@ -212,7 +236,7 @@ export class Renderer3D implements RenderBackend {
     this.rivalPrev = [0, 1, 2].map(() => ({ x: 0, s: 0, speed: 0, brake: 0 }));
     const player = this.cars[0];
     for (const sx of [-0.62, 0.62]) {
-      const s = new THREE.SpotLight(0xe8f1ff, 0, 95, 0.46, 0.55, 2);
+      const s = new THREE.SpotLight(0xfaf9f7, 0, 95, 0.46, 0.55, 2);
       s.position.set(sx, 0.62, -player.halfLength + 0.1);
       s.target.position.set(sx * 1.6, 0, -player.halfLength - 26);
       player.root.add(s, s.target);
@@ -220,15 +244,15 @@ export class Renderer3D implements RenderBackend {
     }
     this.under = new THREE.PointLight(new THREE.Color(CAR_SPECS[0].accent), 5, 5.5, 2);
     this.under.position.set(0, 0.25, 0);
-    this.tailLight = new THREE.PointLight(0xff2030, 2, 7, 2);
+    this.tailLight = new THREE.PointLight(0xb90819, 2, 7, 2);
     this.tailLight.position.set(0, 0.25, player.halfLength + 2.4);
-    this.boostLight = new THREE.PointLight(0x7ff6ff, 0, 9, 2);
+    this.boostLight = new THREE.PointLight(0xf9f8f5, 0, 9, 2);
     this.boostLight.position.copy(player.exhaustPos).add(new THREE.Vector3(0, 0.1, 0.6));
     player.root.add(this.under, this.tailLight, this.boostLight);
     this.fx = new Fx3D(this.glow, this.smoke);
     this.scene.add(this.fx.group);
     this.camera.add(this.fx.streaks);
-    this.scene.fog = new THREE.FogExp2(0x000000, 0.0024);
+    this.scene.fog = new THREE.FogExp2(0x030303, 0.0024);
     this.requested = quality;
     this.level = quality === 'auto' ? detectLevel(ctx) : quality;
     this.applyLevel(this.level, true);
@@ -299,7 +323,8 @@ export class Renderer3D implements RenderBackend {
     const rt = new THREE.WebGLRenderTarget(Math.max(1, size.x), Math.max(1, size.y), { type: THREE.HalfFloatType, samples: this.q.msaa });
     this.composer = new EffectComposer(this.gl, rt);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
-    this.bloom = new UnrealBloomPass(new THREE.Vector2(size.x / 2, size.y / 2), 0.55, 0.5, 0.95);
+    // warm halos rather than neon bloom
+    this.bloom = new UnrealBloomPass(new THREE.Vector2(size.x / 2, size.y / 2), 0.36, 0.45, 0.97);
     this.bloom.enabled = this.q.bloom;
     this.composer.addPass(this.bloom);
     this.composer.addPass(new OutputPass());
@@ -359,7 +384,7 @@ export class Renderer3D implements RenderBackend {
     this.scene.environmentIntensity = 0.55;
   }
 
-  /** Procedural night-city environment for reflections: sky gradient, lit windows, neon. */
+  /** Procedural night-town environment for reflections: sky gradient, lantern windows, stamped signs. */
   private buildEnv(p: Palette): THREE.WebGLRenderTarget {
     const s = new THREE.Scene();
     const disp: { dispose(): void }[] = [];
@@ -373,10 +398,10 @@ export class Renderer3D implements RenderBackend {
     disp.push(sm, sg);
     const box = new THREE.BoxGeometry(1, 1, 1);
     disp.push(box);
-    const warm = new THREE.MeshBasicMaterial({ color: new THREE.Color('#ffc58a').multiplyScalar(1.6) });
-    const cool = new THREE.MeshBasicMaterial({ color: new THREE.Color('#c6dcff').multiplyScalar(1.4) });
-    const dark = new THREE.MeshBasicMaterial({ color: new THREE.Color('#06080c') });
-    const neon = p.signs.map((c) => new THREE.MeshBasicMaterial({ color: new THREE.Color(c).multiplyScalar(3) }));
+    const warm = new THREE.MeshBasicMaterial({ color: new THREE.Color('#eb8e93').multiplyScalar(1.6) });
+    const cool = new THREE.MeshBasicMaterial({ color: new THREE.Color('#f8f7f4').multiplyScalar(1.4) });
+    const dark = new THREE.MeshBasicMaterial({ color: new THREE.Color('#060404') });
+    const neon = p.signs.map((c) => new THREE.MeshBasicMaterial({ color: new THREE.Color(c).multiplyScalar(1.6) }));
     disp.push(warm, cool, dark, ...neon);
     let seed = 7;
     const rnd = () => {
@@ -410,7 +435,7 @@ export class Renderer3D implements RenderBackend {
       }
     }
     // overhead streetlights reflected in paint and glass
-    const lamp = new THREE.MeshBasicMaterial({ color: new THREE.Color('#ffd9a8').multiplyScalar(6) });
+    const lamp = new THREE.MeshBasicMaterial({ color: new THREE.Color('#eca0a2').multiplyScalar(6) });
     disp.push(lamp);
     for (let i = 0; i < 6; i++) {
       const l = new THREE.Mesh(box, lamp);
@@ -418,7 +443,7 @@ export class Renderer3D implements RenderBackend {
       l.scale.set(1.2, 0.2, 0.5);
       s.add(l);
     }
-    const ground = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), new THREE.MeshBasicMaterial({ color: 0x050608 }));
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), new THREE.MeshBasicMaterial({ color: 0x060304 }));
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -4;
     s.add(ground);
@@ -563,6 +588,14 @@ export class Renderer3D implements RenderBackend {
       cam.updateProjectionMatrix();
     }
     this.sky.position.copy(cam.position);
+    // the carved moon trails the view heading slowly, so it hangs over the road ahead most of the lap
+    cam.getWorldDirection(tmpV);
+    const yawT = Math.atan2(tmpV.x, -tmpV.z) + 0.38;
+    if (!Number.isFinite(this.moonYaw)) this.moonYaw = yawT;
+    let dy = yawT - this.moonYaw;
+    dy -= Math.round(dy / (Math.PI * 2)) * Math.PI * 2;
+    this.moonYaw += dy * Math.min(1, dt * 0.35);
+    (this.skyMat.uniforms.uMoon.value as THREE.Vector3).set(Math.sin(this.moonYaw), 0.2, -Math.cos(this.moonYaw)).normalize();
     world.skyline.position.set(cam.position.x, cam.position.y - 30, cam.position.z);
 
     // ---- light pool: nearest lamps ahead of the camera ----
@@ -641,7 +674,7 @@ export class Renderer3D implements RenderBackend {
       // drift backwards relative to the car: the car's own forward velocity, minus most of it
       tmpV2.set((Math.random() - 0.5) * 1.6 + sx * 0.6, 0.6 + Math.random() * 1.4, 0).applyQuaternion(car.root.quaternion);
       const fwd = new THREE.Vector3(0, 0, -1).applyQuaternion(car.root.quaternion).multiplyScalar(speedMs * 0.55);
-      this.fx.mist.spawn(tmpV.x, tmpV.y, tmpV.z, fwd.x + tmpV2.x, tmpV2.y, fwd.z + tmpV2.z, 0.5 + Math.random() * 0.4, 0.62, 0.68, 0.78, 0.16 + Math.min(0.14, speedMs / 600));
+      this.fx.mist.spawn(tmpV.x, tmpV.y, tmpV.z, fwd.x + tmpV2.x, tmpV2.y, fwd.z + tmpV2.z, 0.5 + Math.random() * 0.4, 0.83, 0.73, 0.72, 0.16 + Math.min(0.14, speedMs / 600));
     }
   }
 
@@ -651,7 +684,7 @@ export class Renderer3D implements RenderBackend {
     tmpV.set(sx * sp.track / 2, 0.2, sp.wheelbase / 2);
     tmpV.applyMatrix4(car.root.matrixWorld);
     const fwd = new THREE.Vector3(0, 0, -1).applyQuaternion(car.root.quaternion).multiplyScalar(speedMs * 0.7);
-    this.fx.mist.spawn(tmpV.x, tmpV.y, tmpV.z, fwd.x + (Math.random() - 0.5) * 2, 0.8 + Math.random(), fwd.z + (Math.random() - 0.5) * 2, 0.9 + Math.random() * 0.5, 0.82, 0.84, 0.9, 0.3);
+    this.fx.mist.spawn(tmpV.x, tmpV.y, tmpV.z, fwd.x + (Math.random() - 0.5) * 2, 0.8 + Math.random(), fwd.z + (Math.random() - 0.5) * 2, 0.9 + Math.random() * 0.5, 0.9, 0.84, 0.82, 0.3);
   }
 
   sparks(dir: number, count: number): void {
@@ -666,7 +699,7 @@ export class Renderer3D implements RenderBackend {
       v.addScaledVector(side, dir * (1 + Math.random() * 4));
       v.y += 1 + Math.random() * 4;
       const hot = Math.random();
-      this.fx.sparks.spawn(tmpV.x, tmpV.y, tmpV.z, v.x, v.y, v.z, 0.25 + Math.random() * 0.45, 1.6, 0.9 + hot * 0.5, 0.45 + hot * 0.4, 1);
+      this.fx.sparks.spawn(tmpV.x, tmpV.y, tmpV.z, v.x, v.y, v.z, 0.25 + Math.random() * 0.45, 1.6, 0.5 + hot * 0.45, 0.48 + hot * 0.4, 1);
     }
   }
 

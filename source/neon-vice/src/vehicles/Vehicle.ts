@@ -176,7 +176,7 @@ export class Vehicle {
     for (const w of this.model.wheels) w.rotation.x = this.wheelSpin;
     for (const p of this.model.frontPivots) p.rotation.y = this.steer;
     const brake = this.braking ? 3.2 : 1.2;
-    this.model.tailMat.color.setRGB(brake, 0.04 * brake, 0.12 * brake);
+    this.model.tailMat.color.setRGB(brake, 0.0, 0.02 * brake);
     if (this.model.underglow) {
       (this.model.underglow.material as THREE.MeshBasicMaterial).opacity = this.occupied ? 1 : 0.65;
     }

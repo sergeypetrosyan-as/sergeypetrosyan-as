@@ -104,8 +104,9 @@ function buildDocks(): ArenaDef {
     controlPoint: { x: 0, y: 3, z: 0, r: 8 },
     pickups,
     decor: b.decor,
-    fog: { color: 0x0a1424, density: 0.0115 },
-    sky: { top: 0x02040c, bottom: 0x10203a },
+    // Frontier night: night zenith, dusk at the horizon (19_mystical-western). Fog density unchanged.
+    fog: { color: 0x1d0709, density: 0.0115 },
+    sky: { top: 0x080303, bottom: 0x2a090c },
   };
 }
 
@@ -202,8 +203,8 @@ function buildVoid(): ArenaDef {
     controlPoint: { x: 0, y: 4, z: 0, r: 11 },
     pickups,
     decor: b.decor,
-    fog: { color: 0x120a22, density: 0.012 },
-    sky: { top: 0x05020c, bottom: 0x24103a },
+    fog: { color: 0x190608, density: 0.012 },
+    sky: { top: 0x070303, bottom: 0x260a0d },
   };
 }
 

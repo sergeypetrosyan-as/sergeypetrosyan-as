@@ -1,0 +1,49 @@
+/* 19_mystical-western — GENERATED from design/19_mystical-western/palette.mjs. Do not edit by hand. */
+/* Brand: Actual Solutions — logo #E30016 / #FFFFFF, site #72151D / #F1EDE7 / #030303. */
+:root {
+  /* Brand (verified) */
+  --mw-red: #E30016;
+  --mw-wine: #72151D;
+  --mw-bone: #F1EDE7;
+  --mw-ink: #030303;
+  --mw-white: #FFFFFF;
+  /* Brand-derived tints */
+  --mw-night: #150607; /* ink → wine 16% */
+  --mw-dusk: #320B0E; /* ink → wine 42% */
+  --mw-mesa: #480E13; /* wine → ink 38% */
+  --mw-ember: #AB0B1A; /* wine → red 50% */
+  --mw-rose: #E96B74; /* red → bone 45% */
+  --mw-blush: #EEB9B9; /* red → bone 78% */
+  --mw-tan: #D3B9B7; /* bone → wine 24% */
+  --mw-saddle: #AF7D7E; /* bone → wine 52% */
+  --mw-umber: #2D0A0D; /* wine → ink 62% */
+  --mw-smoke: #6E6C6A; /* bone → ink 55% */
+  --mw-ash: #A5A29E; /* bone → ink 32% */
+  /* Roles */
+  --mw-role-bg: #150607;
+  --mw-role-bg-deep: #030303;
+  --mw-role-bg-horizon: #320B0E;
+  --mw-role-surface: #29090C;
+  --mw-role-surface-raised: #380C0F;
+  --mw-role-fg: #F1EDE7;
+  --mw-role-fg-strong: #FFFFFF;
+  --mw-role-fg-secondary: #A5A29E;
+  --mw-role-fg-muted: #6E6C6A;
+  --mw-role-accent: #E30016;
+  --mw-role-accent-deep: #72151D;
+  --mw-role-accent-soft: #E96B74;
+  --mw-role-line: #AB0B1A;
+  --mw-role-paper: #F1EDE7;
+  --mw-role-paper-shade: #D3B9B7;
+  --mw-role-paper-ink: #24080B;
+  --mw-role-paper-line: #AF7D7E;
+  --mw-role-player: #F1EDE7;
+  --mw-role-hostile: #E30016;
+  --mw-role-collectible: #E96B74;
+  --mw-role-world: #D3B9B7;
+  --mw-role-quiet: #4F3132;
+  /* Type */
+  --mw-font-title: 'Rye', 'Zilla Slab', Georgia, serif; /* short illustrated titles only */
+  --mw-font-slab: 'Zilla Slab', Georgia, serif;
+  --mw-font-body: 'Public Sans', 'Segoe UI', system-ui, sans-serif;
+}

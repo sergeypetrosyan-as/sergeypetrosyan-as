@@ -4,7 +4,7 @@
 
 **Play:** https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/unfall/
 
-![UNFALL gameplay](../../assets/unfall-preview.gif)
+<img src="../../assets/cards/unfall.gif" alt="UNFALL tarot card, XII The Hanged Man: a carved lens lifts the fallen plank back into the bridge" width="240" />
 
 *Real gameplay: Ilo waits at a broken bridge, a too-shallow rewind lets it fall under her, the circle catches her mid-fall and everything un-falls, then she crosses.*
 

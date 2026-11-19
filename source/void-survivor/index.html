@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
-  <meta name="theme-color" content="#07080c" />
+  <meta name="theme-color" content="#150607" />
   <title>VOID SURVIVOR</title>
   <meta name="description" content="VOID SURVIVOR: a 3D roguelite survival action game. Feed the void with Essence, raise a Bulwark Field and detonate it across the swarm. Plays offline in your browser." />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%2307080c'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%2335f2ff' stroke-width='2.5'/%3E%3Cpath d='M9 20l7-12 7 12-7-3z' fill='%23d9a441'/%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23150607'/%3E%3Crect x='2.5' y='2.5' width='27' height='27' rx='4' fill='none' stroke='%23AB0B1A' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='8.5' fill='%23F1EDE7' stroke='%23AB0B1A' stroke-width='1.2'/%3E%3Cpath d='M16 7.5a8.5 8.5 0 0 1 0 17a6 8.5 0 0 0 0-17z' fill='%23150607' opacity='.9'/%3E%3Cpath d='M24 5l1 2.3 2.4.2-1.8 1.6.6 2.4-2.2-1.3-2.2 1.3.6-2.4-1.8-1.6 2.4-.2z' fill='%23E96B74'/%3E%3C/svg%3E" />
   <script>
     // The source folder is also served by GitHub Pages; send visitors to the built game.
     if (location.hostname.endsWith('github.io') && location.pathname.includes('/source/void-survivor')) {
@@ -29,8 +29,10 @@
 
   <!-- Menu: the launch console -->
   <section id="menu" class="screen screen-menu hidden" aria-labelledby="menuTitle">
+    <canvas id="menuSky" class="menu-sky" aria-hidden="true"></canvas>
     <div class="console">
       <h1 id="menuTitle" class="title">Void Survivor</h1>
+      <div class="rule" aria-hidden="true"><i></i></div>
       <p class="tagline">Feed the void. Break the swarm.</p>
       <p class="best" id="menuBest"></p>
       <p class="purse"><span class="crystal" aria-hidden="true"></span><strong id="menuShards">0</strong> Shards in the locker</p>
@@ -101,7 +103,7 @@
         <li><strong>Collect Essence</strong> motes to level up, then slot one of three modules (keys 1 to 3, 4 rerolls).</li>
         <li><strong>Siphon</strong> turns kills into a Reserve. <strong>Bulwark Field</strong> spends it as a dome that eats bolts and burns enemies.</li>
         <li><strong>Detonation</strong> fires when the Field breaks or when you press E or Space. Press Q to hold the Reserve and charge a bigger blast.</li>
-        <li>Read the floor: pink lines are shots, amber chevrons are charges, striped lanes and violet rings are hazards. Flank the cyan shield plates.</li>
+        <li>Read the floor: red lines are shots, pale chevrons are charges, striped lanes and red rings are hazards. Flank the tan shield plates.</li>
         <li>Survive 20 minutes or bring down the Final Warden. Shards you earn buy permanent salvage in the Vault.</li>
       </ul>
       <div class="actions actions-row"><button id="howBack" class="btn" type="button">Back</button></div>
@@ -112,6 +114,7 @@
   <section id="pause" class="screen hidden" role="dialog" aria-modal="true" aria-labelledby="pauseTitle">
     <div class="panel narrow">
       <header class="panel-head"><h2 id="pauseTitle">Paused</h2></header>
+      <div class="moons" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
       <div class="actions">
         <button id="pResume" class="btn btn-primary" type="button">Resume</button>
         <button id="pRestart" class="btn" type="button">Restart run (R)</button>

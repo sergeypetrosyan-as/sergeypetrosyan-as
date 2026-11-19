@@ -23,22 +23,22 @@ export interface CarSpec {
 /** Kestrel Mk I, then Rook, Sable and Cinder. Proportions differ so rivals read at a glance. */
 export const CAR_SPECS: CarSpec[] = [
   {
-    name: 'Kestrel', paint: '#b9c0c9', accent: '#2cf6ff', length: 4.5, width: 1.96, wheelbase: 2.72, track: 1.68, wheelR: 0.35,
+    name: 'Kestrel', paint: '#F1EDE7', accent: '#F1EDE7', length: 4.5, width: 1.96, wheelbase: 2.72, track: 1.68, wheelR: 0.35,
     top: [[-2.18, 0.4], [-2.3, 0.76], [-2.0, 0.88], [-1.0, 0.86], [0.7, 0.74], [1.9, 0.56], [2.22, 0.4]],
     canopy: [[-1.78, 0.86], [-1.0, 1.12], [-0.15, 1.15], [0.72, 0.76]], canopyWidth: 0.7, wing: 'low', flare: 0.02,
   },
   {
-    name: 'Rook', paint: '#c2185b', accent: '#ff2ea6', length: 4.4, width: 1.94, wheelbase: 2.68, track: 1.66, wheelR: 0.34,
+    name: 'Rook', paint: '#E30016', accent: '#E30016', length: 4.4, width: 1.94, wheelbase: 2.68, track: 1.66, wheelR: 0.34,
     top: [[-2.2, 0.46], [-2.22, 0.78], [-1.6, 0.84], [-0.4, 0.82], [0.6, 0.68], [2.0, 0.42], [2.2, 0.3]],
     canopy: [[-1.4, 0.82], [-0.7, 1.06], [0.0, 1.07], [0.6, 0.7]], canopyWidth: 0.6, wing: 'tall', flare: 0,
   },
   {
-    name: 'Sable', paint: '#4b2a8a', accent: '#a07bff', length: 4.8, width: 1.98, wheelbase: 2.9, track: 1.7, wheelR: 0.36,
+    name: 'Sable', paint: '#72151D', accent: '#AB0B1A', length: 4.8, width: 1.98, wheelbase: 2.9, track: 1.7, wheelR: 0.36,
     top: [[-2.4, 0.5], [-2.38, 0.86], [-1.6, 0.95], [-0.4, 0.9], [0.9, 0.78], [2.2, 0.6], [2.42, 0.44]],
     canopy: [[-2.0, 0.94], [-1.05, 1.22], [0.05, 1.24], [0.95, 0.8]], canopyWidth: 0.78, wing: 'none', flare: 0,
   },
   {
-    name: 'Cinder', paint: '#e07a12', accent: '#ffb347', length: 4.2, width: 2.04, wheelbase: 2.56, track: 1.76, wheelR: 0.37,
+    name: 'Cinder', paint: '#AF7D7E', accent: '#E30016', length: 4.2, width: 2.04, wheelbase: 2.56, track: 1.76, wheelR: 0.37,
     top: [[-2.1, 0.48], [-2.12, 0.92], [-1.5, 0.98], [-0.7, 0.96], [0.5, 0.82], [1.8, 0.62], [2.1, 0.46]],
     canopy: [[-1.45, 0.96], [-0.8, 1.26], [0.05, 1.27], [0.5, 0.84]], canopyWidth: 0.74, wing: 'low', flare: 0.08,
   },
@@ -58,14 +58,14 @@ export interface CarShared {
 
 export function makeCarShared(glow: THREE.Texture): CarShared {
   return {
-    glass: new THREE.MeshPhysicalMaterial({ color: 0x0a0e14, metalness: 0.0, roughness: 0.04, clearcoat: 1, clearcoatRoughness: 0.02, envMapIntensity: 1.6, reflectivity: 0.9 }),
-    rubber: new THREE.MeshStandardMaterial({ color: 0x141416, roughness: 0.88, metalness: 0 }),
-    rim: new THREE.MeshStandardMaterial({ color: 0xb9bec6, roughness: 0.28, metalness: 1 }),
-    disc: new THREE.MeshStandardMaterial({ color: 0x4a4c50, roughness: 0.45, metalness: 0.9 }),
-    trim: new THREE.MeshStandardMaterial({ color: 0x0c0d10, roughness: 0.55, metalness: 0.2 }),
-    seam: new THREE.MeshBasicMaterial({ color: 0x050506 }),
-    headlight: new THREE.MeshStandardMaterial({ color: 0x111111, emissive: 0xe6f4ff, emissiveIntensity: 6, roughness: 0.2 }),
-    shadow: new THREE.MeshBasicMaterial({ map: glow, color: 0x000000, transparent: true, opacity: 0.75, depthWrite: false }),
+    glass: new THREE.MeshPhysicalMaterial({ color: 0x090404, metalness: 0.0, roughness: 0.04, clearcoat: 1, clearcoatRoughness: 0.02, envMapIntensity: 1.6, reflectivity: 0.9 }),
+    rubber: new THREE.MeshStandardMaterial({ color: 0x0c0405, roughness: 0.88, metalness: 0 }),
+    rim: new THREE.MeshStandardMaterial({ color: 0xe1d1cd, roughness: 0.28, metalness: 1 }),
+    disc: new THREE.MeshStandardMaterial({ color: 0x28090c, roughness: 0.45, metalness: 0.9 }),
+    trim: new THREE.MeshStandardMaterial({ color: 0x090404, roughness: 0.55, metalness: 0.2 }),
+    seam: new THREE.MeshBasicMaterial({ color: 0x050303 }),
+    headlight: new THREE.MeshStandardMaterial({ color: 0x0a0405, emissive: 0xfbf9f8, emissiveIntensity: 6, roughness: 0.2 }),
+    shadow: new THREE.MeshBasicMaterial({ map: glow, color: 0x030303, transparent: true, opacity: 0.75, depthWrite: false }),
     glow,
   };
 }
@@ -162,10 +162,10 @@ export class CarRig {
       this.mats.push(m);
       return m;
     };
-    this.paint = mat(new THREE.MeshPhysicalMaterial({ color: spec.paint, metalness: 0.55, roughness: 0.32, clearcoat: 1, clearcoatRoughness: 0.06, envMapIntensity: 1.2 }));
-    this.tail = mat(new THREE.MeshStandardMaterial({ color: 0x220000, emissive: 0xff1a2a, emissiveIntensity: 2.2, roughness: 0.3 }));
-    const accentMat = mat(new THREE.MeshStandardMaterial({ color: 0x050505, emissive: new THREE.Color(spec.accent), emissiveIntensity: 3.5, roughness: 0.3 }));
-    this.underMat = mat(new THREE.MeshStandardMaterial({ color: 0x000000, emissive: new THREE.Color(spec.accent), emissiveIntensity: 0.9 }));
+    this.paint = mat(new THREE.MeshPhysicalMaterial({ color: spec.paint, metalness: 0.3, roughness: 0.36, clearcoat: 1, clearcoatRoughness: 0.06, envMapIntensity: 1.2 }));
+    this.tail = mat(new THREE.MeshStandardMaterial({ color: 0x060404, emissive: 0xb40919, emissiveIntensity: 2.2, roughness: 0.3 }));
+    const accentMat = mat(new THREE.MeshStandardMaterial({ color: 0x050303, emissive: new THREE.Color(spec.accent), emissiveIntensity: 2.2, roughness: 0.3 }));
+    this.underMat = mat(new THREE.MeshStandardMaterial({ color: 0x030303, emissive: new THREE.Color(spec.accent), emissiveIntensity: 0.9 }));
 
     const add = (g: THREE.BufferGeometry, m: THREE.Material, parent: THREE.Object3D = this.body, shadow = true): THREE.Mesh => {
       const mesh = new THREE.Mesh(g, m);
@@ -250,7 +250,7 @@ export class CarRig {
       }
     }
     // exhausts with glow
-    this.exhaustMat = mat(new THREE.SpriteMaterial({ map: sh.glow, color: new THREE.Color('#9ef8ff'), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0 }));
+    this.exhaustMat = mat(new THREE.SpriteMaterial({ map: sh.glow, color: new THREE.Color('#fbfaf8'), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0 }));
     const nozzle = keep(new THREE.CylinderGeometry(0.07, 0.08, 0.16, 14, 1, true));
     nozzle.rotateX(Math.PI / 2);
     for (const sx of [-0.38, 0.38]) {

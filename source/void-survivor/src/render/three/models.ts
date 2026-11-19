@@ -43,6 +43,23 @@ function extrude(points: [number, number][], depth: number, bevel = 0.08): THREE
   return g;
 }
 
+/** A stamped five-point star standing upright (XY plane), extruded along Z and centred. */
+function star(r: number, inner: number, depth: number, bevel: number): THREE.BufferGeometry {
+  const s = new THREE.Shape();
+  for (let i = 0; i < 10; i++) {
+    const rr = i % 2 === 0 ? r : r * inner;
+    const a = Math.PI / 2 + (i * Math.PI) / 5;
+    const x = Math.cos(a) * rr;
+    const y = Math.sin(a) * rr;
+    if (i === 0) s.moveTo(x, y);
+    else s.lineTo(x, y);
+  }
+  s.closePath();
+  const g = new THREE.ExtrudeGeometry(s, { depth, bevelEnabled: true, bevelThickness: bevel, bevelSize: bevel, bevelSegments: 1 });
+  g.translate(0, 0, -depth / 2);
+  return g;
+}
+
 export interface Models {
   [k: string]: THREE.BufferGeometry;
 }
@@ -253,16 +270,9 @@ export function buildModels(): Models {
 
   // --- Pickups
   {
-    const mote = new THREE.OctahedronGeometry(1, 0);
-    mote.scale(0.7, 1.15, 0.7);
-    M.mote = merge([mote], true);
-    const body = new THREE.CylinderGeometry(0.5, 0.5, 0.8, 6);
-    const tip = cone(0.5, 0.55, 6);
-    tip.translate(0, 0.675, 0);
-    const base = cone(0.5, 0.4, 6);
-    base.rotateX(Math.PI);
-    base.translate(0, -0.6, 0);
-    M.shard = merge([body, tip, base], true);
+    // Essence motes and Shards are stamped stars (the collectible motif)
+    M.mote = merge([star(1.2, 0.48, 0.35, 0.08)], true);
+    M.shard = merge([star(1.25, 0.45, 0.45, 0.12)], true);
     const box = new THREE.BoxGeometry(1.6, 0.9, 1.1);
     box.translate(0, 0.45, 0);
     const lid = new THREE.BoxGeometry(1.7, 0.25, 1.2);

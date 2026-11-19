@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import { PALETTE, mix } from '../theme';
 import { T } from '../state/tuning';
 import type { Segment, TrackDef } from '../state/types';
 import { HALF_W, LON, newPose, POST, PRE, TrackPath } from './path';
@@ -54,16 +56,18 @@ class Geo {
 
 const mirror = (p: Prof): Prof => p.map(([l, u]) => [-l, u] as [number, number]).reverse();
 
+/** Lantern light: bone moonlight, blush and rose lamps. Never cold. */
 const LAMP_COLORS: Record<string, string[]> = {
-  halogen: ['#dbe7ff', '#dbe7ff', '#cfe0ff', '#9ff6ff'],
-  violet: ['#ffb35c', '#ffb35c', '#c49bff', '#ffb35c'],
-  meridian: ['#ffac4f', '#ffac4f', '#ffc77a', '#ffac4f'],
+  halogen: [PALETTE.bone, PALETTE.blush, PALETTE.bone, PALETTE.tan],
+  violet: [PALETTE.blush, PALETTE.rose, PALETTE.bone, PALETTE.blush],
+  meridian: [PALETTE.rose, PALETTE.blush, PALETTE.bone, PALETTE.rose],
 };
 
+// A low frontier town (adobe blocks), with the canyon track keeping its tall walls.
 const HEIGHTS: Record<string, [number, number]> = {
-  halogen: [14, 85],
-  violet: [10, 60],
-  meridian: [36, 190],
+  halogen: [7, 34],
+  violet: [6, 26],
+  meridian: [22, 120],
 };
 
 export class World {
@@ -107,12 +111,12 @@ export class World {
     const chev = D(chevronTexture());
     chev.wrapT = THREE.RepeatWrapping;
     chev.repeat.set(1, 2);
-    this.curtainOpen = D(new THREE.MeshBasicMaterial({ map: chev, color: new THREE.Color('#2cf6ff').multiplyScalar(1.2), transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }));
+    this.curtainOpen = D(new THREE.MeshBasicMaterial({ map: chev, color: new THREE.Color(PALETTE.rose).multiplyScalar(1.1), transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }));
     const haz = D(hazardTexture());
     haz.repeat.set(2, 2);
     this.curtainSealed = D(new THREE.MeshBasicMaterial({ map: haz, color: new THREE.Color(1.6, 1.6, 1.6), transparent: true, opacity: 0.82, depthWrite: false, side: THREE.DoubleSide }));
-    this.bannerOpen = D(new THREE.MeshBasicMaterial({ map: D(bannerTexture('Spine open', '#2cf6ff')), color: new THREE.Color(1.4, 1.4, 1.4) }));
-    this.bannerSealed = D(new THREE.MeshBasicMaterial({ color: new THREE.Color(1.4, 1.4, 1.4) }));
+    this.bannerOpen = D(new THREE.MeshBasicMaterial({ map: D(bannerTexture('Spine open', PALETTE.rose)), color: new THREE.Color(1.15, 1.15, 1.15) }));
+    this.bannerSealed = D(new THREE.MeshBasicMaterial({ color: new THREE.Color(1.15, 1.15, 1.15) }));
     this.beacon = D(new THREE.MeshBasicMaterial({ color: new THREE.Color(5, 0.2, 0.2) }));
     this.setThreshold(opts.threshold);
     this.buildRibbons(D);
@@ -203,14 +207,15 @@ export class World {
     cm.map.anisotropy = an;
     D(cm.map);
     D(cm.rough);
-    const concrete = D(new THREE.MeshStandardMaterial({ map: cm.map, roughnessMap: cm.rough, color: 0xb8bcc4, roughness: 1, envMapIntensity: 0.5 }));
-    const tunnelMat = D(new THREE.MeshStandardMaterial({ map: cm.map, roughnessMap: cm.rough, color: 0x9a9ea6, roughness: 0.9, side: THREE.DoubleSide, envMapIntensity: 0.3 }));
-    const ground = D(new THREE.MeshStandardMaterial({ map: cm.map, color: 0x3a3f48, roughness: 0.42, envMapIntensity: 0.8 }));
-    const kerbMat = D(new THREE.MeshStandardMaterial({ color: 0x8c9098, roughness: 0.7, metalness: 0 }));
-    const steel = D(new THREE.MeshStandardMaterial({ color: 0xa3a9b1, roughness: 0.32, metalness: 0.95, envMapIntensity: 1.2 }));
+    const concrete = D(new THREE.MeshStandardMaterial({ map: cm.map, roughnessMap: cm.rough, color: new THREE.Color(PALETTE.tan), roughness: 1, envMapIntensity: 0.4 }));
+    const tunnelMat = D(new THREE.MeshStandardMaterial({ map: cm.map, roughnessMap: cm.rough, color: 0xb6a3a1, roughness: 0.9, side: THREE.DoubleSide, envMapIntensity: 0.3 }));
+    // dry desert shoulder: dusty umber-saddle, matte
+    const ground = D(new THREE.MeshStandardMaterial({ map: cm.map, color: new THREE.Color(mix(PALETTE.umber, PALETTE.saddle, 0.3)), roughness: 0.95, envMapIntensity: 0.25 }));
+    const kerbMat = D(new THREE.MeshStandardMaterial({ color: 0x958987, roughness: 0.7, metalness: 0 }));
+    const steel = D(new THREE.MeshStandardMaterial({ color: 0xcfb6b4, roughness: 0.32, metalness: 0.95, envMapIntensity: 1.2 }));
     const edge = new THREE.Color(hc ? '#ffffff' : this.def.palette.edge);
-    const ledMat = D(new THREE.MeshBasicMaterial({ color: edge.clone().multiplyScalar(hc ? 1.5 : 2.6) }));
-    const tunnelLed = D(new THREE.MeshBasicMaterial({ color: new THREE.Color(this.def.palette.accentB).multiplyScalar(2.4) }));
+    const ledMat = D(new THREE.MeshBasicMaterial({ color: edge.clone().multiplyScalar(hc ? 1.5 : 1.3) }));
+    const tunnelLed = D(new THREE.MeshBasicMaterial({ color: new THREE.Color(this.def.palette.accentB).multiplyScalar(1.6) }));
 
     const kerbR: Prof = [[L.KERB_IN, 0], [L.KERB_IN, 0.1], [L.KERB_OUT, 0.12]];
     const shoulderR: Prof = [[L.KERB_OUT, 0.12], [L.BARRIER, 0.06]];
@@ -302,7 +307,7 @@ export class World {
     const posts: THREE.Matrix4[] = [];
     const tl: THREE.Matrix4[] = [];
     const dummy = new THREE.Object3D();
-    const tunnelLamp = new THREE.Color('#f4f1e6');
+    const tunnelLamp = new THREE.Color('#faf9f7');
     for (let r = 0; r < rows; r += 2) {
       if (this.tunnelRow[r]) {
         if (r % 6 === 0) {
@@ -395,18 +400,20 @@ export class World {
   }
 
   private buildGates(D: <X extends { dispose(): void }>(x: X) => X): void {
-    const metal = D(new THREE.MeshStandardMaterial({ color: 0x2a2f38, roughness: 0.45, metalness: 0.8 }));
-    const amber = D(new THREE.MeshBasicMaterial({ color: new THREE.Color('#ffb347').multiplyScalar(3) }));
+    const metal = D(new THREE.MeshStandardMaterial({ color: 0x170608, roughness: 0.45, metalness: 0.8 }));
+    const amber = D(new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.rose).multiplyScalar(1.8) }));
     const white = D(new THREE.MeshBasicMaterial({ color: new THREE.Color(1.8, 1.8, 1.8) }));
-    const exitBanner = D(new THREE.MeshBasicMaterial({ map: D(bannerTexture('Spine exit', '#ffb347')), color: new THREE.Color(1.3, 1.3, 1.3) }));
+    const exitBanner = D(new THREE.MeshBasicMaterial({ map: D(bannerTexture('Spine exit', PALETTE.rose)), color: new THREE.Color(1.15, 1.15, 1.15) }));
     const checker = D(checkerTexture());
     checker.wrapS = THREE.RepeatWrapping;
     const checkerMat = D(new THREE.MeshBasicMaterial({ map: checker, color: new THREE.Color(1.6, 1.6, 1.6) }));
     const finishRoad = D(new THREE.MeshStandardMaterial({ map: checker, roughness: 0.5, transparent: true, opacity: 0.85, polygonOffset: true, polygonOffsetFactor: -2 }));
-    const cpMats = [1, 2, 3].map((k) => D(new THREE.MeshBasicMaterial({ map: D(bannerTexture(`Checkpoint ${k}`, this.def.palette.accentA)), color: new THREE.Color(1.3, 1.3, 1.3) })));
+    const cpMats = [1, 2, 3].map((k) => D(new THREE.MeshBasicMaterial({ map: D(bannerTexture(`Checkpoint ${k}`, this.def.palette.accentA)), color: new THREE.Color(1.15, 1.15, 1.15) })));
     const bannerG = D(new THREE.PlaneGeometry(8, 0.75));
     const curtainG = D(new THREE.PlaneGeometry(0.5 * HALF_W, 4.2));
     const barG = D(new THREE.BoxGeometry(0.1, 4.4, 0.1));
+    const archG = D(new THREE.TorusGeometry(0.26 * HALF_W, 0.07, 6, 28, Math.PI));
+    const studG = D(new THREE.BoxGeometry(0.28, 0.28, 0.12));
     const span = L.POLE * HALF_W * 2;
     for (let i = 0; i < this.n; i++) {
       const sg = this.segs[i];
@@ -436,6 +443,16 @@ export class World {
           const top = new THREE.Mesh(D(new THREE.BoxGeometry(0.52 * HALF_W, 0.1, 0.1)), this.gateFrame);
           top.position.set(0, 4.25, 0);
           g.add(top);
+          // the stamped arch over the Spine mouth (decoration only: it sits above the curtain)
+          const arch = new THREE.Mesh(archG, this.gateFrame);
+          arch.position.set(0, 4.3, 0);
+          g.add(arch);
+          for (const ax of [-1, 1]) {
+            const stud = new THREE.Mesh(studG, this.gateFrame);
+            stud.position.set(ax * 0.26 * HALF_W, 4.95, 0);
+            stud.rotation.z = Math.PI / 4;
+            g.add(stud);
+          }
         } else if (sg.gate === 2) {
           const g = this.gantry(D, r, 6.0, amber, metal);
           const b = new THREE.Mesh(bannerG, exitBanner);
@@ -465,7 +482,7 @@ export class World {
     if (t === this.threshold) return;
     this.threshold = t;
     this.bannerSealed.map?.dispose();
-    this.bannerSealed.map = bannerTexture(`Spine sealed below ${t} %`, '#ff4354');
+    this.bannerSealed.map = bannerTexture(`Spine sealed below ${t} %`, PALETTE.red);
     this.bannerSealed.needsUpdate = true;
   }
 
@@ -473,9 +490,10 @@ export class World {
   setGate(open: boolean, time: number, reducedFlash: boolean): void {
     this.open = open;
     const flick = open || reducedFlash ? 1 : 0.55 + 0.45 * (Math.sin(time * 50) > 0 ? 1 : 0);
-    const c = open ? new THREE.Color('#2cf6ff') : new THREE.Color('#ff3348');
-    this.gateFrame.color.copy(c).multiplyScalar(4 * flick);
-    this.spineLine.color.copy(c).multiplyScalar(open ? 2.6 : 2.2 * flick);
+    // open = rose (the reward), sealed = brand red (the hazard)
+    const c = open ? new THREE.Color(PALETTE.rose) : new THREE.Color(PALETTE.red);
+    this.gateFrame.color.copy(c).multiplyScalar(2.4 * flick);
+    this.spineLine.color.copy(c).multiplyScalar(open ? 1.9 : 1.6 * flick);
     const pulse = 0.4 + 0.12 * Math.sin(time * 5);
     this.spineField.color.copy(c).multiplyScalar(open ? pulse : 0.3);
     this.curtainOpen.visible = open;
@@ -526,7 +544,7 @@ export class World {
       dummy.scale.set(1, 1, 1);
       dummy.updateMatrix();
       headM.push(dummy.matrix.clone());
-      headC.push(col.clone().multiplyScalar(this.def.id === 'halogen' ? 6 : 7));
+      headC.push(col.clone().multiplyScalar(this.def.id === 'halogen' ? 3.2 : 3.6));
       halo.push(head.x, head.y - 0.2, head.z);
       haloC.push(col.r, col.g, col.b);
       // wet-road reflection streak from the lamp foot towards the viewer
@@ -539,7 +557,7 @@ export class World {
       streakM.push(dummy.matrix.clone());
       this.lamps.push({ s: this.rowS(row), x: head.x, y: head.y - 0.4, z: head.z, color: col, power: 1 });
     }
-    const metal = D(new THREE.MeshStandardMaterial({ color: 0x3a3f47, roughness: 0.5, metalness: 0.8 }));
+    const metal = D(new THREE.MeshStandardMaterial({ color: 0x20080a, roughness: 0.5, metalness: 0.8 }));
     const poleG = D(new THREE.CylinderGeometry(0.09, 0.14, 1, 10));
     poleG.translate(0, 0.5, 0);
     const pole = new THREE.InstancedMesh(poleG, metal, poleM.length);
@@ -562,7 +580,7 @@ export class World {
     const hg = D(new THREE.BufferGeometry());
     hg.setAttribute('position', new THREE.Float32BufferAttribute(halo, 3));
     hg.setAttribute('color', new THREE.Float32BufferAttribute(haloC, 3));
-    const haloMat = D(new THREE.PointsMaterial({ size: 5.5, map: this.shared.glow, vertexColors: true, transparent: true, opacity: 0.32, blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true }));
+    const haloMat = D(new THREE.PointsMaterial({ size: 5.5, map: this.shared.glow, vertexColors: true, transparent: true, opacity: 0.18, blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true }));
     const halos = new THREE.Points(hg, haloMat);
     for (const m of [pole, arm, heads, streaks]) {
       m.frustumCulled = false;
@@ -613,13 +631,13 @@ export class World {
           dummy.scale.set(1, 1, 1);
           dummy.updateMatrix();
           bollM.push(dummy.matrix.clone());
-          bollC.push(new THREE.Color(this.def.palette.signs[sp.tex % this.def.palette.signs.length]).multiplyScalar(4));
+          bollC.push(new THREE.Color(this.def.palette.signs[sp.tex % this.def.palette.signs.length]).multiplyScalar(1.8));
         }
       }
     }
     signTex.forEach((t, i) => {
       if (!signM[i].length) return;
-      const m = D(new THREE.MeshBasicMaterial({ map: t, color: new THREE.Color(2.2, 2.2, 2.2) }));
+      const m = D(new THREE.MeshBasicMaterial({ map: t, color: new THREE.Color(1.05, 1.05, 1.05) }));
       const im = new THREE.InstancedMesh(D(new THREE.PlaneGeometry(1, 1)), m, signM[i].length);
       signM[i].forEach((mm, j) => im.setMatrixAt(j, mm));
       im.frustumCulled = false;
@@ -659,9 +677,9 @@ export class World {
     D(cm.map);
     D(cm.rough);
     cm.map.repeat.set(6, 1);
-    const conc = D(new THREE.MeshStandardMaterial({ map: cm.map, roughnessMap: cm.rough, color: 0x9ca1aa, roughness: 1, envMapIntensity: 0.5 }));
-    const led = D(new THREE.MeshBasicMaterial({ color: new THREE.Color(this.def.palette.accentB).multiplyScalar(3) }));
-    const under = D(new THREE.MeshBasicMaterial({ color: new THREE.Color('#f2efe4').multiplyScalar(4) }));
+    const conc = D(new THREE.MeshStandardMaterial({ map: cm.map, roughnessMap: cm.rough, color: new THREE.Color(mix(PALETTE.tan, PALETTE.saddle, 0.35)), roughness: 1, envMapIntensity: 0.4 }));
+    const led = D(new THREE.MeshBasicMaterial({ color: new THREE.Color(this.def.palette.accentB).multiplyScalar(1.6) }));
+    const under = D(new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.bone).multiplyScalar(2.6) }));
     const banner = D(new THREE.MeshBasicMaterial({ map: D(bannerTexture('Auralis transit line', this.def.palette.accentB)), color: new THREE.Color(1.3, 1.3, 1.3) }));
     const deckG = D(new THREE.BoxGeometry(70, 1.8, 13));
     const parapetG = D(new THREE.BoxGeometry(70, 1.1, 0.3));
@@ -706,7 +724,7 @@ export class World {
         g.add(b);
         this.group.add(g);
         const p = this.at(r, 0, clear - 0.5);
-        this.lamps.push({ s: this.rowS(r), x: p.x, y: p.y, z: p.z, color: new THREE.Color('#f2efe4'), power: 0.7 });
+        this.lamps.push({ s: this.rowS(r), x: p.x, y: p.y, z: p.z, color: new THREE.Color(PALETTE.bone), power: 0.7 });
       }
     }
   }
@@ -725,7 +743,8 @@ export class World {
     const crownC: THREE.Color[] = [];
     const dummy = new THREE.Object3D();
     const tints = pal.tints.map((t) => new THREE.Color(t));
-    const facade = [new THREE.Color('#2a2f38'), new THREE.Color('#1d222b'), new THREE.Color('#353a42'), new THREE.Color('#252b36')];
+    // adobe and sandstone walls, darkened for night
+    const facade = [PALETTE.saddle, PALETTE.tan, mix(PALETTE.saddle, PALETTE.mesa, 0.4), mix(PALETTE.tan, PALETTE.saddle, 0.5)].map((h) => new THREE.Color(h).multiplyScalar(0.55));
     const place = (row: number, side: number, latM: number, w: number, d: number, h: number, rr: () => number): void => {
       const halfDiag = Math.hypot(w, d) / 2;
       const lat = side * (latM + halfDiag) / HALF_W;
@@ -772,7 +791,7 @@ export class World {
         dummy.scale.set(w + 0.2, 0.5, d + 0.2);
         dummy.updateMatrix();
         crownM.push(dummy.matrix.clone());
-        crownC.push(new THREE.Color(pal.signs[Math.floor(rr() * pal.signs.length)]).multiplyScalar(2.5));
+        crownC.push(new THREE.Color(pal.signs[Math.floor(rr() * pal.signs.length)]).multiplyScalar(1.4));
       }
     };
     for (let row = 0; row < this.path.rows; row += 2) {
@@ -800,7 +819,7 @@ export class World {
     }
     // facade shader: floor and bay pattern from local metres, lit state from a canvas lookup
     const win = D(windowLookup(this.def.seed, pal));
-    const mat = D(new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.55, metalness: 0.35, envMapIntensity: 0.6 }));
+    const mat = D(new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.9, metalness: 0.02, envMapIntensity: 0.3 }));
     mat.onBeforeCompile = (sh) => {
       sh.uniforms.uWin = { value: win };
       sh.uniforms.uWinGain = { value: this.opts.highContrast ? 1.0 : 1.15 };
@@ -831,7 +850,9 @@ export class World {
   vec4 bLook = texture2D(uWin, (bId + vec2(vBSeed * 13.0 + bFace * 29.0, vBSeed * 5.0 + bFace * 3.0) + 0.5) / 128.0);
   float bLit = bWin * mix(bLook.a, 0.85, bShop * 0.7) * (0.55 + 0.45 * smoothstep(0.3, 0.8, bF.y));
   bLit *= 0.75 + 0.25 * sin(bF.x * 3.14159);
-  diffuseColor.rgb *= mix(1.0, 0.12, bWin);
+  diffuseColor.rgb *= mix(1.0, 0.1, bWin);
+  // engraved strata in the adobe
+  diffuseColor.rgb *= 0.92 + 0.08 * step(0.5, fract(vBLocal.y * 1.7 + vBSeed * 0.37));
   // spandrel bands between floors
   diffuseColor.rgb *= bRoof ? 0.6 : (1.0 - 0.18 * step(0.9, bF.y));`)
         .replace('#include <roughnessmap_fragment>', '#include <roughnessmap_fragment>\n  roughnessFactor = mix(roughnessFactor, 0.22, bWin);')
@@ -846,7 +867,7 @@ export class World {
     });
     bld.count = bm.length;
     bld.receiveShadow = false;
-    const roofMat = D(new THREE.MeshStandardMaterial({ color: 0x2b2f36, roughness: 0.7, metalness: 0.4 }));
+    const roofMat = D(new THREE.MeshStandardMaterial({ color: new THREE.Color(PALETTE.mesa), roughness: 0.85, metalness: 0.1 }));
     const roof = new THREE.InstancedMesh(boxG, roofMat, Math.max(1, roofM.length));
     roofM.forEach((m, i) => roof.setMatrixAt(i, m));
     roof.count = roofM.length;
@@ -869,6 +890,54 @@ export class World {
       m.frustumCulled = false;
       this.group.add(m);
     }
+    this.buildCacti(D);
+  }
+
+  /** Sparse saguaros out on the desert shoulder: a scale cue, a few in any view. Scenery only. */
+  private buildCacti(D: <X extends { dispose(): void }>(x: X) => X): void {
+    const trunk = new THREE.CylinderGeometry(0.42, 0.5, 6, 8);
+    trunk.translate(0, 3, 0);
+    const top = new THREE.SphereGeometry(0.42, 8, 4, 0, Math.PI * 2, 0, Math.PI / 2);
+    top.translate(0, 6, 0);
+    const armL = new THREE.CylinderGeometry(0.28, 0.28, 1.4, 6);
+    armL.rotateZ(Math.PI / 2);
+    armL.translate(-1.0, 2.8, 0);
+    const upL = new THREE.CylinderGeometry(0.28, 0.3, 2.2, 6);
+    upL.translate(-1.6, 3.9, 0);
+    const armR = new THREE.CylinderGeometry(0.26, 0.26, 1.2, 6);
+    armR.rotateZ(Math.PI / 2);
+    armR.translate(0.9, 3.8, 0);
+    const upR = new THREE.CylinderGeometry(0.26, 0.28, 1.6, 6);
+    upR.translate(1.45, 4.5, 0);
+    const src = [trunk, top, armL, upL, armR, upR];
+    const parts = src.map((g) => g.toNonIndexed());
+    const geo = mergeGeometries(parts);
+    for (const g of [...src, ...parts]) g.dispose();
+    if (!geo) return;
+    D(geo);
+    const mat = D(new THREE.MeshStandardMaterial({ color: new THREE.Color(PALETTE.umber), roughness: 1, metalness: 0 }));
+    const dummy = new THREE.Object3D();
+    const list: THREE.Matrix4[] = [];
+    const r = rng(this.def.seed * 41 + 7);
+    for (let row = 30; row < this.path.rows; row += 70) {
+      if (this.tunnelRow[row]) continue;
+      const side = r() < 0.5 ? -1 : 1;
+      const latM = L.BARRIER_BACK * HALF_W + 7 + r() * 10;
+      const c = this.at(row, (side * latM) / HALF_W, 0);
+      if (this.path.nearRoad(c.x, c.z, L.BARRIER_BACK * HALF_W + 4)) continue;
+      this.path.sample(this.rowS(row), this.pose);
+      dummy.position.set(c.x, this.pose.y - 0.3, c.z);
+      dummy.rotation.set(0, r() * Math.PI * 2, 0);
+      const s = 0.8 + r() * 0.7;
+      dummy.scale.set(s, s, s);
+      dummy.updateMatrix();
+      list.push(dummy.matrix.clone());
+    }
+    if (!list.length) return;
+    const im = new THREE.InstancedMesh(geo, mat, list.length);
+    list.forEach((m, i) => im.setMatrixAt(i, m));
+    im.frustumCulled = false;
+    this.group.add(im);
   }
 
   // ---------- distant skyline (follows the camera) ----------
@@ -877,7 +946,7 @@ export class World {
     for (const [far, radius, height] of [[true, 2600, 520], [false, 1700, 330]] as const) {
       const t = D(skylineStrip(this.def.seed, this.def.palette, far));
       t.repeat.set(far ? 5 : 4, 1);
-      const m = D(new THREE.MeshBasicMaterial({ map: t, transparent: true, alphaTest: 0.02, side: THREE.BackSide, fog: false, depthWrite: false, color: new THREE.Color(far ? 0.8 : 1, far ? 0.8 : 1, far ? 0.85 : 1) }));
+      const m = D(new THREE.MeshBasicMaterial({ map: t, transparent: true, alphaTest: 0.02, side: THREE.BackSide, fog: false, depthWrite: false, color: new THREE.Color(far ? 0.85 : 1, far ? 0.82 : 1, far ? 0.82 : 1) }));
       const g = D(new THREE.CylinderGeometry(radius, radius, height, 64, 1, true));
       g.translate(0, height / 2 - 40, 0);
       const mesh = new THREE.Mesh(g, m);

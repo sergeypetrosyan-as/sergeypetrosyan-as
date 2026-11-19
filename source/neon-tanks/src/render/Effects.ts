@@ -160,12 +160,12 @@ interface Timed<T> {
 }
 
 export const WEAPON_COLOR: Record<ProjectileKind | 'shockwave' | 'tank', number> = {
-  plasma: 0x38e8ff,
-  rail: 0xc8f6ff,
-  volt: 0x8fa6ff,
-  nova: 0xff8a3d,
-  shockwave: 0x9ff4ff,
-  tank: 0xff9a40,
+  plasma: 0xf1ede7, // bone: moonlight round
+  rail: 0xffffff, // white: the brightest line on the field
+  volt: 0xd3b9b7, // tan arc
+  nova: 0xe96b74, // rose rocket flare
+  shockwave: 0xf1ede7,
+  tank: 0xe96b74,
 };
 
 /** All transient combat visuals. */
@@ -258,17 +258,25 @@ export class Effects {
       this.group.add(im);
       return im;
     };
-    this.shots.set('plasma', mk(new THREE.SphereGeometry(0.28, 10, 8), PALETTE.white, 2.5, false, 96));
-    this.glows.set('plasma', mk(new THREE.CylinderGeometry(0.42, 0.05, 1, 10).rotateX(-Math.PI / 2).translate(0, 0, -0.5), WEAPON_COLOR.plasma, 2.2, true, 96));
-    this.shots.set('volt', mk(new THREE.BoxGeometry(0.09, 0.09, 1), 0xe6ecff, 3, false, 160));
-    this.glows.set('volt', mk(new THREE.BoxGeometry(0.3, 0.3, 1.4), WEAPON_COLOR.volt, 1.6, true, 160));
-    this.shots.set('rail', mk(new THREE.BoxGeometry(0.14, 0.14, 1), PALETTE.white, 4, false, 16));
-    this.glows.set('rail', mk(new THREE.BoxGeometry(0.5, 0.5, 1), WEAPON_COLOR.rail, 1.5, true, 16));
+    // Glows are white materials tinted per instance: the weapon's own colour for
+    // friendly fire, brand red for anything shot at the player (see updateProjectiles).
+    const glow = (geo: THREE.BufferGeometry, kind: ProjectileKind, intensity: number, cap: number) => {
+      const im = mk(geo, 0xffffff, intensity, true, cap);
+      for (let i = 0; i < cap; i++) im.setColorAt(i, _c.setHex(WEAPON_COLOR[kind]));
+      this.glowKind.set(im, kind);
+      return im;
+    };
+    this.shots.set('plasma', mk(new THREE.SphereGeometry(0.28, 10, 8), PALETTE.white, 2.2, false, 96));
+    this.glows.set('plasma', glow(new THREE.CylinderGeometry(0.42, 0.05, 1, 10).rotateX(-Math.PI / 2).translate(0, 0, -0.5), 'plasma', 1.6, 96));
+    this.shots.set('volt', mk(new THREE.BoxGeometry(0.09, 0.09, 1), 0xf1ede7, 2.4, false, 160));
+    this.glows.set('volt', glow(new THREE.BoxGeometry(0.3, 0.3, 1.4), 'volt', 1.2, 160));
+    this.shots.set('rail', mk(new THREE.BoxGeometry(0.14, 0.14, 1), PALETTE.white, 3, false, 16));
+    this.glows.set('rail', glow(new THREE.BoxGeometry(0.5, 0.5, 1), 'rail', 1.2, 16));
     const rocket = new THREE.CylinderGeometry(0.13, 0.13, 0.9, 8).rotateX(Math.PI / 2);
-    this.shots.set('nova', mk(rocket, 0x2b2f38, 1, false, 64));
-    this.glows.set('nova', mk(new THREE.SphereGeometry(0.32, 8, 6).translate(0, 0, -0.55), WEAPON_COLOR.nova, 2.6, true, 64));
+    this.shots.set('nova', mk(rocket, 0x2d0a0d, 1, false, 64));
+    this.glows.set('nova', glow(new THREE.SphereGeometry(0.32, 8, 6).translate(0, 0, -0.55), 'nova', 1.9, 64));
 
-    const debrisMat = this.mat(new THREE.MeshStandardMaterial({ color: 0x23272f, metalness: 0.7, roughness: 0.6, emissive: new THREE.Color(0x401000), emissiveIntensity: 0.6 }));
+    const debrisMat = this.mat(new THREE.MeshStandardMaterial({ color: 0x130607, metalness: 0.7, roughness: 0.6, emissive: new THREE.Color(0x84121c), emissiveIntensity: 0.6 }));
     this.debris = new THREE.InstancedMesh(this.geo(new THREE.BoxGeometry(1, 1, 1)), debrisMat, 48);
     this.debris.count = 48;
     this.debris.frustumCulled = false;
@@ -371,7 +379,7 @@ export class Effects {
     const c = this.columns[this.colIdx];
     this.colIdx = (this.colIdx + 1) % this.columns.length;
     c.obj.position.set(x, y, z);
-    (c.obj.material as THREE.MeshBasicMaterial).color.setHex(color).multiplyScalar(1.4);
+    (c.obj.material as THREE.MeshBasicMaterial).color.setHex(color).multiplyScalar(0.8);
     c.obj.visible = true;
     c.t = 0.9;
     c.dur = 0.9;
@@ -396,7 +404,7 @@ export class Effects {
 
   fire(x: number, y: number, z: number, n: number, size: number): void {
     for (let i = 0; i < n; i++) {
-      const c = Math.random() < 0.5 ? 0xff7a2a : 0xffc65a;
+      const c = Math.random() < 0.5 ? 0xe74553 : 0xeb8c91;
       this.add.emit(x + (Math.random() - 0.5) * size, y + Math.random() * 0.4, z + (Math.random() - 0.5) * size, (Math.random() - 0.5) * 1.2, 1.5 + Math.random() * 2, (Math.random() - 0.5) * 1.2, c, 1.6, size * 0.5, size * 0.4, 0.35 + Math.random() * 0.35, -1, 1);
     }
   }
@@ -424,7 +432,7 @@ export class Effects {
       return;
     }
     if (kind === 'nova') return; // the explode event covers it
-    this.sparks(x, y, z, nx, ny, nz, onTank ? 0xffd28a : c, kind === 'rail' ? 22 : 12, kind === 'rail' ? 14 : 9);
+    this.sparks(x, y, z, nx, ny, nz, onTank ? 0xec989c : c, kind === 'rail' ? 22 : 12, kind === 'rail' ? 14 : 9);
     this.flash(x, y, z, c, kind === 'rail' ? 3.4 : 2.2, 0.12);
     this.light(x, y, z, c, 16, 0.12);
     if (!onTank) this.smokePuff(x, y, z, 2, 0.9, 0.12, 1);
@@ -436,7 +444,7 @@ export class Effects {
     this.flash(x, y, z, 0xffffff, radius * 1.4, 0.12, 2.6);
     this.flash(x, y, z, color, radius * 2.2, 0.32, 2);
     this.light(x, y + 1, z, color, big ? 70 : 30, 0.35);
-    this.sparks(x, y, z, 0, 1, 0, 0xffc070, big ? 26 : 12, big ? 16 : 10);
+    this.sparks(x, y, z, 0, 1, 0, 0xeb898e, big ? 26 : 12, big ? 16 : 10);
     this.fire(x, y, z, big ? 18 : 8, radius * 0.45);
     this.smokePuff(x, y + 0.5, z, big ? 10 : 4, radius * 0.7, 0.1, 2.2);
     if (groundY !== null) {
@@ -446,7 +454,7 @@ export class Effects {
   }
 
   tankDestroyed(x: number, y: number, z: number, color: number): void {
-    this.explosion(x, y + 1.2, z, 7, 0xff8a3d, y);
+    this.explosion(x, y + 1.2, z, 7, 0xe85763, y);
     this.flash(x, y + 1.5, z, color, 10, 0.5, 1.6);
     this.ring(x, y + 0.15, z, color, 9, 0.7);
     for (let i = 0; i < 10; i++) {
@@ -493,7 +501,7 @@ export class Effects {
 
   // ------------------------------------------------------------ per frame
 
-  updateProjectiles(items: Projectile[], dt: number): void {
+  updateProjectiles(items: Projectile[], dt: number, hostile: (owner: number) => boolean = () => false): void {
     let np = 0, nv = 0, nr = 0, nn = 0;
     const plasma = this.shots.get('plasma')!, plasmaG = this.glows.get('plasma')!;
     const volt = this.shots.get('volt')!, voltG = this.glows.get('volt')!;
@@ -513,24 +521,28 @@ export class Effects {
         plasma.setMatrixAt(np, _m);
         _m.compose(_s.set(p.x, p.y, p.z), _q, _v.set(1, 1, Math.min(4, sp * 0.045)));
         plasmaG.setMatrixAt(np, _m);
+        this.tint(plasmaG, np, hostile(p.owner));
         np++;
       } else if (kind === 'volt' && nv < 160) {
         _m.compose(_s.set(p.x, p.y, p.z), _q, _v.set(1, 1, 1.6));
         volt.setMatrixAt(nv, _m);
         voltG.setMatrixAt(nv, _m);
+        this.tint(voltG, nv, hostile(p.owner));
         nv++;
       } else if (kind === 'rail' && nr < 16) {
         _m.compose(_s.set(p.x, p.y, p.z), _q, _v.set(1, 1, 7));
         rail.setMatrixAt(nr, _m);
         railG.setMatrixAt(nr, _m);
+        this.tint(railG, nr, hostile(p.owner));
         nr++;
       } else if (kind === 'nova' && nn < 64) {
         _m.compose(_s.set(p.x, p.y, p.z), _q, _v.set(1, 1, 1));
         nova.setMatrixAt(nn, _m);
         novaG.setMatrixAt(nn, _m);
+        this.tint(novaG, nn, hostile(p.owner));
         nn++;
         if (emitTrail) {
-          this.smoke.emit(p.x, p.y, p.z, (Math.random() - 0.5) * 0.6, 0.4, (Math.random() - 0.5) * 0.6, 0x3a3d44, 1, 0.35, 1.1, 0.9, -0.2, 1.5);
+          this.smoke.emit(p.x, p.y, p.z, (Math.random() - 0.5) * 0.6, 0.4, (Math.random() - 0.5) * 0.6, 0x1f080a, 1, 0.35, 1.1, 0.9, -0.2, 1.5);
           this.add.emit(p.x, p.y, p.z, 0, 0, 0, WEAPON_COLOR.nova, 1.5, 0.3, -0.25, 0.12, 0, 0);
         }
       }
@@ -539,6 +551,14 @@ export class Effects {
     setCount(volt, nv); setCount(voltG, nv);
     setCount(rail, nr); setCount(railG, nr);
     setCount(nova, nn); setCount(novaG, nn);
+    for (const im of [plasmaG, voltG, railG, novaG]) if (im.instanceColor) im.instanceColor.needsUpdate = true;
+  }
+
+  private readonly glowKind = new Map<THREE.InstancedMesh, ProjectileKind>();
+
+  /** Per-instance glow colour: hostile fire is brand red, friendly fire keeps its weapon colour. */
+  private tint(im: THREE.InstancedMesh, i: number, hostile: boolean): void {
+    im.setColorAt(i, _c.setHex(hostile ? PALETTE.red : WEAPON_COLOR[this.glowKind.get(im)!]));
   }
 
   update(dt: number): void {
@@ -606,7 +626,7 @@ export class Effects {
       _q.setFromAxisAngle(UP, d.ry);
       _m.compose(_s.set(d.x, d.y, d.z), _q, _v.set(s, s * 0.6, s * 1.4));
       this.debris.setMatrixAt(i, _m);
-      if (Math.random() < dt * 6 && d.t > 1) this.smoke.emit(d.x, d.y, d.z, 0, 0.6, 0, 0x26282e, 1, 0.3, 0.8, 0.8, -0.2, 1);
+      if (Math.random() < dt * 6 && d.t > 1) this.smoke.emit(d.x, d.y, d.z, 0, 0.6, 0, 0x140607, 1, 0.3, 0.8, 0.8, -0.2, 1);
     }
     if (anyDebris) this.debris.instanceMatrix.needsUpdate = true;
   }

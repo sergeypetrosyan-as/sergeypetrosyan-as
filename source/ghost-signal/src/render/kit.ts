@@ -115,12 +115,12 @@ export interface WinOpts { cols: number; rows: number; lit: number; r: Rng; warm
 export function windows(c: Ctx, x: number, y: number, w: number, h: number, o: WinOpts): void {
   const cw = w / o.cols; const rh = h / o.rows;
   const pw = cw * 0.62; const ph = rh * 0.58;
-  const tints = o.tint ?? ['255,196,120', '255,214,160', '160,220,255', '255,150,190', '200,255,240'];
+  const tints = o.tint ?? ['231,219,215', '240,236,230', '247,244,241', '174,16,31', '254,254,253'];
   for (let j = 0; j < o.rows; j++) {
     for (let i = 0; i < o.cols; i++) {
       const wx = x + i * cw + (cw - pw) / 2; const wy = y + j * rh + (rh - ph) * 0.4;
       const lit = o.r() < o.lit;
-      if (!lit) { c.fillStyle = o.frame ?? 'rgba(4,8,12,0.9)'; c.fillRect(wx, wy, pw, ph); continue; }
+      if (!lit) { c.fillStyle = o.frame ?? 'rgba(6, 4, 4,0.9)'; c.fillRect(wx, wy, pw, ph); continue; }
       const t = o.r() < (o.warm ?? 0.6) ? tints[o.r() < 0.6 ? 0 : 1] : tints[2 + Math.floor(o.r() * (tints.length - 2))];
       const k = (o.dim ?? 0.55) * (0.45 + o.r() * 0.55);
       const g = c.createLinearGradient(0, wy, 0, wy + ph);
@@ -128,18 +128,18 @@ export function windows(c: Ctx, x: number, y: number, w: number, h: number, o: W
       c.fillStyle = g; c.fillRect(wx, wy, pw, ph);
       const kind = o.r();
       if (kind < 0.3) { // blinds
-        c.fillStyle = 'rgba(0,0,0,0.35)';
+        c.fillStyle = 'rgba(3, 3, 3,0.35)';
         for (let s = wy + 1; s < wy + ph; s += Math.max(1.5, ph / 7)) c.fillRect(wx, s, pw, Math.max(0.6, ph / 18));
       } else if (kind < 0.5) { // curtain half-drawn
-        c.fillStyle = 'rgba(10,6,8,0.7)'; c.fillRect(wx, wy, pw * (0.3 + o.r() * 0.4), ph);
+        c.fillStyle = 'rgba(6, 3, 4,0.7)'; c.fillRect(wx, wy, pw * (0.3 + o.r() * 0.4), ph);
       } else if (kind < 0.58 && ph > 6) { // someone at the window
-        c.fillStyle = 'rgba(6,6,8,0.85)';
+        c.fillStyle = 'rgba(6, 3, 4,0.85)';
         const px = wx + pw * (0.25 + o.r() * 0.5);
         c.beginPath(); c.arc(px, wy + ph * 0.45, ph * 0.14, 0, Math.PI * 2); c.fill();
         c.fillRect(px - ph * 0.22, wy + ph * 0.58, ph * 0.44, ph * 0.42);
       }
       // sill
-      c.fillStyle = 'rgba(0,0,0,0.5)'; c.fillRect(wx - 0.5, wy + ph, pw + 1, Math.max(0.6, ph * 0.06));
+      c.fillStyle = 'rgba(3, 3, 3,0.5)'; c.fillRect(wx - 0.5, wy + ph, pw + 1, Math.max(0.6, ph * 0.06));
     }
   }
 }
@@ -177,7 +177,7 @@ export function cable(c: Ctx, x0: number, y0: number, x1: number, y1: number, sa
 /** Wall-mounted air conditioner / vent box. */
 export function acUnit(c: Ctx, x: number, y: number, s: number, col: string): void {
   c.fillStyle = col; c.fillRect(x, y, s * 1.4, s);
-  c.fillStyle = 'rgba(0,0,0,0.45)';
+  c.fillStyle = 'rgba(3, 3, 3,0.45)';
   for (let i = 1; i < 6; i++) c.fillRect(x + s * 0.1, y + (s * i) / 6, s * 0.75, Math.max(0.5, s * 0.05));
   c.beginPath(); c.arc(x + s * 1.08, y + s * 0.5, s * 0.26, 0, Math.PI * 2); c.fill();
   c.fillStyle = 'rgba(255,255,255,0.05)'; c.fillRect(x, y, s * 1.4, Math.max(0.6, s * 0.06));
@@ -188,7 +188,7 @@ export function building(c: Ctx, x: number, base: number, bw: number, bh: number
   const top = base - bh;
   c.fillStyle = o.col; c.fillRect(x, top, bw, bh);
   if (o.edge) { c.fillStyle = o.edge; c.fillRect(x, top, Math.max(1, bw * 0.02), bh); }
-  c.fillStyle = 'rgba(0,0,0,0.3)'; c.fillRect(x - 1, top, bw + 2, Math.max(1, bh * 0.012));
+  c.fillStyle = 'rgba(3, 3, 3,0.3)'; c.fillRect(x - 1, top, bw + 2, Math.max(1, bh * 0.012));
   const rows = o.rows ?? Math.max(2, Math.floor(bh / Math.max(9, bw * 0.16)));
   const cols = Math.max(2, Math.floor(bw / Math.max(8, bh / rows * 0.9)));
   windows(c, x + bw * 0.04, top + bh * 0.04, bw * 0.92, bh * 0.9, { cols, rows, lit: o.lit, r, dim: o.dim });
@@ -203,8 +203,8 @@ export function building(c: Ctx, x: number, base: number, bw: number, bh: number
     const ax = x + bw * (0.6 + r() * 0.3);
     line(c, ax, top, ax, top - bh * 0.12, o.col, Math.max(1, bw * 0.01));
   }
-  if (o.ac) for (let i = 0; i < 3; i++) if (r() < 0.7) acUnit(c, x + bw * (0.1 + r() * 0.7), top + bh * (0.2 + r() * 0.6), Math.max(3, bw * 0.06), 'rgba(40,46,50,0.95)');
-  if (o.escape) fireEscape(c, x + bw * 0.25, top + bh * 0.16, bw * 0.5, Math.max(2, rows - 1), (bh * 0.8) / Math.max(2, rows - 1), 'rgba(8,10,12,0.95)', Math.max(0.7, bw * 0.006));
+  if (o.ac) for (let i = 0; i < 3; i++) if (r() < 0.7) acUnit(c, x + bw * (0.1 + r() * 0.7), top + bh * (0.2 + r() * 0.6), Math.max(3, bw * 0.06), 'rgba(22, 6, 7,0.95)');
+  if (o.escape) fireEscape(c, x + bw * 0.25, top + bh * 0.16, bw * 0.5, Math.max(2, rows - 1), (bh * 0.8) / Math.max(2, rows - 1), 'rgba(7, 4, 4,0.95)', Math.max(0.7, bw * 0.006));
 }
 
 /** Perspective floor seams converging to a vanishing point. */
@@ -305,13 +305,13 @@ export function person(c: Ctx, x: number, base: number, o: PersonOpts): void {
     c.save();
     c.translate(0, base * 2); c.scale(1, -1);
     c.globalAlpha = o.reflect * 0.55;
-    c.fillStyle = '#020406'; c.fill(path);
+    c.fillStyle = '#050303'; c.fill(path);
     c.restore();
   }
-  c.fillStyle = o.fill ?? '#05080b'; c.fill(path);
+  c.fillStyle = o.fill ?? '#060404'; c.fill(path);
   // body shading: a faint gradient so the silhouette has volume
   c.save(); c.clip(path);
-  vgrad(c, x - H, base - H, H * 2, H, [[0, 'rgba(255,255,255,0.03)'], [0.6, 'rgba(0,0,0,0)'], [1, 'rgba(0,0,0,0.25)']]);
+  vgrad(c, x - H, base - H, H * 2, H, [[0, 'rgba(255,255,255,0.03)'], [0.6, 'rgba(3, 3, 3,0)'], [1, 'rgba(3, 3, 3,0.25)']]);
   c.restore();
   if (!o.rims?.length) return;
   // rim: path minus the path shifted toward the light, rendered on a temp canvas
@@ -327,12 +327,12 @@ export function person(c: Ctx, x: number, base: number, o: PersonOpts): void {
     t.globalCompositeOperation = 'destination-out';
     const sh = Math.max(1, H * (k === 0 ? 0.0075 : 0.005));
     const len = Math.hypot(rim.dx, rim.dy) || 1;
-    t.save(); t.translate(-rim.dx / len * sh, -rim.dy / len * sh); t.filter = 'blur(0.8px)'; t.fillStyle = '#000'; t.fill(path); t.restore();
+    t.save(); t.translate(-rim.dx / len * sh, -rim.dy / len * sh); t.filter = 'blur(0.8px)'; t.fillStyle = '#030303'; t.fill(path); t.restore();
     t.filter = 'none';
     // light falls off toward the feet
     t.globalCompositeOperation = 'destination-in';
     const g = t.createLinearGradient(0, base - H, 0, base);
-    g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(0.45, 'rgba(0,0,0,0.75)'); g.addColorStop(1, 'rgba(0,0,0,0.15)');
+    g.addColorStop(0, 'rgba(3, 3, 3,1)'); g.addColorStop(0.45, 'rgba(3, 3, 3,0.75)'); g.addColorStop(1, 'rgba(3, 3, 3,0.15)');
     t.fillStyle = g; t.fillRect(bx, by, tw, th);
     c.save(); c.globalCompositeOperation = 'lighter'; c.drawImage(cv, bx, by, tw, th); c.restore();
   });
@@ -343,29 +343,29 @@ export function person(c: Ctx, x: number, base: number, o: PersonOpts): void {
 export function neon(c: Ctx, trace: (c: Ctx) => void, rgb: string, width: number, k = 1): void {
   c.save();
   c.lineCap = 'round'; c.lineJoin = 'round';
-  c.shadowColor = rgba(rgb, 0.9 * k); c.shadowBlur = width * 9;
-  c.strokeStyle = rgba(rgb, 0.35 * k); c.lineWidth = width * 3.2; trace(c); c.stroke();
+  c.shadowColor = rgba(rgb, 0.55 * k); c.shadowBlur = width * 5; // warm halo, not neon
+  c.strokeStyle = rgba(rgb, 0.22 * k); c.lineWidth = width * 2.6; trace(c); c.stroke();
   c.shadowBlur = width * 3;
   c.strokeStyle = rgba(rgb, 0.95 * k); c.lineWidth = width; trace(c); c.stroke();
   c.shadowBlur = 0;
-  c.strokeStyle = rgba('255,255,255', 0.75 * k); c.lineWidth = Math.max(0.5, width * 0.35); trace(c); c.stroke();
+  c.strokeStyle = rgba('241,237,231', 0.55 * k); c.lineWidth = Math.max(0.5, width * 0.35); trace(c); c.stroke();
   c.restore();
 }
-export function neonText(c: Ctx, text: string, x: number, y: number, size: number, rgb: string, align: CanvasTextAlign = 'center', k = 1, font = 'Big Shoulders Display'): void {
+export function neonText(c: Ctx, text: string, x: number, y: number, size: number, rgb: string, align: CanvasTextAlign = 'center', k = 1, font = 'Zilla Slab'): void {
   c.save();
   c.font = `700 ${size}px "${font}", Bahnschrift, 'Arial Narrow', sans-serif`;
   c.textAlign = align; c.textBaseline = 'middle';
   c.lineJoin = 'round';
-  c.shadowColor = rgba(rgb, 0.9 * k); c.shadowBlur = size * 0.5;
+  c.shadowColor = rgba(rgb, 0.55 * k); c.shadowBlur = size * 0.3;
   c.strokeStyle = rgba(rgb, 0.5 * k); c.lineWidth = size * 0.09; c.strokeText(text, x, y);
   c.shadowBlur = size * 0.15;
   c.strokeStyle = rgba(rgb, k); c.lineWidth = size * 0.05; c.strokeText(text, x, y);
   c.shadowBlur = 0;
-  c.strokeStyle = rgba('255,255,255', 0.7 * k); c.lineWidth = Math.max(0.5, size * 0.016); c.strokeText(text, x, y);
+  c.strokeStyle = rgba('241,237,231', 0.5 * k); c.lineWidth = Math.max(0.5, size * 0.016); c.strokeText(text, x, y);
   c.restore();
 }
 /** Painted or unlit lettering (no glow). */
-export function flatText(c: Ctx, text: string, x: number, y: number, size: number, fill: string, align: CanvasTextAlign = 'center', weight = 700, font = 'Big Shoulders Display', spacing = 0): void {
+export function flatText(c: Ctx, text: string, x: number, y: number, size: number, fill: string, align: CanvasTextAlign = 'center', weight = 700, font = 'Zilla Slab', spacing = 0): void {
   c.save();
   c.font = `${weight} ${size}px "${font}", Bahnschrift, 'Arial Narrow', sans-serif`;
   c.textAlign = align; c.textBaseline = 'middle'; c.fillStyle = fill;
@@ -381,11 +381,11 @@ export function speckle(c: Ctx, x: number, y: number, w: number, h: number, n: n
   for (let i = 0; i < n; i++) c.fillRect(x + r() * w, y + r() * h, size * (0.4 + r()), size * (0.4 + r()));
 }
 /** Vertical water stains running down a wall. */
-export function stains(c: Ctx, x: number, y: number, w: number, h: number, n: number, r: Rng, col = 'rgba(0,0,0,0.18)'): void {
+export function stains(c: Ctx, x: number, y: number, w: number, h: number, n: number, r: Rng, col = 'rgba(3, 3, 3,0.18)'): void {
   for (let i = 0; i < n; i++) {
     const sx = x + r() * w; const len = h * (0.2 + r() * 0.8); const sw = 1 + r() * 6;
     const g = c.createLinearGradient(0, y, 0, y + len);
-    g.addColorStop(0, col); g.addColorStop(1, 'rgba(0,0,0,0)');
+    g.addColorStop(0, col); g.addColorStop(1, 'rgba(3, 3, 3,0)');
     c.fillStyle = g; c.fillRect(sx, y, sw, len);
   }
 }

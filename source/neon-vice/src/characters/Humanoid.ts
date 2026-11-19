@@ -105,7 +105,7 @@ export class Humanoid {
     const pants = std(look.pants, 0.75);
     const shoes = std(look.shoes, 0.4, 0.2);
     const hair = std(look.hair, 0.8);
-    const metal = std(0x22222c, 0.3, 0.8);
+    const metal = std(0x120506, 0.3, 0.8);
     const b = look.bulk;
     const mesh = (geo: THREE.BufferGeometry, mat: THREE.Material, parent: THREE.Object3D, x = 0, y = 0, z = 0, sx = 1, sy = 1, sz = 1) => {
       const m = new THREE.Mesh(geo, mat);
@@ -224,7 +224,7 @@ export class Humanoid {
     // Hit flash: brief emissive white pulse on all cloth/skin materials.
     if (this.flash > 0) {
       this.flash = Math.max(0, this.flash - dt * 6);
-      for (const m of this.materials) m.emissive.setRGB(this.flash * 0.55, this.flash * 0.12, this.flash * 0.3);
+      for (const m of this.materials) m.emissive.setRGB(this.flash * 0.6, this.flash * 0.08, this.flash * 0.07);
       this.neonMat.color.copy(this.neonBase).multiplyScalar(1 + this.flash);
     }
     if (this.deathT >= 0) {

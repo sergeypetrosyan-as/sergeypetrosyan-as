@@ -8,6 +8,7 @@ import type { BakeResult, BakeUniforms } from './bake.ts';
 import { FIXTURE_H, WALL_H, bakeLightField, patchMaterial } from './bake.ts';
 import * as TX from './textures.ts';
 import { hash2 } from './textures.ts';
+import { PALETTE } from '../../theme.ts';
 
 type Disposable = { dispose(): void };
 type Skin = 'rack' | 'shelf' | 'crates' | 'cabinet';
@@ -16,8 +17,10 @@ const DOOR_H = 1.0;
 
 export interface Palette { patrol: THREE.Color; suspicious: THREE.Color; alert: THREE.Color; search: THREE.Color; camera: THREE.Color; laser: THREE.Color; ok: THREE.Color; locked: THREE.Color; amber: THREE.Color }
 const C = (h: string): THREE.Color => new THREE.Color(h);
-export const PAL_NORMAL: Palette = { patrol: C('#dce4e6'), suspicious: C('#f0a541'), alert: C('#e2483d'), search: C('#b58cff'), camera: C('#9fd8ff'), laser: C('#5ef2ff'), ok: C('#6dffa6'), locked: C('#e2483d'), amber: C('#f0a541') };
-export const PAL_CB: Palette = { patrol: C('#4aa3ff'), suspicious: C('#ffa000'), alert: C('#ff7bff'), search: C('#ffffff'), camera: C('#8ec5ff'), laser: C('#4aa3ff'), ok: C('#ffffff'), locked: C('#ff7bff'), amber: C('#ffa000') };
+// 19_mystical-western roles: guards carry lantern light (tan), alert is brand red, hackables are rose stamps,
+// the exit / checkpoints are bone moonlight.
+export const PAL_NORMAL: Palette = { patrol: C(PALETTE.tan), suspicious: C(PALETTE.rose), alert: C(PALETTE.red), search: C(PALETTE.ember), camera: C(PALETTE.tan), laser: C(PALETTE.rose), ok: C(PALETTE.bone), locked: C(PALETTE.red), amber: C(PALETTE.rose) };
+export const PAL_CB: Palette = { patrol: C(PALETTE.bone), suspicious: C(PALETTE.rose), alert: C(PALETTE.red), search: C(PALETTE.white), camera: C(PALETTE.bone), laser: C(PALETTE.blush), ok: C(PALETTE.white), locked: C(PALETTE.red), amber: C(PALETTE.rose) };
 
 interface DoorView { i: number; horiz: boolean; left: THREE.Mesh; right: THREE.Mesh; lamp: THREE.MeshStandardMaterial; bar: THREE.Mesh; open: number; x: number; y: number }
 interface LaserRun { x0: number; y0: number; x1: number; y1: number; horiz: boolean }
@@ -63,7 +66,7 @@ export class Level {
     const bs = TX.brushedSteel();
     this.bag.push(bs.map, bs.rough);
     this.steel = this.std({ map: bs.map, roughnessMap: bs.rough, metalness: 0.85, roughness: 0.42, envMap: env, envMapIntensity: 0.5 });
-    this.darkSteel = this.std({ color: 0x24292d, metalness: 0.6, roughness: 0.5, envMap: env, envMapIntensity: 0.3 });
+    this.darkSteel = this.std({ color: 0x140607, metalness: 0.6, roughness: 0.5, envMap: env, envMapIntensity: 0.3 });
     this.planSkins();
     this.buildFloor();
     this.buildWalls();
@@ -247,8 +250,8 @@ export class Level {
     const fg = TX.frostedGlass();
     this.bag.push(wm.map, wm.normal, wm.rough, cap, fg);
     const wallMat = this.std({ map: wm.map, normalMap: wm.normal, roughness: 0.92, metalness: 0 }, true);
-    const capMat = this.std({ map: cap, roughness: 0.95, metalness: 0, emissive: 0x15191c, emissiveIntensity: 1 }, true);
-    const glassMat = this.std({ map: fg, color: 0x6d777c, roughness: 0.22, metalness: 0, envMap: this.env, envMapIntensity: 0.35, emissive: 0x0a1013, emissiveIntensity: 1 }, true);
+    const capMat = this.std({ map: cap, roughness: 0.95, metalness: 0, emissive: 0xffffff, emissiveMap: cap, emissiveIntensity: 0.5 }, true);
+    const glassMat = this.std({ map: fg, color: 0x5e5454, roughness: 0.22, metalness: 0, envMap: this.env, envMapIntensity: 0.35, emissive: 0x090404, emissiveIntensity: 1 }, true);
     this.mesh(g, [wallMat, capMat, glassMat], true, true);
 
     // cable trays
@@ -257,7 +260,7 @@ export class Level {
       const cg = new THREE.BoxGeometry(1, 0.045, 0.1);
       cg.translate(0, 0.04, 0);
       this.keep(tg); this.keep(cg);
-      const cableMat = this.std({ color: 0x15171a, roughness: 0.7 });
+      const cableMat = this.std({ color: 0x0d0505, roughness: 0.7 });
       const ti = this.keep(new THREE.InstancedMesh(tg, this.steel, trays.length));
       const ci = this.keep(new THREE.InstancedMesh(cg, cableMat, trays.length));
       trays.forEach((m, i) => { ti.setMatrixAt(i, m); ci.setMatrixAt(i, m); });
@@ -306,7 +309,7 @@ export class Level {
       if (!groups.has(s.skin)) groups.set(s.skin, []);
       groups.get(s.skin)!.push(m);
     }
-    const side = this.std({ color: 0x2a2f33, roughness: 0.6, metalness: 0.5, envMap: this.env, envMapIntensity: 0.25 });
+    const side = this.std({ color: 0x170608, roughness: 0.6, metalness: 0.5, envMap: this.env, envMapIntensity: 0.25 });
     for (const [skin, mats] of groups) {
       let geo: THREE.BufferGeometry;
       let materials: THREE.Material[];
@@ -324,7 +327,7 @@ export class Level {
       } else if (skin === 'cabinet') {
         const t = this.keep(TX.cabinetFront());
         const front = this.std({ map: t, roughness: 0.55, metalness: 0.35, envMap: this.env, envMapIntensity: 0.3 });
-        const paint = this.std({ color: 0x8a887e, roughness: 0.55, metalness: 0.35 });
+        const paint = this.std({ color: 0x817b79, roughness: 0.55, metalness: 0.35 });
         geo = new THREE.BoxGeometry(0.9, 0.9, 0.46).translate(0, 0.45, 0);
         materials = [paint, paint, paint, paint, front, paint];
       } else {
@@ -354,7 +357,7 @@ export class Level {
 
   // ---- doors ---------------------------------------------------------------------------------
   private buildDoors(): void {
-    const panelMat = this.std({ map: (this.steel.map as THREE.Texture), color: 0x9aa1a7, roughness: 0.38, metalness: 0.8, envMap: this.env, envMapIntensity: 0.55 });
+    const panelMat = this.std({ map: (this.steel.map as THREE.Texture), color: 0xbba7a5, roughness: 0.38, metalness: 0.8, envMap: this.env, envMapIntensity: 0.55 });
     this.w.doors.forEach((d, i) => {
       const horiz = this.isWall(d.x - 1, d.y) || this.isWall(d.x + 1, d.y);
       const g = new THREE.Group();
@@ -375,7 +378,7 @@ export class Level {
       const left = add(new THREE.BoxGeometry(0.5, DOOR_H - 0.02, 0.07), panelMat, -0.25, DOOR_H / 2, 0);
       const right = add(new THREE.BoxGeometry(0.5, DOOR_H - 0.02, 0.07), panelMat, 0.25, DOOR_H / 2, 0);
       if (d.card) {
-        const cc = d.card === 'red' ? 0xd2434f : d.card === 'blue' ? 0x3d86e0 : 0xe8c33a;
+        const cc = d.card === 'red' ? 0xb60919 : d.card === 'blue' ? 0xc9a9a8 : 0xea767e;
         const sm = this.std({ color: cc, emissive: cc, emissiveIntensity: 0.6, roughness: 0.5 });
         for (const p of [left, right]) {
           const s = new THREE.Mesh(this.keep(new THREE.BoxGeometry(0.5, 0.06, 0.075)), sm);
@@ -383,9 +386,9 @@ export class Level {
           p.add(s);
         }
       }
-      const lamp = this.std({ color: 0x111111, emissive: 0xffffff, emissiveIntensity: 2.5 });
+      const lamp = this.std({ color: 0x0a0405, emissive: 0xffffff, emissiveIntensity: 2.5 });
       add(new THREE.BoxGeometry(0.16, 0.05, 0.36), lamp, 0, DOOR_H + 0.06, 0);
-      const barMat = this.std({ color: 0x220707, emissive: this.pal.locked, emissiveIntensity: 1.8 });
+      const barMat = this.std({ color: 0x080404, emissive: this.pal.locked, emissiveIntensity: 1.8 });
       const bar = add(new THREE.BoxGeometry(0.9, 0.05, 0.09), barMat, 0, 0.55, 0);
       this.doors.push({ i, horiz, left, right, lamp, bar, open: d.open ? 1 : 0, x: d.x, y: d.y });
     });
@@ -402,7 +405,7 @@ export class Level {
   private buildLockers(): void {
     const front = this.keep(TX.lockerFront());
     const fm = this.std({ map: front, roughness: 0.55, metalness: 0.45, envMap: this.env, envMapIntensity: 0.3 });
-    const sm = this.std({ color: 0x46524d, roughness: 0.55, metalness: 0.45, envMap: this.env, envMapIntensity: 0.3 });
+    const sm = this.std({ color: 0x2a090c, roughness: 0.55, metalness: 0.45, envMap: this.env, envMapIntensity: 0.3 });
     const geo = this.keep(new THREE.BoxGeometry(0.84, 1.18, 0.64).translate(0, 0.59, 0));
     for (const l of this.w.map.lockers) {
       const [dx, dy] = this.faceOf(l.x, l.y);
@@ -412,7 +415,7 @@ export class Level {
       const body = new THREE.Mesh(geo, [sm, sm, sm, sm, fm, sm]);
       body.castShadow = body.receiveShadow = this.q.shadows;
       g.add(body);
-      const seam = this.std({ color: 0x050607, emissive: 0x9ff6ff, emissiveIntensity: 0 });
+      const seam = this.std({ color: 0x050304, emissive: 0xfbfaf8, emissiveIntensity: 0 });
       const s1 = new THREE.Mesh(this.keep(new THREE.BoxGeometry(0.012, 1.08, 0.01)), seam);
       s1.position.set(0.0, 0.6, 0.325);
       const s2 = new THREE.Mesh(this.keep(new THREE.BoxGeometry(0.8, 0.012, 0.01)), seam);
@@ -434,9 +437,9 @@ export class Level {
 
   // ---- terminals ---------------------------------------------------------------------------------
   private buildTerminals(): void {
-    const desk = this.std({ color: 0x3a3631, roughness: 0.7, metalness: 0.1 });
-    const top = this.std({ color: 0x55504a, roughness: 0.5, metalness: 0.1 });
-    const bezel = this.std({ color: 0x15181b, roughness: 0.4, metalness: 0.3 });
+    const desk = this.std({ color: 0x1c0709, roughness: 0.7, metalness: 0.1 });
+    const top = this.std({ color: 0x2b0a0c, roughness: 0.5, metalness: 0.1 });
+    const bezel = this.std({ color: 0x0d0505, roughness: 0.4, metalness: 0.3 });
     this.w.terminals.forEach((t, i) => {
       const [dx, dy] = this.faceOf(t.x, t.y);
       const g = new THREE.Group();
@@ -460,10 +463,10 @@ export class Level {
       const [c, ctx] = TX.canvas(256, 160);
       const tx = this.keep(new THREE.CanvasTexture(c));
       tx.colorSpace = THREE.SRGBColorSpace;
-      const screen = this.std({ color: 0x000000, emissive: 0xffffff, emissiveMap: tx, emissiveIntensity: 1.7, roughness: 0.2 });
+      const screen = this.std({ color: 0x030303, emissive: 0xffffff, emissiveMap: tx, emissiveIntensity: 1.2, roughness: 0.5 });
       add(new THREE.PlaneGeometry(0.5, 0.31), screen, 0, 1.06, -0.098, -0.18);
       // a second, smaller panel on the desk: the access reader
-      const rd = this.std({ color: 0x0b0d0f, emissive: 0x5ef2ff, emissiveIntensity: 0.7 });
+      const rd = this.std({ color: 0x080404, emissive: 0xf7f5f1, emissiveIntensity: 0.7 });
       add(new THREE.BoxGeometry(0.1, 0.02, 0.07), rd, 0.36, 0.75, 0.12);
       this.terminals.push({ i, ctx, tex: tx, sig: '', screen });
     });
@@ -476,22 +479,26 @@ export class Level {
     if (st === tv.sig) return;
     tv.sig = st;
     const g = tv.ctx;
-    const col = t.done ? '#7dffb0' : t.lockT > 0 ? '#ff6a5e' : active ? '#f0a541' : '#7fe6f2';
-    g.fillStyle = '#05080a'; g.fillRect(0, 0, 256, 160);
+    // engraved paper plate: dim tan ground, ink lettering, stamp rule. Red when locked out, ember while hacking.
+    const col = t.done ? PALETTE.wine : t.lockT > 0 ? PALETTE.blush : active ? PALETTE.ember : '#24080B';
+    g.fillStyle = t.lockT > 0 ? '#5A1218' : '#8F6F6C'; g.fillRect(0, 0, 256, 160);
+    g.fillStyle = 'rgba(21, 6, 7, 0.16)';
+    for (let i = -160; i < 256; i += 7) { g.beginPath(); g.moveTo(i, 160); g.lineTo(i + 160, 0); g.lineTo(i + 161.2, 0); g.lineTo(i + 1.2, 160); g.fill(); }
+    g.strokeStyle = t.lockT > 0 ? PALETTE.red : 'rgba(36, 8, 11, 0.75)'; g.lineWidth = 3; g.strokeRect(5, 5, 246, 150);
+    g.setLineDash([5, 4]); g.lineWidth = 1; g.strokeRect(11, 11, 234, 138); g.setLineDash([]);
     g.fillStyle = col;
-    g.globalAlpha = 0.08; g.fillRect(0, 0, 256, 160); g.globalAlpha = 1;
-    g.font = '600 15px "IBM Plex Mono", monospace';
-    g.fillText(`Terminal ${t.id}`, 14, 26);
-    g.font = '500 13px "IBM Plex Mono", monospace';
-    g.globalAlpha = 0.75;
+    g.font = '700 17px "Zilla Slab", Georgia, serif';
+    g.fillText(`Terminal ${t.id}`, 20, 32);
+    g.font = '600 13px "IBM Plex Mono", monospace';
+    g.globalAlpha = 0.85;
     const label = t.def.label.charAt(0) + t.def.label.slice(1).toLowerCase();
-    g.fillText(label, 14, 48);
+    g.fillText(label, 20, 52);
     g.globalAlpha = 1;
-    g.font = '600 24px "IBM Plex Mono", monospace';
+    g.font = '700 25px "Zilla Slab", Georgia, serif';
     const big = t.done ? 'Complete' : t.lockT > 0 ? `Locked ${Math.ceil(t.lockT)} s` : active ? 'Session open' : 'Standby';
-    g.fillText(big, 14, 92);
+    g.fillText(big, 20, 94);
     g.globalAlpha = 0.5;
-    for (let i = 0; i < 4; i++) g.fillRect(14, 112 + i * 9, 40 + ((i * 53 + (active ? Math.floor(time * 6) * 17 : 0)) % 170), 3);
+    for (let i = 0; i < 4; i++) g.fillRect(20, 112 + i * 8, 40 + ((i * 53 + (active ? Math.floor(time * 6) * 17 : 0)) % 170), 2);
     g.globalAlpha = 1;
     tv.tex.needsUpdate = true;
   }
@@ -501,7 +508,7 @@ export class Level {
     const hazeGeo = this.keep(new THREE.PlaneGeometry(1, 1));
     const hazeMat = this.keep(new THREE.ShaderMaterial({
       transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
-      uniforms: { uColor: { value: this.pal.laser.clone() }, uFlick: { value: 1 } },
+      uniforms: { uColor: { value: this.pal.locked.clone() }, uFlick: { value: 1 } },
       vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
       fragmentShader: `uniform vec3 uColor; uniform float uFlick; varying vec2 vUv;
         void main(){ float y = vUv.y; float a = 0.0;
@@ -512,11 +519,11 @@ export class Level {
     }));
     const ghostMat = this.keep(new THREE.ShaderMaterial({
       transparent: true, depthWrite: false,
-      uniforms: { uColor: { value: this.pal.laser.clone() } },
+      uniforms: { uColor: { value: this.pal.locked.clone() } },
       vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
       fragmentShader: 'uniform vec3 uColor; varying vec2 vUv; void main(){ float d = step(0.5, fract(vUv.x * 8.0)); gl_FragColor = vec4(uColor, 0.35 * d); }',
     }));
-    const beamMat = this.keep(new THREE.MeshBasicMaterial({ color: this.pal.laser.clone().multiplyScalar(6) }));
+    const beamMat = this.keep(new THREE.MeshBasicMaterial({ color: this.pal.locked.clone().multiplyScalar(1.8) }));
     const beamGeo = this.keep(new THREE.BoxGeometry(1, 0.014, 0.014));
     const postGeo = this.keep(new THREE.BoxGeometry(0.1, 0.96, 0.16).translate(0, 0.48, 0));
     const ledGeo = this.keep(new THREE.BoxGeometry(0.11, 0.03, 0.06));
@@ -525,7 +532,7 @@ export class Level {
       const beams = new THREE.Group();
       this.group.add(beams);
       const haze: THREE.Mesh[] = [], ghost: THREE.Mesh[] = [];
-      const leds = this.std({ color: 0x050505, emissive: this.pal.laser, emissiveIntensity: 2 });
+      const leds = this.std({ color: 0x050303, emissive: this.pal.locked, emissiveIntensity: 2 });
       for (const r of runs) {
         const len = r.horiz ? r.x1 - r.x0 + 1 : r.y1 - r.y0 + 1;
         const cx = r.horiz ? (r.x0 + r.x1 + 1) / 2 : r.x0 + 0.5;
@@ -602,8 +609,8 @@ export class Level {
     const fx = this.bake.fixtures;
     const housing = this.keep(new THREE.BoxGeometry(0.98, 0.045, 0.16));
     const tube = this.keep(new THREE.BoxGeometry(0.9, 0.025, 0.08).translate(0, 0.03, 0));
-    const hm = this.std({ color: 0x2b2f33, roughness: 0.5, metalness: 0.6 });
-    this.fixtureMat = this.keep(new THREE.MeshStandardMaterial({ color: 0x000000, emissive: 0xeaf4ff, emissiveIntensity: 2.6 }));
+    const hm = this.std({ color: 0x170608, roughness: 0.5, metalness: 0.6 });
+    this.fixtureMat = this.keep(new THREE.MeshStandardMaterial({ color: 0x030303, emissive: 0xfbfaf8, emissiveIntensity: 2.6 }));
     const hi = this.keep(new THREE.InstancedMesh(housing, hm, fx.length));
     const ti = this.keep(new THREE.InstancedMesh(tube, this.fixtureMat, fx.length));
     const m = new THREE.Matrix4();
@@ -612,12 +619,12 @@ export class Level {
       q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), f.horiz ? 0 : Math.PI / 2);
       m.compose(new THREE.Vector3(f.x, FIXTURE_H, f.y), q, new THREE.Vector3(1, 1, 1));
       hi.setMatrixAt(i, m); ti.setMatrixAt(i, m);
-      ti.setColorAt(i, f.warm ? new THREE.Color(1, 0.8, 0.55) : new THREE.Color(1, 1, 1));
+      ti.setColorAt(i, f.warm ? new THREE.Color(1, 0.86, 0.8) : new THREE.Color(1, 1, 1));
     });
     this.group.add(hi, ti);
     this.fixHousing = hi; this.fixTube = ti;
     const bc = this.bake.beacons;
-    this.beaconMat = this.keep(new THREE.MeshStandardMaterial({ color: 0x1a0c06, emissive: 0xff6a2a, emissiveIntensity: 0, roughness: 0.3 }));
+    this.beaconMat = this.keep(new THREE.MeshStandardMaterial({ color: 0x090404, emissive: 0xe40d21, emissiveIntensity: 0, roughness: 0.3 }));
     if (bc.length) {
       const bg = this.keep(new THREE.CylinderGeometry(0.07, 0.09, 0.11, 12));
       const bi = this.keep(new THREE.InstancedMesh(bg, this.beaconMat, bc.length));
@@ -632,22 +639,22 @@ export class Level {
     this.w.items.forEach((it, i) => {
       let obj: THREE.Object3D;
       if (it.kind === 'card') {
-        const cc = it.card === 'red' ? 0xd2434f : it.card === 'blue' ? 0x3d86e0 : 0xe8c33a;
+        const cc = it.card === 'red' ? 0xb60919 : it.card === 'blue' ? 0xc9a9a8 : 0xea767e;
         const g = new THREE.Group();
         const body = new THREE.Mesh(this.keep(new THREE.BoxGeometry(0.3, 0.012, 0.19)), this.std({ color: cc, emissive: cc, emissiveIntensity: 0.9, roughness: 0.35 }));
-        const chip = new THREE.Mesh(this.keep(new THREE.BoxGeometry(0.06, 0.014, 0.05)), this.std({ color: 0xc9a85a, metalness: 0.9, roughness: 0.3, envMap: this.env, envMapIntensity: 0.6 }));
+        const chip = new THREE.Mesh(this.keep(new THREE.BoxGeometry(0.06, 0.014, 0.05)), this.std({ color: 0xe96b74, metalness: 0.9, roughness: 0.3, envMap: this.env, envMapIntensity: 0.6 }));
         chip.position.set(-0.07, 0.002, 0.02);
         g.add(body, chip);
         g.rotation.z = 0.5;
         obj = g;
       } else if (it.kind === 'energy') {
         const g = new THREE.Group();
-        const cell = new THREE.Mesh(this.keep(new THREE.CylinderGeometry(0.075, 0.075, 0.22, 14)), this.std({ color: 0x2a2f33, metalness: 0.7, roughness: 0.4, envMap: this.env, envMapIntensity: 0.5 }));
-        const band = new THREE.Mesh(this.keep(new THREE.CylinderGeometry(0.078, 0.078, 0.06, 14)), this.std({ color: 0x0a1a10, emissive: 0x6dffa6, emissiveIntensity: 2.2 }));
+        const cell = new THREE.Mesh(this.keep(new THREE.CylinderGeometry(0.075, 0.075, 0.22, 14)), this.std({ color: 0x170608, metalness: 0.7, roughness: 0.4, envMap: this.env, envMapIntensity: 0.5 }));
+        const band = new THREE.Mesh(this.keep(new THREE.CylinderGeometry(0.078, 0.078, 0.06, 14)), this.std({ color: 0x0c0505, emissive: 0xe3d4d0, emissiveIntensity: 2.2 }));
         g.add(cell, band);
         obj = g;
       } else {
-        const m = new THREE.Mesh(this.keep(new THREE.CylinderGeometry(0.15, 0.15, 0.07, 6)), this.std({ color: 0x1b0f1a, emissive: 0xff8fe6, emissiveIntensity: 1.6, roughness: 0.3 }));
+        const m = new THREE.Mesh(this.keep(new THREE.CylinderGeometry(0.15, 0.15, 0.07, 6)), this.std({ color: 0x0b0405, emissive: 0xe96b74, emissiveIntensity: 1.6, roughness: 0.3 }));
         m.rotation.x = Math.PI / 2;
         obj = m;
       }
@@ -660,7 +667,7 @@ export class Level {
   private buildMarkers(): void {
     const w = this.w;
     const chev = this.keep(TX.chevronPlate());
-    this.exitMat = this.keep(new THREE.MeshBasicMaterial({ map: chev, color: 0x3a4650, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+    this.exitMat = this.keep(new THREE.MeshBasicMaterial({ map: chev, color: 0x23080b, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
     const plate = new THREE.Mesh(this.keep(new THREE.PlaneGeometry(0.92, 0.92).rotateX(-Math.PI / 2)), this.exitMat);
     plate.position.set(w.map.exit.x + 0.5, 0.012, w.map.exit.y + 0.5);
     this.group.add(plate);
@@ -676,7 +683,7 @@ export class Level {
     this.group.add(this.exitColumn);
     const dt = this.keep(TX.diamondDecal());
     for (const c of w.checkpoints) {
-      const m = this.keep(new THREE.MeshBasicMaterial({ map: dt, color: 0x56646e, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+      const m = this.keep(new THREE.MeshBasicMaterial({ map: dt, color: 0x402729, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
       const p = new THREE.Mesh(this.keep(new THREE.PlaneGeometry(0.6, 0.6).rotateX(-Math.PI / 2)), m);
       p.position.set(c.x + 0.5, 0.011, c.y + 0.5);
       this.group.add(p);
@@ -687,7 +694,7 @@ export class Level {
   // ---- cameras ---------------------------------------------------------------------------------
   private buildCameras(): void {
     const w = this.w;
-    const housingMat = this.std({ color: 0xc9cdd0, roughness: 0.45, metalness: 0.2 });
+    const housingMat = this.std({ color: 0xebe3de, roughness: 0.45, metalness: 0.2 });
     w.cameras.forEach((c, i) => {
       // bracket back toward the nearest wall opposite the base direction
       const bx = -Math.cos(c.baseDir), by = -Math.sin(c.baseDir);
@@ -716,11 +723,11 @@ export class Level {
       hood.position.set(0.07, 0.065, 0);
       hood.rotation.z = -0.25;
       yaw.add(hood);
-      const lens = new THREE.Mesh(this.keep(new THREE.CylinderGeometry(0.035, 0.04, 0.03, 14)), this.std({ color: 0x050607, roughness: 0.05, metalness: 0.4, envMap: this.env, envMapIntensity: 1 }));
+      const lens = new THREE.Mesh(this.keep(new THREE.CylinderGeometry(0.035, 0.04, 0.03, 14)), this.std({ color: 0x050304, roughness: 0.05, metalness: 0.4, envMap: this.env, envMapIntensity: 1 }));
       lens.rotation.z = Math.PI / 2 - 0.25;
       lens.position.set(0.2, -0.035, 0);
       yaw.add(lens);
-      const led = this.std({ color: 0x110505, emissive: this.pal.alert, emissiveIntensity: 2 });
+      const led = this.std({ color: 0x060404, emissive: this.pal.alert, emissiveIntensity: 2 });
       const ledM = new THREE.Mesh(this.keep(new THREE.SphereGeometry(0.014, 8, 6)), led);
       ledM.position.set(0.17, 0.03, 0.05);
       yaw.add(ledM);
@@ -771,7 +778,7 @@ export class Level {
       for (const h of lv.haze) { h.visible = l.active; ((h.material as THREE.ShaderMaterial).uniforms.uFlick.value = flick); }
       for (const g of lv.ghost) g.visible = !l.active;
       lv.leds.emissiveIntensity = l.active ? 2.4 : (reduce || Math.floor(time * 2) % 2 === 0 ? 0.6 : 0.15);
-      lv.leds.emissive.copy(l.active ? pal.laser : pal.amber);
+      lv.leds.emissive.copy(l.active ? pal.locked : pal.amber);
     }
     for (const tv of this.terminals) this.drawScreen(tv, w, time);
     for (const lk of this.lockers) {
@@ -784,15 +791,15 @@ export class Level {
       if (!reduce) { iv.mesh.rotation.y = time * 1.4; iv.mesh.position.y = iv.base + Math.sin(time * 2.4 + it.x) * 0.04; }
     }
     const ready = w.def.objectives.filter((o) => o.id !== 'extract' && !o.optional).every((o) => w.objectives[o.id]);
-    this.exitMat.color.copy(ready ? pal.ok : new THREE.Color(0x3a4650));
+    this.exitMat.color.copy(ready ? pal.ok : new THREE.Color(0x23080b));
     this.exitColumn.visible = ready;
-    w.checkpoints.forEach((c, i) => { if (this.checkpoints[i]) this.checkpoints[i].color.copy(c.hit ? pal.ok : new THREE.Color(0x56646e)); });
+    w.checkpoints.forEach((c, i) => { if (this.checkpoints[i]) this.checkpoints[i].color.copy(c.hit ? pal.ok : new THREE.Color(0x402729)); });
     this.cams.forEach((cv) => {
       const c: SimCamera = w.cameras[cv.i];
       cv.yaw.rotation.y = -c.dir;
       const looped = c.loopT > 0;
       const blink = reduce || Math.floor(time * 2.5) % 2 === 0;
-      cv.led.emissive.copy(looped ? new THREE.Color(0x777777) : c.trackT > 0 ? pal.alert : pal.alert);
+      cv.led.emissive.copy(looped ? new THREE.Color(0x615857) : c.trackT > 0 ? pal.alert : pal.alert);
       cv.led.emissiveIntensity = looped ? 0.5 : blink ? 2.6 : 0.2;
     });
   }

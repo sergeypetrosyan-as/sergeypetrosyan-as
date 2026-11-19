@@ -69,7 +69,7 @@ export class TrafficSystem {
   private readonly loops = [new Loop(101.75, 9, 1), new Loop(98.25, 6, -1)];
 
   constructor(count: number) {
-    const colors = [0x2a6a9a, 0x8a2a4a, 0xd0d0d8, 0x3a3a48, 0x1a5a4a, 0x9a6a2a, 0x5a2a8a];
+    const colors = [0xaf7d7e, 0x72151d, 0xe6dfd8, 0x2d0a0d, 0x8f6263, 0x480e13, 0x150607];
     for (let i = 0; i < count; i++) {
       const loop = this.loops[i % 2];
       const model = buildCarModel(i % 3 === 0 ? 'taxi' : 'sedan', colors[i % colors.length], 0, false);
@@ -121,7 +121,7 @@ export class TrafficSystem {
       const spin = (car.speed / 0.37) * dt;
       for (const w of car.model.wheels) w.rotation.x += spin;
       const b = car.speed < 1 ? 2.6 : 1;
-      car.model.tailMat.color.setRGB(b, b * 0.04, b * 0.1);
+      car.model.tailMat.color.setRGB(b, b * 0.0, b * 0.02);
     }
   }
 

@@ -8,8 +8,9 @@ import type { GameRenderer, RenderOpts } from './types.ts';
 export type { RenderOpts } from './types.ts';
 
 interface Palette { patrol: string; suspicious: string; alert: string; search: string; camera: string; cyan: string; amber: string; red: string; green: string }
-const NORMAL: Palette = { patrol: '#5ef2ff', suspicious: '#ffb347', alert: '#ff3b4e', search: '#c58bff', camera: '#9fd8ff', cyan: '#5ef2ff', amber: '#ffb347', red: '#ff3b4e', green: '#58ffa0' };
-const CB: Palette = { patrol: '#4aa3ff', suspicious: '#ffa000', alert: '#ff7bff', search: '#ffffff', camera: '#8ec5ff', cyan: '#4aa3ff', amber: '#ffa000', red: '#ff7bff', green: '#ffffff' };
+// 19_mystical-western roles (see theme.ts): lantern tan, rose for hackables, brand red for danger, bone for done.
+const NORMAL: Palette = { patrol: '#D3B9B7', suspicious: '#E96B74', alert: '#E30016', search: '#AB0B1A', camera: '#D3B9B7', cyan: '#E96B74', amber: '#E96B74', red: '#E30016', green: '#F1EDE7' };
+const CB: Palette = { patrol: '#F1EDE7', suspicious: '#E96B74', alert: '#E30016', search: '#FFFFFF', camera: '#F1EDE7', cyan: '#EEB9B9', amber: '#E96B74', red: '#E30016', green: '#FFFFFF' };
 
 function makePattern(ctx: CanvasRenderingContext2D, kind: 'diag' | 'cross' | 'dots'): CanvasPattern | null {
   const c = document.createElement('canvas');
@@ -83,7 +84,7 @@ export class Renderer implements GameRenderer {
       if (!o.reduce) { sx = (Math.random() - 0.5) * 8; sy = (Math.random() - 0.5) * 8; }
     }
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
-    ctx.fillStyle = '#04070d';
+    ctx.fillStyle = '#060304';
     ctx.fillRect(0, 0, this.cw, this.ch);
     ctx.save();
     ctx.translate(ox + sx, oy + sy);
@@ -115,9 +116,9 @@ export class Renderer implements GameRenderer {
         const kd = kindAt(w.map, tx, ty);
         const X = tx * ts, Y = ty * ts;
         if (kd === T_WALL) {
-          ctx.fillStyle = '#18294a';
+          ctx.fillStyle = '#41191c';
           ctx.fillRect(X, Y, ts, ts);
-          ctx.strokeStyle = '#2b4468';
+          ctx.strokeStyle = '#6c4042';
           ctx.lineWidth = 1;
           const nf = (dx: number, dy: number): boolean => kindAt(w.map, tx + dx, ty + dy) !== T_WALL;
           ctx.beginPath();
@@ -129,12 +130,12 @@ export class Renderer implements GameRenderer {
           continue;
         }
         const lit = kd !== T_SHADOW && !w.blackout;
-        ctx.fillStyle = lit ? '#0d1a2c' : '#060b16';
+        ctx.fillStyle = lit ? '#0d0505' : '#080404';
         ctx.fillRect(X, Y, ts, ts);
-        ctx.strokeStyle = lit ? 'rgba(94,242,255,0.06)' : 'rgba(94,242,255,0.025)';
+        ctx.strokeStyle = lit ? 'rgba(247, 245, 241,0.06)' : 'rgba(247, 245, 241,0.025)';
         ctx.strokeRect(X + 0.5, Y + 0.5, ts - 1, ts - 1);
         if (kd === T_SHADOW) {
-          ctx.strokeStyle = 'rgba(120,150,200,0.12)';
+          ctx.strokeStyle = 'rgba(205, 175, 173,0.12)';
           ctx.beginPath();
           for (let i = -ts; i < ts; i += 8) { ctx.moveTo(X + i, Y + ts); ctx.lineTo(X + i + ts, Y); }
           ctx.save();
@@ -150,9 +151,9 @@ export class Renderer implements GameRenderer {
     }
     // exit, checkpoints, start
     const ex = w.map.exit.x * ts, ey = w.map.exit.y * ts;
-    ctx.fillStyle = ready ? 'rgba(88,255,160,0.22)' : 'rgba(150,170,200,0.10)';
+    ctx.fillStyle = ready ? 'rgba(224, 208, 204,0.22)' : 'rgba(213, 189, 187,0.10)';
     ctx.fillRect(ex + 2, ey + 2, ts - 4, ts - 4);
-    ctx.strokeStyle = ready ? pal.green : '#5b6f8c';
+    ctx.strokeStyle = ready ? pal.green : '#af7d7e';
     ctx.lineWidth = 2;
     ctx.strokeRect(ex + 3, ey + 3, ts - 6, ts - 6);
     ctx.beginPath();
@@ -163,8 +164,8 @@ export class Renderer implements GameRenderer {
       const cx = c.x * ts, cy = c.y * ts, r = ts * 0.22;
       ctx.beginPath();
       ctx.moveTo(cx, cy - r); ctx.lineTo(cx + r, cy); ctx.lineTo(cx, cy + r); ctx.lineTo(cx - r, cy); ctx.closePath();
-      ctx.strokeStyle = c.hit ? pal.green : '#7f93b3';
-      ctx.fillStyle = c.hit ? 'rgba(88,255,160,0.35)' : 'rgba(127,147,179,0.08)';
+      ctx.strokeStyle = c.hit ? pal.green : '#c6a4a3';
+      ctx.fillStyle = c.hit ? 'rgba(224, 208, 204,0.35)' : 'rgba(198, 164, 163,0.08)';
       ctx.lineWidth = 1.5;
       ctx.fill(); ctx.stroke();
     }
@@ -174,15 +175,15 @@ export class Renderer implements GameRenderer {
     const ctx = this.ctx;
     const X = tx * ts, Y = ty * ts;
     const inside = w.player.hidden && Math.floor(w.player.x) === tx && Math.floor(w.player.y) === ty;
-    ctx.fillStyle = '#1a2b44';
+    ctx.fillStyle = '#140607';
     ctx.fillRect(X + 3, Y + 2, ts - 6, ts - 4);
-    ctx.strokeStyle = inside ? pal.cyan : '#4a6a96';
+    ctx.strokeStyle = inside ? pal.cyan : '#af7e7f';
     ctx.lineWidth = inside ? 2.5 : 1.5;
     ctx.strokeRect(X + 3.5, Y + 2.5, ts - 7, ts - 5);
-    ctx.strokeStyle = '#33506f';
+    ctx.strokeStyle = '#7d5051';
     ctx.lineWidth = 1;
     for (let i = 0; i < 3; i++) { ctx.beginPath(); ctx.moveTo(X + ts * 0.3, Y + ts * (0.25 + i * 0.1)); ctx.lineTo(X + ts * 0.7, Y + ts * (0.25 + i * 0.1)); ctx.stroke(); }
-    ctx.fillStyle = inside ? pal.cyan : '#6f8fb8';
+    ctx.fillStyle = inside ? pal.cyan : '#c5a2a2';
     ctx.fillRect(X + ts * 0.62, Y + ts * 0.58, 3, 6);
   }
 
@@ -192,15 +193,15 @@ export class Renderer implements GameRenderer {
     const t = w.terminals[w.map.ref[ty * w.map.w + tx]];
     const done = t?.done;
     const locked = (t?.lockT ?? 0) > 0;
-    ctx.fillStyle = '#10223a';
+    ctx.fillStyle = '#110506';
     ctx.fillRect(X + 3, Y + 3, ts - 6, ts - 6);
     ctx.strokeStyle = done ? pal.green : locked ? pal.red : pal.cyan;
     ctx.lineWidth = 2;
     ctx.strokeRect(X + 3.5, Y + 3.5, ts - 7, ts - 7);
-    ctx.fillStyle = done ? 'rgba(88,255,160,0.5)' : locked ? 'rgba(255,59,78,0.5)' : `rgba(94,242,255,${o.reduce ? 0.45 : 0.3 + 0.2 * Math.sin(this.time * 3)})`;
+    ctx.fillStyle = done ? 'rgba(224, 208, 204,0.5)' : locked ? 'rgba(205, 4, 24,0.5)' : `rgba(233,107,116,${o.reduce ? 0.45 : 0.3 + 0.2 * Math.sin(this.time * 3)})`;
     ctx.fillRect(X + 7, Y + 7, ts - 14, ts * 0.38);
-    ctx.fillStyle = '#d9f6ff';
-    ctx.font = `700 ${Math.round(ts * 0.3)}px ui-monospace, Consolas, monospace`;
+    ctx.fillStyle = '#faf9f7';
+    ctx.font = `700 ${Math.round(ts * 0.3)}px "Zilla Slab", Georgia, serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(done ? 'OK' : locked ? 'X' : t?.id ?? '', X + ts / 2, Y + ts * 0.72);
@@ -214,7 +215,7 @@ export class Renderer implements GameRenderer {
     const horiz = kindAt(w.map, tx - 1, ty) === T_WALL && kindAt(w.map, tx + 1, ty) === T_WALL;
     const col = d.locked ? pal.red : pal.amber;
     ctx.strokeStyle = col;
-    ctx.fillStyle = d.locked ? 'rgba(255,59,78,0.28)' : 'rgba(255,179,71,0.22)';
+    ctx.fillStyle = d.locked ? 'rgba(205, 4, 24,0.28)' : 'rgba(234, 124, 131,0.22)';
     ctx.lineWidth = 2;
     if (d.open) {
       if (horiz) { ctx.fillRect(X, Y + ts * 0.4, ts * 0.18, ts * 0.2); ctx.fillRect(X + ts * 0.82, Y + ts * 0.4, ts * 0.18, ts * 0.2); }
@@ -231,7 +232,7 @@ export class Renderer implements GameRenderer {
       ctx.fillRect(X + ts * 0.38, Y + ts * 0.42, ts * 0.24, ts * 0.2);
       ctx.beginPath(); ctx.arc(X + ts / 2, Y + ts * 0.42, ts * 0.1, Math.PI, 0); ctx.stroke();
       if (d.card) {
-        ctx.fillStyle = d.card === 'red' ? '#ff5a68' : d.card === 'blue' ? '#5aa8ff' : '#ffe14d';
+        ctx.fillStyle = d.card === 'red' ? '#e30016' : d.card === 'blue' ? '#e3d4d0' : '#ec9fa2';
         ctx.fillRect(X + ts * 0.7, Y + ts * 0.7, ts * 0.2, ts * 0.14);
       }
     }
@@ -248,13 +249,13 @@ export class Renderer implements GameRenderer {
     const flick = o.reduce ? 1 : 0.85 + 0.15 * Math.sin(this.time * 38 + tx * 3 + ty);
     ctx.save();
     if (l.active) {
-      ctx.strokeStyle = pal.cyan;
-      ctx.shadowColor = pal.cyan;
+      ctx.strokeStyle = pal.red;
+      ctx.shadowColor = pal.red;
       ctx.shadowBlur = 10;
       ctx.lineWidth = 3;
       ctx.globalAlpha = flick;
     } else {
-      ctx.strokeStyle = 'rgba(94,242,255,0.35)';
+      ctx.strokeStyle = 'rgba(247, 245, 241,0.35)';
       ctx.lineWidth = 1.5;
       ctx.setLineDash([3, 6]);
     }
@@ -265,12 +266,12 @@ export class Renderer implements GameRenderer {
     // emitters on the ends of the grid
     const end = horizontal ? !isL(-1, 0) || !isL(1, 0) : !isL(0, -1) || !isL(0, 1);
     if (end) {
-      ctx.fillStyle = l.active ? pal.cyan : '#46607e';
+      ctx.fillStyle = l.active ? pal.red : '#966668';
       ctx.fillRect(horizontal ? (!isL(-1, 0) ? X : X + ts - 4) : cx - 3, horizontal ? cy - 3 : (!isL(0, -1) ? Y : Y + ts - 4), horizontal ? 4 : 6, horizontal ? 6 : 4);
     }
     // pulse indicator for pulsing grids: small square pattern when active (shape, not only colour)
     if (l.period && l.active) {
-      ctx.fillStyle = 'rgba(94,242,255,0.5)';
+      ctx.fillStyle = 'rgba(247, 245, 241,0.5)';
       ctx.fillRect(cx - 2, cy - 2, 4, 4);
     }
   }
@@ -284,20 +285,20 @@ export class Renderer implements GameRenderer {
       ctx.save();
       ctx.translate(cx, cy + bob);
       if (it.kind === 'energy') {
-        ctx.fillStyle = 'rgba(88,255,160,0.25)'; ctx.strokeStyle = pal.green; ctx.lineWidth = 2;
+        ctx.fillStyle = 'rgba(224, 208, 204,0.25)'; ctx.strokeStyle = pal.green; ctx.lineWidth = 2;
         ctx.beginPath(); ctx.moveTo(0, -ts * 0.26); ctx.lineTo(ts * 0.2, 0); ctx.lineTo(0, ts * 0.26); ctx.lineTo(-ts * 0.2, 0); ctx.closePath(); ctx.fill(); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(-ts * 0.05, -ts * 0.1); ctx.lineTo(ts * 0.05, -0.02 * ts); ctx.lineTo(-ts * 0.05, 0.04 * ts); ctx.lineTo(ts * 0.05, ts * 0.12); ctx.stroke();
       } else if (it.kind === 'card') {
-        ctx.fillStyle = it.card === 'red' ? '#ff5a68' : it.card === 'blue' ? '#5aa8ff' : '#ffe14d';
+        ctx.fillStyle = it.card === 'red' ? '#e30016' : it.card === 'blue' ? '#e3d4d0' : '#ec9fa2';
         ctx.fillRect(-ts * 0.24, -ts * 0.16, ts * 0.48, ts * 0.32);
-        ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.fillRect(-ts * 0.18, -ts * 0.04, ts * 0.2, ts * 0.05);
-        ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.strokeRect(-ts * 0.24, -ts * 0.16, ts * 0.48, ts * 0.32);
+        ctx.fillStyle = 'rgba(3, 3, 3,0.5)'; ctx.fillRect(-ts * 0.18, -ts * 0.04, ts * 0.2, ts * 0.05);
+        ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5; ctx.strokeRect(-ts * 0.24, -ts * 0.16, ts * 0.48, ts * 0.32);
       } else {
-        ctx.strokeStyle = '#ff9bf2'; ctx.fillStyle = 'rgba(255,155,242,0.25)'; ctx.lineWidth = 2;
+        ctx.strokeStyle = '#e9656f'; ctx.fillStyle = 'rgba(233, 101, 111,0.25)'; ctx.lineWidth = 2;
         ctx.beginPath();
         for (let i = 0; i < 6; i++) { const a = (Math.PI / 3) * i; ctx.lineTo(Math.cos(a) * ts * 0.27, Math.sin(a) * ts * 0.27); }
         ctx.closePath(); ctx.fill(); ctx.stroke();
-        ctx.beginPath(); ctx.arc(0, 0, ts * 0.08, 0, Math.PI * 2); ctx.fillStyle = '#ff9bf2'; ctx.fill();
+        ctx.beginPath(); ctx.arc(0, 0, ts * 0.08, 0, Math.PI * 2); ctx.fillStyle = '#e9656f'; ctx.fill();
       }
       ctx.restore();
     }
@@ -375,7 +376,7 @@ export class Renderer implements GameRenderer {
     for (const r of w.rings) {
       const t = r.age / r.ttl;
       const rad = r.r * ts * (r.kind === 'step' || r.kind === 'sneak' ? 0.4 + 0.6 * t : 0.3 + 0.7 * t);
-      ctx.strokeStyle = r.kind === 'alarm' ? hexA(pal.red, 0.7 * (1 - t)) : r.kind === 'hack' ? hexA(pal.cyan, 0.8 * (1 - t)) : r.kind === 'decoy' ? hexA(pal.amber, 0.6 * (1 - t)) : `rgba(200,220,255,${0.22 * (1 - t)})`;
+      ctx.strokeStyle = r.kind === 'alarm' ? hexA(pal.red, 0.7 * (1 - t)) : r.kind === 'hack' ? hexA(pal.cyan, 0.8 * (1 - t)) : r.kind === 'decoy' ? hexA(pal.amber, 0.6 * (1 - t)) : `rgba(211,185,183,${0.22 * (1 - t)})`;
       ctx.lineWidth = r.kind === 'step' || r.kind === 'sneak' ? 1 : 2;
       ctx.beginPath();
       ctx.arc(r.x * ts, r.y * ts, rad, 0, Math.PI * 2);
@@ -406,24 +407,24 @@ export class Renderer implements GameRenderer {
       ctx.translate(x, y);
       ctx.rotate(c.dir);
       const looped = c.loopT > 0;
-      ctx.fillStyle = '#1b2c47';
-      ctx.strokeStyle = looped ? '#7f8aa0' : c.trackT > 0 ? pal.red : pal.camera;
+      ctx.fillStyle = '#150607';
+      ctx.strokeStyle = looped ? '#857e7c' : c.trackT > 0 ? pal.red : pal.camera;
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(-ts * 0.22, -ts * 0.2); ctx.lineTo(ts * 0.26, -ts * 0.12); ctx.lineTo(ts * 0.26, ts * 0.12); ctx.lineTo(-ts * 0.22, ts * 0.2); ctx.closePath();
       ctx.fill(); ctx.stroke();
       const blink = o.reduce || Math.floor(this.time * 3) % 2 === 0;
-      ctx.fillStyle = looped ? '#7f8aa0' : blink ? pal.red : '#552029';
+      ctx.fillStyle = looped ? '#857e7c' : blink ? pal.red : '#7a141d';
       ctx.beginPath(); ctx.arc(ts * 0.18, 0, ts * 0.06, 0, Math.PI * 2); ctx.fill();
       ctx.restore();
       if (looped && c.loopT < 9000) {
-        ctx.fillStyle = '#c3cce0';
-        ctx.font = `700 ${Math.round(ts * 0.28)}px ui-monospace, Consolas, monospace`;
+        ctx.fillStyle = '#ebe2dd';
+        ctx.font = `700 ${Math.round(ts * 0.28)}px "Zilla Slab", Georgia, serif`;
         ctx.textAlign = 'center';
         ctx.fillText(`LOOP ${c.loopT.toFixed(1)}`, x, y - ts * 0.4);
       } else if (looped) {
-        ctx.fillStyle = '#7f8aa0';
-        ctx.font = `700 ${Math.round(ts * 0.26)}px ui-monospace, Consolas, monospace`;
+        ctx.fillStyle = '#857e7c';
+        ctx.font = `700 ${Math.round(ts * 0.26)}px "Zilla Slab", Georgia, serif`;
         ctx.textAlign = 'center';
         ctx.fillText('OFFLINE', x, y - ts * 0.4);
       } else if (c.sus > 1) {
@@ -435,11 +436,11 @@ export class Renderer implements GameRenderer {
   private susBar(x: number, y: number, ts: number, sus: number, pal: Palette): void {
     const ctx = this.ctx;
     const w = ts * 0.9, h = Math.max(4, ts * 0.1);
-    ctx.fillStyle = 'rgba(0,0,0,0.65)';
+    ctx.fillStyle = 'rgba(3, 3, 3,0.65)';
     ctx.fillRect(x - w / 2 - 1, y - 1, w + 2, h + 2);
     ctx.fillStyle = sus >= 100 ? pal.alert : sus >= K.SUS_THRESHOLD ? pal.suspicious : pal.patrol;
     ctx.fillRect(x - w / 2, y, (w * Math.min(100, sus)) / 100, h);
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = '#ffffff';
     ctx.fillRect(x - w / 2 + (w * K.SUS_THRESHOLD) / 100 - 0.5, y - 2, 1.5, h + 4);
   }
 
@@ -451,7 +452,7 @@ export class Renderer implements GameRenderer {
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(g.dir);
-      ctx.fillStyle = '#1b2a45';
+      ctx.fillStyle = '#140607';
       ctx.strokeStyle = col;
       ctx.lineWidth = 2.5;
       const r = ts * 0.3;
@@ -467,14 +468,14 @@ export class Renderer implements GameRenderer {
       ctx.fillStyle = col;
       if (g.state === 'suspicious') {
         ctx.beginPath(); ctx.moveTo(x, iy - ts * 0.16); ctx.lineTo(x + ts * 0.16, iy + ts * 0.12); ctx.lineTo(x - ts * 0.16, iy + ts * 0.12); ctx.closePath(); ctx.stroke();
-        ctx.font = `800 ${Math.round(ts * 0.26)}px ui-monospace, Consolas, monospace`;
+        ctx.font = `800 ${Math.round(ts * 0.26)}px "Zilla Slab", Georgia, serif`;
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         ctx.fillText('?', x, iy + ts * 0.03);
       } else if (g.state === 'alert') {
         const pulse = o.reduce ? 1 : 1 + 0.12 * Math.sin(this.time * 12);
         ctx.beginPath(); ctx.moveTo(x, iy - ts * 0.2 * pulse); ctx.lineTo(x + ts * 0.18 * pulse, iy); ctx.lineTo(x, iy + ts * 0.2 * pulse); ctx.lineTo(x - ts * 0.18 * pulse, iy); ctx.closePath(); ctx.fill();
-        ctx.fillStyle = '#10080a';
-        ctx.font = `800 ${Math.round(ts * 0.26)}px ui-monospace, Consolas, monospace`;
+        ctx.fillStyle = '#070404';
+        ctx.font = `800 ${Math.round(ts * 0.26)}px "Zilla Slab", Georgia, serif`;
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         ctx.fillText('!', x, iy + ts * 0.02);
       } else if (g.state === 'search') {
@@ -517,8 +518,8 @@ export class Renderer implements GameRenderer {
     }
     ctx.rotate(p.dir);
     const r = ts * (p.sneak ? 0.22 : 0.27);
-    ctx.fillStyle = '#0b1a2a';
-    ctx.strokeStyle = pal.cyan;
+    ctx.fillStyle = '#0d0505';
+    ctx.strokeStyle = pal.green;
     ctx.lineWidth = 2.5;
     if (p.sneak) ctx.setLineDash([4, 3]);
     ctx.beginPath();
@@ -526,7 +527,7 @@ export class Renderer implements GameRenderer {
     ctx.closePath();
     ctx.fill(); ctx.stroke();
     ctx.setLineDash([]);
-    ctx.fillStyle = pal.cyan;
+    ctx.fillStyle = pal.green;
     ctx.beginPath(); ctx.moveTo(r * 1.35, 0); ctx.lineTo(r * 0.55, -r * 0.35); ctx.lineTo(r * 0.55, r * 0.35); ctx.closePath(); ctx.fill();
     ctx.restore();
     void o;
@@ -540,14 +541,14 @@ export class Renderer implements GameRenderer {
     const R = Math.max(this.cw, this.ch);
     if (w.blackout) {
       const g = ctx.createRadialGradient(px, py, ts * 0.8, px, py, ts * 5.5);
-      g.addColorStop(0, 'rgba(2,4,9,0)');
-      g.addColorStop(1, 'rgba(2,4,9,0.9)');
+      g.addColorStop(0, 'rgba(5, 3, 3,0)');
+      g.addColorStop(1, 'rgba(5, 3, 3,0.9)');
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, this.cw, this.ch);
     } else {
       const g = ctx.createRadialGradient(this.cw / 2, this.ch / 2, R * 0.25, this.cw / 2, this.ch / 2, R * 0.75);
-      g.addColorStop(0, 'rgba(2,4,9,0)');
-      g.addColorStop(1, 'rgba(2,4,9,0.65)');
+      g.addColorStop(0, 'rgba(5, 3, 3,0)');
+      g.addColorStop(1, 'rgba(5, 3, 3,0.65)');
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, this.cw, this.ch);
     }

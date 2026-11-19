@@ -7,9 +7,9 @@ import { TankModel } from './TankModel.ts';
 /** Team / role colour for a tank's neon accents. */
 export function accentFor(t: Tank, playerId: number): number {
   if (t.team === 'blue') return t.id === playerId ? t.paint.accent : PALETTE.blue;
-  if (t.team === 'magenta') return PALETTE.magenta;
+  if (t.team === 'magenta') return PALETTE.red;
   // Free-for-all: the player keeps their paint, every bot reads as hostile.
-  return t.id === playerId ? t.paint.accent : t.isBot ? [PALETTE.magenta, 0xff4f7a, 0xd04bff, 0xff6a3d][t.id % 4] : PALETTE.magenta;
+  return t.id === playerId ? t.paint.accent : t.isBot ? [PALETTE.red, 0xc70518, 0xab0b1a, 0xe30016][t.id % 4] : PALETTE.red;
 }
 
 /** Presentation of one sim tank: pose, tracks, recoil, damage smoke, wreck and turret pop. */
@@ -31,7 +31,7 @@ export class TankView {
     this.tank = tank;
     this.accent = accentFor(tank, playerId);
     this.model = new TankModel(
-      { hull: tank.hull.id, weapon: tank.weapon.id, body: tank.paint.body, metal: tank.paint.metal, accent: this.accent, light: tank.team === 'magenta' ? 0xff7ad9 : 0xd8f6ff },
+      { hull: tank.hull.id, weapon: tank.weapon.id, body: tank.paint.body, metal: tank.paint.metal, accent: this.accent, light: tank.team === 'magenta' ? 0xe30016 : 0xf1ede7 },
       env,
       shadows,
     );

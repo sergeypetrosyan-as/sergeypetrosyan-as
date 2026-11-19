@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#07090D" />
+  <meta name="theme-color" content="#150607" />
   <title>Neon Overdrive</title>
   <meta name="description" content="Neon Overdrive: a night-time 3D arcade racer. Drift to charge your reserve, boost past three rivals and cut the Spine, a faster inner route whose gates only open for a charged car." />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2307090D'/%3E%3Cpath d='M4 24 L16 6 L28 24 Z' fill='none' stroke='%232cf6ff' stroke-width='2.5' stroke-linejoin='round'/%3E%3Cpath d='M16 12 V24' stroke='%23E8F0F2' stroke-width='2.5'/%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23150607'/%3E%3Ccircle cx='16' cy='13' r='8' fill='%23F1EDE7'/%3E%3Ccircle cx='12.5' cy='13' r='8' fill='%23150607' opacity='.9'/%3E%3Cpath d='M3 27 L9 21 H14 L17 24 H23 L29 27 Z' fill='%23AB0B1A'/%3E%3C/svg%3E" />
   <script>
     // The source folder is also served by GitHub Pages; send visitors to the built game.
     if (location.hostname.endsWith('github.io') && location.pathname.includes('/source/neon-overdrive')) {
@@ -15,6 +15,19 @@
   </script>
 </head>
 <body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <clipPath id="mp1"><circle cx="16" cy="7" r="5.5"/></clipPath><clipPath id="mp2"><circle cx="38" cy="7" r="5.5"/></clipPath><clipPath id="mp4"><circle cx="82" cy="7" r="5.5"/></clipPath><clipPath id="mp5"><circle cx="104" cy="7" r="5.5"/></clipPath>
+      <symbol id="moonrow" viewBox="0 0 120 14">
+        <path style="fill:var(--ember)" d="M2 7 L5 4 L8 7 L5 10 Z"/><path style="fill:var(--ember)" d="M112 7 L115 4 L118 7 L115 10 Z"/>
+        <circle style="fill:var(--glass)" cx="16" cy="7" r="5.5"/><circle style="fill:var(--ink)" cx="12.5" cy="7" r="5.5" clip-path="url(#mp1)"/>
+        <circle style="fill:var(--glass)" cx="38" cy="7" r="5.5"/><circle style="fill:var(--ink)" cx="30" cy="7" r="5.5" clip-path="url(#mp2)"/>
+        <circle style="fill:var(--glass)" cx="60" cy="7" r="6.5"/>
+        <circle style="fill:var(--glass)" cx="82" cy="7" r="5.5"/><circle style="fill:var(--ink)" cx="90" cy="7" r="5.5" clip-path="url(#mp4)"/>
+        <circle style="fill:var(--glass)" cx="104" cy="7" r="5.5"/><circle style="fill:var(--ink)" cx="107.5" cy="7" r="5.5" clip-path="url(#mp5)"/>
+      </symbol>
+    </defs>
+  </svg>
   <canvas id="view" aria-label="Neon Overdrive race view"></canvas>
 
   <!-- Head-up display -->
@@ -66,6 +79,7 @@
     <section id="s-title" class="screen title" hidden aria-labelledby="titleH">
       <div class="title-col">
         <h1 id="titleH" class="wordmark"><span>Neon</span><span>Overdrive</span></h1>
+        <div class="moonrule" aria-hidden="true"><svg viewBox="0 0 120 14"><use href="#moonrow"/></svg></div>
         <p class="tagline">Burn the reserve. Cut the Spine.</p>
         <nav class="menu" aria-label="Main menu">
           <button type="button" class="item primary" data-go="setup">Start a race</button>
@@ -125,7 +139,7 @@
           <div class="tips">
             <p><b>Drift to charge.</b> Hold Shift while you steer at speed. Sliding, and driving cleanly, fill the reserve gauge under the speed.</p>
             <p><b>Boost spends it.</b> Hold B on straights and to overtake. The gauge drains fast.</p>
-            <p><b>Cut the Spine.</b> The lit channel down the middle is shorter and faster. Its gate only opens if your reserve is past the amber mark as you reach it; a sealed gate throws you out and costs most of your speed.</p>
+            <p><b>Cut the Spine.</b> The lit channel down the middle is shorter and faster. Its gate only opens if your reserve is past the notch on the gauge as you reach it; a sealed gate throws you out and costs most of your speed.</p>
             <p><b>Stay off the barriers.</b> The shoulder slows you and walls hurt. Three laps, four checkpoints a lap.</p>
           </div>
         </div>
@@ -177,8 +191,9 @@
 
     <!-- Pause -->
     <section id="s-pause" class="screen dim" hidden aria-labelledby="pauseH">
-      <div class="title-col">
+      <div class="title-col pause-col">
         <h2 id="pauseH" class="pause-h">Paused</h2>
+        <div class="moonrule" aria-hidden="true"><svg viewBox="0 0 120 14"><use href="#moonrow"/></svg></div>
         <nav class="menu" aria-label="Pause menu">
           <button type="button" class="item primary" id="pResume">Resume</button>
           <button type="button" class="item" id="pRestart">Restart race</button>
@@ -223,7 +238,7 @@
           <li><kbd>W</kbd> or <kbd>&uarr;</kbd> to accelerate, <kbd>S</kbd> or <kbd>&darr;</kbd> to brake, <kbd>A</kbd> <kbd>D</kbd> or the arrows to steer.</li>
           <li>Hold <kbd>Shift</kbd> while turning to drift. Drifting fills the reserve gauge.</li>
           <li>Hold <kbd>B</kbd> to boost. It spends the reserve.</li>
-          <li>The lit centre channel is the <b>Spine</b>. Its gate opens only when your reserve is past the amber mark.</li>
+          <li>The lit centre channel is the <b>Spine</b>. Its gate opens only when your reserve is past the notch on the gauge.</li>
         </ul>
         <div class="actions"><button type="button" class="btn primary" id="tutOk">Go to the menu</button></div>
       </div>

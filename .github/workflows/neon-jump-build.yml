@@ -8,11 +8,13 @@ on:
     branches: [main]
     paths:
       - 'source/neon-jump/**'
+      - 'design/19_mystical-western/**'
       - 'games/neon-jump/**'
       - '.github/workflows/neon-jump-build.yml'
   pull_request:
     paths:
       - 'source/neon-jump/**'
+      - 'design/19_mystical-western/**'
   workflow_dispatch:
 
 permissions:

@@ -52,19 +52,30 @@ export function floorTexture(tint: string, glow: string): THREE.Texture {
   for (let y = 0; y < 2; y++) {
     for (let x = 0; x < 2; x++) {
       const v = 0.9 + r() * 0.2;
-      g.fillStyle = `rgba(${Math.floor(30 * v)},${Math.floor(38 * v)},${Math.floor(52 * v)},0.35)`;
+      // Packed-earth plates in umber/mesa with engraved hatching (was a cold blue tint).
+      g.fillStyle = `rgba(${Math.floor(72 * v)},${Math.floor(20 * v)},${Math.floor(24 * v)},0.35)`;
       g.fillRect(x * 256 + 6, y * 256 + 6, 244, 244);
       // Plate detail: bolts and a recessed strip.
-      g.fillStyle = 'rgba(0,0,0,0.35)';
+      g.fillStyle = 'rgba(3, 3, 3,0.35)';
       g.fillRect(x * 256 + 30, y * 256 + 120, 196, 14);
       g.fillStyle = 'rgba(255,255,255,0.05)';
       for (const [bx, by] of [[18, 18], [238, 18], [18, 238], [238, 238]]) g.fillRect(x * 256 + bx - 3, y * 256 + by - 3, 6, 6);
     }
   }
   grime(g, 512, 512, 900, 0.18, 5);
+  // Dust grain in tan and engraved diagonal hatching.
+  for (let i = 0; i < 1400; i++) {
+    g.fillStyle = r() < 0.7 ? 'rgba(211, 185, 183, 0.07)' : 'rgba(171, 11, 26, 0.08)';
+    g.fillRect(r() * 512, r() * 512, 1 + r() * 2, 1 + r() * 2);
+  }
+  g.strokeStyle = 'rgba(3, 3, 3, 0.16)';
+  g.lineWidth = 1;
+  g.beginPath();
+  for (let d = -512; d < 512; d += 9) { g.moveTo(d, 512); g.lineTo(d + 512, 0); }
+  g.stroke();
   g.strokeStyle = glow;
   g.lineWidth = 3;
-  g.globalAlpha = 0.55;
+  g.globalAlpha = 0.32;
   g.strokeRect(1.5, 1.5, 509, 509);
   g.beginPath();
   g.moveTo(256, 0); g.lineTo(256, 512); g.moveTo(0, 256); g.lineTo(512, 256);
@@ -79,9 +90,9 @@ export function floorGlowTexture(): THREE.Texture {
   const hit = cache.get(key);
   if (hit) return hit;
   const [c, g] = canvas(512, 512);
-  g.fillStyle = '#000';
+  g.fillStyle = '#030303';
   g.fillRect(0, 0, 512, 512);
-  g.strokeStyle = '#fff';
+  g.strokeStyle = '#ffffff';
   g.lineWidth = 3;
   g.strokeRect(1.5, 1.5, 509, 509);
   g.globalAlpha = 0.6;
@@ -107,7 +118,7 @@ export function panelTexture(base: string, seam: string, seed: number): THREE.Te
     g.fillStyle = seam;
     g.fillRect(0, y, 256, 3);
     for (let k = 0; k < 3; k++) {
-      g.fillStyle = 'rgba(0,0,0,0.28)';
+      g.fillStyle = 'rgba(3, 3, 3,0.28)';
       g.fillRect(r() * 220, y + 12 + r() * 30, 20 + r() * 30, 3);
     }
   }
@@ -128,18 +139,18 @@ export function containerTexture(color: string): THREE.Texture {
   g.fillRect(0, 0, 256, 128);
   for (let x = 0; x < 256; x += 8) {
     const grad = g.createLinearGradient(x, 0, x + 8, 0);
-    grad.addColorStop(0, 'rgba(0,0,0,0.35)');
+    grad.addColorStop(0, 'rgba(3, 3, 3,0.35)');
     grad.addColorStop(0.5, 'rgba(255,255,255,0.12)');
-    grad.addColorStop(1, 'rgba(0,0,0,0.35)');
+    grad.addColorStop(1, 'rgba(3, 3, 3,0.35)');
     g.fillStyle = grad;
     g.fillRect(x, 0, 8, 128);
   }
-  g.fillStyle = 'rgba(0,0,0,0.45)';
+  g.fillStyle = 'rgba(3, 3, 3,0.45)';
   g.fillRect(0, 0, 256, 6);
   g.fillRect(0, 122, 256, 6);
   grime(g, 256, 128, 400, 0.3, color.length * 7);
   g.fillStyle = 'rgba(255,255,255,0.18)';
-  g.font = 'bold 14px monospace';
+  g.font = '700 15px "Zilla Slab", Georgia, serif';
   g.fillText('NTX ' + (1000 + color.charCodeAt(2) * 13), 14, 24);
   return finish(key, c);
 }
@@ -150,14 +161,14 @@ export function trackTexture(): THREE.Texture {
   const hit = cache.get(key);
   if (hit) return hit;
   const [c, g] = canvas(64, 128);
-  g.fillStyle = '#121419';
+  g.fillStyle = '#0b0405';
   g.fillRect(0, 0, 64, 128);
   for (let y = 0; y < 128; y += 16) {
-    g.fillStyle = '#2a2e38';
+    g.fillStyle = '#170607';
     g.fillRect(2, y + 2, 60, 9);
-    g.fillStyle = '#3c4250';
+    g.fillStyle = '#22080a';
     g.fillRect(6, y + 4, 52, 3);
-    g.fillStyle = '#07080b';
+    g.fillStyle = '#060404';
     g.fillRect(0, y + 12, 64, 4);
   }
   return finish(key, c);
@@ -186,9 +197,9 @@ export function scorchTexture(): THREE.Texture {
   const [c, g] = canvas(128, 128);
   const r = rand(77);
   const grad = g.createRadialGradient(64, 64, 4, 64, 64, 62);
-  grad.addColorStop(0, 'rgba(0,0,0,0.9)');
-  grad.addColorStop(0.55, 'rgba(10,8,6,0.55)');
-  grad.addColorStop(1, 'rgba(0,0,0,0)');
+  grad.addColorStop(0, 'rgba(3, 3, 3,0.9)');
+  grad.addColorStop(0.55, 'rgba(7, 4, 4,0.55)');
+  grad.addColorStop(1, 'rgba(3, 3, 3,0)');
   g.fillStyle = grad;
   g.fillRect(0, 0, 128, 128);
   for (let i = 0; i < 40; i++) {
@@ -202,27 +213,37 @@ export function scorchTexture(): THREE.Texture {
   return finish(key, c, false);
 }
 
-/** Neon sign text. */
+/** Painted depot sign lettering (Zilla Slab on a stamped plank). */
 export function signTexture(text: string, color: string): THREE.Texture {
   const key = `sign:${text}:${color}`;
   const hit = cache.get(key);
   if (hit) return hit;
   const [c, g] = canvas(512, 96);
-  g.fillStyle = 'rgba(4,6,12,0.92)';
+  // A painted depot board: night plank, leather-stamp double rule with a stitch line.
+  g.fillStyle = 'rgba(41, 9, 12, 0.95)';
   g.fillRect(0, 0, 512, 96);
+  g.strokeStyle = 'rgba(72, 14, 19, 0.9)';
+  g.lineWidth = 1;
+  for (let y = 14; y < 96; y += 12) { g.beginPath(); g.moveTo(0, y); g.lineTo(512, y); g.stroke(); }
   g.strokeStyle = color;
   g.lineWidth = 4;
-  g.strokeRect(6, 6, 500, 84);
-  g.font = '700 54px "Chakra Petch", "Segoe UI", sans-serif';
+  g.strokeRect(4, 4, 504, 88);
+  g.lineWidth = 1.5;
+  g.strokeRect(12, 12, 488, 72);
+  g.setLineDash([5, 6]);
+  g.strokeStyle = 'rgba(211, 185, 183, 0.45)';
+  g.strokeRect(8, 8, 496, 80);
+  g.setLineDash([]);
+  g.font = '700 50px "Zilla Slab", Georgia, serif';
   g.textAlign = 'center';
   g.textBaseline = 'middle';
   g.shadowColor = color;
-  g.shadowBlur = 18;
+  g.shadowBlur = 10;
   g.fillStyle = color;
   g.fillText(text, 256, 50);
   g.shadowBlur = 0;
-  g.fillStyle = '#ffffff';
-  g.globalAlpha = 0.85;
+  g.fillStyle = '#F1EDE7';
+  g.globalAlpha = 0.55;
   g.fillText(text, 256, 50);
   return finish(key, c, false);
 }
@@ -233,9 +254,9 @@ export function hazardTexture(): THREE.Texture {
   const hit = cache.get(key);
   if (hit) return hit;
   const [c, g] = canvas(128, 32);
-  g.fillStyle = '#16181f';
+  g.fillStyle = '#0d0505';
   g.fillRect(0, 0, 128, 32);
-  g.fillStyle = '#ffb02e';
+  g.fillStyle = '#AF7D7E';
   for (let x = -32; x < 160; x += 32) {
     g.beginPath();
     g.moveTo(x, 32); g.lineTo(x + 16, 32); g.lineTo(x + 32, 0); g.lineTo(x + 16, 0);

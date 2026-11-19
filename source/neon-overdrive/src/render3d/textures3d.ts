@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import type { Palette } from '../state/types';
+import { FONT_SLAB, FONT_TITLE, PALETTE, grain, mesa, observatory, stampBorder } from '../theme';
 
 export function rng(seed: number): () => number {
   let a = seed >>> 0;
@@ -91,11 +92,11 @@ export function roadMaps(seed: number, spine: boolean, hc: boolean): RoadMaps {
       let v = 0.105 + (mid[i] - 0.5) * 0.04 + speck - worn * 0.02 + (big[i] - 0.5) * 0.03;
       v = Math.max(0.02, v);
       const puddle = Math.max(0, (big[i] * 0.7 + mid[i] * 0.3 - 0.56) * 6);
-      const p = Math.min(1, puddle);
+      const p = Math.min(1, puddle) * 0.3; // dry desert road: only faint oil sheen
       const lum = Math.round(v * 255 * (1 - p * 0.35));
-      img.data[i * 4] = lum;
+      img.data[i * 4] = lum + 4;
       img.data[i * 4 + 1] = lum + 1;
-      img.data[i * 4 + 2] = lum + 4;
+      img.data[i * 4 + 2] = lum;
       img.data[i * 4 + 3] = 255;
       // roughness: dry asphalt 0.62, worn lanes 0.45, puddles 0.1
       const rough = 0.62 - worn * 0.17 - p * 0.42 + (fine[i] - 0.5) * 0.12;
@@ -113,8 +114,8 @@ export function roadMaps(seed: number, spine: boolean, hc: boolean): RoadMaps {
   for (let k = 0; k < 7; k++) {
     let x = r() * W;
     let y = r() * H;
-    g.strokeStyle = 'rgba(6,7,9,0.85)';
-    rg.strokeStyle = 'rgba(40,40,40,1)';
+    g.strokeStyle = 'rgba(6, 3, 4,0.85)';
+    rg.strokeStyle = 'rgba(20, 6, 7,1)';
     g.lineWidth = rg.lineWidth = 1.5 + r() * 2;
     g.beginPath();
     rg.beginPath();
@@ -131,13 +132,13 @@ export function roadMaps(seed: number, spine: boolean, hc: boolean): RoadMaps {
   }
   // markings: worn white paint, rougher than asphalt
   const paint = (x0: number, y0: number, w: number, h: number): void => {
-    g.fillStyle = hc ? '#ffffff' : 'rgba(214,220,222,0.92)';
+    g.fillStyle = hc ? '#ffffff' : 'rgba(243, 240, 235,0.92)';
     g.fillRect(x0, y0, w, h);
-    rg.fillStyle = '#b4b4b4';
+    rg.fillStyle = '#dac5c2';
     rg.fillRect(x0, y0, w, h);
     // wear
     for (let k = 0; k < (w * h) / 30; k++) {
-      g.fillStyle = 'rgba(30,32,36,0.5)';
+      g.fillStyle = 'rgba(16, 5, 6,0.5)';
       g.fillRect(x0 + r() * w, y0 + r() * h, 1 + r() * 2, 1 + r() * 2);
     }
   };
@@ -190,9 +191,9 @@ export function concreteMaps(seed: number): { map: THREE.CanvasTexture; rough: T
     const streak = Math.max(0, n2[i] - 0.5) * 0.25 * (y / H);
     const v = 0.3 + (n1[i] - 0.5) * 0.08 + (n2[i] - 0.5) * 0.1 - streak;
     const l = Math.round(Math.max(0, v) * 255);
-    img.data[i * 4] = l;
-    img.data[i * 4 + 1] = l;
-    img.data[i * 4 + 2] = l + 3;
+    img.data[i * 4] = l + 4;
+    img.data[i * 4 + 1] = l + 1;
+    img.data[i * 4 + 2] = l;
     img.data[i * 4 + 3] = 255;
     const rv = Math.round((0.78 + (n1[i] - 0.5) * 0.2) * 255);
     rimg.data[i * 4] = rimg.data[i * 4 + 1] = rimg.data[i * 4 + 2] = rv;
@@ -201,7 +202,7 @@ export function concreteMaps(seed: number): { map: THREE.CanvasTexture; rough: T
   g.putImageData(img, 0, 0);
   rg.putImageData(rimg, 0, 0);
   // expansion joints
-  g.fillStyle = 'rgba(0,0,0,0.5)';
+  g.fillStyle = 'rgba(3, 3, 3,0.5)';
   g.fillRect(0, 0, 2, H);
   return { map: tex(c, true, true), rough: tex(rc, false, true) };
 }
@@ -209,6 +210,7 @@ export function concreteMaps(seed: number): { map: THREE.CanvasTexture; rough: T
 /**
  * Lit/unlit state and colour of every window, looked up by the building shader.
  * Alpha = lit amount. Nearest filtering keeps each window a single colour.
+ * Lantern-lit adobe: blush and bone lamps, a rare rose sign glow, never a cold window.
  */
 export function windowLookup(seed: number, pal: Palette): THREE.CanvasTexture {
   const S = 128;
@@ -216,34 +218,19 @@ export function windowLookup(seed: number, pal: Palette): THREE.CanvasTexture {
   const [c, g] = canvas(S, S);
   const img = g.createImageData(S, S);
   const accents = pal.signs.map((h) => new THREE.Color(h));
+  const lantern = [new THREE.Color(PALETTE.blush), new THREE.Color(PALETTE.bone), new THREE.Color(PALETTE.tan)];
   for (let y = 0; y < S; y++) {
-    // whole floors go dark or lit together sometimes, like real offices
-    const floorBias = r() < 0.18 ? -0.3 : r() < 0.12 ? 0.35 : 0;
+    // whole floors go dark or lit together sometimes
+    const floorBias = r() < 0.18 ? -0.3 : r() < 0.12 ? 0.3 : 0;
     for (let x = 0; x < S; x++) {
       const i = (y * S + x) * 4;
-      const lit = r() < 0.27 + floorBias;
+      const lit = r() < 0.22 + floorBias;
       const q = r();
-      let cr = 255;
-      let cg = 190;
-      let cb = 120; // 2700 K
-      if (q < 0.3) {
-        cr = 205;
-        cg = 222;
-        cb = 255; // 5000 K
-      } else if (q < 0.32) {
-        const a = accents[Math.floor(r() * accents.length)];
-        cr = Math.round(a.r * 255);
-        cg = Math.round(a.g * 255);
-        cb = Math.round(a.b * 255);
-      } else if (q < 0.5) {
-        cr = 255;
-        cg = 214;
-        cb = 160;
-      }
-      img.data[i] = cr;
-      img.data[i + 1] = cg;
-      img.data[i + 2] = cb;
-      img.data[i + 3] = lit ? Math.round((0.3 + r() * 0.55) * 255) : Math.round(r() * 10);
+      const col = q < 0.03 ? accents[Math.floor(r() * accents.length)] : lantern[q < 0.55 ? 0 : q < 0.8 ? 1 : 2];
+      img.data[i] = Math.round(col.r * 255);
+      img.data[i + 1] = Math.round(col.g * 255);
+      img.data[i + 2] = Math.round(col.b * 255);
+      img.data[i + 3] = lit ? Math.round((0.3 + r() * 0.5) * 255) : Math.round(r() * 10);
     }
   }
   g.putImageData(img, 0, 0);
@@ -254,77 +241,88 @@ export function windowLookup(seed: number, pal: Palette): THREE.CanvasTexture {
   return t;
 }
 
-/** A band of distant towers with lit windows; transparent above the roofline. */
+/**
+ * The horizon band. Far: engraved mesas and buttes. Near: a low adobe town with lantern
+ * windows, a water tower and one observatory dome. Transparent above the skyline.
+ */
 export function skylineStrip(seed: number, pal: Palette, far: boolean): THREE.CanvasTexture {
   const W = 2048;
   const H = 256;
   const r = rng(seed + (far ? 91 : 17));
   const [c, g] = canvas(W, H);
   const base = new THREE.Color(pal.skyline);
-  const bodyCol = far ? base.clone().lerp(new THREE.Color(pal.fog), 0.45) : base.clone().multiplyScalar(0.6);
-  let x = 0;
-  while (x < W) {
-    const w = 18 + r() * (far ? 50 : 70);
-    const h = H * (far ? 0.25 + r() * 0.45 : 0.3 + r() * 0.65);
-    g.fillStyle = `#${bodyCol.getHexString()}`;
-    g.fillRect(x, H - h, w, h);
-    if (r() < 0.3) g.fillRect(x + w * 0.45, H - h - 14 - r() * 30, 2, 40);
-    const cols = Math.floor(w / 5);
-    const rows = Math.floor(h / 6);
-    for (let yy = 1; yy < rows; yy++) {
+  const bodyCol = far ? base.clone().lerp(new THREE.Color(pal.fog), 0.5) : base.clone().multiplyScalar(0.7);
+  const body = `#${bodyCol.getHexString()}`;
+  if (far) {
+    // a low mesa horizon: plateaus with horizontal strata, joined into one tiling band
+    mesa(g, 0, W, H, { seed: seed * 3 + 1, height: H * 0.62, fill: body, strata: PALETTE.ember, plateaus: 5, strataAlpha: 0.22 });
+    g.fillStyle = body;
+    g.fillRect(0, H * 0.78, W, H * 0.22);
+  } else {
+    let x = 0;
+    let dome = Math.floor(W * (0.3 + r() * 0.4));
+    while (x < W) {
+      const w = 26 + r() * 60;
+      const h = H * (0.12 + r() * 0.22);
+      g.fillStyle = body;
+      g.fillRect(x, H - h, w, h);
+      // stepped parapet and a few vigas
+      if (r() < 0.5) g.fillRect(x + w * 0.2, H - h - 6, w * 0.6, 6);
+      for (let k = 0; k < 3; k++) if (r() < 0.4) g.fillRect(x + 4 + r() * (w - 8), H - h + 4, 3, 2);
+      const cols = Math.floor(w / 9);
       for (let xx = 0; xx < cols; xx++) {
-        if (r() > (far ? 0.18 : 0.26)) continue;
-        g.fillStyle = r() < 0.75 ? `rgba(255,205,150,${far ? 0.45 : 0.7})` : `rgba(200,225,255,${far ? 0.4 : 0.6})`;
-        g.fillRect(x + 1 + xx * 5, H - h + yy * 6, 2, 2);
+        if (r() > 0.28) continue;
+        g.fillStyle = r() < 0.75 ? 'rgba(238, 185, 185, 0.62)' : 'rgba(241, 237, 231, 0.55)';
+        g.fillRect(x + 4 + xx * 9, H - h * (0.4 + r() * 0.3), 3, 4);
       }
+      if (x <= dome && dome < x + w + 6) {
+        observatory(g, x + w / 2, H - h, 34, { fill: body, slit: PALETTE.rose, telescopeAngle: -0.8 });
+        dome = -1;
+      } else if (r() < 0.06) {
+        // water tower on stilts
+        g.fillStyle = body;
+        g.fillRect(x + w / 2 - 12, H - h - 40, 24, 16);
+        g.fillRect(x + w / 2 - 10, H - h - 24, 2, 24);
+        g.fillRect(x + w / 2 + 8, H - h - 24, 2, 24);
+      }
+      x += w + (r() < 0.25 ? r() * 30 : 0);
     }
-    x += w + (r() < 0.2 ? r() * 20 : 0);
   }
   const t = tex(c, true);
   t.wrapS = THREE.RepeatWrapping;
   return t;
 }
 
-const WORDS = ['VOLT', 'HALO', 'NOVA', 'KAI', 'SPINE', 'DRIVE', 'AXIS', 'ZEN', 'LUMA', 'PRISM', 'ARC', 'ION'];
+const WORDS = ['MOTEL', 'DINER', 'DEPOT', 'OASIS', 'ASSAY', 'LIVERY', 'SALOON', 'STAR', 'COMET', 'ORBIT', 'MESA', 'FUEL'];
 
-/** Neon billboard faces. Each is used as both colour and emissive map. */
+/** Stamped leather signboards along the road. Used as an unlit colour map. */
 export function signTexture(seed: number, color: string): THREE.CanvasTexture {
   const W = 512;
   const H = 256;
   const r = rng(seed);
   const [c, g] = canvas(W, H);
-  g.fillStyle = '#05060a';
+  g.fillStyle = PALETTE.umber;
   g.fillRect(0, 0, W, H);
-  // backlit panel with fine louvres
-  const grd = g.createLinearGradient(0, 0, 0, H);
-  grd.addColorStop(0, 'rgba(255,255,255,0.05)');
-  grd.addColorStop(1, 'rgba(255,255,255,0.0)');
-  g.fillStyle = grd;
-  g.fillRect(8, 8, W - 16, H - 16);
-  g.strokeStyle = color;
-  g.lineWidth = 6;
-  g.strokeRect(14, 14, W - 28, H - 28);
+  grain(g, 0, 0, W, H, { seed, density: 2.2, colors: [PALETTE.tan, PALETTE.ember], alpha: 0.12 });
+  stampBorder(g, 8, 8, W - 16, H - 16, { color, stitch: PALETTE.tan, radius: 14, inset: 10, corner: 8, stitchAlpha: 0.55 });
   const word = WORDS[Math.floor(r() * WORDS.length)];
   g.fillStyle = color;
-  g.font = `italic 700 ${H * 0.52}px "Barlow Condensed", "Arial Narrow", sans-serif`;
   g.textAlign = 'center';
   g.textBaseline = 'middle';
-  g.fillText(word, W / 2, H * 0.46);
-  g.fillStyle = 'rgba(255,255,255,0.85)';
-  g.font = `500 ${H * 0.1}px "Barlow", sans-serif`;
-  g.fillText(['Open all night', 'Auralis grid', 'Charge here', 'Level 9', 'Harbour line'][Math.floor(r() * 5)], W / 2, H * 0.8);
-  // a few dead tubes make it look used
-  g.fillStyle = 'rgba(0,0,0,0.55)';
-  for (let k = 0; k < 3; k++) g.fillRect(r() * W, r() * H, 6 + r() * 20, 3);
+  g.font = `${H * 0.36}px ${FONT_TITLE}`;
+  g.fillText(word, W / 2, H * 0.45);
+  g.fillStyle = PALETTE.tan;
+  g.font = `600 ${H * 0.1}px ${FONT_SLAB}`;
+  g.fillText(['Open all night', 'Rooms by the moon', 'Water and fuel', 'Last stop west', 'Mesa line'][Math.floor(r() * 5)], W / 2, H * 0.76);
   return tex(c, true);
 }
 
 /** Red/black hatch for the sealed Spine field and the HUD sealed state. */
 export function hazardTexture(): THREE.CanvasTexture {
   const [c, g] = canvas(128, 128);
-  g.fillStyle = '#12020a';
+  g.fillStyle = '#060304';
   g.fillRect(0, 0, 128, 128);
-  g.fillStyle = '#ff2e4a';
+  g.fillStyle = '#c40618';
   for (let k = -128; k < 256; k += 32) {
     g.beginPath();
     g.moveTo(k, 128);
@@ -358,7 +356,7 @@ export function checkerTexture(): THREE.CanvasTexture {
   const [c, g] = canvas(256, 32);
   for (let i = 0; i < 16; i++) {
     for (let j = 0; j < 2; j++) {
-      g.fillStyle = (i + j) % 2 ? '#0b0c10' : '#f2f4f5';
+      g.fillStyle = (i + j) % 2 ? '#080404' : '#fbfaf9';
       g.fillRect(i * 16, j * 16, 16, 16);
     }
   }
@@ -367,13 +365,20 @@ export function checkerTexture(): THREE.CanvasTexture {
 
 export function bannerTexture(text: string, color: string): THREE.CanvasTexture {
   const [c, g] = canvas(1024, 96);
-  g.fillStyle = '#07090d';
+  g.fillStyle = PALETTE.umber;
   g.fillRect(0, 0, 1024, 96);
   g.fillStyle = color;
   g.fillRect(0, 0, 1024, 6);
   g.fillRect(0, 90, 1024, 6);
-  g.fillStyle = '#e8f0f2';
-  g.font = 'italic 700 60px "Barlow Condensed", "Arial Narrow", sans-serif';
+  g.strokeStyle = PALETTE.tan;
+  g.globalAlpha = 0.5;
+  g.setLineDash([6, 7]);
+  g.lineWidth = 2;
+  g.strokeRect(10, 12, 1004, 72);
+  g.setLineDash([]);
+  g.globalAlpha = 1;
+  g.fillStyle = PALETTE.bone;
+  g.font = `600 58px ${FONT_SLAB}`;
   g.textAlign = 'center';
   g.textBaseline = 'middle';
   g.fillText(text, 512, 50);

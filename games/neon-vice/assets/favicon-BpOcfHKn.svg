@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!-- 19_mystical-western: carved crescent + stamped star. Colours: night #150607, umber #2D0A0D, ember #AB0B1A, bone #F1EDE7, red #E30016 -->
+  <defs><mask id="m"><rect width="48" height="48" fill="#fff"/><circle cx="27" cy="21" r="12" fill="#000"/></mask></defs>
+  <rect width="48" height="48" rx="11" fill="#150607"/>
+  <circle cx="24" cy="24" r="20" fill="#2D0A0D" stroke="#AB0B1A" stroke-width="2"/>
+  <circle cx="21" cy="26" r="12.5" fill="#F1EDE7" mask="url(#m)"/>
+  <path d="M33 10.5l1.7 4.4 4.6.2-3.6 2.9 1.2 4.5-3.9-2.6-3.9 2.6 1.2-4.5-3.6-2.9 4.6-.2z" fill="#E30016"/>
+</svg>

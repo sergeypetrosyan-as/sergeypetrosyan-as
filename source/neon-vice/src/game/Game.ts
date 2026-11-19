@@ -110,7 +110,7 @@ export class Game {
     this.scene.add(this.traffic.group);
     this.spawner = new EnemySpawner(this.world.collision);
     this.scene.add(this.spawner.group);
-    this.bolts = new ProjectileSystem(this.world.collision, PALETTE.orange);
+    this.bolts = new ProjectileSystem(this.world.collision, PALETTE.hostile);
     this.scene.add(this.bolts.group, this.fx.group, this.particles.points, this.pickups.group);
 
     this.aiCtx = {
@@ -463,7 +463,7 @@ export class Game {
     const target = this.boltTarget();
     this.bolts.update(dt, target, {
       onHitTarget: (dmg, fx, fz) => this.damagePlayer(dmg, fx, fz),
-      onHitWorld: (x, y, z, nx, ny, nz) => this.particles.sparks(x, y, z, nx, ny, nz, 6, _col.set(PALETTE.orange)),
+      onHitWorld: (x, y, z, nx, ny, nz) => this.particles.sparks(x, y, z, nx, ny, nz, 6, _col.set(PALETTE.ember)),
     });
   }
 
@@ -569,7 +569,7 @@ export class Game {
   }
 
   private onCarImpact(speed: number, x: number, z: number, nx: number, nz: number): void {
-    this.particles.sparks(x - nx * 1, 0.6, z - nz * 1, nx, 0.2, nz, Math.min(24, Math.round(speed * 1.5)), _col.set(PALETTE.yellow));
+    this.particles.sparks(x - nx * 1, 0.6, z - nz * 1, nx, 0.2, nz, Math.min(24, Math.round(speed * 1.5)), _col.set(PALETTE.tan));
     this.audio.crash(speed);
     this.cam.addTrauma(Math.min(0.6, speed * 0.03));
   }
@@ -711,7 +711,7 @@ export class Game {
     }
     this.audio.pickup(kind);
     this.hud.feed(kind === 'cash' ? 75 * this.state.multiplier : 0, PICKUP_LABEL[kind]);
-    _col.set(kind === 'health' ? PALETTE.green : kind === 'ammo' ? PALETTE.cyan : kind === 'armor' ? PALETTE.blue : kind === 'boost' ? PALETTE.orange : PALETTE.pink);
+    _col.set(PALETTE.collectible);
     this.fx.ring(this.player.position.x, 0.06, this.player.position.z, _col, 2.5, 0.4);
   }
 
@@ -741,7 +741,7 @@ export class Game {
     this.steamTimer -= dt;
     if (this.steamTimer <= 0) {
       this.steamTimer = 0.12;
-      _col.setRGB(0.35, 0.28, 0.5);
+      _col.setRGB(0.38, 0.29, 0.28); // desert dust
       for (const v of this.world.layout.steamVents) {
         if (Math.abs(v.x - this.camera.position.x) > 60 || Math.abs(v.z - this.camera.position.z) > 60) continue;
         this.particles.emit(v.x + (Math.random() - 0.5) * 0.4, 0.1, v.z + (Math.random() - 0.5) * 0.4, (Math.random() - 0.5) * 0.3, 1.2 + Math.random(), (Math.random() - 0.5) * 0.3, _col, 0.5, 2.2, -0.2, 0.5, 2.5);
@@ -754,7 +754,7 @@ export class Game {
       const slip = Math.abs(v.lateralSpeed);
       this.audio.setEngine(true, v.forwardSpeed, this.input.axis('KeyS', 'KeyW', 'ArrowDown', 'ArrowUp'), slip);
       if (slip > 3.5 && Math.random() < 0.6) {
-        _col.setRGB(0.5, 0.45, 0.6);
+        _col.setRGB(0.5, 0.4, 0.38);
         for (const o of [-1.45]) {
           const bx = v.position.x + Math.sin(v.heading) * o, bz = v.position.z + Math.cos(v.heading) * o;
           this.particles.emit(bx, 0.25, bz, (Math.random() - 0.5), 0.6, (Math.random() - 0.5), _col, 0.7, 1.2, -0.3, 1, 3);
@@ -799,9 +799,9 @@ export class Game {
       this.radarTimer = 1 / 20;
       const blips = this.radarBlips;
       blips.length = 0;
-      for (const e of this.spawner.pool) if (e.alive) blips.push({ x: e.position.x, z: e.position.z, color: e.def.kind === 'gunner' ? '#2ef2ff' : '#ff8a3d', size: 3.2 });
-      for (const v of this.vehicles) if (v !== this.vehicle) blips.push({ x: v.position.x, z: v.position.z, color: '#ff4f9a', size: 3 });
-      this.pickups.forEachActive((x, z) => blips.push({ x, z, color: '#4dff9a', size: 2.2 }));
+      for (const e of this.spawner.pool) if (e.alive) blips.push({ x: e.position.x, z: e.position.z, color: '#E30016', size: 3.2 });
+      for (const v of this.vehicles) if (v !== this.vehicle) blips.push({ x: v.position.x, z: v.position.z, color: '#A5A29E', size: 3 });
+      this.pickups.forEachActive((x, z) => blips.push({ x, z, color: '#E96B74', size: 2.2 }));
       this.hud.drawRadar(this.player.position.x, this.player.position.z, this.cam.yaw, blips);
     }
   }

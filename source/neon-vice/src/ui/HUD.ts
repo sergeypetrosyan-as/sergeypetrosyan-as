@@ -251,14 +251,14 @@ export class HUD {
     g.beginPath();
     g.arc(R, R, R - 1, 0, Math.PI * 2);
     g.clip();
-    g.strokeStyle = 'rgba(46,242,255,0.14)';
+    g.strokeStyle = 'rgba(211, 185, 183, 0.16)';
     g.lineWidth = 1;
     for (const r of [0.33, 0.66]) { g.beginPath(); g.arc(R, R, R * r, 0, Math.PI * 2); g.stroke(); }
     g.translate(R, R);
     g.rotate(yaw);
     const k = R / range;
     // Roads (every 50 m) as faint lines.
-    g.strokeStyle = 'rgba(255,79,210,0.18)';
+    g.strokeStyle = 'rgba(211, 185, 183, 0.13)';
     g.lineWidth = 14 * k;
     for (const v of [-100, -50, 0, 50, 100]) {
       g.beginPath(); g.moveTo((v - cx) * k, -R * 2); g.lineTo((v - cx) * k, R * 2); g.stroke();
@@ -276,7 +276,7 @@ export class HUD {
     }
     g.restore();
     // Player arrow (always pointing up).
-    g.fillStyle = '#ffffff';
+    g.fillStyle = '#F1EDE7'; // the player is moonlight
     g.beginPath();
     g.moveTo(R, R - 7); g.lineTo(R + 5, R + 5); g.lineTo(R, R + 2); g.lineTo(R - 5, R + 5);
     g.closePath();

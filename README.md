@@ -1,10 +1,9 @@
 <div align="center">
 
-<img src="./assets/hero-animation.gif" alt="Animated developer portfolio banner" width="100%" />
-
-</div>
-
-<div align="center">
+<picture>
+  <source media="(max-width: 600px)" srcset="./assets/hero-mobile.gif" />
+  <img src="./assets/hero.gif" alt="Sergey Petrosyan, Frontend Software Engineer: an engraved desert skyline at night where a carved moon rests behind the mesa and three stars line up above a small observatory" width="100%" />
+</picture>
 
 # Sergey Petrosyan
 
@@ -12,23 +11,22 @@
 
 **Building web products that stay fast, readable, and easy to change.**
 
-<br/>
+![TypeScript](https://img.shields.io/badge/TypeScript-72151D?style=flat-square&logo=typescript&logoColor=F1EDE7)
+![React](https://img.shields.io/badge/React-72151D?style=flat-square&logo=react&logoColor=F1EDE7)
+![Frontend Architecture](https://img.shields.io/badge/Frontend%20Architecture-150607?style=flat-square)
+![UI/UX Engineering](https://img.shields.io/badge/UI%2FUX%20Engineering-150607?style=flat-square)
+![Performance](https://img.shields.io/badge/Performance-150607?style=flat-square)
 
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![React](https://img.shields.io/badge/React-087EA4?style=flat-square&logo=react&logoColor=white)
-![Frontend Architecture](https://img.shields.io/badge/Frontend%20Architecture-1F2328?style=flat-square)
-![UI/UX Engineering](https://img.shields.io/badge/UI%2FUX%20Engineering-1F2328?style=flat-square)
-![Performance](https://img.shields.io/badge/Performance-1F2328?style=flat-square)
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/"><img src="./assets/arcade-button.png" alt="Enter the NEON ARCADE: all ten browser games" width="380" /></a>
 
-<br/>
-
-<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/"><img src="https://img.shields.io/badge/%E2%96%B6%20ENTER%20NEON%20ARCADE-all%20my%20browser%20games-ff3bd4?style=for-the-badge&labelColor=070914" alt="Enter NEON ARCADE — all my browser games" /></a>
+[About](#about) · [The Arcade](#the-arcade) · [What I Do](#what-i-do) · [Tech Stack](#tech-stack) · [Principles](#engineering-principles) · [Work](#work)
 
 </div>
 
-<br/>
-
----
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/rule-dark.png" />
+  <img src="./assets/rule-light.png" alt="" width="100%" />
+</picture>
 
 ## About
 
@@ -38,68 +36,100 @@ Most of my work sits at the intersection of **architecture and interface** — d
 
 I treat clarity as a feature: code that reads plainly, boundaries that are obvious, state that lives where it belongs, and abstractions introduced only once the pattern has actually repeated.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/rule-dark.png" />
+  <img src="./assets/rule-light.png" alt="" width="100%" />
+</picture>
+
+## The Arcade
+
+Ten browser games, each built from scratch. Pick a card to play — every one runs in the browser, no install. The whole collection lives at **[NEON ARCADE](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/)**.
+
+<p align="center">
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/unfall/"><img src="./assets/cards/unfall.gif" alt="Play UNFALL — card XII, The Hanged Man: a carved lens over a broken bridge lifts the fallen plank back into place while Ilo walks with her lantern" width="168" /></a>
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-tanks/"><img src="./assets/cards/neon-tanks.gif" alt="Play NEON TANKS: OVERDRIVE — card VII, The Chariot: a tank on a desert depot sweeps its turret toward a red enemy tank" width="168" /></a>
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-vice/"><img src="./assets/cards/neon-vice.gif" alt="Play NEON VICE — card XVI, The Tower: a car with its headlights on drives through a frontier town at night" width="168" /></a>
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-space-invaders/"><img src="./assets/cards/neon-space-invaders.gif" alt="Play NEON SPACE INVADERS — card XVII, The Star: a red stamped formation sways above three adobe bunkers and the player's cannon" width="168" /></a>
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-overdrive/"><img src="./assets/cards/neon-overdrive.gif" alt="Play NEON OVERDRIVE — card X, Wheel of Fortune: the player's car races down a desert highway toward a red Spine gate under the moon" width="168" /></a>
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/paradox-room/"><img src="./assets/cards/paradox-room.gif" alt="Play PARADOX ROOM — card XXI, The World: an open room turns a quarter around the lantern-bearer standing at its centre" width="168" /></a>
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/ghost-signal/"><img src="./assets/cards/ghost-signal.gif" alt="Play GHOST SIGNAL — card XVIII, The Moon: rain falls on a detective under a street lamp beside a wanted notice in Kestrel Bay" width="168" /></a>
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/blackout-protocol/"><img src="./assets/cards/blackout-protocol.gif" alt="Play BLACKOUT PROTOCOL — card IX, The Hermit: a guard's red lantern cone sweeps a floor plan while the operative waits behind a crate" width="168" /></a>
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/void-survivor/"><img src="./assets/cards/void-survivor.gif" alt="Play VOID SURVIVOR — card XIX, The Sun: rings of red swarm marks circle the survivor inside a carved Bulwark Field" width="168" /></a>
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-jump/"><img src="./assets/cards/neon-jump.gif" alt="Play NEON JUMP: CYBERWORLD — card 0, The Fool: Vee hops from an adobe ledge up to a stamped star" width="168" /></a>
+</p>
+
+### UNFALL — a time-lens game
+
+*Vesper ends tonight. You can't steer Ilo, the courier carrying its last light — you can only hold a circle where time runs backward.*
+
+**[Play UNFALL](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/unfall/)** · [Source code](./source/unfall) · TypeScript · Canvas 2D · Vite · Web Audio
+
+<details>
+<summary><b>How it plays · Controls</b></summary>
 <br/>
 
-<div align="center">
+- Inside the circle, time runs backward: slabs rise back into place, fallen signs return to their chains, presses lift, and the Hush recedes
+- Outside it, time keeps going, so whatever you rebuild starts falling again on its own clock
+- The circle rewinds Ilo too: catch her and she walks back through her own steps, or rescue her mid-fall
+- Every second you borrow dims her lantern, and how much light reaches the lighthouse decides one of three endings
+- Eight hand-built districts, a 6–10 minute night, and a soundtrack that plays backward while you hold time
 
-## 🎮 Neon Space Invaders
+| Input | Action |
+|---|---|
+| Mouse / finger | Aim the circle |
+| Hold button / touch | Turn time back |
+| Wheel · `Q` `E` | Resize the circle |
+| Arrows · `Space` | Keyboard aim · hold |
+| `R` · `Esc` | Restart · Pause |
 
-<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-space-invaders/">
-  <img
-    src="./assets/game-preview.gif"
-    alt="Neon Space Invaders — click to play"
-    width="720"
-  />
-</a>
+</details>
 
-**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-space-invaders/)**
+### NEON TANKS: OVERDRIVE
 
-</div>
+*A true-3D arena tank shooter. Drive one way, aim the turret another, and fight bot tanks across a container port and a research facility.*
 
+**[Play NEON TANKS](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-tanks/)** · [Source code](./source/neon-tanks) · TypeScript · Three.js · Vite · Web Audio
+
+<details>
+<summary><b>How it plays · Controls</b></summary>
 <br/>
 
-<div align="center">
+- Two multi-level arenas, NEON DOCKS and VOID COMPLEX, with ramps, bridges, walkways, cover and see-through energy barriers
+- Independent hull and turret, third-person orbit camera, real collisions, slopes and ledges
+- Four weapons that play differently: PLASMA CANNON, RAIL DRIVER, VOLT EMITTER and NOVA ROCKETS
+- Three hulls with their own abilities: phase dash, aegis shield and shockwave
+- Team Deathmatch, Free-for-All and Control Point against bots on three difficulties (bots are always tagged BOT)
+- Garage with unlocks, paints and upgrades; level, credits and career stats saved locally
 
-## 🌆 NEON VICE — 3D NIGHTFALL
+| Input | Action |
+|---|---|
+| `W` `S` · `A` `D` | Drive · turn hull |
+| Mouse · Click | Aim turret · fire |
+| Wheel | Camera zoom |
+| `Shift` · `Space` | Boost · ability |
+| `R` · `Tab` | Reload/vent · scores |
+| `Esc` · `M` | Pause · mute |
 
-<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-vice/">
-  <img
-    src="./assets/neon-vice-preview.gif"
-    alt="NEON VICE gameplay: a third-person shootout on the neon oceanfront, then a handbrake drift onto the boulevard — click to play"
-    width="720"
-  />
-</a>
+</details>
 
-*A neon-soaked 3D arcade shooter. Explore the city, take control of the streets, and survive the night.*
+### NEON VICE — 3D Nightfall
 
-**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-vice/)** &nbsp;·&nbsp; [Source code](./source/neon-vice)
+*A 3D arcade shooter. Explore the city, take control of the streets, and survive the night.*
 
-![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=threedotjs&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
-![Web Audio](https://img.shields.io/badge/Web%20Audio-1F2328?style=flat-square)
+**[Play NEON VICE](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-vice/)** · [Source code](./source/neon-vice) · TypeScript · Three.js · Vite · Web Audio
 
-</div>
-
-<table>
-<tr>
-<td width="55%" valign="top">
-
-**Features**
+<details>
+<summary><b>How it plays · Controls</b></summary>
+<br/>
 
 - Third-person shooting with two weapons — Neon Pistol and Pulse Rifle — headshots, reloads and combo multipliers
 - Two enemy archetypes: Street Enforcers rush you, Neon Gunners keep their distance and fire telegraphed bolts
-- Drivable neon sports cars with underglow, handbrake drifts and a speedometer
+- Drivable sports cars with underglow, handbrake drifts and a speedometer
 - A compact city: downtown towers, oceanfront hotels, a parking garage, backstreet alleys and a plaza
 - Six escalating waves, pickups, and a local best-score board
 - Original synthwave soundtrack and SFX, synthesized live with Web Audio
 
-</td>
-<td width="45%" valign="top">
-
-**Desktop controls**
-
-| | |
+| Input | Action |
 |---|---|
 | `W` `A` `S` `D` | Move / drive |
 | `Shift` · `Space` | Sprint · Jump / handbrake |
@@ -109,150 +139,143 @@ I treat clarity as a feature: code that reads plainly, boundaries that are obvio
 | `E` | Enter / exit a car |
 | `Esc` | Pause |
 
-</td>
-</tr>
-</table>
+</details>
 
+### NEON SPACE INVADERS
+
+*A take on the arcade classic. Pilot the interceptor, dodge incoming fire and clear wave after wave before the invaders reach the grid.*
+
+**[Play NEON SPACE INVADERS](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-space-invaders/)** · [Source code](./games/neon-space-invaders) · JavaScript · Canvas 2D
+
+### NEON OVERDRIVE
+
+*Burn the reserve. Cut the Spine. An arcade racer through a megacity at midnight.*
+
+**[Play NEON OVERDRIVE](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-overdrive/)** · [Source code](./source/neon-overdrive) · TypeScript · Three.js · Vite · Web Audio
+
+<details>
+<summary><b>How it plays · Controls</b></summary>
 <br/>
 
-<div align="center">
+- Three laps against three AI rivals, on three tracks at three difficulties
+- Drift to fill your Overdrive reserve, then spend it on boost
+- The Spine is a faster inner route whose gates open only for a car with a charged reserve
+- Checkpoints, lap splits and personal bests saved in your browser
 
-## ⏳ UNFALL — A TIME-LENS GAME
-
-<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/unfall/">
-  <img
-    src="./assets/unfall-preview.gif"
-    alt="UNFALL gameplay: a circle of reversed time catches the courier Ilo mid-fall and rebuilds the broken bridge under her — click to play"
-    width="720"
-  />
-</a>
-
-*Vesper ends tonight. You can't steer Ilo, the courier carrying its last light — you can only hold a circle where time runs backward.*
-
-**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/unfall/)** &nbsp;·&nbsp; [Source code](./source/unfall)
-
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Canvas 2D](https://img.shields.io/badge/Canvas%202D-1F2328?style=flat-square)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
-![Web Audio](https://img.shields.io/badge/Web%20Audio-1F2328?style=flat-square)
-
-</div>
-
-<table>
-<tr>
-<td width="55%" valign="top">
-
-**How it plays**
-
-- Inside the circle, time runs backward: slabs rise back into place, fallen signs return to their chains, presses lift, and the Hush recedes
-- Outside it, time keeps going, so whatever you rebuild starts falling again on its own clock
-- The circle rewinds Ilo too: catch her and she walks back through her own steps, or rescue her mid-fall
-- Every second you borrow dims her lantern, and how much light reaches the lighthouse decides one of three endings
-- Eight hand-built districts, a 6–10 minute night, and a soundtrack that plays backward while you hold time
-
-</td>
-<td width="45%" valign="top">
-
-**Controls**
-
-| | |
+| Input | Action |
 |---|---|
-| Mouse / finger | Aim the circle |
-| Hold button / touch | Turn time back |
-| Wheel · `Q` `E` | Resize the circle |
-| Arrows · `Space` | Keyboard aim · hold |
-| `R` · `Esc` | Restart · Pause |
+| `W` · `S` | Accelerate · Brake |
+| `A` `D` · `←` `→` | Steer |
+| `Shift` · `Space` | Drift |
+| `B` · `Enter` | Boost |
+| `P` · `R` | Pause · Restart |
 
-</td>
-</tr>
-</table>
+</details>
 
+### PARADOX ROOM
+
+*The floor is a matter of opinion. Fold small rooms a quarter-turn at a time so walls become floors.*
+
+**[Play PARADOX ROOM](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/paradox-room/)** · [Source code](./source/paradox-room) · TypeScript · Three.js · Vite · Web Audio
+
+<details>
+<summary><b>How it plays · Controls</b></summary>
 <br/>
 
-<div align="center">
+- Roll or pitch a room and gravity follows: a wall becomes the floor, and you fall to it
+- Nine rooms in three chapters, each one checked to be solvable, with a shortest-known solution to beat
+- Hints, undo, hidden margin-note shards, and portals that remember how each room was turned
 
-## 🛡️ NEON TANKS: OVERDRIVE
-
-<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-tanks/">
-  <img
-    src="./assets/neon-tanks-preview.gif"
-    alt="NEON TANKS gameplay: a dark armoured tank drives through a neon container port while its turret tracks enemy tanks and plasma shots burst against cover — click to play"
-    width="720"
-  />
-</a>
-
-*A true-3D arena tank shooter. Drive one way, aim the turret another, and fight bot tanks across a container port and a research facility.*
-
-**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-tanks/)** &nbsp;·&nbsp; [Source code](./source/neon-tanks)
-
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=threedotjs&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
-![Web Audio](https://img.shields.io/badge/Web%20Audio-1F2328?style=flat-square)
-
-</div>
-
-<table>
-<tr>
-<td width="55%" valign="top">
-
-**How it plays**
-
-- Two multi-level arenas, NEON DOCKS and VOID COMPLEX, with ramps, bridges, walkways, cover and see-through energy barriers
-- Independent hull and turret, third-person orbit camera, real collisions, slopes and ledges
-- Four weapons that play differently: PLASMA CANNON, RAIL DRIVER, VOLT EMITTER and NOVA ROCKETS
-- Three hulls with their own abilities: phase dash, aegis shield and shockwave
-- Team Deathmatch, Free-for-All and Control Point against bots on three difficulties (bots are always tagged BOT)
-- Garage with unlocks, paints and upgrades; level, credits and career stats saved locally
-
-</td>
-<td width="45%" valign="top">
-
-**Controls**
-
-| | |
+| Input | Action |
 |---|---|
-| `W` `S` · `A` `D` | Drive · turn hull |
-| Mouse · Click | Aim turret · fire |
-| Wheel | Camera zoom |
-| `Shift` · `Space` | Boost · ability |
-| `R` · `Tab` | Reload/vent · scores |
-| `Esc` · `M` | Pause · mute |
+| `WASD` · Arrows | Move |
+| `Q` · `F` | Roll the room |
+| `X` · `V` | Pitch the room |
+| `E` · `Space` | Interact |
+| `Z` · `H` · `R` | Undo · Hint · Restart |
 
-</td>
-</tr>
-</table>
+</details>
 
+### GHOST SIGNAL
+
+*Memories can lie. Timestamps can't. A detective thriller in rain-soaked Kestrel Bay.*
+
+**[Play GHOST SIGNAL](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/ghost-signal/)** · [Source code](./source/ghost-signal) · TypeScript · Canvas 2D · Vite · Web Audio
+
+<details>
+<summary><b>How it plays · Controls</b></summary>
 <br/>
 
-<div align="center">
+- Rebuild a contested night from memory fragments, testimony and evidence
+- Seven deduction rules check fragments against each other and expose a forged memory
+- Dialogue choices are tracked, and five endings follow your conclusion
 
-## 🕹️ NEON JUMP: CYBERWORLD
+| Input | Action |
+|---|---|
+| Click · `Enter` | Examine / select |
+| `1`–`6` | Switch tabs |
+| `1`–`9` | Choose a reply |
+| `Esc` · `?` | Close panel · Help |
 
-<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-jump/">
-  <img
-    src="./assets/neon-jump-preview.gif"
-    alt="NEON JUMP gameplay: Vee bumps prize blocks and takes the high rails to a neon shard, then stomps the Static Sovereign's exposed core — click to play"
-    width="720"
-  />
-</a>
+</details>
 
-*A neon side-scrolling platformer. Run, jump and stomp across three glitching worlds to rebuild the Neon Core.*
+### BLACKOUT PROTOCOL
 
-**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-jump/)** &nbsp;·&nbsp; [Source code](./source/neon-jump)
+*Cut the lights. Own the dark. Stealth and hacking across four Halcyon facilities.*
 
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Canvas 2D](https://img.shields.io/badge/Canvas%202D-1F2328?style=flat-square)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
-![Web Audio](https://img.shields.io/badge/Web%20Audio-1F2328?style=flat-square)
+**[Play BLACKOUT PROTOCOL](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/blackout-protocol/)** · [Source code](./source/blackout-protocol) · TypeScript · Three.js · Vite · Web Audio
 
-</div>
+<details>
+<summary><b>How it plays · Controls</b></summary>
+<br/>
 
-<table>
-<tr>
-<td width="55%" valign="top">
+- Guards patrol, grow suspicious, raise the alert and search; vision cones respect walls and shadows
+- A limited Energy reserve pays for every hack: loop a camera, lock a door, cut a laser grid
+- Drop decoys, find keycards, crack terminal puzzles, then reach extraction unseen
 
-**How it plays**
+| Input | Action |
+|---|---|
+| `WASD` · Arrows | Move |
+| `Shift` | Sneak |
+| `E` · `Tab` | Interact · Cycle target |
+| `Space` · `F` | Hack · Drop decoy |
+| `Esc` · `P` | Pause |
+
+</details>
+
+### VOID SURVIVOR
+
+*Feed the void. Break the swarm. A roguelite survivor.*
+
+**[Play VOID SURVIVOR](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/void-survivor/)** · [Source code](./source/void-survivor) · TypeScript · Three.js · Vite · Web Audio
+
+<details>
+<summary><b>How it plays · Controls</b></summary>
+<br/>
+
+- Kills fill your Reserve; hold it to raise a Bulwark Field, or release it as a Detonation
+- Pick one of three upgrade cards on every level-up and build synergies across a 20-minute run
+- Four Core Warden fights, and Shards to spend on permanent unlocks in the Vault
+
+| Input | Action |
+|---|---|
+| `WASD` · Arrows | Move |
+| `Q` | Hold Reserve |
+| `E` · `Space` | Release (Detonation) |
+| `1` `2` `3` · `4` | Pick a card · Reroll |
+| `P` · `R` | Pause · Restart |
+
+</details>
+
+### NEON JUMP: CYBERWORLD
+
+*A side-scrolling platformer. Run, jump and stomp across three glitching worlds to rebuild the Neon Core.*
+
+**[Play NEON JUMP](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-jump/)** · [Source code](./source/neon-jump) · TypeScript · Canvas 2D · Vite · Web Audio
+
+<details>
+<summary><b>How it plays · Controls</b></summary>
+<br/>
 
 - Six hand-built levels in three worlds: Neon Downtown, Cyber Factory and the Glitch Dimension
 - Responsive jumps with variable height, coyote time and jump buffering
@@ -261,12 +284,7 @@ I treat clarity as a feature: code that reads plainly, boundaries that are obvio
 - A three-phase boss, the Static Sovereign, beaten by stomping its core after each slam
 - Original pixel art and a synthesized soundtrack; best times, ranks and progress saved locally
 
-</td>
-<td width="45%" valign="top">
-
-**Controls**
-
-| | |
+| Input | Action |
 |---|---|
 | `A` `D` · `←` `→` | Run |
 | `Space` · `W` | Jump (hold for higher) |
@@ -274,273 +292,16 @@ I treat clarity as a feature: code that reads plainly, boundaries that are obvio
 | `E` | Read a terminal |
 | `Esc` · `R` | Pause · Checkpoint |
 
-</td>
-</tr>
-</table>
-
-<br/>
-
-<div align="center">
-
-## 🏎️ NEON OVERDRIVE
-
-<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-overdrive/">
-  <img
-    src="./assets/neon-overdrive-preview.gif"
-    alt="NEON OVERDRIVE gameplay: the player's car racing three AI rivals through a neon megacity, cutting through the Spine — click to play"
-    width="720"
-  />
-</a>
-
-*Burn the reserve. Cut the Spine. A neon arcade racer through a midnight-blue megacity.*
-
-**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-overdrive/)** &nbsp;·&nbsp; [Source code](./source/neon-overdrive)
-
-![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=threedotjs&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
-![Web Audio](https://img.shields.io/badge/Web%20Audio-1F2328?style=flat-square)
-
-</div>
-
-<table>
-<tr>
-<td width="55%" valign="top">
-
-**How it plays**
-
-- Three laps against three AI rivals, on three tracks at three difficulties
-- Drift to fill your Overdrive reserve, then spend it on boost
-- The Spine is a faster inner route whose gates open only for a car with a charged reserve
-- Checkpoints, lap splits and personal bests saved in your browser
-
-</td>
-<td width="45%" valign="top">
-
-**Controls**
-
-| | |
-|---|---|
-| `W` · `S` | Accelerate · Brake |
-| `A` `D` · `←` `→` | Steer |
-| `Shift` · `Space` | Drift |
-| `B` · `Enter` | Boost |
-| `P` · `R` | Pause · Restart |
-
-</td>
-</tr>
-</table>
-
-<br/>
-
-<div align="center">
-
-## 🧩 PARADOX ROOM
-
-<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/paradox-room/">
-  <img
-    src="./assets/paradox-room-preview.gif"
-    alt="PARADOX ROOM gameplay: a small room folds a quarter-turn at a time so its walls become floors, until the lantern-bearer reaches the gate — click to play"
-    width="720"
-  />
-</a>
-
-*The floor is a matter of opinion. Fold small rooms a quarter-turn at a time so walls become floors.*
-
-**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/paradox-room/)** &nbsp;·&nbsp; [Source code](./source/paradox-room)
-
-![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=threedotjs&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
-![Web Audio](https://img.shields.io/badge/Web%20Audio-1F2328?style=flat-square)
-
-</div>
-
-<table>
-<tr>
-<td width="55%" valign="top">
-
-**How it plays**
-
-- Roll or pitch a room and gravity follows: a wall becomes the floor, and you fall to it
-- Nine rooms in three chapters, each one checked to be solvable, with a shortest-known solution to beat
-- Hints, undo, hidden margin-note shards, and portals that remember how each room was turned
-
-</td>
-<td width="45%" valign="top">
-
-**Controls**
-
-| | |
-|---|---|
-| `WASD` · Arrows | Move |
-| `Q` · `F` | Roll the room |
-| `X` · `V` | Pitch the room |
-| `E` · `Space` | Interact |
-| `Z` · `H` · `R` | Undo · Hint · Restart |
-
-</td>
-</tr>
-</table>
-
-<br/>
-
-<div align="center">
-
-## 🕵️ GHOST SIGNAL
-
-<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/ghost-signal/">
-  <img
-    src="./assets/ghost-signal-preview.gif"
-    alt="GHOST SIGNAL gameplay: opening the case in the rain-soaked Halcyon Lobby, logging the front-door ledger and the grid relay panel, catching a contradiction in a witness interview, then the case board — click to play"
-    width="720"
-  />
-</a>
-
-*Memories can lie. Timestamps can't. A detective thriller in rain-soaked Kestrel Bay.*
-
-**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/ghost-signal/)** &nbsp;·&nbsp; [Source code](./source/ghost-signal)
-
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Canvas 2D](https://img.shields.io/badge/Canvas%202D-1F2328?style=flat-square)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
-![Web Audio](https://img.shields.io/badge/Web%20Audio-1F2328?style=flat-square)
-
-</div>
-
-<table>
-<tr>
-<td width="55%" valign="top">
-
-**How it plays**
-
-- Rebuild a contested night from memory fragments, testimony and evidence
-- Seven deduction rules check fragments against each other and expose a forged memory
-- Dialogue choices are tracked, and five endings follow your conclusion
-
-</td>
-<td width="45%" valign="top">
-
-**Controls**
-
-| | |
-|---|---|
-| Click · `Enter` | Examine / select |
-| `1`–`6` | Switch tabs |
-| `1`–`9` | Choose a reply |
-| `Esc` · `?` | Close panel · Help |
-
-</td>
-</tr>
-</table>
-
-<br/>
-
-<div align="center">
-
-## 🔦 BLACKOUT PROTOCOL
-
-<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/blackout-protocol/">
-  <img
-    src="./assets/blackout-protocol-preview.gif"
-    alt="BLACKOUT PROTOCOL gameplay: an operative slips past a guard's vision cone, hacks a door and a camera, then starts a terminal's memory puzzle — click to play"
-    width="720"
-  />
-</a>
-
-*Cut the lights. Own the dark. Stealth and hacking across four Halcyon facilities.*
-
-**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/blackout-protocol/)** &nbsp;·&nbsp; [Source code](./source/blackout-protocol)
-
-![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=threedotjs&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
-![Web Audio](https://img.shields.io/badge/Web%20Audio-1F2328?style=flat-square)
-
-</div>
-
-<table>
-<tr>
-<td width="55%" valign="top">
-
-**How it plays**
-
-- Guards patrol, grow suspicious, raise the alert and search; vision cones respect walls and shadows
-- A limited Energy reserve pays for every hack: loop a camera, lock a door, cut a laser grid
-- Drop decoys, find keycards, crack terminal puzzles, then reach extraction unseen
-
-</td>
-<td width="45%" valign="top">
-
-**Controls**
-
-| | |
-|---|---|
-| `WASD` · Arrows | Move |
-| `Shift` | Sneak |
-| `E` · `Tab` | Interact · Cycle target |
-| `Space` · `F` | Hack · Drop decoy |
-| `Esc` · `P` | Pause |
-
-</td>
-</tr>
-</table>
-
-<br/>
-
-<div align="center">
-
-## 🌀 VOID SURVIVOR
-
-<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/void-survivor/">
-  <img
-    src="./assets/void-survivor-preview.gif"
-    alt="VOID SURVIVOR gameplay: a wave-17 swarm closing in while the player's Bulwark Field and beams tear through it — click to play"
-    width="720"
-  />
-</a>
-
-*Feed the void. Break the swarm. A neon roguelite survivor.*
-
-**[▶ PLAY THE GAME](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/void-survivor/)** &nbsp;·&nbsp; [Source code](./source/void-survivor)
-
-![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=threedotjs&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
-![Web Audio](https://img.shields.io/badge/Web%20Audio-1F2328?style=flat-square)
-
-</div>
-
-<table>
-<tr>
-<td width="55%" valign="top">
-
-**How it plays**
-
-- Kills fill your Reserve; hold it to raise a Bulwark Field, or release it as a Detonation
-- Pick one of three upgrade cards on every level-up and build synergies across a 20-minute run
-- Four Core Warden fights, and Shards to spend on permanent unlocks in the Vault
-
-</td>
-<td width="45%" valign="top">
-
-**Controls**
-
-| | |
-|---|---|
-| `WASD` · Arrows | Move |
-| `Q` | Hold Reserve |
-| `E` · `Space` | Release (Detonation) |
-| `1` `2` `3` · `4` | Pick a card · Reroll |
-| `P` · `R` | Pause · Restart |
-
-</td>
-</tr>
-</table>
-
-<br/>
+</details>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/rule-dark.png" />
+  <img src="./assets/rule-light.png" alt="" width="100%" />
+</picture>
 
 ## What I Do
+
+<img src="./assets/skills-map.png" alt="A star chart joining four disciplines — Frontend Engineering, UI/UX Engineering, Architecture and Performance — with AI-assisted workflow as a smaller star beside Architecture" width="100%" />
 
 <table>
 <tr>
@@ -605,59 +366,17 @@ Treating responsiveness as part of the product, not a cleanup task.
 
 I use AI tooling as part of a normal engineering workflow — accelerating refactors, exploration, documentation, and review — while keeping design decisions, correctness, and architectural judgment firmly human-owned. Generated code gets reviewed like any other code.
 
-<br/>
-
 ## Tech Stack
 
-<table>
-<tr>
-<td valign="middle"><b>Core</b></td>
-<td>
-<img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript"/>
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black" alt="JavaScript"/>
-<img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white" alt="HTML5"/>
-<img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white" alt="CSS3"/>
-</td>
-</tr>
-<tr>
-<td valign="middle"><b>Framework</b></td>
-<td>
-<img src="https://img.shields.io/badge/React-087EA4?style=flat-square&logo=react&logoColor=white" alt="React"/>
-<img src="https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white" alt="Vite"/>
-</td>
-</tr>
-<tr>
-<td valign="middle"><b>State &amp; Data</b></td>
-<td>
-<img src="https://img.shields.io/badge/Redux%20Toolkit-764ABC?style=flat-square&logo=redux&logoColor=white" alt="Redux Toolkit"/>
-<img src="https://img.shields.io/badge/TanStack%20Query-FF4154?style=flat-square&logo=reactquery&logoColor=white" alt="TanStack Query"/>
-</td>
-</tr>
-<tr>
-<td valign="middle"><b>UI &amp; Styling</b></td>
-<td>
-<img src="https://img.shields.io/badge/Ant%20Design-0170FE?style=flat-square&logo=antdesign&logoColor=white" alt="Ant Design"/>
-<img src="https://img.shields.io/badge/SCSS-CC6699?style=flat-square&logo=sass&logoColor=white" alt="SCSS"/>
-</td>
-</tr>
-<tr>
-<td valign="middle"><b>Forms &amp; Validation</b></td>
-<td>
-<img src="https://img.shields.io/badge/React%20Hook%20Form-EC5990?style=flat-square&logo=reacthookform&logoColor=white" alt="React Hook Form"/>
-<img src="https://img.shields.io/badge/Zod-3E67B1?style=flat-square&logo=zod&logoColor=white" alt="Zod"/>
-</td>
-</tr>
-<tr>
-<td valign="middle"><b>Tooling</b></td>
-<td>
-<img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white" alt="Git"/>
-<img src="https://img.shields.io/badge/ESLint-4B32C3?style=flat-square&logo=eslint&logoColor=white" alt="ESLint"/>
-<img src="https://img.shields.io/badge/Prettier-F7B93E?style=flat-square&logo=prettier&logoColor=black" alt="Prettier"/>
-</td>
-</tr>
-</table>
-
-<br/>
+| | |
+|---|---|
+| **Core** | ![TypeScript](https://img.shields.io/badge/TypeScript-72151D?style=flat-square&logo=typescript&logoColor=F1EDE7) ![JavaScript](https://img.shields.io/badge/JavaScript-72151D?style=flat-square&logo=javascript&logoColor=F1EDE7) ![HTML5](https://img.shields.io/badge/HTML5-72151D?style=flat-square&logo=html5&logoColor=F1EDE7) ![CSS3](https://img.shields.io/badge/CSS3-72151D?style=flat-square&logo=css3&logoColor=F1EDE7) |
+| **Framework** | ![React](https://img.shields.io/badge/React-72151D?style=flat-square&logo=react&logoColor=F1EDE7) ![Vite](https://img.shields.io/badge/Vite-72151D?style=flat-square&logo=vite&logoColor=F1EDE7) |
+| **State & Data** | ![Redux Toolkit](https://img.shields.io/badge/Redux%20Toolkit-72151D?style=flat-square&logo=redux&logoColor=F1EDE7) ![TanStack Query](https://img.shields.io/badge/TanStack%20Query-72151D?style=flat-square&logo=reactquery&logoColor=F1EDE7) |
+| **UI & Styling** | ![Ant Design](https://img.shields.io/badge/Ant%20Design-72151D?style=flat-square&logo=antdesign&logoColor=F1EDE7) ![SCSS](https://img.shields.io/badge/SCSS-72151D?style=flat-square&logo=sass&logoColor=F1EDE7) |
+| **Forms & Validation** | ![React Hook Form](https://img.shields.io/badge/React%20Hook%20Form-72151D?style=flat-square&logo=reacthookform&logoColor=F1EDE7) ![Zod](https://img.shields.io/badge/Zod-72151D?style=flat-square&logo=zod&logoColor=F1EDE7) |
+| **Tooling** | ![Git](https://img.shields.io/badge/Git-72151D?style=flat-square&logo=git&logoColor=F1EDE7) ![ESLint](https://img.shields.io/badge/ESLint-72151D?style=flat-square&logo=eslint&logoColor=F1EDE7) ![Prettier](https://img.shields.io/badge/Prettier-72151D?style=flat-square&logo=prettier&logoColor=F1EDE7) |
+| **Games** | ![Three.js](https://img.shields.io/badge/Three.js-72151D?style=flat-square&logo=threedotjs&logoColor=F1EDE7) ![Canvas 2D](https://img.shields.io/badge/Canvas%202D-150607?style=flat-square) ![Web Audio](https://img.shields.io/badge/Web%20Audio-150607?style=flat-square) |
 
 ## Engineering Principles
 
@@ -673,8 +392,6 @@ I use AI tooling as part of a normal engineering workflow — accelerating refac
 
 > **Leave the codebase better than you found it.** Deliberate, incremental improvement beats the rewrite that never ships.
 
-<br/>
-
 ## Current Focus
 
 ```text
@@ -686,20 +403,16 @@ AI-assisted workflows      →  faster iteration without losing rigor
 Developer experience       →  tooling and conventions that reduce friction
 ```
 
-<br/>
-
 ## Work
 
 Currently working as a **Software Engineer** in a professional product development environment, building and maintaining production web applications.
 
 Day to day, that means developing features end to end, integrating frontend systems with backend APIs, refactoring and improving existing interfaces, maintaining frontend architecture as products grow, improving performance and usability, and collaborating closely with engineering, design, and product colleagues.
 
-<br/>
+<div align="center">
 
 <sub>Open to conversations about frontend architecture, UI engineering, and building better products.</sub>
 
-</div>
+<img src="./assets/footer.gif" alt="A carved moon passes through its phases above a low mesa and a small observatory" width="100%" />
 
-<div align="center">
-  <img src="./assets/footer-animation.gif" alt="Animated developer footer" width="100%" />
 </div>

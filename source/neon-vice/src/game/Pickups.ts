@@ -15,11 +15,11 @@ interface Pickup {
 }
 
 const COLORS: Record<PickupKind, number> = {
-  health: PALETTE.green,
-  ammo: PALETTE.cyan,
-  armor: PALETTE.blue,
-  boost: PALETTE.orange,
-  cash: PALETTE.pink,
+  health: PALETTE.blush,
+  ammo: PALETTE.bone,
+  armor: PALETTE.tan,
+  boost: PALETTE.rose,
+  cash: PALETTE.collectible,
 };
 
 export const PICKUP_LABEL: Record<PickupKind, string> = {
@@ -42,7 +42,7 @@ export class Pickups {
       ammo: new THREE.BoxGeometry(0.3, 0.42, 0.18),
       armor: new THREE.OctahedronGeometry(0.28, 0),
       boost: new THREE.TetrahedronGeometry(0.32, 0),
-      cash: new THREE.CylinderGeometry(0.22, 0.22, 0.06, 12).rotateX(Math.PI / 2),
+      cash: starGeometry(), // a stamped five-point star
     };
     const ringGeo = new THREE.PlaneGeometry(1.6, 1.6).rotateX(-Math.PI / 2);
     for (let i = 0; i < 16; i++) {
@@ -66,8 +66,8 @@ export class Pickups {
     p.kind = kind;
     p.icon.geometry = this.geos[kind];
     const c = new THREE.Color(COLORS[kind]);
-    (p.icon.material as THREE.MeshBasicMaterial).color.copy(c).multiplyScalar(2);
-    (p.ring.material as THREE.MeshBasicMaterial).color.copy(c);
+    (p.icon.material as THREE.MeshBasicMaterial).color.copy(c).multiplyScalar(1.7);
+    (p.ring.material as THREE.MeshBasicMaterial).color.set(PALETTE.collectible); // every drop sits in a rose halo
     p.group.position.set(x, 0, z);
     p.life = 20;
     p.active = true;
@@ -119,4 +119,17 @@ function mergeCross(): THREE.BufferGeometry {
   geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
   geo.computeVertexNormals();
   return geo;
+}
+
+/** Five-point stamped star, extruded thin (the collectible motif of 19_mystical-western). */
+function starGeometry(): THREE.BufferGeometry {
+  const shape = new THREE.Shape();
+  for (let i = 0; i < 10; i++) {
+    const r = i % 2 === 0 ? 0.3 : 0.13;
+    const a = -Math.PI / 2 + (i * Math.PI) / 5;
+    if (i === 0) shape.moveTo(Math.cos(a) * r, -Math.sin(a) * r);
+    else shape.lineTo(Math.cos(a) * r, -Math.sin(a) * r);
+  }
+  shape.closePath();
+  return new THREE.ExtrudeGeometry(shape, { depth: 0.06, bevelEnabled: true, bevelThickness: 0.015, bevelSize: 0.015, bevelSegments: 1 }).translate(0, 0, -0.03);
 }

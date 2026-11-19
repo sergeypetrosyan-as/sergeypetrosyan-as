@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0d1013" />
+  <meta name="theme-color" content="#150607" />
   <title>BLACKOUT PROTOCOL</title>
   <meta name="description" content="BLACKOUT PROTOCOL: a 3D top-down stealth and hacking game. Read the flashlights and vision cones, spend your energy on camera loops, decoys and laser cuts, and extract unseen." />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230d1013'/%3E%3Cpath d='M16 5l9 5v7c0 5-4 8-9 10-5-2-9-5-9-10v-7z' fill='none' stroke='%23dce4e6' stroke-width='2.2'/%3E%3Ccircle cx='16' cy='15' r='3' fill='%23f0a541'/%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23150607' stroke='%23AB0B1A'/%3E%3Cpath d='M16 5l9 5v7c0 5-4 8-9 10-5-2-9-5-9-10v-7z' fill='none' stroke='%23F1EDE7' stroke-width='2.2'/%3E%3Ccircle cx='16' cy='15' r='3' fill='%23E96B74'/%3E%3C/svg%3E" />
   <script>
     // The source folder is also served by GitHub Pages; send visitors to the built game.
     if (location.hostname.endsWith('github.io') && location.pathname.includes('/source/blackout-protocol')) {
       location.replace(location.pathname.replace(/source\/blackout-protocol\/?.*$/, 'games/blackout-protocol/'));
     }
   </script>
-  <script type="module" crossorigin src="./assets/index-Czwtdyb0.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-LcJhOFWQ.css">
+  <script type="module" crossorigin src="./assets/index-O-CVRAAB.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DNvhq4L-.css">
 </head>
 <body>
   <canvas id="view" aria-label="BLACKOUT PROTOCOL game view" role="img"></canvas>
@@ -108,9 +108,47 @@
 
   <!-- Title -->
   <section id="screen-title" class="screen screen-title">
+    <svg class="title-art" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="taMesa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#480E13"/><stop offset="1" stop-color="#150607"/></linearGradient>
+        <linearGradient id="taFar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#320B0E"/><stop offset="1" stop-color="#150607"/></linearGradient>
+        <pattern id="taHatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)"><line x1="0" y1="0" x2="0" y2="7" stroke="#72151D" stroke-width="1.2" opacity="0.55"/></pattern>
+        <radialGradient id="taHalo"><stop offset="0" stop-color="#E96B74" stop-opacity="0.22"/><stop offset="1" stop-color="#E96B74" stop-opacity="0"/></radialGradient>
+      </defs>
+      <!-- constellation: quiet, low contrast -->
+      <g stroke="#6B4446" stroke-width="1" fill="none" opacity="0.7"><path d="M1180 90 L1262 132 L1318 104 L1402 150 L1450 236"/></g>
+      <g fill="#D3B9B7"><circle cx="1180" cy="90" r="2"/><circle cx="1262" cy="132" r="2.4"/><circle cx="1318" cy="104" r="1.8"/><circle cx="1402" cy="150" r="2.6"/><circle cx="1450" cy="236" r="2"/><circle cx="1090" cy="60" r="1.4"/><circle cx="1540" cy="80" r="1.6"/></g>
+      <!-- carved moon disc -->
+      <circle cx="1500" cy="300" r="120" fill="url(#taHalo)"/>
+      <g transform="translate(1500 300)">
+        <circle r="58" fill="#D3B9B7"/>
+        <circle r="58" fill="url(#taHatch)" opacity="0.5"/>
+        <path d="M0 -58 A58 58 0 0 0 0 58 A38 58 0 0 1 0 -58 Z" fill="#AF7D7E" opacity="0.85"/>
+        <circle r="50" fill="none" stroke="#72151D" stroke-width="1.5" opacity="0.6"/>
+        <circle r="58" fill="none" stroke="#F1EDE7" stroke-width="2" opacity="0.7"/>
+      </g>
+      <!-- far mesa line -->
+      <path d="M0 760 L120 760 L150 728 L330 728 L352 752 L560 752 L590 716 L700 716 L728 744 L980 744 L1010 722 L1190 722 L1214 748 L1600 748 L1600 900 L0 900 Z" fill="url(#taFar)" opacity="0.9"/>
+      <!-- near mesa with engraved hatching and an ember rim -->
+      <path d="M0 812 L210 812 L246 770 L470 770 L498 800 L860 800 L880 786 L1130 786 L1166 756 L1360 756 L1392 796 L1600 796 L1600 900 L0 900 Z" fill="url(#taMesa)"/>
+      <path d="M0 812 L210 812 L246 770 L470 770 L498 800 L860 800 L880 786 L1130 786 L1166 756 L1360 756 L1392 796 L1600 796 L1600 900 L0 900 Z" fill="url(#taHatch)" opacity="0.6"/>
+      <path d="M0 812 L210 812 L246 770 L470 770 L498 800 L860 800 L880 786 L1130 786 L1166 756 L1360 756 L1392 796 L1600 796" fill="none" stroke="#AB0B1A" stroke-width="2" opacity="0.8"/>
+      <!-- observatory on the mesa -->
+      <g transform="translate(1262 756)" fill="#150607" stroke="#AB0B1A" stroke-width="1.5">
+        <rect x="-26" y="-26" width="52" height="26"/>
+        <path d="M-30 -26 A30 30 0 0 1 30 -26 Z"/>
+        <path d="M2 -54 L22 -36" stroke="#D3B9B7" stroke-width="3"/>
+      </g>
+      <!-- two cacti for scale -->
+      <g fill="#150607" stroke="#480E13" stroke-width="1.5">
+        <path d="M320 770 v-54 a8 8 0 0 1 16 0 v54 Z M320 742 h-12 v-18 a6 6 0 0 1 12 0 Z M336 734 h12 v-14 a6 6 0 0 1 -12 0 Z"/>
+        <path d="M960 800 v-38 a6 6 0 0 1 12 0 v38 Z M960 782 h-9 v-12 a4.5 4.5 0 0 1 9 0 Z"/>
+      </g>
+    </svg>
     <div class="title-block">
       <h1>Blackout Protocol</h1>
       <p class="tagline">Cut the lights. Own the dark.</p>
+      <span class="title-rule" aria-hidden="true"></span>
       <div class="menu">
         <button id="btnContinue" type="button" class="menu-item hidden">Continue mission</button>
         <button id="btnMissions" type="button" class="menu-item">Mission select</button>
@@ -166,7 +204,7 @@
       <div class="form">
         <div class="frow"><label for="setVolume">Volume</label><div class="fctl"><input id="setVolume" type="range" min="0" max="100" step="5" /><output id="outVolume" class="num">70</output></div></div>
         <label class="frow check"><span>Mute sound (M)</span><input id="setMute" type="checkbox" /></label>
-        <label class="frow check"><span>Colorblind-safe detection colours<small>Blue, orange and magenta, always with patterns</small></span><input id="setCb" type="checkbox" /></label>
+        <label class="frow check"><span>Colorblind-safe detection colours<small>Bone, rose and red at distinct lightness, always with patterns</small></span><input id="setCb" type="checkbox" /></label>
         <label class="frow check"><span>Show vision cones<small>Flashlights, icons and suspicion bars stay on</small></span><input id="setCones" type="checkbox" /></label>
         <label class="frow check"><span>Reduce motion and flicker</span><input id="setReduce" type="checkbox" /></label>
         <div class="frow"><label for="setDiff">Difficulty</label>
@@ -226,6 +264,7 @@
   <section id="screen-pause" class="screen hidden screen-dim">
     <div class="panel panel-narrow">
       <h2>Paused</h2>
+      <div class="moon-rule" aria-hidden="true"><i style="--s:-7px"></i><i style="--s:-4px"></i><i></i><i style="--s:4px"></i><i style="--s:7px"></i></div>
       <div class="menu menu-panel">
         <button id="pResume" type="button" class="menu-item">Resume</button>
         <button id="pCheckpoint" type="button" class="menu-item">Restart from checkpoint</button>

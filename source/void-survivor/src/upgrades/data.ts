@@ -38,75 +38,75 @@ export interface UpgradeDef {
 
 export const UPGRADES: UpgradeDef[] = [
   {
-    id: 'pulse', name: 'Pulse Amp', kind: 'weapon', maxLevel: 5, weight: 7, tags: ['weapon', 'auto-aim'], icon: 'P', color: '#7af8ff',
+    id: 'pulse', name: 'Pulse Amp', kind: 'weapon', maxLevel: 5, weight: 7, tags: ['weapon', 'auto-aim'], icon: 'P', color: '#F1EDE7',
     desc: (l) => `Pulse Cannon: ${8 + 2.5 * (l - 1)} dmg, ${l >= 5 ? 3 : l >= 3 ? 2 : 1} shot${l >= 3 ? 's' : ''} per volley.`,
   },
   {
-    id: 'orbit', name: 'Orbit Blades', kind: 'weapon', maxLevel: 5, weight: 10, tags: ['weapon', 'melee'], icon: 'O', color: '#59ffb5',
+    id: 'orbit', name: 'Orbit Blades', kind: 'weapon', maxLevel: 5, weight: 10, tags: ['weapon', 'melee'], icon: 'O', color: '#D3B9B7',
     desc: (l) => `${l + 1} blades circle you for ${6 + 2.5 * l} dmg per hit.`,
   },
   {
-    id: 'homing', name: 'Seeker Swarm', kind: 'weapon', maxLevel: 5, weight: 9, rare: true, tags: ['weapon', 'homing'], icon: 'H', color: '#ffa23a',
+    id: 'homing', name: 'Seeker Swarm', kind: 'weapon', maxLevel: 5, weight: 9, rare: true, tags: ['weapon', 'homing'], icon: 'H', color: '#E96B74',
     desc: (l) => `Fires ${1 + Math.floor((l - 1) / 2)} homing missile${l >= 3 ? 's' : ''} for ${11 + 3 * l} dmg.`,
   },
   {
-    id: 'pierce', name: 'Lance Beam', kind: 'weapon', maxLevel: 5, weight: 9, rare: true, tags: ['weapon', 'piercing'], icon: 'L', color: '#e9fbff',
+    id: 'pierce', name: 'Lance Beam', kind: 'weapon', maxLevel: 5, weight: 9, rare: true, tags: ['weapon', 'piercing'], icon: 'L', color: '#FFFFFF',
     desc: (l) => `Beam through every enemy in a line: ${16 + 6 * l} dmg${l >= 4 ? ', twin beams' : ''}.`,
   },
   {
-    id: 'chain', name: 'Chain Arc', kind: 'weapon', maxLevel: 5, weight: 9, rare: true, tags: ['weapon', 'lightning'], icon: 'C', color: '#b58cff',
+    id: 'chain', name: 'Chain Arc', kind: 'weapon', maxLevel: 5, weight: 9, rare: true, tags: ['weapon', 'lightning'], icon: 'C', color: '#EEB9B9',
     desc: (l) => `Lightning jumps ${2 + l} times for ${10 + 3.5 * l} dmg, ignores shields.`,
   },
   {
-    id: 'vitality', name: 'Vitality', kind: 'passive', maxLevel: 5, weight: 8, defensive: true, tags: ['defense'], icon: '+', color: '#ff5d8f',
+    id: 'vitality', name: 'Vitality', kind: 'passive', maxLevel: 5, weight: 8, defensive: true, tags: ['defense'], icon: '+', color: '#E30016',
     desc: () => '+20 max HP and heal 20.',
   },
   {
-    id: 'regen', name: 'Regeneration', kind: 'passive', maxLevel: 5, weight: 7, defensive: true, tags: ['defense'], icon: 'R', color: '#59ffb5',
+    id: 'regen', name: 'Regeneration', kind: 'passive', maxLevel: 5, weight: 7, defensive: true, tags: ['defense'], icon: 'R', color: '#D3B9B7',
     desc: (l) => `Regenerate ${(0.7 * l).toFixed(1)} HP per second.`,
   },
   {
-    id: 'swift', name: 'Swift Thrusters', kind: 'passive', maxLevel: 5, weight: 7, tags: ['mobility'], icon: 'S', color: '#35f2ff',
+    id: 'swift', name: 'Swift Thrusters', kind: 'passive', maxLevel: 5, weight: 7, tags: ['mobility'], icon: 'S', color: '#F1EDE7',
     desc: (l) => `+${7 * l}% move speed.`,
   },
   {
-    id: 'magnet', name: 'Magnet Core', kind: 'passive', maxLevel: 5, weight: 6, tags: ['economy'], icon: 'M', color: '#ffd24a',
+    id: 'magnet', name: 'Magnet Core', kind: 'passive', maxLevel: 5, weight: 6, tags: ['economy'], icon: 'M', color: '#E96B74',
     desc: (l) => `+${30 * l}% pickup radius.`,
   },
   {
-    id: 'overclock', name: 'Overclock', kind: 'passive', maxLevel: 5, weight: 8, tags: ['cooldown'], icon: 'X', color: '#ff2e88',
+    id: 'overclock', name: 'Overclock', kind: 'passive', maxLevel: 5, weight: 8, tags: ['cooldown'], icon: 'X', color: '#E30016',
     desc: (l) => `Weapons cool down ${Math.round((1 - Math.pow(0.93, l)) * 100)}% faster.`,
   },
   {
-    id: 'fortune', name: 'Fortune', kind: 'passive', maxLevel: 5, weight: 5, tags: ['luck'], icon: '$', color: '#ffd24a',
+    id: 'fortune', name: 'Fortune', kind: 'passive', maxLevel: 5, weight: 5, tags: ['luck'], icon: '$', color: '#E96B74',
     desc: (l) => `Luck ${(0.1 * l).toFixed(1)}: rarer cards, more chests and shards.`,
   },
   {
-    id: 'plating', name: 'Plating', kind: 'passive', maxLevel: 4, weight: 6, defensive: true, tags: ['defense'], icon: 'A', color: '#9bb4ff',
+    id: 'plating', name: 'Plating', kind: 'passive', maxLevel: 4, weight: 6, defensive: true, tags: ['defense'], icon: 'A', color: '#D3B9B7',
     desc: (l) => `Take ${Math.round((1 - Math.pow(0.94, l)) * 100)}% less damage.`,
   },
   {
-    id: 'siphon', name: 'Siphon', kind: 'signature', maxLevel: 3, weight: 9, rare: true, tags: ['essence', 'signature'], icon: 'V', color: '#59ffb5',
+    id: 'siphon', name: 'Siphon', kind: 'signature', maxLevel: 3, weight: 9, rare: true, tags: ['essence', 'signature'], icon: 'V', color: '#D3B9B7',
     desc: (l) => `Kills fill your Reserve x${[1, 1.5, 2][l - 1]} (cap ${[60, 100, 150][l - 1]}).`,
   },
   {
-    id: 'bulwark', name: 'Bulwark Field', kind: 'signature', maxLevel: 3, weight: 9, rare: true, requires: { siphon: 1 }, tags: ['essence', 'shield', 'signature'], icon: 'B', color: '#35f2ff',
+    id: 'bulwark', name: 'Bulwark Field', kind: 'signature', maxLevel: 3, weight: 9, rare: true, requires: { siphon: 1 }, tags: ['essence', 'shield', 'signature'], icon: 'B', color: '#F1EDE7',
     desc: (l) => `Reserve becomes a shield ring that eats bullets and burns enemies (+${25 * (l - 1)}% burn).`,
   },
   {
-    id: 'detonation', name: 'Detonation', kind: 'signature', maxLevel: 3, weight: 9, rare: true, requires: { bulwark: 1 }, tags: ['essence', 'burst', 'signature'], icon: 'D', color: '#ff2e88',
+    id: 'detonation', name: 'Detonation', kind: 'signature', maxLevel: 3, weight: 9, rare: true, requires: { bulwark: 1 }, tags: ['essence', 'burst', 'signature'], icon: 'D', color: '#E30016',
     desc: (l) => `Field break or release (E) bursts for Reserve spent (+${30 * (l - 1)}% power).`,
   },
   {
-    id: 'overcharge', name: 'Overcharge', kind: 'filler', maxLevel: 999, weight: 1, tags: ['damage'], icon: '^', color: '#ffa23a',
+    id: 'overcharge', name: 'Overcharge', kind: 'filler', maxLevel: 999, weight: 1, tags: ['damage'], icon: '^', color: '#E96B74',
     desc: () => '+4% damage to everything.',
   },
   {
-    id: 'repair', name: 'Repair Kit', kind: 'filler', maxLevel: 999, weight: 1, defensive: true, tags: ['heal'], icon: 'K', color: '#ff5d8f',
+    id: 'repair', name: 'Repair Kit', kind: 'filler', maxLevel: 999, weight: 1, defensive: true, tags: ['heal'], icon: 'K', color: '#E30016',
     desc: () => 'Heal 35% of max HP now.',
   },
   {
-    id: 'cache', name: 'Shard Cache', kind: 'filler', maxLevel: 999, weight: 1, tags: ['shards'], icon: '*', color: '#ffd24a',
+    id: 'cache', name: 'Shard Cache', kind: 'filler', maxLevel: 999, weight: 1, tags: ['shards'], icon: '*', color: '#E96B74',
     desc: () => 'Gain 8 Shards immediately.',
   },
 ];

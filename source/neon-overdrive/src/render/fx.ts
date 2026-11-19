@@ -8,7 +8,7 @@ const CAP = 160;
 
 /** Pooled screen-space particles. */
 export class Fx {
-  private pool: P[] = Array.from({ length: CAP }, () => ({ on: false, x: 0, y: 0, vx: 0, vy: 0, life: 0, max: 1, size: 2, color: '#fff', kind: 0 as const }));
+  private pool: P[] = Array.from({ length: CAP }, () => ({ on: false, x: 0, y: 0, vx: 0, vy: 0, life: 0, max: 1, size: 2, color: '#ffffff', kind: 0 as const }));
   private cursor = 0;
 
   private take(): P {
@@ -34,7 +34,7 @@ export class Fx {
       p.vy = (-0.3 - Math.random() * 1.0) * unit * 0.8;
       p.max = p.life = 0.25 + Math.random() * 0.4;
       p.size = 1.5 + Math.random() * 2.2;
-      p.color = Math.random() < 0.5 ? '#ffd36b' : '#fff4c8';
+      p.color = Math.random() < 0.5 ? '#ec979a' : '#eeb6b6';
       p.kind = 0;
     }
   }

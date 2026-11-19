@@ -1,6 +1,8 @@
 // Procedural canvas textures for the House: plaster, worn stone, lacquered wood, brass smudge,
 // section poché, paper notes and small sprites. Generated once (seeded, deterministic) and shared.
 import * as THREE from 'three';
+import { PALETTE } from '../render/palette.ts';
+import { disc, grain, mesa, cactus, observatory, starfield, constellation } from '../../../../design/19_mystical-western/primitives.mjs';
 
 function rng(seed: number): () => number {
   let s = seed >>> 0;
@@ -143,15 +145,17 @@ function plaster(size: number, aniso: number): PBRSet {
       hf[y * size + x] = h;
       const tone = 0.74 + (m - 0.5) * 0.16 + (f - 0.5) * 0.06 - Math.max(0, s - 0.62) * 0.5;
       const i = (y * size + x) * 4;
-      img.data[i] = 205 * tone;
-      img.data[i + 1] = 203 * tone;
-      img.data[i + 2] = 194 * tone;
+      // bone-to-tan adobe paper (19_mystical-western bone #F1EDE7 / tan #D3B9B7)
+      const eng = (y % 9 === 0 ? 0.94 : 1);
+      img.data[i] = 226 * tone * eng;
+      img.data[i + 1] = 212 * tone * eng;
+      img.data[i + 2] = 206 * tone * eng;
       img.data[i + 3] = 255;
     }
   ctx.putImageData(img, 0, 0);
   // hairline cracks
   const r = rng(5);
-  ctx.strokeStyle = 'rgba(60,58,52,0.35)';
+  ctx.strokeStyle = 'rgba(114, 21, 29,0.3)';
   ctx.lineWidth = 0.8;
   for (let k = 0; k < 5; k++) {
     let x = r() * size;
@@ -211,9 +215,10 @@ function stone(size: number, aniso: number): PBRSet {
       tone = Math.max(0, tone);
       const i = (y * size + x) * 4;
       const hue = hues[ty * 2 + tx];
-      img.data[i] = 138 * tone * (1 + hue);
-      img.data[i + 1] = 134 * tone;
-      img.data[i + 2] = 126 * tone * (1 - hue);
+      // saddle-and-tan flagstones
+      img.data[i] = 176 * tone * (1 + hue);
+      img.data[i + 1] = 140 * tone;
+      img.data[i + 2] = 139 * tone * (1 - hue);
       img.data[i + 3] = 255;
       hf[y * size + x] = isGrout ? 0 : 0.55 * bevel + (m - 0.5) * 0.25 + (f - 0.5) * 0.1;
       rough[y * size + x] = isGrout ? 1 : 0.86 - wear * 0.3 + (f - 0.5) * 0.1;
@@ -221,7 +226,7 @@ function stone(size: number, aniso: number): PBRSet {
   ctx.putImageData(img, 0, 0);
   // chips and scuffs
   for (let k = 0; k < 40; k++) {
-    ctx.fillStyle = `rgba(${r() < 0.5 ? '40,38,34' : '190,186,176'},${0.08 + r() * 0.12})`;
+    ctx.fillStyle = `rgba(${r() < 0.5 ? '45,10,13' : '211,185,183'},${0.08 + r() * 0.12})`;
     ctx.beginPath();
     ctx.arc(r() * size, r() * size, 1 + r() * 3, 0, Math.PI * 2);
     ctx.fill();
@@ -249,9 +254,9 @@ function wood(size: number, aniso: number): PBRSet {
       hf[y * size + x] = g * 0.4;
       const i = (y * size + x) * 4;
       const t = 0.55 + g * 0.45;
-      img.data[i] = 62 * t;
-      img.data[i + 1] = 36 * t;
-      img.data[i + 2] = 24 * t;
+      img.data[i] = 96 * t;
+      img.data[i + 1] = 30 * t;
+      img.data[i + 2] = 34 * t;
       img.data[i + 3] = 255;
     }
   ctx.putImageData(img, 0, 0);
@@ -274,9 +279,9 @@ function fabric(size: number, aniso: number): PBRSet {
       hf[y * size + x] = weave * 0.5 + m * 0.5;
       const t = 0.8 + weave * 0.12 + (m - 0.5) * 0.25;
       const i = (y * size + x) * 4;
-      img.data[i] = 58 * t;
-      img.data[i + 1] = 68 * t;
-      img.data[i + 2] = 82 * t;
+      img.data[i] = 236 * t;
+      img.data[i + 1] = 230 * t;
+      img.data[i + 2] = 222 * t;
       img.data[i + 3] = 255;
     }
   ctx.putImageData(img, 0, 0);
@@ -296,9 +301,9 @@ function brassRough(size: number, aniso: number): THREE.CanvasTexture {
 
 function poche(size: number, aniso: number): THREE.CanvasTexture {
   const [c, ctx] = canvas(size, size);
-  ctx.fillStyle = '#3d4247';
+  ctx.fillStyle = PALETTE.umber;
   ctx.fillRect(0, 0, size, size);
-  ctx.strokeStyle = 'rgba(190,196,200,0.38)';
+  ctx.strokeStyle = 'rgba(171, 11, 26,0.55)';
   ctx.lineWidth = size / 128;
   const step = size / 8;
   for (let k = -8; k <= 16; k++) {
@@ -312,14 +317,14 @@ function poche(size: number, aniso: number): THREE.CanvasTexture {
 
 function paper(): THREE.CanvasTexture {
   const [c, ctx] = canvas(256, 256);
-  ctx.fillStyle = '#e4e8e1';
+  ctx.fillStyle = PALETTE.bone;
   ctx.fillRect(0, 0, 256, 256);
   const r = rng(201);
   for (let k = 0; k < 900; k++) {
-    ctx.fillStyle = `rgba(80,90,90,${r() * 0.05})`;
+    ctx.fillStyle = `rgba(175,125,126,${r() * 0.06})`;
     ctx.fillRect(r() * 256, r() * 256, 2, 2);
   }
-  ctx.strokeStyle = 'rgba(106,91,214,0.75)';
+  ctx.strokeStyle = 'rgba(175, 125, 126,0.75)';
   ctx.lineWidth = 3;
   ctx.lineCap = 'round';
   for (let line = 0; line < 6; line++) {
@@ -334,7 +339,7 @@ function paper(): THREE.CanvasTexture {
     }
     ctx.stroke();
   }
-  ctx.strokeStyle = 'rgba(35,39,44,0.35)';
+  ctx.strokeStyle = 'rgba(36, 8, 11,0.35)';
   ctx.lineWidth = 1;
   ctx.strokeRect(10, 10, 236, 236);
   return tex(c, true, 4);
@@ -355,8 +360,8 @@ function glint(): THREE.CanvasTexture {
   const [c, ctx] = canvas(128, 128);
   const g = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
   g.addColorStop(0, 'rgba(255,255,255,1)');
-  g.addColorStop(0.15, 'rgba(255,240,210,0.6)');
-  g.addColorStop(1, 'rgba(255,240,210,0)');
+  g.addColorStop(0.15, 'rgba(250, 249, 247,0.6)');
+  g.addColorStop(1, 'rgba(250, 249, 247,0)');
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, 128, 128);
   ctx.globalCompositeOperation = 'lighter';
@@ -436,9 +441,10 @@ function crossTex(): THREE.CanvasTexture {
 /** The House floats over its own plan: a faint drafting grid far below. */
 function gridTex(aniso: number): THREE.CanvasTexture {
   const [c, ctx] = canvas(512, 512);
-  ctx.fillStyle = '#0d1013';
+  ctx.fillStyle = PALETTE.night;
   ctx.fillRect(0, 0, 512, 512);
-  ctx.strokeStyle = 'rgba(127,216,255,0.10)';
+  starfield(ctx, 0, 0, 512, 512, { seed: 5, count: 16, color: PALETTE.tan, max: 1.2, alpha: 0.25 });
+  ctx.strokeStyle = 'rgba(211, 185, 183,0.09)';
   ctx.lineWidth = 1;
   for (let i = 0; i <= 512; i += 32) {
     ctx.beginPath();
@@ -448,7 +454,7 @@ function gridTex(aniso: number): THREE.CanvasTexture {
     ctx.lineTo(512, i + 0.5);
     ctx.stroke();
   }
-  ctx.strokeStyle = 'rgba(127,216,255,0.2)';
+  ctx.strokeStyle = 'rgba(171, 11, 26,0.35)';
   ctx.lineWidth = 2;
   ctx.strokeRect(1, 1, 510, 510);
   return tex(c, true, aniso);
@@ -457,10 +463,10 @@ function gridTex(aniso: number): THREE.CanvasTexture {
 /** Engraved fold glyph for lever plates. */
 function glyphTex(kind: string): THREE.CanvasTexture {
   const [c, ctx] = canvas(128, 128);
-  ctx.fillStyle = '#2b2116';
+  ctx.fillStyle = PALETTE.umber;
   ctx.fillRect(0, 0, 128, 128);
-  ctx.strokeStyle = '#e9c77a';
-  ctx.fillStyle = '#e9c77a';
+  ctx.strokeStyle = PALETTE.rose;
+  ctx.fillStyle = PALETTE.rose;
   ctx.lineWidth = 10;
   ctx.lineCap = 'round';
   ctx.beginPath();
@@ -490,6 +496,50 @@ function glyphTex(kind: string): THREE.CanvasTexture {
   return t;
 }
 
+/**
+ * The night behind the House: a quiet starfield, a carved moon and a low mesa horizon with
+ * one observatory and two saguaros. Drawn for the viewport's aspect so the moon stays round.
+ */
+export function backdropTexture(w: number, h: number): THREE.CanvasTexture {
+  const H = 720;
+  const W = Math.max(360, Math.min(2400, Math.round((H * w) / Math.max(1, h))));
+  const [c, ctx] = canvas(W, H);
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, PALETTE.ink);
+  g.addColorStop(0.45, PALETTE.night);
+  g.addColorStop(1, PALETTE.dusk);
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+  starfield(ctx, 0, 0, W, H * 0.8, { seed: 19, count: Math.round(W / 9), color: PALETTE.bone, max: 1.3, alpha: 0.32 });
+  const mx = W * 0.6;
+  const my = H * 0.11;
+  constellation(ctx, [[W * 0.06, H * 0.14], [W * 0.13, H * 0.08], [W * 0.2, H * 0.17], [W * 0.27, H * 0.11]], { color: PALETTE.ember, node: PALETTE.tan, alpha: 0.45, nodeR: 1.8 });
+  disc(ctx, mx, my, H * 0.06, { face: PALETTE.bone, ink: PALETTE.wine, rim: PALETTE.ember, phase: 0, shadow: PALETTE.night, glow: 0.12 });
+  const base = H * 0.97;
+  mesa(ctx, 0, W, base, { seed: 7, height: H * 0.16, fill: PALETTE.mesa, strata: PALETTE.ember, plateaus: Math.max(3, Math.round(W / 420)), strataAlpha: 0.3, bottom: H });
+  mesa(ctx, -W * 0.05, W * 1.05, H, { seed: 12, height: H * 0.07, fill: PALETTE.umber, strata: PALETTE.wine, plateaus: Math.max(2, Math.round(W / 600)), strataAlpha: 0.35, bottom: H });
+  observatory(ctx, W * 0.72, H - H * 0.055, 22, { fill: PALETTE.umber, slit: PALETTE.rose });
+  cactus(ctx, W * 0.09, H - H * 0.03, 40, { fill: PALETTE.umber, seed: 3 });
+  cactus(ctx, W * 0.93, H - H * 0.02, 30, { fill: PALETTE.umber, seed: 8, arms: [0.5] });
+  grain(ctx, 0, 0, W, H, { seed: 4, density: 0.5, alpha: 0.05 });
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+
+/** A stamped five-point star, for margin notes. */
+export function starShape(r: number, inner = 0.45): THREE.Shape {
+  const s = new THREE.Shape();
+  for (let i = 0; i < 10; i++) {
+    const rr = i % 2 === 0 ? r : r * inner;
+    const a = Math.PI / 2 + (i * Math.PI) / 5;
+    if (i === 0) s.moveTo(Math.cos(a) * rr, Math.sin(a) * rr);
+    else s.lineTo(Math.cos(a) * rr, Math.sin(a) * rr);
+  }
+  s.closePath();
+  return s;
+}
+
 export function buildTextures(quality: 'low' | 'medium' | 'high', maxAniso: number): TextureBank {
   const size = quality === 'low' ? 256 : 512;
   const aniso = Math.min(maxAniso, quality === 'high' ? 8 : 4);
@@ -508,9 +558,9 @@ export function buildTextures(quality: 'low' | 'medium' | 'high', maxAniso: numb
     ], 64),
     glint: glint(),
     blob: radial([
-      [0, 'rgba(0,0,0,0.75)'],
-      [0.55, 'rgba(0,0,0,0.35)'],
-      [1, 'rgba(0,0,0,0)'],
+      [0, 'rgba(3, 3, 3,0.75)'],
+      [0.55, 'rgba(3, 3, 3,0.35)'],
+      [1, 'rgba(3, 3, 3,0)'],
     ]),
     ring: ringTex(),
     walk: walkTex(),

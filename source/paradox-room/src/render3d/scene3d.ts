@@ -11,7 +11,7 @@ import type { Dir, GEvent, GState, Level } from '../core/types.ts';
 import { MATS } from '../core/rotations.ts';
 import { applyAction, crystalsLeft, dirVec, probeMove } from '../core/rules.ts';
 import type { Flags, Quality, QualitySetting, ViewRenderer } from '../render/types.ts';
-import { buildTextures, type TextureBank } from './textures.ts';
+import { backdropTexture, buildTextures, type TextureBank } from './textures.ts';
 import { buildMaterials, COLORS, type MaterialBank } from './materials.ts';
 import { buildBackWall, buildRoomGeometry, cellLocal, dirLocal } from './roomMesh.ts';
 import { buildProp, buildSurveyor, doorSlab, type Prop, type Surveyor } from './props.ts';
@@ -80,6 +80,9 @@ export class Renderer3D implements ViewRenderer {
   private camera = new THREE.PerspectiveCamera(30, 1, 0.1, 160);
   private composer: EffectComposer | null = null;
   private bloom: UnrealBloomPass | null = null;
+  private backdrop: THREE.CanvasTexture | null = null;
+  private backdropKey = -1;
+  private gridAlpha: THREE.CanvasTexture | null = null;
   private tex: TextureBank;
   private mats: MaterialBank;
   private env: THREE.WebGLRenderTarget | null = null;
@@ -155,13 +158,14 @@ export class Renderer3D implements ViewRenderer {
     this.mats = buildMaterials(this.tex, PRESETS[this.activeQuality].transmission);
 
     const sc = this.scene;
+    // the night behind the House: carved moon, quiet stars, low mesa (redrawn per aspect in resize)
     sc.background = new THREE.Color(COLORS.lampBlack);
     sc.fog = new THREE.FogExp2(COLORS.lampBlack, 0.03);
     this.buildEnvironment();
 
-    const hemi = new THREE.HemisphereLight(0x8f9cb4, 0x2a2018, 1.1);
+    const hemi = new THREE.HemisphereLight(COLORS.tan, COLORS.umber, 1.1);
     sc.add(hemi);
-    const moon = new THREE.DirectionalLight(0xa9bddc, 1.1);
+    const moon = new THREE.DirectionalLight(COLORS.film, 1.1);
     moon.position.set(-3, 10, 5);
     sc.add(moon);
 
@@ -176,6 +180,22 @@ export class Renderer3D implements ViewRenderer {
 
     // the House floats over its own plan
     this.tex.grid.repeat.set(60, 60);
+    // fade the plan out radially so the mesa horizon shows beyond it
+    {
+      const c = document.createElement('canvas');
+      c.width = c.height = 256;
+      const g2 = c.getContext('2d') as CanvasRenderingContext2D;
+      const rg = g2.createRadialGradient(128, 128, 6, 128, 128, 22);
+      rg.addColorStop(0, '#fff');
+      rg.addColorStop(1, '#000');
+      g2.fillStyle = rg;
+      g2.fillRect(0, 0, 256, 256);
+      this.gridAlpha = new THREE.CanvasTexture(c);
+      this.mats.grid.alphaMap = this.gridAlpha;
+      this.mats.grid.transparent = true;
+      this.mats.grid.depthWrite = false;
+      this.mats.grid.fog = false;
+    }
     this.grid = new THREE.Mesh(new THREE.PlaneGeometry(240, 240), this.mats.grid);
     this.grid.rotation.x = -Math.PI / 2;
     this.grid.position.y = -9;
@@ -189,7 +209,7 @@ export class Renderer3D implements ViewRenderer {
       w.renderOrder = 2;
       sc.add(w);
       this.walk.push(w);
-      const cm = new THREE.MeshBasicMaterial({ map: this.tex.cross, color: 0xdfe4de, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, fog: false });
+      const cm = new THREE.MeshBasicMaterial({ map: this.tex.cross, color: COLORS.red, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, fog: false });
       const c = new THREE.Mesh(this.crossGeo, cm);
       c.rotation.x = -Math.PI / 2;
       c.renderOrder = 2;
@@ -333,7 +353,7 @@ export class Renderer3D implements ViewRenderer {
       }
       const g = new THREE.BufferGeometry();
       g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-      const mat = new THREE.PointsMaterial({ map: this.tex.dot, color: 0xffd8a8, size: 0.05, sizeAttenuation: true, transparent: true, opacity: 0.55, depthWrite: false, blending: THREE.AdditiveBlending });
+      const mat = new THREE.PointsMaterial({ map: this.tex.dot, color: COLORS.tan, size: 0.05, sizeAttenuation: true, transparent: true, opacity: 0.55, depthWrite: false, blending: THREE.AdditiveBlending });
       this.dust = new THREE.Points(g, mat);
       this.dust.frustumCulled = false;
       this.scene.add(this.dust);
@@ -349,6 +369,13 @@ export class Renderer3D implements ViewRenderer {
     this.gl.setSize(W, H, true);
     this.camera.aspect = W / H;
     this.camera.updateProjectionMatrix();
+    const ak = Math.round((W / H) * 20);
+    if (ak !== this.backdropKey) {
+      this.backdropKey = ak;
+      this.backdrop?.dispose();
+      this.backdrop = backdropTexture(W, H);
+      this.scene.background = this.backdrop;
+    }
     if (this.composer) {
       this.composer.setPixelRatio(this.gl.getPixelRatio());
       this.composer.setSize(W, H);
@@ -852,6 +879,8 @@ export class Renderer3D implements ViewRenderer {
   }
 
   dispose(): void {
+    this.backdrop?.dispose();
+    this.gridAlpha?.dispose();
     this.canvas.removeEventListener('webglcontextlost', this.onLost);
     this.canvas.removeEventListener('webglcontextrestored', this.onRestored);
     window.clearTimeout(this.goneTimer);

@@ -158,7 +158,7 @@ export class Ui {
     $('tdName').textContent = titleCase(def.name);
     $('tdBlurb').textContent = def.blurb;
     const pr = profilePath(track, 600, 120);
-    $('tdProfile').innerHTML = `<defs><linearGradient id="profFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8f0f2" stop-opacity="0.22"/><stop offset="1" stop-color="#e8f0f2" stop-opacity="0"/></linearGradient></defs>${pr.zones
+    $('tdProfile').innerHTML = `<defs><linearGradient id="profFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E96B74" stop-opacity="0.24"/><stop offset="1" stop-color="#E96B74" stop-opacity="0"/></linearGradient></defs>${pr.zones
       .map(([x, w]) => `<rect class="zone" x="${x.toFixed(1)}" y="0" width="${w.toFixed(1)}" height="120"/><line class="zone-edge" x1="${x.toFixed(1)}" y1="0" x2="${x.toFixed(1)}" y2="120"/>`)
       .join('')}<path class="area" d="${pr.area}"/><path class="line" d="${pr.line}"/>`;
     const bend = f.sharpest >= 5 ? 'Hairpin' : f.sharpest >= 4 ? 'Tight' : f.sharpest >= 3 ? 'Medium' : 'Open';

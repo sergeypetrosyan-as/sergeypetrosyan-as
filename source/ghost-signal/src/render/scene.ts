@@ -61,7 +61,7 @@ function reflection(src: HTMLCanvasElement, spec: SceneSpec, q: QualityCfg, pudd
   o.globalCompositeOperation = 'destination-in';
   const a = Math.min(1, spec.reflect * q.refl);
   const g = o.createLinearGradient(0, 0, 0, rh);
-  g.addColorStop(0, `rgba(0,0,0,${(a * 0.95).toFixed(3)})`); g.addColorStop(0.35, `rgba(0,0,0,${(a * 0.6).toFixed(3)})`); g.addColorStop(1, `rgba(0,0,0,${(a * 0.32).toFixed(3)})`);
+  g.addColorStop(0, `rgba(3, 3, 3,${(a * 0.95).toFixed(3)})`); g.addColorStop(0.35, `rgba(3, 3, 3,${(a * 0.6).toFixed(3)})`); g.addColorStop(1, `rgba(3, 3, 3,${(a * 0.32).toFixed(3)})`);
   o.fillStyle = g; o.fillRect(0, 0, W, rh);
   if (puddles) o.drawImage(puddles, 0, 0, W, rh);
   o.globalCompositeOperation = 'source-over';
@@ -70,11 +70,11 @@ function reflection(src: HTMLCanvasElement, spec: SceneSpec, q: QualityCfg, pudd
 
 function puddleMask(W: number, rh: number, seed: number): HTMLCanvasElement {
   const cv = makeCanvas(W, rh); const c = ctx2d(cv); const r = rng(seed);
-  c.fillStyle = 'rgba(0,0,0,0.42)'; c.fillRect(0, 0, W, rh);
+  c.fillStyle = 'rgba(3, 3, 3,0.42)'; c.fillRect(0, 0, W, rh);
   for (let i = 0; i < 26; i++) {
     const x = r() * W; const y = Math.pow(r(), 0.8) * rh; const rx = W * (0.04 + r() * 0.16) * (0.4 + y / rh); const ry = rx * (0.08 + (y / rh) * 0.2);
     const g = c.createRadialGradient(x, y, 0, x, y, rx);
-    g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(0.7, 'rgba(0,0,0,0.9)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+    g.addColorStop(0, 'rgba(3, 3, 3,1)'); g.addColorStop(0.7, 'rgba(3, 3, 3,0.9)'); g.addColorStop(1, 'rgba(3, 3, 3,0)');
     c.save(); c.translate(x, y); c.scale(1, ry / rx); c.translate(-x, -y); c.fillStyle = g; c.fillRect(x - rx, y - rx, rx * 2, rx * 2); c.restore();
   }
   return cv;
@@ -89,9 +89,9 @@ function fringe(src: HTMLCanvasElement): HTMLCanvasElement {
     c.globalCompositeOperation = 'multiply'; c.fillStyle = rgb; c.fillRect(0, 0, W, H);
     return cv;
   };
-  const out = chan('#00ff00', 1); const o = ctx2d(out);
+  const out = chan('#d1b5b4', 1); const o = ctx2d(out);
   o.globalCompositeOperation = 'lighter';
-  o.drawImage(chan('#ff0000', 1.0032), 0, 0); o.drawImage(chan('#0000ff', 1.0012), 0, 0);
+  o.drawImage(chan('#a00d1b', 1.0032), 0, 0); o.drawImage(chan('#4c2325', 1.0012), 0, 0);
   return out;
 }
 
@@ -106,10 +106,12 @@ function grade(c: Ctx, W: number, H: number, spec: SceneSpec, comp: HTMLCanvasEl
   c.globalAlpha = g.bloom * 0.6; c.drawImage(blurred(bl, 3), 0, 0, W, H);
   c.globalCompositeOperation = 'soft-light'; c.globalAlpha = g.midA; c.fillStyle = `rgb(${g.mid})`; c.fillRect(0, 0, W, H);
   c.globalCompositeOperation = 'screen'; c.globalAlpha = g.lift; c.fillStyle = `rgb(${g.shadow})`; c.fillRect(0, 0, W, H);
+  // 19_mystical-western: take the neon edge off the brand reds so the scene reads as dusk, not signage
+  c.globalCompositeOperation = 'saturation'; c.globalAlpha = 0.32; c.fillStyle = '#a5a29e'; c.fillRect(0, 0, W, H);
   c.globalAlpha = 1; c.globalCompositeOperation = 'multiply';
   const v = c.createRadialGradient(W / 2, H * 0.48, Math.min(W, H) * 0.25, W / 2, H * 0.5, Math.hypot(W, H) * 0.56);
   const e = Math.round(255 * (1 - g.vignette));
-  v.addColorStop(0, '#ffffff'); v.addColorStop(0.55, '#f2f2f2'); v.addColorStop(1, `rgb(${e},${e},${Math.min(255, e + 6)})`);
+  v.addColorStop(0, '#ffffff'); v.addColorStop(0.55, '#fbf9f8'); v.addColorStop(1, `rgb(${Math.min(255, e + 6)},${e},${e})`);
   c.fillStyle = v; c.fillRect(0, 0, W, H);
   c.restore();
 }
@@ -128,7 +130,7 @@ function droplets(still: HTMLCanvasElement, spec: SceneSpec, mask: HTMLCanvasEle
       const x = (z.x + r() * z.w) * W; const y = (z.y + r() * z.h) * H;
       const big = r() < 0.12;
       const rad = (big ? 2.2 + r() * 3.2 : 0.5 + r() * 1.4) * s;
-      if (rad < 1.2 * s) { d.fillStyle = `rgba(220,235,245,${(0.05 + r() * 0.08).toFixed(3)})`; d.beginPath(); d.arc(x, y, rad, 0, Math.PI * 2); d.fill(); continue; }
+      if (rad < 1.2 * s) { d.fillStyle = `rgba(248, 245, 242,${(0.05 + r() * 0.08).toFixed(3)})`; d.beginPath(); d.arc(x, y, rad, 0, Math.PI * 2); d.fill(); continue; }
       d.save();
       d.beginPath(); d.ellipse(x, y, rad, rad * 1.08, 0, 0, Math.PI * 2); d.clip();
       d.translate(x, y); d.scale(1, -1);
@@ -136,7 +138,7 @@ function droplets(still: HTMLCanvasElement, spec: SceneSpec, mask: HTMLCanvasEle
       d.drawImage(src, Math.max(0, x - sr), Math.max(0, y - sr), sr * 2, sr * 2, -rad * 1.1, -rad * 1.1, rad * 2.2, rad * 2.2);
       d.setTransform(1, 0, 0, 1, 0, 0);
       const g = d.createRadialGradient(x, y, rad * 0.4, x, y, rad * 1.1);
-      g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,0.5)');
+      g.addColorStop(0, 'rgba(3, 3, 3,0)'); g.addColorStop(1, 'rgba(3, 3, 3,0.5)');
       d.fillStyle = g; d.fillRect(x - rad * 1.2, y - rad * 1.2, rad * 2.4, rad * 2.4);
       d.restore();
       d.fillStyle = 'rgba(255,255,255,0.55)'; d.beginPath(); d.ellipse(x - rad * 0.35, y - rad * 0.42, rad * 0.22, rad * 0.16, -0.6, 0, Math.PI * 2); d.fill();
@@ -147,8 +149,8 @@ function droplets(still: HTMLCanvasElement, spec: SceneSpec, mask: HTMLCanvasEle
       let x = (z.x + r() * z.w) * W; let y = (z.y + r() * z.h * 0.5) * H; const end = y + r() * z.h * H * 0.6;
       d.beginPath(); d.moveTo(x, y);
       while (y < end) { y += (4 + r() * 6) * s; x += (r() - 0.5) * 2 * s; d.lineTo(x, y); }
-      d.strokeStyle = 'rgba(210,230,240,0.12)'; d.lineWidth = 1.4 * s; d.stroke();
-      d.strokeStyle = 'rgba(0,0,0,0.18)'; d.lineWidth = 0.6 * s; d.stroke();
+      d.strokeStyle = 'rgba(246, 243, 239,0.12)'; d.lineWidth = 1.4 * s; d.stroke();
+      d.strokeStyle = 'rgba(3, 3, 3,0.18)'; d.lineWidth = 0.6 * s; d.stroke();
     }
   }
   d.globalCompositeOperation = 'destination-in'; d.drawImage(mask, 0, 0, W, H);
@@ -175,7 +177,7 @@ export function bake(key: SceneKey, w: number, h: number, quality: Quality, devi
   for (const c of [lightX, signs, atmo]) c.globalCompositeOperation = 'source-over';
 
   const comp = makeCanvas(W, H); const c = ctx2d(comp);
-  c.fillStyle = '#05080b'; c.fillRect(0, 0, W, H);
+  c.fillStyle = '#060404'; c.fillRect(0, 0, W, H);
   c.drawImage(blurred(farC, spec.farBlur * s * q.blur), 0, 0);
   const base = 1 - spec.flicker;
   const drawSigns = (): void => { c.save(); c.globalCompositeOperation = 'lighter'; c.globalAlpha = base; c.drawImage(signC, 0, 0); c.restore(); };
@@ -206,7 +208,7 @@ export function bake(key: SceneKey, w: number, h: number, quality: Quality, devi
   const lightmap = makeCanvas(Math.max(8, W / 10), Math.max(8, H / 10)); const lm = ctx2d(lightmap);
   lm.imageSmoothingQuality = 'high'; lm.drawImage(still, 0, 0, lightmap.width, lightmap.height);
   lm.globalCompositeOperation = 'lighter'; lm.drawImage(lightmap, 0, 0); lm.drawImage(lightmap, 0, 0);
-  lm.fillStyle = 'rgba(34,40,46,1)'; lm.fillRect(0, 0, lightmap.width, lightmap.height);
+  lm.fillStyle = 'rgba(20, 6, 7,1)'; lm.fillRect(0, 0, lightmap.width, lightmap.height);
   const drops = q.drops && spec.glass.length && spec.drops > 0 ? droplets(still, spec, maskC, s, w, h) : null;
   return { key, W, H, w, h, s, q: quality, spec, still, flick, lightmap, mask: maskC, drops };
 }
@@ -241,7 +243,7 @@ function steam(): HTMLCanvasElement {
   if (steamSprite) return steamSprite;
   steamSprite = makeCanvas(64, 64); const c = ctx2d(steamSprite);
   const g = c.createRadialGradient(32, 32, 0, 32, 32, 32);
-  g.addColorStop(0, 'rgba(220,225,230,0.5)'); g.addColorStop(0.5, 'rgba(220,225,230,0.18)'); g.addColorStop(1, 'rgba(220,225,230,0)');
+  g.addColorStop(0, 'rgba(245, 242, 238,0.5)'); g.addColorStop(0.5, 'rgba(245, 242, 238,0.18)'); g.addColorStop(1, 'rgba(245, 242, 238,0)');
   c.fillStyle = g; c.fillRect(0, 0, 64, 64);
   return steamSprite;
 }
@@ -251,7 +253,7 @@ function loadFonts(): Promise<unknown> {
   if (fontsReady) return fontsReady;
   try {
     const f = document.fonts;
-    fontsReady = f ? Promise.all([f.load('800 40px "Big Shoulders Display"'), f.load('700 40px "Big Shoulders Display"'), f.load('600 20px "IBM Plex Mono"')]).catch(() => undefined) : Promise.resolve();
+    fontsReady = f ? Promise.all([f.load('600 40px "Zilla Slab"'), f.load('700 40px "Zilla Slab"'), f.load('600 20px "IBM Plex Mono"')]).catch(() => undefined) : Promise.resolve();
   } catch { fontsReady = Promise.resolve(); }
   return fontsReady;
 }
@@ -419,7 +421,7 @@ export class SceneRenderer {
           rc.moveTo(x, y); rc.lineTo(x - l * wind, y - l);
         }
         rc.lineWidth = (lay === 0 ? 0.7 : lay === 1 ? 1.1 : 1.8) * b.s;
-        rc.strokeStyle = q.lit ? (lay === 0 ? 'rgba(255,255,255,0.3)' : lay === 1 ? 'rgba(255,255,255,0.42)' : 'rgba(255,255,255,0.26)') : (lay === 0 ? 'rgba(170,200,215,0.16)' : 'rgba(180,210,225,0.24)');
+        rc.strokeStyle = q.lit ? (lay === 0 ? 'rgba(255,255,255,0.3)' : lay === 1 ? 'rgba(255,255,255,0.42)' : 'rgba(255,255,255,0.26)') : (lay === 0 ? 'rgba(228, 215, 211,0.16)' : 'rgba(235, 227, 222,0.24)');
         rc.stroke();
       }
       if (q.lit) { rc.globalCompositeOperation = 'source-in'; rc.drawImage(b.lightmap, 0, 0, W, H); }
@@ -444,7 +446,7 @@ export class SceneRenderer {
         if (this.st[i] >= 1) continue;
         if (animate) this.st[i] += dt * 4.5;
         const k = Math.min(1, this.st[i]); const rr = this.ssz[i] * (0.4 + k);
-        c.strokeStyle = `rgba(200,215,225,${(0.35 * (1 - k)).toFixed(3)})`;
+        c.strokeStyle = `rgba(241, 237, 231,${(0.35 * (1 - k)).toFixed(3)})`;
         c.beginPath(); c.ellipse(this.sx[i], this.sy[i], rr, rr * 0.3, 0, 0, Math.PI * 2); c.stroke();
       }
     }
@@ -456,16 +458,16 @@ export class SceneRenderer {
         const period = 1.8 + i * 0.7; const ph = ((t + i * 0.9) % period) / period;
         const fall = Math.min(1, ph / 0.32);
         const x = dx * W; const y0 = dy * H; const y = y0 + fall * fall * len * H;
-        if (fall < 1) { c.fillStyle = 'rgba(200,230,240,0.55)'; c.fillRect(x - 0.6 * b.s, y - 4 * b.s, 1.2 * b.s, 4 * b.s); }
-        else if (ph < 0.42) { const k = (ph - 0.32) / 0.1; c.strokeStyle = `rgba(200,230,240,${(0.4 * (1 - k)).toFixed(3)})`; c.lineWidth = 0.7 * b.s; c.beginPath(); c.ellipse(x, y0 + len * H, (2 + k * 8) * b.s, (0.6 + k * 2) * b.s, 0, 0, Math.PI * 2); c.stroke(); }
-        c.fillStyle = 'rgba(200,230,240,0.35)'; c.fillRect(x - 1 * b.s, y0, 2 * b.s, 2 * b.s);
+        if (fall < 1) { c.fillStyle = 'rgba(245, 242, 238,0.55)'; c.fillRect(x - 0.6 * b.s, y - 4 * b.s, 1.2 * b.s, 4 * b.s); }
+        else if (ph < 0.42) { const k = (ph - 0.32) / 0.1; c.strokeStyle = `rgba(245, 242, 238,${(0.4 * (1 - k)).toFixed(3)})`; c.lineWidth = 0.7 * b.s; c.beginPath(); c.ellipse(x, y0 + len * H, (2 + k * 8) * b.s, (0.6 + k * 2) * b.s, 0, 0, Math.PI * 2); c.stroke(); }
+        c.fillStyle = 'rgba(245, 242, 238,0.35)'; c.fillRect(x - 1 * b.s, y0, 2 * b.s, 2 * b.s);
       }
     }
     c.globalCompositeOperation = 'source-over';
     // glass droplets (baked) and a few sliding ones
     if (b.drops) c.drawImage(b.drops, 0, 0);
     if (q.slide && spec.glass.length) {
-      c.fillStyle = 'rgba(230,240,248,0.32)';
+      c.fillStyle = 'rgba(250, 248, 246,0.32)';
       for (let i = 0; i < 6; i++) {
         const z = spec.glass[i % spec.glass.length];
         const x = (z.x + ((i * 0.37 + 0.11) % 1) * z.w) * W;
@@ -477,7 +479,7 @@ export class SceneRenderer {
     }
     // dust in light shafts
     if (q.dust && spec.dust.length) {
-      c.globalCompositeOperation = 'lighter'; c.fillStyle = 'rgba(255,240,220,0.35)';
+      c.globalCompositeOperation = 'lighter'; c.fillStyle = 'rgba(251, 249, 248,0.35)';
       for (let i = 0; i < 40; i++) {
         const z = spec.dust[i % spec.dust.length];
         const x = (z.x + (((i * 0.618) + Math.sin(t * 0.13 + i) * 0.04) % 1 + 1) % 1 * z.w) * W;

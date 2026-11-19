@@ -2,15 +2,28 @@ import * as THREE from 'three';
 import type { SurfaceMat } from '../sim/types.ts';
 import { containerTexture, floorGlowTexture, floorTexture, hazardTexture, panelTexture } from './textures.ts';
 
+/**
+ * 19_mystical-western roles (Actual Solutions brand). Keys keep their legacy
+ * names so arena data still resolves; the meaning is now:
+ *   cyan    bone  — moonlight: the player's side, lanterns, see-through barriers
+ *   blue    tan   — the allied team
+ *   magenta ember — warm decor on the far side of the depot (not a team colour)
+ *   amber   rose  — collectibles, control point, stamped highlights
+ *   red     red   — hostile tanks and their fire
+ *   green   blush — repair stations (rose family)
+ */
 export const PALETTE = {
-  cyan: 0x2ef2ff,
-  blue: 0x2a9dff,
-  magenta: 0xff2fc8,
-  amber: 0xffb02e,
-  white: 0xeaf6ff,
-  red: 0xff3b4e,
-  green: 0x4dff9a,
+  cyan: 0xf1ede7,
+  blue: 0xd3b9b7,
+  magenta: 0xab0b1a,
+  amber: 0xe96b74,
+  white: 0xf1ede7,
+  red: 0xe30016,
+  green: 0xeeb9b9,
 };
+
+/** Unlit strips used to be neon; they are now warm lantern halos at reduced intensity. */
+const GLOW_SCALE = 0.62;
 
 export type GlowColor = 'cyan' | 'magenta' | 'amber' | 'blue' | 'white';
 
@@ -40,7 +53,7 @@ export class MaterialSet {
     let m = this.glows.get(key);
     if (!m) {
       const c = new THREE.Color(typeof color === 'number' ? color : PALETTE[color]);
-      c.multiplyScalar(intensity);
+      c.multiplyScalar(intensity * GLOW_SCALE);
       m = new THREE.MeshBasicMaterial({ color: c, toneMapped: false, fog: true });
       this.glows.set(key, m);
     }
@@ -59,33 +72,33 @@ export class MaterialSet {
   private create(kind: SurfaceMat): THREE.Material {
     switch (kind) {
       case 'floor':
-        return this.std({ map: floorTexture('#141a25', '#2ef2ff'), emissiveMap: floorGlowTexture(), emissive: new THREE.Color(0x1aa7c4), emissiveIntensity: 0.22, roughness: 0.48, metalness: 0.6 });
+        return this.std({ map: floorTexture('#2a0b0d', '#d3b9b7'), emissiveMap: floorGlowTexture(), emissive: new THREE.Color(0xd3b9b7), emissiveIntensity: 0.1, roughness: 0.7, metalness: 0.35 });
       case 'deck':
-        return this.std({ map: panelTexture('#2b323e', '#12161d', 3), roughness: 0.42, metalness: 0.75 });
+        return this.std({ map: panelTexture('#3a1013', '#1a0608', 3), roughness: 0.6, metalness: 0.45 });
       case 'metal':
-        return this.std({ map: panelTexture('#39414f', '#171b22', 7), roughness: 0.45, metalness: 0.7 });
+        return this.std({ map: panelTexture('#4a1a1d', '#1c0709', 7), roughness: 0.62, metalness: 0.4 });
       case 'darkMetal':
-        return this.std({ map: panelTexture('#1b1f28', '#0b0d11', 9), roughness: 0.5, metalness: 0.8 });
+        return this.std({ map: panelTexture('#24090c', '#0e0405', 9), roughness: 0.55, metalness: 0.6 });
       case 'concrete':
         return this.std({ map: hazardTexture(), roughness: 0.85, metalness: 0.1, envMapIntensity: 0.3 });
       case 'containerCyan':
-        return this.std({ map: containerTexture('#1d6a80'), roughness: 0.6, metalness: 0.45 });
+        return this.std({ map: containerTexture('#8f6e6f'), roughness: 0.6, metalness: 0.45 });
       case 'containerMagenta':
-        return this.std({ map: containerTexture('#7a2160'), roughness: 0.6, metalness: 0.45 });
+        return this.std({ map: containerTexture('#72151d'), roughness: 0.6, metalness: 0.45 });
       case 'containerSteel':
-        return this.std({ map: containerTexture('#4a5361'), roughness: 0.55, metalness: 0.55 });
+        return this.std({ map: containerTexture('#3a1215'), roughness: 0.55, metalness: 0.55 });
       case 'containerAmber':
-        return this.std({ map: containerTexture('#86561b'), roughness: 0.6, metalness: 0.45 });
+        return this.std({ map: containerTexture('#a88886'), roughness: 0.6, metalness: 0.45 });
       case 'glass':
-        return this.std({ color: 0x9fd8ff, transparent: true, opacity: 0.25, roughness: 0.05, metalness: 0.9 });
+        return this.std({ color: 0xf6f3ef, transparent: true, opacity: 0.25, roughness: 0.05, metalness: 0.9 });
       case 'trim':
-        return this.std({ color: 0x262b35, roughness: 0.4, metalness: 0.85 });
+        return this.std({ color: 0x150607, roughness: 0.4, metalness: 0.85 });
       case 'boundary':
-        return this.std({ map: panelTexture('#161a22', '#0a0c10', 13), roughness: 0.5, metalness: 0.8, emissive: new THREE.Color(0x0a2a38), emissiveIntensity: 0.6 });
+        return this.std({ map: panelTexture('#2d0a0d', '#120405', 13), roughness: 0.6, metalness: 0.5, emissive: new THREE.Color(0x480e13), emissiveIntensity: 0.5 });
       case 'lab':
-        return this.std({ map: panelTexture('#7f8898', '#4b525e', 17), roughness: 0.38, metalness: 0.55 });
+        return this.std({ map: panelTexture('#8a6a6b', '#3a1013', 17), roughness: 0.38, metalness: 0.55 });
       case 'labDark':
-        return this.std({ map: panelTexture('#1d212b', '#0b0d12', 19), roughness: 0.42, metalness: 0.7 });
+        return this.std({ map: panelTexture('#2a0b0e', '#110405', 19), roughness: 0.42, metalness: 0.7 });
       case 'barrier':
         return barrierMaterial();
     }
@@ -100,14 +113,15 @@ export class MaterialSet {
   }
 }
 
-/** See-through energy field: scrolling scanlines with bright edges. */
+/** See-through field: engraved moonlit scanlines with bright edges (kept readable). */
 function barrierMaterial(): THREE.ShaderMaterial {
   return new THREE.ShaderMaterial({
     transparent: true,
     depthWrite: false,
     side: THREE.DoubleSide,
     blending: THREE.AdditiveBlending,
-    uniforms: { uTime: timeUniform, uColor: { value: new THREE.Color(PALETTE.cyan) } },
+    // Moonlit tan at reduced strength: bone at full strength saturates to an opaque white sheet.
+    uniforms: { uTime: timeUniform, uColor: { value: new THREE.Color(PALETTE.blue).multiplyScalar(0.15) } },
     vertexShader: /* glsl */ `
       varying vec3 vPos;
       varying vec2 vUv;

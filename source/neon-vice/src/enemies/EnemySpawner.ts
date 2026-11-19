@@ -165,6 +165,6 @@ export class EnemySpawner {
   }
 
   static telegraphColor(kind: EnemyKind): number {
-    return kind === 'gunner' ? PALETTE.cyan : PALETTE.orange;
+    return kind === 'gunner' ? PALETTE.hostile : PALETTE.ember;
   }
 }

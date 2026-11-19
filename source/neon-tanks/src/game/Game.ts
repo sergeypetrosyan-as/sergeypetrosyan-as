@@ -164,7 +164,7 @@ export class Game {
   private previewLoadout(l: Loadout | null): void {
     const lo = l ?? this.profile.loadout;
     const paint = PAINTS.find((p) => p.id === lo.paint) ?? PAINTS[0];
-    this.garage.setLook({ hull: lo.hull, weapon: lo.weapon, body: paint.body, metal: paint.metal, accent: paint.accent, light: 0xd8f6ff });
+    this.garage.setLook({ hull: lo.hull, weapon: lo.weapon, body: paint.body, metal: paint.metal, accent: paint.accent, light: 0xfaf9f7 });
   }
 
   private applySettings(s: Settings): void {

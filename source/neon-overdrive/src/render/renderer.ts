@@ -3,6 +3,7 @@ import { heightAt } from '../track/build';
 import type { Frame, RenderBackend } from './backend';
 import { Fx } from './fx';
 import { buildArt, carSprite, LOOKS, type Art } from './textures';
+import { disc, FONT_SLAB, PALETTE, rgba } from '../theme';
 
 export type { Frame } from './backend';
 
@@ -133,30 +134,17 @@ export class Renderer implements RenderBackend {
     g.fillRect(-40, -40, W + 80, H / 2 + 40);
     if (!hc) {
       for (const st of art.stars) {
-        g.globalAlpha = 0.35 + 0.35 * Math.sin(f.time * 1.5 + st.p);
-        g.fillStyle = '#cfe8ff';
+        g.globalAlpha = 0.2 + 0.2 * Math.sin(f.time * 1.5 + st.p);
+        g.fillStyle = PALETTE.bone;
         g.fillRect(st.x * W, st.y * H * 0.42, st.r, st.r);
       }
       g.globalAlpha = 1;
     }
-    // sun
-    const R = H * 0.17;
-    const sunX = mod(W * 0.6 - this.skyFar * 0.12 * (W / 1280), W + R * 2) - R * 0.5;
-    const sunY = H / 2 - R * 0.55;
-    g.save();
-    g.beginPath();
-    g.arc(sunX, sunY, R, 0, Math.PI * 2);
-    g.clip();
-    const sg = g.createLinearGradient(0, sunY - R, 0, sunY + R);
-    sg.addColorStop(0, pal.sun2);
-    sg.addColorStop(1, pal.sun1);
-    g.fillStyle = sg;
-    g.fillRect(sunX - R, sunY - R, R * 2, R * 2);
-    if (!hc) {
-      g.fillStyle = pal.skyBottom;
-      for (let k = 0; k < 6; k++) g.fillRect(sunX - R, sunY + R * (0.05 + k * 0.17), R * 2, R * (0.015 + k * 0.016));
-    }
-    g.restore();
+    // the carved moon: engraved disc with ember rings and a gibbous phase
+    const R = H * 0.09;
+    const sunX = mod(W * 0.62 - this.skyFar * 0.12 * (W / 1280), W + R * 4) - R * 2;
+    const sunY = H * 0.2;
+    disc(g, sunX, sunY, R, { face: pal.sun2, ink: PALETTE.wine, rim: PALETTE.ember, phase: 0.88, shadow: pal.skyTop, rings: hc ? 0 : 3, hatch: !hc, glow: hc ? 0 : 0.14 });
     // skyline parallax
     const drawStrip = (img: HTMLCanvasElement, off: number, hFrac: number): void => {
       const sc = (H * hFrac) / img.height;
@@ -176,7 +164,7 @@ export class Renderer implements RenderBackend {
     g.fillRect(-40, H / 2 - H * 0.09, W + 80, H * 0.09 + 2);
 
     // ---- road: pass 1 (front to back) ----
-    const gateCol = f.gateOpen ? pal.accentA : '#ff2e63';
+    const gateCol = f.gateOpen ? pal.accentA : PALETTE.red;
     let xo = 0;
     let dx = -(baseSeg.curve * basePct);
     let maxy = H;
@@ -217,11 +205,11 @@ export class Renderer implements RenderBackend {
       // rumble
       const r1 = w1 / 7;
       const r2 = w2 / 7;
-      const rc = hc ? (alt ? '#ffffff' : '#ffe600') : alt ? pal.rumble0 : pal.rumble1;
+      const rc = hc ? (alt ? PALETTE.white : PALETTE.rose) : alt ? pal.rumble0 : pal.rumble1;
       this.quad(x1 - w1 - r1, y1, x2 - w2 - r2, y2, x2 - w2, y2, x1 - w1, y1, rc);
       this.quad(x1 + w1 + r1, y1, x2 + w2 + r2, y2, x2 + w2, y2, x1 + w1, y1, rc);
       // road
-      this.quad(x1 - w1, y1, x2 - w2, y2, x2 + w2, y2, x1 + w1, y1, hc ? (alt ? '#000000' : '#0b0b12') : alt ? pal.road0 : pal.road1);
+      this.quad(x1 - w1, y1, x2 - w2, y2, x2 + w2, y2, x1 + w1, y1, hc ? (alt ? PALETTE.ink : PALETTE.night) : alt ? pal.road0 : pal.road1);
       // edge neon lines
       const e1 = w1 * 0.025;
       const e2 = w2 * 0.025;
@@ -277,13 +265,14 @@ export class Renderer implements RenderBackend {
       const seg = segs[mod(idx, N)];
       const fogA = 1 - (1 - Math.exp(-Math.pow(n / T.DRAW, 2) * FOGD)) * (hc ? 0.4 : 0.92);
       if (this.vis[n]) {
-        this.wall(n, T.WALL_X, 320, seg.band === 0 ? '#0c1238' : '#141b4c', hc ? '#ffffff' : pal.accentB);
-        this.wall(n, -T.WALL_X, 320, seg.band === 0 ? '#0c1238' : '#141b4c', hc ? '#ffffff' : pal.accentB);
+        const wf = seg.band === 0 ? PALETTE.umber : PALETTE.mesa;
+        this.wall(n, T.WALL_X, 320, wf, hc ? PALETTE.white : pal.accentB);
+        this.wall(n, -T.WALL_X, 320, wf, hc ? PALETTE.white : pal.accentB);
         if (seg.spine) {
-          const rail = f.gateOpen ? pal.accentA : '#ff2e63';
+          const rail = f.gateOpen ? pal.accentA : PALETTE.red;
           g.globalAlpha = fogA;
-          this.wall(n, T.SPINE_RAIL, 150, '#071030', rail);
-          this.wall(n, -T.SPINE_RAIL, 150, '#071030', rail);
+          this.wall(n, T.SPINE_RAIL, 150, PALETTE.night, rail);
+          this.wall(n, -T.SPINE_RAIL, 150, PALETTE.night, rail);
           g.globalAlpha = 1;
         }
       }
@@ -335,7 +324,7 @@ export class Renderer implements RenderBackend {
         const ch = (cw * img.height) / img.width;
         const clipH = Math.max(0, cyp - clip);
         g.globalAlpha = fogA;
-        g.fillStyle = 'rgba(0,0,0,0.45)';
+        g.fillStyle = 'rgba(3, 3, 3,0.45)';
         g.beginPath();
         g.ellipse(cxp, cyp, cw * 0.5, cw * 0.06, 0, 0, 7);
         g.fill();
@@ -358,7 +347,7 @@ export class Renderer implements RenderBackend {
     g.save();
     g.translate(cx, cy);
     g.rotate(lean);
-    g.fillStyle = 'rgba(0,0,0,0.5)';
+    g.fillStyle = 'rgba(3, 3, 3,0.5)';
     g.beginPath();
     g.ellipse(0, -2, cw * 0.52, cw * 0.05, 0, 0, 7);
     g.fill();
@@ -370,9 +359,9 @@ export class Renderer implements RenderBackend {
         const fy = -ch * 0.23;
         const fl = cw * (0.28 + 0.06 * Math.sin(f.time * 90));
         const gr = g.createRadialGradient(fx, fy, 0, fx, fy, fl);
-        gr.addColorStop(0, 'rgba(255,255,255,0.95)');
-        gr.addColorStop(0.35, 'rgba(255,179,71,0.8)');
-        gr.addColorStop(1, 'rgba(255,46,166,0)');
+        gr.addColorStop(0, rgba(PALETTE.bone, 0.9));
+        gr.addColorStop(0.35, rgba(PALETTE.rose, 0.7));
+        gr.addColorStop(1, rgba(PALETTE.red, 0));
         g.fillStyle = gr;
         g.fillRect(fx - fl, fy - fl, fl * 2, fl * 2);
       }
@@ -382,10 +371,10 @@ export class Renderer implements RenderBackend {
 
     // ambient particles
     if (f.drifting && f.speedPct > 0.3 && Math.random() < f.dt * 60 * 0.7) {
-      this.fx.smoke(cx - cw * 0.32, cy - ch * 0.08, cw, 'rgba(210,220,255,0.6)');
-      this.fx.smoke(cx + cw * 0.32, cy - ch * 0.08, cw, 'rgba(210,220,255,0.6)');
+      this.fx.smoke(cx - cw * 0.32, cy - ch * 0.08, cw, rgba(PALETTE.tan, 0.5));
+      this.fx.smoke(cx + cw * 0.32, cy - ch * 0.08, cw, rgba(PALETTE.tan, 0.5));
     }
-    if (f.boosting && Math.random() < f.dt * 60 * 0.9) this.fx.streak(cx + (Math.random() < 0.5 ? -1 : 1) * cw * 0.125, cy - ch * 0.25, cw, Math.random() < 0.5 ? '#2cf6ff' : '#ff2ea6');
+    if (f.boosting && Math.random() < f.dt * 60 * 0.9) this.fx.streak(cx + (Math.random() < 0.5 ? -1 : 1) * cw * 0.125, cy - ch * 0.25, cw, Math.random() < 0.5 ? PALETTE.bone : PALETTE.rose);
     this.fx.draw(g);
 
     // ---- overlays ----
@@ -394,7 +383,7 @@ export class Renderer implements RenderBackend {
       const amt = Math.min(1, lineAmt) * (f.reducedMotion ? 0.4 : 1);
       const rmax = Math.hypot(W, H) * 0.55;
       g.lineWidth = Math.max(1, H / 360);
-      g.strokeStyle = f.boostAmt > 0.2 ? '#bff9ff' : '#9fb4ff';
+      g.strokeStyle = f.boostAmt > 0.2 ? PALETTE.blush : PALETTE.bone;
       const vy = H * 0.5;
       for (const l of this.lines) {
         l.ph = (l.ph + f.dt * (0.5 + f.speedPct * 1.7 + f.boostAmt * 1.4)) % 1;
@@ -410,14 +399,14 @@ export class Renderer implements RenderBackend {
     }
     if (f.boostAmt > 0.02 && !hc) {
       const vg = g.createRadialGradient(halfW, halfH, H * 0.3, halfW, halfH, H * 1.0);
-      vg.addColorStop(0, 'rgba(44,246,255,0)');
-      vg.addColorStop(1, `rgba(120,80,255,${(f.reducedFlash ? 0.18 : 0.38) * f.boostAmt})`);
+      vg.addColorStop(0, rgba(PALETTE.rose, 0));
+      vg.addColorStop(1, rgba(PALETTE.ember, (f.reducedFlash ? 0.14 : 0.3) * f.boostAmt));
       g.fillStyle = vg;
       g.fillRect(-40, -40, W + 80, H + 80);
     }
     if (f.flash > 0.01 && !f.reducedFlash) {
       g.globalAlpha = Math.min(1, f.flash) * 0.18;
-      g.fillStyle = '#ffffff';
+      g.fillStyle = PALETTE.bone;
       g.fillRect(-40, -40, W + 80, H + 80);
       g.globalAlpha = 1;
     }
@@ -437,7 +426,7 @@ export class Renderer implements RenderBackend {
     const hh = this.ps1[n] * 900 * (H / 2);
     const th = this.ps1[n] * 130 * (H / 2);
     g.globalAlpha = alpha;
-    const col = cp === 4 ? '#ffffff' : a;
+    const col = cp === 4 ? PALETTE.bone : a;
     const pw = Math.max(2, w * 0.05);
     g.fillStyle = col;
     g.fillRect(x - w * 1.08 - pw, y - hh, pw * 2, hh);
@@ -447,7 +436,7 @@ export class Renderer implements RenderBackend {
       const cw = (w * 2.2) / cells;
       for (let i = 0; i < cells; i++) {
         for (let j = 0; j < 2; j++) {
-          g.fillStyle = (i + j) % 2 === 0 ? '#ffffff' : '#10142e';
+          g.fillStyle = (i + j) % 2 === 0 ? PALETTE.bone : PALETTE.ink;
           g.fillRect(x - w * 1.1 + i * cw, y - hh - th + (j * th) / 2, cw + 0.5, th / 2 + 0.5);
         }
       }
@@ -457,8 +446,8 @@ export class Renderer implements RenderBackend {
       g.fillStyle = a;
       g.fillRect(x - w * 1.1, y - hh - th, w * 2.2, Math.max(1, th * 0.12));
       if (w > 70) {
-        g.fillStyle = '#ffffff';
-        g.font = `900 ${Math.max(10, Math.floor(th * 0.7))}px "Arial Black", Impact, sans-serif`;
+        g.fillStyle = PALETTE.bone;
+        g.font = `700 ${Math.max(10, Math.floor(th * 0.7))}px ${FONT_SLAB}`;
         g.textAlign = 'center';
         g.textBaseline = 'middle';
         g.fillText(`CHECKPOINT ${cp}`, x, y - hh - th / 2 + Math.sin(time * 3) * 0.5);
@@ -475,7 +464,8 @@ export class Renderer implements RenderBackend {
     const w = this.pw1[n];
     const hh = this.ps1[n] * 620 * (H / 2);
     const open = f.gateOpen;
-    const col = open ? '#2cf6ff' : '#ff2e63';
+    // stamped arch: rose when the reserve opens it, brand red when sealed
+    const col = open ? PALETTE.rose : PALETTE.red;
     const flick = open || f.reducedFlash ? 1 : 0.7 + 0.3 * Math.sin(f.time * 50);
     g.globalAlpha = alpha * flick;
     const half = T.SPINE_RAIL * w;
@@ -483,18 +473,18 @@ export class Renderer implements RenderBackend {
     // field
     if (open) {
       const gr = g.createLinearGradient(0, y - hh, 0, y);
-      gr.addColorStop(0, 'rgba(44,246,255,0.0)');
-      gr.addColorStop(1, 'rgba(44,246,255,0.28)');
+      gr.addColorStop(0, rgba(PALETTE.rose, 0));
+      gr.addColorStop(1, rgba(PALETTE.rose, 0.28));
       g.fillStyle = gr;
       g.fillRect(x - half, y - hh, half * 2, hh);
     } else {
-      g.fillStyle = 'rgba(255,46,99,0.55)';
+      g.fillStyle = rgba(PALETTE.red, 0.5);
       g.fillRect(x - half, y - hh, half * 2, hh);
       g.save();
       g.beginPath();
       g.rect(x - half, y - hh, half * 2, hh);
       g.clip();
-      g.fillStyle = 'rgba(10,6,20,0.8)';
+      g.fillStyle = rgba(PALETTE.ink, 0.8);
       const step = Math.max(8, hh / 6);
       for (let k = -hh; k < half * 2 + hh; k += step * 2) {
         g.beginPath();
@@ -512,9 +502,15 @@ export class Renderer implements RenderBackend {
     g.fillRect(x + half - pw, y - hh, pw * 2, hh);
     const bh = Math.max(3, hh * 0.16);
     g.fillRect(x - half - pw, y - hh - bh * 0.4, half * 2 + pw * 2, bh);
+    // the arch over the lintel
+    g.lineWidth = pw * 1.4;
+    g.strokeStyle = col;
+    g.beginPath();
+    g.ellipse(x, y - hh - bh * 0.4, half + pw, hh * 0.32, 0, Math.PI, 0);
+    g.stroke();
     if (half > 26) {
-      g.fillStyle = '#05081c';
-      g.font = `900 ${Math.max(9, Math.floor(bh * 0.7))}px "Arial Black", Impact, sans-serif`;
+      g.fillStyle = PALETTE.ink;
+      g.font = `700 ${Math.max(9, Math.floor(bh * 0.7))}px ${FONT_SLAB}`;
       g.textAlign = 'center';
       g.textBaseline = 'middle';
       g.fillText(open ? 'SPINE OPEN' : f.gateText, x, y - hh + bh * 0.1);

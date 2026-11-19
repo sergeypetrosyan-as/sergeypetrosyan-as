@@ -1,0 +1,9 @@
+{
+  "name": "theme-tools",
+  "private": true,
+  "type": "module",
+  "description": "Recolor codemod and headless-Chrome smoke helper for the 19_mystical-western redesign.",
+  "devDependencies": {
+    "puppeteer-core": "23.10.4"
+  }
+}

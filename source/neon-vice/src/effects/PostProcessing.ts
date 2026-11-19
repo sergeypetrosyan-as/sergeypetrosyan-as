@@ -5,7 +5,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
-/** Subtle chromatic fringe + vignette + scanline shimmer applied before tone mapping. */
+/** Subtle chromatic fringe + vignette + warm dusk grade applied before tone mapping. */
 const FinishShader = {
   uniforms: {
     tDiffuse: { value: null as THREE.Texture | null },
@@ -31,7 +31,8 @@ const FinishShader = {
       col.g = texture2D(tDiffuse, vUv).g;
       col.b = texture2D(tDiffuse, vUv - off).b;
       col *= 1.0 - smoothstep(0.25, 0.9, r2 * 1.6) * 0.45;
-      col *= 0.985 + 0.015 * sin(vUv.y * 900.0 + uTime * 8.0);
+      // dusk grade: lift the shadows toward wine, keep highlights bone
+      col = mix(col, col * vec3(1.04, 0.97, 0.95) + vec3(0.006, 0.0, 0.0), 0.8);
       gl_FragColor = vec4(col, 1.0);
     }`,
 };
@@ -49,7 +50,8 @@ export class PostProcessing {
     const size = renderer.getSize(new THREE.Vector2());
     this.composer = new EffectComposer(renderer);
     this.composer.addPass(new RenderPass(scene, camera));
-    this.bloom = new UnrealBloomPass(new THREE.Vector2(size.x / 2, size.y / 2), 0.85, 0.55, 0.82);
+    // Restrained warm halo rather than neon bloom (19_mystical-western).
+    this.bloom = new UnrealBloomPass(new THREE.Vector2(size.x / 2, size.y / 2), 0.42, 0.45, 0.86);
     this.composer.addPass(this.bloom);
     this.finish = new ShaderPass(FinishShader);
     this.composer.addPass(this.finish);

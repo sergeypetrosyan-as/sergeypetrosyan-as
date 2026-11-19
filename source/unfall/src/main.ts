@@ -1,3 +1,9 @@
+import '@fontsource/rye/400.css';
+import '@fontsource/zilla-slab/500.css';
+import '@fontsource/zilla-slab/600.css';
+import '@fontsource/zilla-slab/700.css';
+import '@fontsource/public-sans/400.css';
+import '@fontsource/public-sans/600.css';
 import './styles.css';
 import { Game } from './game/Game';
 
@@ -13,10 +19,10 @@ async function boot(): Promise<void> {
     fail('Canvas 2D is unavailable. Try a recent Chrome, Edge, Firefox or Safari.');
     return;
   }
-  // Signs and billboards bake their neon text once, so wait briefly for the faces.
+  // Signs and billboards bake their painted lettering once, so wait briefly for the faces.
   try {
     await Promise.race([
-      Promise.all([document.fonts.load('900 40px "Big Shoulders Display"'), document.fonts.load('700 40px "Big Shoulders Display"')]),
+      Promise.all([document.fonts.load('700 40px "Zilla Slab"'), document.fonts.load('400 40px Rye')]),
       new Promise((r) => setTimeout(r, 2500)),
     ]);
   } catch {

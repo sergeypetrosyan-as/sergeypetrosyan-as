@@ -4,7 +4,7 @@ A neon-soaked, third-person 3D arcade shooter that runs in the browser. Explore 
 
 **Play:** https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-vice/
 
-![Gameplay preview](../../assets/neon-vice-preview.gif)
+<img src="../../assets/cards/neon-vice.gif" alt="NEON VICE tarot card, XVI The Tower: a car drives through a frontier town at night" width="240" />
 
 > Inspired by the *atmosphere* of 1980s Miami, synthwave and classic open-city action games. Every character, location, vehicle, sign, sound and line of music here is original and generated procedurally. No third-party game assets are used.
 
@@ -14,8 +14,8 @@ Survive six escalating waves. Kills chain into combo multipliers (up to ×6), he
 
 | Hostile | Behaviour |
 |---|---|
-| **Street Enforcer** (orange visor) | Rushes in along the streets, swings a telegraphed haymaker at close range. |
-| **Neon Gunner** (cyan visor) | Holds a 11–22 m band, strafes, and fires energy bolts. Its visor flares white just before it shoots. |
+| **Street Enforcer** (ember-red visor) | Rushes in along the streets, swings a telegraphed haymaker at close range. |
+| **Neon Gunner** (red visor) | Holds a 11–22 m band, strafes, and fires energy bolts. Its visor flares white just before it shoots. |
 
 | Weapon | Behaviour |
 |---|---|
@@ -48,7 +48,7 @@ The game captures the mouse (Pointer Lock) while you play. If the browser refuse
 - **AI.** Line-of-sight checks plus a shared BFS flow field over a navigation grid, recomputed a few times per second, so enemies route around buildings without per-agent path searches. Separation steering keeps groups from stacking. Spawns are telegraphed with light beams and prefer cells out of the player's sight.
 - **Driving.** Arcade model: world-space velocity split into forward and lateral components, tyre grip bleeds off slip (much less under handbrake, which gives drifts), and a speed-dependent steering and yaw cap. The hull is three collision circles with impact bounce and sparks. Cars have headlights, brake lights, neon underglow, wheel spin and steering, body pitch and roll, a procedural engine note and tyre screech. Enemies hit at speed are taken out.
 - **World.** About 200 × 220 m of city: neon downtown towers, oceanfront Art Deco hotels, an enclosed parking garage, backstreet alleys with steam vents, a neon plaza, a beach promenade with palms, ring-road traffic, a distant skyline and a cable bridge. Facades, roads, markings, crosswalks and wet puddles are computed in shaders, and buildings are a single instanced draw.
-- **Atmosphere.** Synthwave sunset sky with a striped sun, an animated ocean, fog, bloom, chromatic fringe, vignette, film grain, a neon-tinted environment map for wet reflections, flickering signs and drifting motes.
+- **Atmosphere.** Styled with the 19_mystical-western design system (Actual Solutions brand colours): a night frontier sky with an engraved, carved moon rising behind a low mesa horizon, quiet stars, an animated ocean, dusk haze, a restrained warm bloom, chromatic fringe, vignette, film grain, a brand-tinted environment map for wet reflections, flickering painted signs and drifting dust. Type is Rye for titles, Zilla Slab for labels and numbers, Public Sans for instructions (self-hosted via @fontsource).
 - **Audio.** An original synthwave loop (drums, bass, arpeggio with delay, pads, lead hook) sequenced with Web Audio, plus synthesized weapons, reloads, hits, footsteps, engine, tyres, pickups and UI sounds. Nothing plays before the first user gesture. There's a master mute and separate music and SFX volume.
 - **UI.** Title screen over the live city, how-to-play, settings (sensitivity, invert Y, volumes, quality, reduced shake, high-contrast HUD, reset records), pause menu, end screen with stats. The HUD has health and armour, weapon and ammo, score and combo, wave progress, a radar, a speedometer, interaction prompts, a kill feed and a damage-direction indicator.
 

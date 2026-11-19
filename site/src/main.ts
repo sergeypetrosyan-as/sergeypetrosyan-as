@@ -3,16 +3,10 @@ import './styles/global.css';
 import './styles/components.css';
 import './styles/animations.css';
 import { initNav } from './lib/nav';
-import { initReveal } from './lib/reveal';
-import { initHeroMotion } from './lib/heroMotion';
 import { initPreviews } from './lib/previews';
 
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
 initNav();
-initReveal(reducedMotion.matches);
-initPreviews();
-initHeroMotion(reducedMotion);
+initPreviews(window.matchMedia('(prefers-reduced-motion: reduce)'));
 
 document.querySelectorAll<HTMLElement>('[data-year]').forEach((el) => (el.textContent = String(new Date().getFullYear())));
 

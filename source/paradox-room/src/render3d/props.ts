@@ -5,6 +5,8 @@ import type { FoldKind, GObj } from '../core/types.ts';
 import type { MaterialBank } from './materials.ts';
 import { COLORS } from './materials.ts';
 import type { TextureBank } from './textures.ts';
+import { starShape } from './textures.ts';
+import { PALETTE, portalHex } from '../render/palette.ts';
 
 /** How a prop is attached: upright in world space, bolted to a surface of the room, or filling its cell. */
 export type Mount = 'gravity' | 'fixed' | 'cell';
@@ -45,22 +47,25 @@ function shadowed(m: THREE.Mesh, cast = true): THREE.Mesh {
 }
 
 export function portalColor(ch: string): THREE.Color {
-  const palette = [COLORS.pencil, 0x5aa7ff, 0xc77dff, 0x55e0c0];
-  const i = ch.charCodeAt(0) - 97;
-  return new THREE.Color(palette[((i % 4) + 4) % 4]);
+  return new THREE.Color(portalHex(ch));
 }
 
 function letterTexture(ch: string): THREE.CanvasTexture {
   const c = document.createElement('canvas');
   c.width = c.height = 128;
   const ctx = c.getContext('2d') as CanvasRenderingContext2D;
-  ctx.fillStyle = '#2b2116';
+  ctx.fillStyle = PALETTE.umber;
   ctx.fillRect(0, 0, 128, 128);
-  ctx.strokeStyle = '#e9c77a';
-  ctx.lineWidth = 6;
-  ctx.strokeRect(8, 8, 112, 112);
-  ctx.fillStyle = '#f1d38d';
-  ctx.font = '600 84px "Barlow Condensed", "Arial Narrow", sans-serif';
+  ctx.strokeStyle = PALETTE.ember;
+  ctx.lineWidth = 5;
+  ctx.strokeRect(7, 7, 114, 114);
+  ctx.strokeStyle = PALETTE.tan;
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([4, 5]);
+  ctx.strokeRect(15, 15, 98, 98);
+  ctx.setLineDash([]);
+  ctx.fillStyle = PALETTE.rose;
+  ctx.font = '700 78px "Zilla Slab", Georgia, serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText(ch, 64, 70);
@@ -242,9 +247,9 @@ function crystal(o: GObj, t: TextureBank, transmission: boolean): Prop {
   root.add(spin);
   const geo = new THREE.OctahedronGeometry(1, 0);
   const mat = new THREE.MeshPhysicalMaterial({
-    color: 0xf0b45a,
-    emissive: new THREE.Color(0xd08a2a),
-    emissiveIntensity: 0.55,
+    color: COLORS.brass,
+    emissive: new THREE.Color(COLORS.brass),
+    emissiveIntensity: 0.45,
     roughness: 0.08,
     metalness: 0,
     clearcoat: 1,
@@ -256,11 +261,11 @@ function crystal(o: GObj, t: TextureBank, transmission: boolean): Prop {
   const gem = shadowed(new THREE.Mesh(geo, mat));
   gem.scale.set(0.13, 0.24, 0.13);
   spin.add(gem);
-  const coreMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(1, 0.72, 0.32).multiplyScalar(2.2) });
+  const coreMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.blush).multiplyScalar(1.8) });
   const core = new THREE.Mesh(geo, coreMat);
   core.scale.set(0.045, 0.085, 0.045);
   spin.add(core);
-  const [gl, glMat] = glintSprite(t, 0xffe2a8);
+  const [gl, glMat] = glintSprite(t, COLORS.lantern);
   gl.position.set(0.05, 0.62, 0.06);
   root.add(gl);
   let gone = 0;
@@ -287,20 +292,24 @@ function crystal(o: GObj, t: TextureBank, transmission: boolean): Prop {
   };
 }
 
+/** A margin note, stamped as a star: bone paper face, rose rim. */
 function note(o: GObj, m: MaterialBank, t: TextureBank): Prop {
+  void m;
   const root = new THREE.Group();
   const holder = new THREE.Group();
   holder.position.y = 0.42;
   root.add(holder);
-  const geo = new THREE.PlaneGeometry(0.2, 0.26);
-  const left = shadowed(new THREE.Mesh(geo, m.paper));
-  left.position.x = -0.045;
-  left.rotation.y = 0.5;
-  const right = shadowed(new THREE.Mesh(geo, m.paper));
-  right.position.x = 0.045;
-  right.rotation.y = -0.5;
-  holder.add(left, right);
-  const [gl, glMat] = glintSprite(t, 0xe8f0ff);
+  const geo = new THREE.ExtrudeGeometry(starShape(0.14), { depth: 0.025, bevelEnabled: true, bevelThickness: 0.008, bevelSize: 0.008, bevelSegments: 1 });
+  geo.center();
+  const rimGeo = new THREE.ShapeGeometry(starShape(0.175));
+  const faceMat = new THREE.MeshStandardMaterial({ color: COLORS.film, roughness: 0.6, emissive: new THREE.Color(COLORS.brass), emissiveIntensity: 0.18 });
+  const rimMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(COLORS.brass).multiplyScalar(1.15), side: THREE.DoubleSide });
+  const left = shadowed(new THREE.Mesh(geo, faceMat));
+  const right = new THREE.Mesh(rimGeo, rimMat);
+  right.position.z = -0.02;
+  left.add(right);
+  holder.add(left);
+  const [gl, glMat] = glintSprite(t, COLORS.film);
   gl.position.set(0.04, 0.6, 0.05);
   root.add(gl);
   let gone = 0;
@@ -313,15 +322,14 @@ function note(o: GObj, m: MaterialBank, t: TextureBank): Prop {
       gone = c.active ? Math.min(1, gone + c.dt / 0.5) : 0;
       holder.position.y = 0.42 + (c.effects ? Math.sin(c.time * 1.3 + 2) * 0.03 : 0) + ease(gone) * 0.5;
       holder.rotation.y = c.effects ? Math.sin(c.time * 0.6) * 0.5 : 0.3;
-      const fold = 0.5 + ease(gone) * 1.0;
-      left.rotation.y = fold;
-      right.rotation.y = -fold;
+      left.rotation.y = ease(gone) * Math.PI * 1.5;
+      left.scale.setScalar(Math.max(0.0001, 1 - ease(gone) * 0.85));
       holder.visible = gone < 1;
       const ph = (c.time * 0.3 + 0.5) % 1;
       glMat.opacity = c.active ? 0 : ph < 0.1 ? Math.sin((ph / 0.1) * Math.PI) * 0.8 : 0;
     },
     trigger() {},
-    dispose: disposer([geo, glMat]),
+    dispose: disposer([geo, rimGeo, faceMat, rimMat, glMat]),
   };
 }
 
@@ -481,7 +489,7 @@ function lever(o: GObj, m: MaterialBank, t: TextureBank): Prop {
   const knobGeo = new THREE.SphereGeometry(0.04, 14, 10);
   const base = shadowed(new THREE.Mesh(baseGeo, m.darkBrass));
   base.position.y = 0.025;
-  const glyphMat = new THREE.MeshStandardMaterial({ map: t.glyphs[o.fold as FoldKind], metalness: 0.5, roughness: 0.5, emissive: new THREE.Color(0xc39645), emissiveMap: t.glyphs[o.fold as FoldKind], emissiveIntensity: 0.15 });
+  const glyphMat = new THREE.MeshStandardMaterial({ map: t.glyphs[o.fold as FoldKind], metalness: 0.5, roughness: 0.5, emissive: new THREE.Color(COLORS.brass), emissiveMap: t.glyphs[o.fold as FoldKind], emissiveIntensity: 0.15 });
   const glyph = new THREE.Mesh(plateGeo, glyphMat);
   glyph.rotation.x = -Math.PI / 2;
   glyph.position.set(0.11, 0.052, 0.03);
@@ -529,7 +537,7 @@ function toggle(o: GObj, m: MaterialBank): Prop {
   stickPivot.position.set(0, 0.28, 0);
   const stick = shadowed(new THREE.Mesh(stickGeo, m.brass));
   stickPivot.add(stick);
-  const lampMat = new THREE.MeshStandardMaterial({ color: 0x334048, emissive: new THREE.Color(COLORS.seam), emissiveIntensity: 0, roughness: 0.2 });
+  const lampMat = new THREE.MeshStandardMaterial({ color: COLORS.umber, emissive: new THREE.Color(COLORS.seam), emissiveIntensity: 0, roughness: 0.2 });
   const lamp = new THREE.Mesh(lampGeo, lampMat);
   lamp.position.set(0, 0.19, 0.075);
   root.add(post, face, stickPivot, lamp);
@@ -555,7 +563,7 @@ function plate(o: GObj, m: MaterialBank): Prop {
   const discGeo = new THREE.CylinderGeometry(0.3, 0.3, 0.045, 32);
   const rimGeo = new THREE.TorusGeometry(0.31, 0.018, 8, 40);
   const top = shadowed(new THREE.Mesh(discGeo, m.plateStone));
-  const rimMat = new THREE.MeshStandardMaterial({ color: COLORS.brass, metalness: 1, roughness: 0.35, emissive: new THREE.Color(COLORS.seam), emissiveIntensity: 0 });
+  const rimMat = new THREE.MeshStandardMaterial({ color: COLORS.brass, metalness: 0.65, roughness: 0.35, emissive: new THREE.Color(COLORS.seam), emissiveIntensity: 0 });
   const rim = shadowed(new THREE.Mesh(rimGeo, rimMat));
   rim.rotation.x = Math.PI / 2;
   rim.position.y = 0.02;

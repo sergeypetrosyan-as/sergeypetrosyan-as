@@ -109,7 +109,7 @@ export class Fx3D {
     this.sp = new Float32Array(N * 6);
     const g = new THREE.BufferGeometry();
     g.setAttribute('position', new THREE.BufferAttribute(this.sp, 3).setUsage(THREE.DynamicDrawUsage));
-    this.streakMat = new THREE.LineBasicMaterial({ color: 0xbfe8ff, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, fog: false });
+    this.streakMat = new THREE.LineBasicMaterial({ color: 0xfaf9f7, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, fog: false });
     this.streaks = new THREE.LineSegments(g, this.streakMat);
     this.streaks.frustumCulled = false;
     this.streaks.renderOrder = 8;
@@ -125,7 +125,8 @@ export class Fx3D {
   /** Camera-space streaks; `amt` 0..1 controls length and opacity. */
   updateStreaks(dt: number, speed: number, amt: number, boost: number): void {
     this.streakMat.opacity = Math.min(0.2, amt * 0.18);
-    this.streakMat.color.setRGB(0.7 + boost * 0.2, 0.85 + boost * 0.1, 1);
+    // bone streaks that warm towards rose while boosting
+    this.streakMat.color.setRGB(0.95, 0.93 - boost * 0.45, 0.9 - boost * 0.43);
     this.streaks.visible = amt > 0.02;
     if (!this.streaks.visible) return;
     const v = speed * (1.6 + boost);

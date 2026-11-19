@@ -13,7 +13,7 @@ const SIGNS = [
 ];
 
 /**
- * Two stacked low-resolution canvases: `pix` holds crisp pixel art, `glow` holds light,
+ * Two stacked low-resolution canvases: `pix` holds crisp pixel art, `glow` holds warm light,
  * blurred and screen-blended by CSS so neon bleeds smoothly over the pixels.
  */
 export class Renderer {
@@ -96,7 +96,7 @@ export class Renderer {
         // Riveted plates.
         c.fillRect(x, y + 15, TILE, 1);
         c.fillRect(x + 15, y, 1, TILE);
-        c.fillStyle = '#5a4a5e';
+        c.fillStyle = '#6E6C6A';
         c.fillRect(x + 2, y + 2, 1, 1);
         c.fillRect(x + 12, y + 2, 1, 1);
         c.fillRect(x + 2, y + 12, 1, 1);
@@ -249,26 +249,10 @@ export class Renderer {
     const rise = Math.max(0, world.level.pxH - this.h - cy);
     const sxOff = -((cx * 0.02) % LAYER_W);
     for (let x = sxOff - LAYER_W; x < this.w; x += LAYER_W) ctx.drawImage(bd.stars, Math.round(x), Math.round(rise * 0.02));
-    // A big low sun (city) / furnace glow (factory) / void eye (glitch), barely moving.
-    const sunX = this.w * 0.68 - cx * 0.015;
-    const sunY = this.h - 70 + rise * 0.05;
-    const r = 46;
-    const sg = ctx.createLinearGradient(0, sunY - r, 0, sunY + r);
-    const sunCols = [['#ffe066', '#ff3bd4'], ['#ffb347', '#ff3355'], ['#7dff5c', '#32f6ff']][world.level.def.world];
-    sg.addColorStop(0, sunCols[0]);
-    sg.addColorStop(1, sunCols[1]);
-    ctx.fillStyle = sg;
-    ctx.globalAlpha = 0.85;
-    ctx.beginPath();
-    ctx.arc(Math.round(sunX), Math.round(sunY), r, Math.PI, 0);
-    ctx.fill();
-    ctx.globalAlpha = 1;
-    ctx.fillStyle = th.skyBottom;
-    for (let i = 0; i < 6; i++) ctx.fillRect(Math.round(sunX - r), Math.round(sunY - 30 + i * 6 + i * i * 0.4), r * 2, 1 + Math.floor(i / 2));
-    this.g.fillStyle = sunCols[1];
-    this.g.globalAlpha = 0.18;
-    this.g.fillRect(Math.round(sunX - r * 1.3), Math.round(sunY - r * 1.2), r * 2.6, r * 1.3);
-    this.g.globalAlpha = 1;
+    // The carved moon, high over the mesas, barely moving (full / waning / crescent per world).
+    const moonX = this.w * 0.7 - cx * 0.015;
+    const moonY = Math.min(this.h * 0.3, 90) + rise * 0.05;
+    ctx.drawImage(bd.moon, Math.round(moonX - bd.moon.width / 2), Math.round(moonY - bd.moon.height / 2));
     for (const layer of bd.layers) {
       const drift = this.reducedMotion ? 0 : now * layer.drift;
       const off = -(((cx * layer.fx + drift) % LAYER_W) + LAYER_W) % LAYER_W;
@@ -277,8 +261,8 @@ export class Renderer {
     }
     // Haze where the skyline meets the street.
     const haze = ctx.createLinearGradient(0, this.h - 90 + rise * 0.3, 0, this.h);
-    haze.addColorStop(0, 'rgba(0,0,0,0)');
-    haze.addColorStop(1, th.fog + '33');
+    haze.addColorStop(0, 'rgba(3, 3, 3,0)');
+    haze.addColorStop(1, th.fog + '26');
     ctx.fillStyle = haze;
     ctx.fillRect(0, 0, this.w, this.h);
   }
@@ -291,7 +275,7 @@ export class Renderer {
       c.width = textWidth(text) + 6;
       c.height = 11;
       const x = c.getContext('2d')!;
-      x.fillStyle = '#0a0b1ecc';
+      x.fillStyle = '#150607cc';
       x.fillRect(0, 0, c.width, c.height);
       x.fillStyle = color;
       x.fillRect(0, 0, c.width, 1);
@@ -354,7 +338,7 @@ export class Renderer {
       switch (t) {
         case T.Prize: {
           const bob = Math.sin(now * 4 + tx) > 0.6 ? 1 : 0;
-          ctx.fillStyle = '#3a2208';
+          ctx.fillStyle = '#480E13';
           ctx.fillRect(x, y, TILE, TILE);
           ctx.fillStyle = COLORS.volt;
           ctx.fillRect(x, y, TILE, 1);
@@ -374,9 +358,9 @@ export class Renderer {
           break;
         }
         case T.Used:
-          ctx.fillStyle = '#1a1424';
+          ctx.fillStyle = '#2D0A0D';
           ctx.fillRect(x, y, TILE, TILE);
-          ctx.fillStyle = '#4a3a5a';
+          ctx.fillStyle = '#480E13';
           ctx.fillRect(x, y, TILE, 1);
           ctx.fillRect(x, y, 1, TILE);
           ctx.fillRect(x + 15, y, 1, TILE);
@@ -386,7 +370,7 @@ export class Renderer {
         case T.ConvR: {
           ctx.fillStyle = th.ground;
           ctx.fillRect(x, y, TILE, TILE);
-          ctx.fillStyle = '#111';
+          ctx.fillStyle = '#150607';
           ctx.fillRect(x, y, TILE, 4);
           const dir = t === T.ConvR ? 1 : -1;
           const off = ((now * 62 * dir) % 8 + 8) % 8;
@@ -407,12 +391,12 @@ export class Renderer {
         }
         case T.Electric: {
           const stage = world.electricStage(tx);
-          ctx.fillStyle = '#1c2236';
+          ctx.fillStyle = '#2D0A0D';
           ctx.fillRect(x, y, TILE, TILE);
-          ctx.fillStyle = '#3a4466';
+          ctx.fillStyle = '#480E13';
           ctx.fillRect(x, y + 4, TILE, 1);
           ctx.fillRect(x, y + 10, TILE, 1);
-          const col = stage === 'live' ? '#d8feff' : stage === 'warn' ? '#32f6ff' : '#2a6a80';
+          const col = stage === 'live' ? '#E30016' : stage === 'warn' ? '#AB0B1A' : '#480E13';
           ctx.fillStyle = col;
           ctx.fillRect(x, y, TILE, 2);
           if (stage !== 'off') {
@@ -422,7 +406,7 @@ export class Renderer {
               ctx.fillRect(bx, y - 1 - (k % 3), 1, 2 + (k % 3));
             }
           }
-          g.fillStyle = '#32f6ff';
+          g.fillStyle = '#E30016';
           g.globalAlpha = stage === 'live' ? 1 : stage === 'warn' ? 0.35 + 0.3 * Math.sin(now * 40) : 0.1;
           g.fillRect(x, y - (stage === 'live' ? 6 : 1), TILE, stage === 'live' ? 8 : 3);
           g.globalAlpha = 1;
@@ -440,12 +424,12 @@ export class Renderer {
         }
         case T.Door: {
           if (!world.doorClosed) break;
-          ctx.fillStyle = '#1d1440';
+          ctx.fillStyle = '#2D0A0D';
           ctx.fillRect(x + 4, y, 8, TILE);
-          ctx.fillStyle = '#c85cff';
+          ctx.fillStyle = '#AF7D7E';
           const shift = Math.floor(now * 20) % 4;
           for (let k = 0; k < TILE; k += 4) ctx.fillRect(x + 4 + ((k / 4 + shift) % 2) * 6, y + k, 2, 2);
-          g.fillStyle = '#c85cff';
+          g.fillStyle = '#AF7D7E';
           g.globalAlpha = 0.6;
           g.fillRect(x + 3, y, 10, TILE);
           g.globalAlpha = 1;
@@ -461,10 +445,10 @@ export class Renderer {
     const P = this.sprites.props;
     for (const cp of world.checkpoints) {
       const baseY = cp.y + cp.h;
-      ctx.fillStyle = '#3a3f7a';
+      ctx.fillStyle = '#683E40';
       ctx.fillRect(cp.x + 7, cp.y + 4, 2, cp.h - 4);
       ctx.fillRect(cp.x + 4, baseY - 2, 8, 2);
-      const col = cp.active ? '#7dff5c' : '#ff3355';
+      const col = cp.active ? '#F1EDE7' : '#AB0B1A';
       ctx.fillStyle = col;
       ctx.fillRect(cp.x + 5, cp.y, 6, 5);
       if (cp.active) {
@@ -480,32 +464,32 @@ export class Renderer {
     for (const s of world.springs) {
       const k = 1 - s.squash * 0.45;
       ctx.drawImage(P.spring, s.x, s.y + s.h * (1 - k), s.w, s.h * k);
-      g.fillStyle = '#32f6ff';
+      g.fillStyle = '#D3B9B7';
       g.globalAlpha = 0.5;
       g.fillRect(s.x, s.y + s.h * (1 - k), s.w, 2);
       g.globalAlpha = 1;
     }
     world.terminals.forEach((t, i) => {
       ctx.drawImage(P.terminal, t.x, t.y + TILE - 14);
-      g.fillStyle = '#7dff5c';
+      g.fillStyle = '#D3B9B7';
       g.globalAlpha = t.read ? 0.35 : 0.6 + 0.3 * Math.sin(now * 5);
       g.fillRect(t.x + 3, t.y + 3, 10, 6);
       g.globalAlpha = 1;
       if (world.nearTerminal === i || !t.read) {
         const bob = Math.round(Math.sin(now * 5) * 1.5);
         const label = world.nearTerminal === i ? 'E' : '!';
-        ctx.fillStyle = '#0a0b1e';
+        ctx.fillStyle = '#150607';
         ctx.fillRect(t.x + 4, t.y - 12 + bob, 9, 9);
-        ctx.fillStyle = '#7dff5c';
+        ctx.fillStyle = '#D3B9B7';
         ctx.fillRect(t.x + 4, t.y - 12 + bob, 9, 1);
         ctx.fillRect(t.x + 4, t.y - 4 + bob, 9, 1);
-        drawText(ctx, label, t.x + 7, t.y - 10 + bob, '#7dff5c');
+        drawText(ctx, label, t.x + 7, t.y - 10 + bob, '#D3B9B7');
       }
     });
     if (world.gate) {
       const { x, y } = world.gate;
       const won = world.finished;
-      ctx.fillStyle = '#0a0b1e';
+      ctx.fillStyle = '#150607';
       ctx.fillRect(x - 4, y - 4, 4, 52);
       ctx.fillRect(x + 16, y - 4, 4, 52);
       ctx.fillRect(x - 4, y - 6, 24, 4);
@@ -519,13 +503,13 @@ export class Renderer {
         const a = now * (won ? 9 : 3) + k * 0.52;
         const px = x + 8 + Math.cos(a) * 6;
         const py = y + 24 + Math.sin(a * 1.3) * 20;
-        ctx.fillStyle = k % 2 ? '#32f6ff' : '#ff3bd4';
+        ctx.fillStyle = k % 2 ? '#F1EDE7' : '#E96B74';
         ctx.fillRect(Math.round(px), Math.round(py), 1, 2);
       }
-      g.fillStyle = '#ff3bd4';
+      g.fillStyle = '#E96B74';
       g.globalAlpha = won ? 1 : 0.55;
       g.fillRect(x - 2, y - 2, 20, 50);
-      g.fillStyle = '#32f6ff';
+      g.fillStyle = '#F1EDE7';
       g.fillRect(x + 3, y + 4, 10, 40);
       g.globalAlpha = 1;
       // The fragment hovers in the gate until claimed.
@@ -561,11 +545,11 @@ export class Renderer {
         if (p.state === 'gone') break;
         const shake = p.state === 'shake' && !this.reducedMotion ? Math.round(Math.sin(p.t * 80)) : 0;
         ctx.globalAlpha = p.state === 'fall' ? Math.max(0, 1 - p.t) : 1;
-        ctx.fillStyle = '#4a3428';
+        ctx.fillStyle = '#AF7D7E';
         ctx.fillRect(x + shake, y, TILE, TILE);
-        ctx.fillStyle = '#ffb347';
+        ctx.fillStyle = '#D3B9B7';
         ctx.fillRect(x + shake, y, TILE, 1);
-        ctx.fillStyle = '#2a1a14';
+        ctx.fillStyle = '#480E13';
         ctx.fillRect(x + shake + 4, y + 2, 1, 6);
         ctx.fillRect(x + shake + 5, y + 7, 5, 1);
         ctx.fillRect(x + shake + 10, y + 8, 1, 6);
@@ -574,7 +558,7 @@ export class Renderer {
       }
       case 'glitch': {
         if (p.state === 'gone') {
-          ctx.fillStyle = '#c85cff';
+          ctx.fillStyle = '#AF7D7E';
           ctx.globalAlpha = 0.25;
           for (let k = 0; k < TILE; k += 3) {
             ctx.fillRect(x + k, y, 1, 1);
@@ -584,15 +568,15 @@ export class Renderer {
           break;
         }
         const jitter = p.state === 'shake' ? (Math.floor(p.t * 30) % 2 ? 2 : -2) : 0;
-        ctx.fillStyle = '#1d1440';
+        ctx.fillStyle = '#72151D';
         ctx.fillRect(x, y, TILE, TILE);
-        ctx.fillStyle = '#c85cff';
+        ctx.fillStyle = '#D3B9B7';
         ctx.fillRect(x + jitter, y, TILE, 1);
         ctx.fillRect(x, y + 15, TILE, 1);
-        ctx.fillStyle = '#7dff5c';
+        ctx.fillStyle = '#AF7D7E';
         ctx.fillRect(x + 3 - jitter, y + 5, 10, 1);
         ctx.fillRect(x + 3 + jitter, y + 9, 6, 1);
-        g.fillStyle = '#c85cff';
+        g.fillStyle = '#AF7D7E';
         g.globalAlpha = p.state === 'shake' ? 0.9 : 0.4;
         g.fillRect(x, y, TILE, 2);
         g.globalAlpha = 1;
@@ -600,11 +584,11 @@ export class Renderer {
       }
       case 'timedA':
       case 'timedB': {
-        const col = p.kind === 'timedA' ? '#32f6ff' : '#ff3bd4';
+        const col = p.kind === 'timedA' ? '#D3B9B7' : '#AB0B1A';
         const left = TIMED_PERIOD - (world.time % TIMED_PERIOD);
         if (p.solid) {
           const blink = left < 0.5 && Math.floor(left * 12) % 2 === 0;
-          ctx.fillStyle = blink ? '#0a0b1e' : col + '55';
+          ctx.fillStyle = blink ? '#150607' : col + '55';
           ctx.fillRect(x, y, TILE, TILE);
           ctx.fillStyle = col;
           ctx.fillRect(x, y, TILE, 1);
@@ -632,19 +616,19 @@ export class Renderer {
       case 'crusher': {
         const shake = p.state === 'shake' && !this.reducedMotion ? Math.round(Math.sin(p.t * 90)) : 0;
         // Chain to the ceiling.
-        ctx.fillStyle = '#3a2a2a';
+        ctx.fillStyle = '#6E6C6A';
         for (let cy = p.y0 - 8; cy < y; cy += 4) ctx.fillRect(x + p.w / 2 - 1, cy, 2, 3);
-        ctx.fillStyle = '#3a3044';
+        ctx.fillStyle = '#2D0A0D';
         ctx.fillRect(x + shake, y, p.w, p.h - 4);
-        ctx.fillStyle = '#ffb347';
+        ctx.fillStyle = '#E30016';
         for (let k = 0; k < p.w; k += 6) ctx.fillRect(x + shake + k, y + 3, 3, 3);
-        ctx.fillStyle = '#6b5a7a';
+        ctx.fillStyle = '#6E6C6A';
         ctx.fillRect(x + shake, y, p.w, 1);
         // Teeth.
-        ctx.fillStyle = '#c0b4d0';
+        ctx.fillStyle = '#A5A29E';
         for (let k = 0; k < p.w; k += 4) ctx.fillRect(x + shake + k + 1, y + p.h - 4, 2, 4);
         const danger = p.state === 'shake' || p.state === 'fall';
-        g.fillStyle = danger ? '#ff3355' : '#ffb347';
+        g.fillStyle = danger ? '#E30016' : '#AB0B1A';
         g.globalAlpha = danger ? 0.9 : 0.25;
         g.fillRect(x, y + p.h - 4, p.w, 5);
         g.globalAlpha = 1;
@@ -663,14 +647,14 @@ export class Renderer {
       const bob = k.kind === 'volt' ? 0 : Math.round(Math.sin(k.t * 3) * 1.5);
       const y = Math.round(k.y + bob + k.emerge * TILE);
       const x = Math.round(k.x);
-      let col = '#ffb347';
+      let col = '#E96B74';
       if (k.kind === 'volt') {
         const f = [0, 1, 2, 1][Math.floor(k.t * 8) % 4];
         ctx.drawImage(P.volt[f], x, y);
       } else {
         const spr: Sprite = P[k.kind];
         ctx.drawImage(spr, x, y);
-        col = { shard: COLORS.shard, token: COLORS.token, repair: '#7dff5c', shield: COLORS.shield, overdrive: COLORS.overdrive }[k.kind];
+        col = { shard: COLORS.shard, token: COLORS.token, repair: '#EEB9B9', shield: COLORS.shield, overdrive: COLORS.overdrive }[k.kind];
       }
       g.fillStyle = col;
       g.globalAlpha = k.kind === 'volt' ? 0.55 : 0.75 + 0.25 * Math.sin(now * 4);
@@ -691,7 +675,7 @@ export class Renderer {
       let spr: Sprite;
       let sy = 1;
       let sx = 1;
-      let glow = '#3dffb0';
+      let glow = '#E30016';
       switch (e.kind) {
         case 'slime':
           spr = E.slime;
@@ -701,23 +685,23 @@ export class Renderer {
         case 'drone':
         case 'droneV':
           spr = E.drone[Math.floor(e.t * 20) % 2];
-          glow = '#ff3bd4';
+          glow = '#AB0B1A';
           break;
         case 'hopper':
           spr = E.hopper[e.onGround && (e.charge > 0 || Math.sin(e.t * 3) > 0.7) ? 1 : 0];
-          glow = '#c8ff3d';
+          glow = '#E30016';
           break;
         case 'turret':
           spr = E.turret;
-          glow = '#ffb347';
+          glow = '#E30016';
           break;
         case 'phantom':
           spr = E.phantom;
-          glow = '#c85cff';
+          glow = '#EEB9B9';
           break;
         default:
           spr = E.spiker;
-          glow = '#ff3355';
+          glow = '#E30016';
       }
       if (!e.alive) {
         sy = Math.max(0.15, 1 - e.deadTime * 3);
@@ -738,9 +722,9 @@ export class Renderer {
       if (e.kind === 'turret' && e.alive && e.charge > 0) {
         const bx = e.face > 0 ? e.x + e.w + 1 : e.x - 3;
         const r = 1 + e.charge * 3;
-        ctx.fillStyle = '#ffe066';
+        ctx.fillStyle = '#EEB9B9';
         ctx.fillRect(Math.round(bx - r / 2), Math.round(e.y + 7 - r / 2), Math.ceil(r), Math.ceil(r));
-        g.fillStyle = '#ffb347';
+        g.fillStyle = '#E30016';
         g.fillRect(Math.round(bx - r * 1.5), Math.round(e.y + 7 - r * 1.5), Math.ceil(r * 3), Math.ceil(r * 3));
       }
       if (e.alive) {
@@ -762,27 +746,27 @@ export class Renderer {
     const flash = b.flash > 0 && Math.floor(b.flash * 20) % 2 === 0;
     // Slam warning on the floor.
     if (b.state === 'shake' || b.state === 'aim') {
-      ctx.fillStyle = '#ff3355';
+      ctx.fillStyle = '#E30016';
       ctx.globalAlpha = 0.35 + 0.4 * b.charge;
       ctx.fillRect(x + 4, b.floorY - 2, b.w - 8, 2);
       ctx.globalAlpha = 1;
-      g.fillStyle = '#ff3355';
+      g.fillStyle = '#E30016';
       g.globalAlpha = 0.6 * (0.5 + b.charge);
       g.fillRect(x, b.floorY - 6, b.w, 6);
       g.globalAlpha = 1;
     }
     for (const rx of b.rainX) {
-      ctx.fillStyle = '#7dff5c';
+      ctx.fillStyle = '#AB0B1A';
       ctx.globalAlpha = 0.25 + 0.5 * b.charge;
       for (let ry = b.ceilY; ry < b.floorY; ry += 6) ctx.fillRect(Math.round(rx), ry, 1, 3);
       ctx.globalAlpha = 1;
-      g.fillStyle = '#7dff5c';
+      g.fillStyle = '#AB0B1A';
       g.globalAlpha = 0.5 * b.charge;
       g.fillRect(Math.round(rx) - 2, b.ceilY, 5, 8);
       g.globalAlpha = 1;
     }
-    const body = flash ? '#ffffff' : '#241a4a';
-    const rim = flash ? '#ffffff' : '#c85cff';
+    const body = flash ? '#FFFFFF' : '#2D0A0D';
+    const rim = flash ? '#FFFFFF' : '#E30016';
     // Crown antennae.
     ctx.fillStyle = rim;
     for (const ax of [6, 14, 22, 30, 38]) {
@@ -791,7 +775,7 @@ export class Renderer {
       ctx.fillRect(x + ax - 2, y - h - 2, 4, 2);
     }
     // Head.
-    ctx.fillStyle = '#0a0b1e';
+    ctx.fillStyle = '#030303';
     ctx.fillRect(x - 1, y - 1, b.w + 2, b.h + 2);
     ctx.fillStyle = body;
     ctx.fillRect(x, y, b.w, b.h);
@@ -803,10 +787,10 @@ export class Renderer {
     // Screen with static and eyes.
     const sxp = x + 5;
     const syp = y + 8;
-    ctx.fillStyle = '#05060f';
+    ctx.fillStyle = '#150607';
     ctx.fillRect(sxp, syp, b.w - 10, b.h - 14);
     const seed = Math.floor(now * 24);
-    ctx.fillStyle = '#7dff5c';
+    ctx.fillStyle = '#A5A29E';
     for (let k = 0; k < 14; k++) {
       const n = (seed * 31 + k * 97) % 997;
       ctx.globalAlpha = 0.25;
@@ -814,7 +798,7 @@ export class Renderer {
     }
     ctx.globalAlpha = 1;
     const dazed = b.state === 'dazed';
-    const eye = dazed ? '#ffe066' : b.charge > 0.5 ? '#ff3355' : '#7dff5c';
+    const eye = dazed ? '#EEB9B9' : b.charge > 0.5 ? '#E30016' : '#D3B9B7';
     ctx.fillStyle = eye;
     if (dazed) {
       // Spiral eyes.
@@ -833,31 +817,31 @@ export class Renderer {
     const coreX = x + b.w / 2 - 5;
     if (dazed) {
       const pulse = 0.6 + 0.4 * Math.sin(now * 14);
-      ctx.fillStyle = '#ff3bd4';
+      ctx.fillStyle = '#E96B74';
       ctx.fillRect(coreX, y - 3, 10, 5);
-      ctx.fillStyle = '#ffd6f6';
+      ctx.fillStyle = '#FFFFFF';
       ctx.fillRect(coreX + 3, y - 2, 4, 2);
-      g.fillStyle = '#ff3bd4';
+      g.fillStyle = '#E96B74';
       g.globalAlpha = pulse;
       g.fillRect(coreX - 6, y - 10, 22, 14);
       g.globalAlpha = 1;
       // A bouncing arrow saying "here".
       const bob = Math.round(Math.sin(now * 8) * 2);
-      ctx.fillStyle = '#ffe066';
+      ctx.fillStyle = '#EEB9B9';
       ctx.fillRect(coreX + 4, y - 18 + bob, 2, 5);
       ctx.fillRect(coreX + 2, y - 14 + bob, 6, 1);
       ctx.fillRect(coreX + 3, y - 13 + bob, 4, 1);
     } else {
-      ctx.fillStyle = '#6b5a7a';
+      ctx.fillStyle = '#6E6C6A';
       ctx.fillRect(coreX - 1, y - 2, 12, 3);
     }
     // Volley charge.
     if (b.state === 'volley' || b.state === 'summon' || b.state === 'rain') {
       const r = 2 + b.charge * 6;
-      g.fillStyle = b.state === 'summon' ? '#c85cff' : '#7dff5c';
+      g.fillStyle = b.state === 'summon' ? '#AB0B1A' : '#E30016';
       g.fillRect(Math.round(b.cx - r), Math.round(y + b.h - r), Math.round(r * 2), Math.round(r * 2));
     }
-    g.fillStyle = flash ? '#ffffff' : '#c85cff';
+    g.fillStyle = flash ? '#FFFFFF' : '#AB0B1A';
     g.globalAlpha = 0.5;
     g.fillRect(x - 2, y - 2, b.w + 4, b.h + 4);
     g.globalAlpha = 1;
@@ -914,7 +898,7 @@ export class Renderer {
     const vx = Math.round(p.cx + p.face * 2);
     const vy = Math.round(p.y - 0);
     g.fillStyle = COLORS.hero;
-    g.globalAlpha = 0.65;
+    g.globalAlpha = 0.3;
     g.fillRect(vx - 4, vy - 1, 8, 4);
     g.globalAlpha = 1;
     if (p.overdrive > 0) {
@@ -950,56 +934,56 @@ export class Renderer {
     const ctx = this.ctx;
     const g = this.g;
     for (const l of world.lasers) {
-      ctx.fillStyle = '#3a3044';
+      ctx.fillStyle = '#2D0A0D';
       ctx.fillRect(l.x - 5, l.y - 10, 10, 8);
-      ctx.fillStyle = '#ff3355';
+      ctx.fillStyle = '#E30016';
       ctx.fillRect(l.x - 2, l.y - 3, 4, 2);
       const stage = l.stage;
       const len = l.y2 - l.y;
       if (stage === 'warn') {
         if (Math.floor(now * 24) % 2 === 0) {
-          ctx.fillStyle = '#ff3355';
+          ctx.fillStyle = '#E30016';
           ctx.globalAlpha = 0.5;
           ctx.fillRect(l.x, l.y, 1, len);
           ctx.globalAlpha = 1;
         }
-        g.fillStyle = '#ff3355';
+        g.fillStyle = '#E30016';
         g.globalAlpha = 0.5;
         g.fillRect(l.x - 3, l.y - 4, 6, 6);
         g.globalAlpha = 1;
       } else if (stage === 'on') {
-        ctx.fillStyle = '#ff3355';
+        ctx.fillStyle = '#E30016';
         ctx.fillRect(l.x - 2, l.y, 4, len);
-        ctx.fillStyle = '#ffd0d8';
+        ctx.fillStyle = '#EEB9B9';
         ctx.fillRect(l.x - 1 + (Math.floor(now * 30) % 2), l.y, 1, len);
-        g.fillStyle = '#ff3355';
+        g.fillStyle = '#E30016';
         g.fillRect(l.x - 4, l.y, 8, len);
       }
     }
     for (const s of world.sweeps) {
       const x = Math.round(s.x);
-      ctx.fillStyle = '#3a3044';
+      ctx.fillStyle = '#2D0A0D';
       ctx.fillRect(x - 6, s.y - 9, 12, 7);
-      ctx.fillStyle = '#7dff5c';
+      ctx.fillStyle = '#E30016';
       ctx.fillRect(x - 6, s.y - 9, 12, 1);
-      ctx.fillStyle = '#c8ff3d';
+      ctx.fillStyle = '#E30016';
       ctx.fillRect(x - 1, s.y, 2, s.len);
-      ctx.fillStyle = '#f3ffe0';
+      ctx.fillStyle = '#EEB9B9';
       ctx.fillRect(x, s.y, 1, s.len);
-      g.fillStyle = '#7dff5c';
+      g.fillStyle = '#E30016';
       g.fillRect(x - 3, s.y, 6, s.len);
     }
     for (const r of world.rotors) {
-      ctx.fillStyle = '#3a3044';
+      ctx.fillStyle = '#2D0A0D';
       ctx.fillRect(r.cx - 3, r.cy - 3, 6, 6);
       ctx.fillStyle = th.accent;
       ctx.fillRect(r.cx - 1, r.cy - 1, 2, 2);
       r.orbs((x, y) => {
-        ctx.fillStyle = '#ff6a2b';
+        ctx.fillStyle = '#E30016';
         ctx.fillRect(Math.round(x) - 4, Math.round(y) - 4, 8, 8);
-        ctx.fillStyle = '#ffe066';
+        ctx.fillStyle = '#EEB9B9';
         ctx.fillRect(Math.round(x) - 2, Math.round(y) - 2, 4, 4);
-        g.fillStyle = '#ff6a2b';
+        g.fillStyle = '#E30016';
         g.fillRect(Math.round(x) - 6, Math.round(y) - 6, 12, 12);
       });
     }
@@ -1012,20 +996,20 @@ export class Renderer {
       if (!q.active) continue;
       const x = Math.round(q.x);
       const y = Math.round(q.y);
-      const col = q.kind === 'bolt' ? '#ffb347' : '#7dff5c';
+      const col = q.kind === 'bolt' ? '#E30016' : '#E30016';
       ctx.fillStyle = col;
       if (q.kind === 'wave') {
         ctx.fillRect(x, y + 4, q.w, 6);
-        ctx.fillStyle = '#f3ffe0';
+        ctx.fillStyle = '#EEB9B9';
         ctx.fillRect(x + 2, y + 2, q.w - 4, 2);
         ctx.fillRect(x + 4, y, q.w - 8, 2);
       } else if (q.kind === 'rain') {
         ctx.fillRect(x + 1, y, 3, q.h);
-        ctx.fillStyle = '#f3ffe0';
+        ctx.fillStyle = '#EEB9B9';
         ctx.fillRect(x + 2, y + q.h - 4, 1, 4);
       } else {
         ctx.fillRect(x, y, q.w, q.h);
-        ctx.fillStyle = '#fff3c4';
+        ctx.fillStyle = '#FFFFFF';
         ctx.fillRect(x + 2, y + 2, 2, 2);
       }
       g.fillStyle = col;
@@ -1080,13 +1064,13 @@ export class Renderer {
     for (const t of world.fx.texts) {
       const w = textWidth(t.text);
       ctx.globalAlpha = Math.min(1, t.life * 2);
-      drawText(ctx, t.text, Math.round(t.x - w / 2) + 1, Math.round(t.y) + 1, '#0a0b1e');
+      drawText(ctx, t.text, Math.round(t.x - w / 2) + 1, Math.round(t.y) + 1, '#150607');
       drawText(ctx, t.text, Math.round(t.x - w / 2), Math.round(t.y), t.color);
     }
     ctx.globalAlpha = 1;
   }
 
-  /** Drifting energy motes in front of everything, very faint. */
+  /** Drifting desert dust in front of everything, very faint. */
   private drawMotes(th: Theme, cx: number, cy: number, now: number): void {
     const g = this.g;
     const t = this.reducedMotion ? 0 : now;
@@ -1096,7 +1080,7 @@ export class Renderer {
       const x = ((((m.x - cx * (0.6 + m.s * 0.5) + Math.sin(t * 0.5 + m.y) * 10) % W) + W) % W) - 20;
       const y = ((((m.y - cy * 0.5 - t * (4 + m.s * 8)) % H) + H) % H) - 20;
       g.fillStyle = th.window[m.c];
-      g.globalAlpha = 0.35 + m.s * 0.4;
+      g.globalAlpha = 0.12 + m.s * 0.2;
       g.fillRect(Math.round(x), Math.round(y), 2, 2);
     }
     g.globalAlpha = 1;

@@ -1,3 +1,7 @@
+import '@fontsource/rye/latin-400.css';
+import '@fontsource/zilla-slab/latin-700.css';
+import '@fontsource/public-sans/latin-400.css';
+import '@fontsource/public-sans/latin-600.css';
 import './styles.css';
 import { Game } from './game/Game';
 
@@ -14,9 +18,9 @@ async function boot(): Promise<void> {
     fail('Canvas 2D is unavailable. Try a recent Chrome, Edge, Firefox or Safari.');
     return;
   }
-  // The HUD and menus use the pixel face; wait briefly so the title doesn't reflow.
+  // The title uses Rye and the HUD Zilla Slab; wait briefly so the title doesn't reflow.
   try {
-    await Promise.race([document.fonts.load('16px "Press Start 2P"'), new Promise((r) => setTimeout(r, 1500))]);
+    await Promise.race([Promise.all([document.fonts.load('16px Rye'), document.fonts.load('700 16px "Zilla Slab"')]), new Promise((r) => setTimeout(r, 1500))]);
   } catch {
     /* fall back to system faces */
   }

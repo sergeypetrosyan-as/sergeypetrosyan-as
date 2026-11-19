@@ -38,7 +38,7 @@ const ShockShader = {
       // refract inward on the leading edge, outward behind it
       vec2 uv = vUv - dir * band * uStrength * sign(x + 0.3);
       vec4 c = texture2D(tDiffuse, uv);
-      c.rgb += c.rgb * band * uStrength * 14.0 + vec3(1.0, 0.45, 0.75) * band * uStrength * 1.6;
+      c.rgb += c.rgb * band * uStrength * 14.0 + vec3(1.0, 0.55, 0.5) * band * uStrength * 1.6;
       gl_FragColor = c;
     }`,
 };

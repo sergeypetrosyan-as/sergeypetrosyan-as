@@ -98,7 +98,7 @@ export class Ui {
       b.type = 'button';
       b.className = 'lvl';
       b.disabled = locked;
-      const gems = [0, 1, 2].map((k) => `<span class="${rec.shards & (1 << k) ? 'on' : ''}">◆</span>`).join('') + `<span class="tok ${rec.token ? 'on' : ''}">●</span>`;
+      const gems = [0, 1, 2].map((k) => `<span class="${rec.shards & (1 << k) ? 'on' : ''}">★</span>`).join('') + `<span class="tok ${rec.token ? 'on' : ''}">●</span>`;
       b.innerHTML = `<span class="id">${def.id}</span><span class="nm">${locked ? 'Locked' : def.name}</span>
         <span class="meta"><span class="gems" aria-label="Shards and token">${gems}</span><span>${rec.bestTime ? fmtTime(rec.bestTime) : locked ? '' : 'Not cleared'}</span><span class="rk">${rec.rank ?? ''}</span></span>`;
       b.addEventListener('click', () => pick(i));

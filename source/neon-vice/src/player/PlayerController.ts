@@ -36,13 +36,13 @@ export class PlayerController {
 
   constructor() {
     this.character = new Humanoid({
-      skin: 0xc68e6a,
-      jacket: 0x0f5c6e,
-      shirt: 0xeeeef6,
-      pants: 0x2a2a38,
-      shoes: 0xf2f2f2,
-      hair: 0x1a1210,
-      neon: 0xff2fd2,
+      skin: 0xc49796,
+      jacket: 0xf1ede7,
+      shirt: 0xd3b9b7,
+      pants: 0x2d0a0d,
+      shoes: 0x480e13,
+      hair: 0x150607,
+      neon: 0xf1ede7,
       bulk: 1,
       height: 1,
       visor: false,

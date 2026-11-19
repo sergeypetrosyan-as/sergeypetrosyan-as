@@ -1,8 +1,10 @@
-import '@fontsource/barlow-condensed/latin-600-italic.css';
-import '@fontsource/barlow-condensed/latin-700-italic.css';
-import '@fontsource/barlow/latin-400.css';
-import '@fontsource/barlow/latin-500.css';
-import '@fontsource/barlow/latin-600.css';
+// 19_mystical-western type: Rye for short titles only, Zilla Slab for labels/HUD/numbers, Public Sans for reading.
+import '@fontsource/rye/latin-400.css';
+import '@fontsource/zilla-slab/latin-500.css';
+import '@fontsource/zilla-slab/latin-600.css';
+import '@fontsource/zilla-slab/latin-700.css';
+import '@fontsource/public-sans/latin-400.css';
+import '@fontsource/public-sans/latin-600.css';
 import './styles.css';
 import { Game } from './game/Game';
 
@@ -57,4 +59,12 @@ function boot(): void {
   if (import.meta.env.DEV) (window as unknown as { __overdrive: unknown }).__overdrive = game;
 }
 
-boot();
+/** Signboards and banners are painted into canvases once, so wait (briefly) for their faces. */
+function whenFonts(): Promise<unknown> {
+  const f = document.fonts;
+  if (!f?.load) return Promise.resolve();
+  const want = Promise.all(['400 40px "Rye"', '600 40px "Zilla Slab"', '700 40px "Zilla Slab"'].map((d) => f.load(d).catch(() => [])));
+  return Promise.race([want, new Promise((r) => setTimeout(r, 1500))]);
+}
+
+whenFonts().then(boot, boot);

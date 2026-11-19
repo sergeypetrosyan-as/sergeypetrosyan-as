@@ -4,7 +4,7 @@ import type { Level } from '../core/types.ts';
 
 export const PLAN_DEFS = `<svg id="plan-defs" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
 <pattern id="poche-hatch" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-<rect width="3" height="3" fill="#23272c"/><line x1="0" y1="0" x2="0" y2="3" stroke="#5d646b" stroke-width="0.9"/></pattern>
+<rect width="3" height="3" fill="#24080B"/><line x1="0" y1="0" x2="0" y2="3" stroke="#422a2c" stroke-width="0.9"/></pattern>
 </defs></svg>`;
 
 const C = 6; // svg units per cell
@@ -48,7 +48,7 @@ export function planSvg(level: Level, locked: boolean): string {
     for (let y = 0; y < r.h; y++)
       for (let x = 0; x < r.w; x++) if (r.solid[x + r.w * (y + r.h * z)]) solid += `M${ox + x * C} ${y * C}h${C}v${C}h-${C}z`;
     body += `<path d="${solid}" fill="url(#poche-hatch)"/>`;
-    body += `<rect x="${ox}" y="0" width="${r.w * C}" height="${r.h * C}" fill="none" stroke="#23272c" stroke-width="0.8" ${locked ? 'stroke-dasharray="2 2"' : ''}/>`;
+    body += `<rect x="${ox}" y="0" width="${r.w * C}" height="${r.h * C}" fill="none" stroke="#24080B" stroke-width="0.8" ${locked ? 'stroke-dasharray="2 2"' : ''}/>`;
     if (!locked) {
       for (const o of level.objs) {
         if (o.room !== ri || o.z !== z) continue;
@@ -56,29 +56,29 @@ export function planSvg(level: Level, locked: boolean): string {
         const cy = o.y * C + C / 2;
         switch (o.kind) {
           case 'crystal':
-            body += `<path d="M${cx} ${cy - 2.4}l2 2.4l-2 2.4l-2-2.4z" fill="#c39645"/>`;
+            body += `<path d="M${cx} ${cy - 2.4}l2 2.4l-2 2.4l-2-2.4z" fill="#E96B74" stroke="#AB0B1A" stroke-width="0.4"/>`;
             break;
           case 'exit':
-            body += `<circle cx="${cx}" cy="${cy}" r="2.4" fill="none" stroke="#8a6a2c" stroke-width="0.8"/><circle cx="${cx}" cy="${cy}" r="1.2" fill="none" stroke="#8a6a2c" stroke-width="0.6"/>`;
+            body += `<circle cx="${cx}" cy="${cy}" r="2.4" fill="none" stroke="#AB0B1A" stroke-width="0.8"/><circle cx="${cx}" cy="${cy}" r="1.2" fill="none" stroke="#AB0B1A" stroke-width="0.6"/>`;
             break;
           case 'portal':
-            if (!o.secret) body += `<circle cx="${cx}" cy="${cy}" r="2.2" fill="none" stroke="#6a5bd6" stroke-width="0.9"/>`;
+            if (!o.secret) body += `<circle cx="${cx}" cy="${cy}" r="2.2" fill="none" stroke="#AF7D7E" stroke-width="0.9"/>`;
             break;
           case 'door':
-            body += `<rect x="${cx - 3}" y="${cy - 1}" width="6" height="2" fill="#23272c"/>`;
+            body += `<rect x="${cx - 3}" y="${cy - 1}" width="6" height="2" fill="#24080B"/>`;
             break;
           case 'lever':
-            body += `<path d="M${cx - 1.8} ${cy + 1.8}L${cx + 1.8} ${cy - 1.8}" stroke="#23272c" stroke-width="0.9"/>`;
+            body += `<path d="M${cx - 1.8} ${cy + 1.8}L${cx + 1.8} ${cy - 1.8}" stroke="#24080B" stroke-width="0.9"/>`;
             break;
           case 'switch':
           case 'plate':
-            body += `<rect x="${cx - 1.6}" y="${cy - 1.6}" width="3.2" height="3.2" fill="none" stroke="#23272c" stroke-width="0.7"/>`;
+            body += `<rect x="${cx - 1.6}" y="${cy - 1.6}" width="3.2" height="3.2" fill="none" stroke="#24080B" stroke-width="0.7"/>`;
             break;
           default:
             break;
         }
       }
-      if (ri === level.start.room) body += `<circle cx="${ox + level.start.x * C + C / 2}" cy="${level.start.y * C + C / 2}" r="1.5" fill="#23272c"/>`;
+      if (ri === level.start.room) body += `<circle cx="${ox + level.start.x * C + C / 2}" cy="${level.start.y * C + C / 2}" r="1.5" fill="#24080B"/>`;
     }
     ox += r.w * C + C;
     H = Math.max(H, r.h * C);

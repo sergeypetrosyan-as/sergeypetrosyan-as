@@ -200,6 +200,7 @@ export class UI {
     const el = this.showScreen(
       `<div class="sheet title-sheet">
         <h1 class="wordmark">Paradox Room</h1>
+        <div class="moonrule" aria-hidden="true"><svg viewBox="0 0 120 14"><use href="#moonrow"/></svg></div>
         <p class="tagline">The floor is a matter of opinion.</p>
         <p class="premise">Ilse Varga drew a house she could never finish measuring. Every room agrees with you, then turns a quarter and disagrees. Carry the lantern, fold the rooms, and let a wall become the floor you need.</p>
         <div class="title-actions">
@@ -500,7 +501,7 @@ export class UI {
          <li><b>You cannot step onto nothing.</b> A lit square marks every step that works. A pale cross marks a way that is closed.</li>
          <li><b>A fold turns the room a quarter-turn.</b> A wall becomes the floor. If nothing is under you afterwards, you fall along the new down until you land.</li>
          <li><b>No floor at all? The fold is refused.</b> Nothing is lost.</li>
-         <li><b>Axioms</b> (amber crystals) open the gate. <b>Levers</b> fold a room for you. <b>Switches</b> toggle doors; <b>plates</b> stay pressed.</li>
+         <li><b>Axioms</b> (rose crystals) open the gate. <b>Levers</b> fold a room for you. <b>Switches</b> toggle doors; <b>plates</b> stay pressed.</li>
          <li><b>Portals</b> (shimmering rings with a letter) join two rooms. Each room remembers how it was turned when you left.</li>
          <li><b>Stuck?</b> Undo with <kbd>Z</kbd>, restart with <kbd>R</kbd>, or ask Ilse for a hint with <kbd>H</kbd>.</li>
        </ol>
@@ -512,7 +513,8 @@ export class UI {
 
   showComplete(level: Level, turns: number, par: number, folds: number, hints: number, hasNext: boolean, newBest: boolean): void {
     const el = this.openModal(
-      `<h2>${esc(sentence(level.name))} is solved</h2>
+      `<h2 class="headline">${esc(sentence(level.name))} is solved</h2>
+       <div class="moonrule" aria-hidden="true"><svg viewBox="0 0 120 14"><use href="#moonrow"/></svg></div>
        <p class="sub">The gate opens, and so does the next room.${newBest ? ' That is your best count for this room.' : ''}</p>
        <table class="titleblock sum"><tbody>
          <tr><th scope="row">Sheet</th><td>${esc(level.id)}</td><th scope="row">Turns</th><td>${turns}</td></tr>

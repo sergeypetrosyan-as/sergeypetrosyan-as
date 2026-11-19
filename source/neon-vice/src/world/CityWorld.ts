@@ -7,6 +7,8 @@ import { Environment } from './Environment';
  * Owns the static city: geometry, collision, lights and ambient animation
  * (sign flicker, beacon blinks, floating motes). Built once; never rebuilt.
  */
+const REDUCED_MOTION = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 export class CityWorld {
   readonly collision = new CollisionWorld();
   readonly environment: Environment;
@@ -64,14 +66,14 @@ export class CityWorld {
           gl_Position = projectionMatrix * mv;
           gl_PointSize = (2.0 + aSeed * 3.0) * (60.0 / -mv.z);
           vA = (0.35 + 0.65 * sin(uTime * 2.0 + aSeed * 50.0) * 0.5 + 0.5) * smoothstep(90.0, 10.0, -mv.z);
-          vC = aSeed < 0.5 ? vec3(1.0, 0.3, 0.85) : vec3(0.3, 0.9, 1.0);
+          vC = aSeed < 0.5 ? vec3(0.65, 0.49, 0.47) : vec3(0.88, 0.85, 0.8); // drifting dust: tan + bone
         }`,
       fragmentShader: /* glsl */ `
         varying float vA;
         varying vec3 vC;
         void main() {
           float d = length(gl_PointCoord - 0.5);
-          gl_FragColor = vec4(vC * 1.6, smoothstep(0.5, 0.0, d) * vA * 0.7);
+          gl_FragColor = vec4(vC * 0.8, smoothstep(0.5, 0.0, d) * vA * 0.28);
         }`,
     });
     const pts = new THREE.Points(geo, mat);
@@ -88,7 +90,8 @@ export class CityWorld {
     (this.motes.material as THREE.ShaderMaterial).uniforms.uTime.value = time;
     for (const sign of this.layout.signs) {
       let k = 1;
-      switch (sign.mode) {
+      // Decorative sign animation stops under prefers-reduced-motion.
+      switch (REDUCED_MOTION ? 'steady' : sign.mode) {
         case 'flicker': {
           // Mostly on, with occasional stutter bursts.
           const burst = Math.sin(time * 0.7 + sign.seed) > 0.93;
@@ -107,7 +110,7 @@ export class CityWorld {
       sign.material.color.copy(sign.base).multiplyScalar(k);
     }
     const blink = Math.sin(time * 3) > 0.6 ? 3 : 0.3;
-    for (const b of this.layout.blinkers) b.color.setRGB(blink, blink * 0.06, blink * 0.12);
+    for (const b of this.layout.blinkers) b.color.setRGB(blink * 0.7, 0, blink * 0.016); // ember beacon
     for (let i = 0; i < this.lights.length; i++) {
       this.lights[i].intensity = this.layout.lightSpots[i].intensity * (0.9 + 0.1 * Math.sin(time * 1.7 + i * 2.1));
     }

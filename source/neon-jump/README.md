@@ -4,7 +4,7 @@
 
 **Play:** https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-jump/
 
-![NEON JUMP gameplay](../../assets/neon-jump-preview.gif)
+<img src="../../assets/cards/neon-jump.gif" alt="NEON JUMP: CYBERWORLD tarot card, 0 The Fool: Vee hops from an adobe ledge up to a stamped star" width="240" />
 
 *Real gameplay, captured from the game's own renderer: Rooftop Run (prize blocks, the high rails and the first shard), then the Static Sovereign slamming, getting dazed and taking a stomp on its core.*
 

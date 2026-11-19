@@ -117,7 +117,7 @@ export const WEAPONS: Record<WeaponId, WeaponDef> = {
     heatPerShot: 0, coolRate: 0, overheatLock: 0, charge: 0,
     splashRadius: 2.4, splashDamage: 9, gravity: 0, lifetime: 1.7, spread: 0.006, pierce: 0, knockback: 0.6, jolt: 0,
     turretSpeed: 2.2, pitchMin: -0.16, pitchMax: 0.36, recoil: 0.28, barrelLength: 2.6,
-    projectile: 'plasma', color: 0x38e8ff, unlockLevel: 1, cost: 0, preferredRange: 30,
+    projectile: 'plasma', color: 0xf3f0eb, unlockLevel: 1, cost: 0, preferredRange: 30,
   },
   rail: {
     id: 'rail', name: 'RAIL DRIVER', role: 'SNIPER',
@@ -126,7 +126,7 @@ export const WEAPONS: Record<WeaponId, WeaponDef> = {
     heatPerShot: 0, coolRate: 0, overheatLock: 0, charge: 0.38,
     splashRadius: 0, splashDamage: 0, gravity: 0, lifetime: 0.5, spread: 0, pierce: 0.5, knockback: 3.2, jolt: 0,
     turretSpeed: 1.55, pitchMin: -0.14, pitchMax: 0.32, recoil: 0.6, barrelLength: 3.4,
-    projectile: 'rail', color: 0xb8f4ff, unlockLevel: 4, cost: 1500, preferredRange: 48,
+    projectile: 'rail', color: 0xfcfbf9, unlockLevel: 4, cost: 1500, preferredRange: 48,
   },
   volt: {
     id: 'volt', name: 'VOLT EMITTER', role: 'BRAWLER',
@@ -135,7 +135,7 @@ export const WEAPONS: Record<WeaponId, WeaponDef> = {
     heatPerShot: 0.045, coolRate: 0.42, overheatLock: 1.8, charge: 0,
     splashRadius: 0, splashDamage: 0, gravity: 0, lifetime: 0.42, spread: 0.028, pierce: 0, knockback: 0, jolt: 0.6,
     turretSpeed: 2.9, pitchMin: -0.2, pitchMax: 0.38, recoil: 0.05, barrelLength: 2.1,
-    projectile: 'volt', color: 0x7f9dff, unlockLevel: 2, cost: 800, preferredRange: 17,
+    projectile: 'volt', color: 0xe3d4d0, unlockLevel: 2, cost: 800, preferredRange: 17,
   },
   nova: {
     id: 'nova', name: 'NOVA ROCKETS', role: 'ARTILLERY',
@@ -144,7 +144,7 @@ export const WEAPONS: Record<WeaponId, WeaponDef> = {
     heatPerShot: 0, coolRate: 0, overheatLock: 0, charge: 0,
     splashRadius: 6, splashDamage: 24, gravity: 9, lifetime: 3.2, spread: 0.012, pierce: 0, knockback: 7.5, jolt: 0,
     turretSpeed: 1.9, pitchMin: -0.12, pitchMax: 0.5, recoil: 0.32, barrelLength: 1.9,
-    projectile: 'nova', color: 0xff8a3d, unlockLevel: 6, cost: 2200, preferredRange: 30,
+    projectile: 'nova', color: 0xe85763, unlockLevel: 6, cost: 2200, preferredRange: 30,
   },
 };
 
@@ -159,12 +159,15 @@ export interface PaintDef {
 }
 
 export const PAINTS: PaintDef[] = [
-  { id: 'graphite', name: 'GRAPHITE / CYAN', body: 0x2b3240, accent: 0x2ef2ff, metal: 0.65, unlockLevel: 1, cost: 0 },
-  { id: 'arctic', name: 'ARCTIC SHELL', body: 0xc9d4e2, accent: 0x6fd7ff, metal: 0.45, unlockLevel: 1, cost: 250 },
-  { id: 'ultraviolet', name: 'ULTRAVIOLET', body: 0x2c1f4a, accent: 0xa66bff, metal: 0.6, unlockLevel: 2, cost: 400 },
-  { id: 'ember', name: 'EMBER CORE', body: 0x3a1c19, accent: 0xff7a2f, metal: 0.55, unlockLevel: 3, cost: 600 },
-  { id: 'chrome', name: 'CHROME TIDE', body: 0x8b96a8, accent: 0x34ffd2, metal: 0.95, unlockLevel: 5, cost: 900 },
-  { id: 'midnight', name: 'MIDNIGHT GOLD', body: 0x13161f, accent: 0xffc23d, metal: 0.8, unlockLevel: 7, cost: 1400 },
+  // 19_mystical-western paints: every body/accent is a brand value or brand-derived tint.
+  // Ids, count, unlock levels and costs are unchanged (saved loadouts keep working).
+  // Accents stay in the moonlight family so the player never reads as hostile red.
+  { id: 'graphite', name: 'MOONLIGHT', body: 0xd3b9b7, accent: 0xf1ede7, metal: 0.65, unlockLevel: 1, cost: 0 }, // tan / bone: the player reads as moonlight
+  { id: 'arctic', name: 'BONE & SADDLE', body: 0xf1ede7, accent: 0xaf7d7e, metal: 0.45, unlockLevel: 1, cost: 250 }, // bone / saddle
+  { id: 'ultraviolet', name: 'WINE CELLAR', body: 0x72151d, accent: 0xeeb9b9, metal: 0.6, unlockLevel: 2, cost: 400 }, // wine / blush
+  { id: 'ember', name: 'MESA DUSK', body: 0x480e13, accent: 0xd3b9b7, metal: 0.55, unlockLevel: 3, cost: 600 }, // mesa / tan
+  { id: 'chrome', name: 'DUST DEVIL', body: 0xaf7d7e, accent: 0xffffff, metal: 0.95, unlockLevel: 5, cost: 900 }, // saddle / white
+  { id: 'midnight', name: 'CARVED MOON', body: 0x150607, accent: 0xe96b74, metal: 0.8, unlockLevel: 7, cost: 1400 }, // night / rose
 ];
 
 export type UpgradeStat = 'damage' | 'armor' | 'speed' | 'reload';
@@ -232,7 +235,7 @@ export interface ModeDef {
 export const MODES: Record<ModeId, ModeDef> = {
   tdm: {
     id: 'tdm', name: 'TEAM DEATHMATCH', short: 'TDM',
-    blurb: 'Blue versus magenta, four tanks a side. Every destroyed enemy scores for your team.',
+    blurb: 'Riders versus outlaws, four tanks a side. Every destroyed enemy scores for your team.',
     scoreLimits: [15, 25, 40], defaultScore: 25, timeLimits: [300, 480, 600], teams: true,
   },
   ffa: {

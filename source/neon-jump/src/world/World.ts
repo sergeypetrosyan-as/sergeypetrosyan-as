@@ -219,7 +219,7 @@ export class World {
     }
     if (prize === 'volt') {
       this.collectVolt(x + 8, y + 4);
-      this.fx.burst(x + 8, y + 8, 6, '#ffb347', 70, 0.4, 200, true);
+      this.fx.burst(x + 8, y + 8, 6, '#AF7D7E', 70, 0.4, 200, true);
     } else {
       const p = new Pickup(prize, x, y);
       p.emerge = 1;
@@ -247,7 +247,7 @@ export class World {
   crusherSlam(p: Platform): void {
     this.addShake(3);
     this.emit('crusher', p.x);
-    for (let i = 0; i < 8; i++) this.fx.emit(p.x + Math.random() * p.w, p.y + p.h, (Math.random() - 0.5) * 120, -Math.random() * 80, 0.5, '#ffb347', 1, 300);
+    for (let i = 0; i < 8; i++) this.fx.emit(p.x + Math.random() * p.w, p.y + p.h, (Math.random() - 0.5) * 120, -Math.random() * 80, 0.5, '#D3B9B7', 1, 300);
     const pl = this.player;
     // Anyone left inside gets pushed out to the nearer side.
     if (overlap(pl, p)) {
@@ -262,7 +262,7 @@ export class World {
     const y = b.floorY - 10;
     this.fireBolt(b.x - 12, y, -150, 0, 'wave');
     this.fireBolt(b.x + b.w, y, 150, 0, 'wave');
-    this.fx.burst(b.cx, b.floorY, 24, '#7dff5c', 140, 0.7, 260, true);
+    this.fx.burst(b.cx, b.floorY, 24, '#D3B9B7', 140, 0.7, 260, true);
   }
 
   summonDrones(): void {
@@ -272,7 +272,7 @@ export class World {
     for (let i = alive; i < 2; i++) {
       const e = new Enemy('drone', Math.floor(spots[i] / TILE), 7, i * 2);
       this.enemies.push(e);
-      this.fx.burst(e.x + 7, e.y + 5, 14, '#c85cff', 90, 0.5, 0, true);
+      this.fx.burst(e.x + 7, e.y + 5, 14, '#AB0B1A', 90, 0.5, 0, true);
     }
   }
 
@@ -280,15 +280,15 @@ export class World {
     this.volts++;
     this.score += SCORE.volt;
     this.emit('volt');
-    this.fx.burst(x, y, 5, '#ffb347', 60, 0.35, 0, true);
+    this.fx.burst(x, y, 5, '#AF7D7E', 60, 0.35, 0, true);
   }
 
   private defeatEnemy(e: Enemy, stomped: boolean): void {
     e.defeat();
     this.defeated++;
     this.score += SCORE.enemy;
-    this.fx.burst(e.x + e.w / 2, e.y + e.h / 2, 14, e.kind === 'phantom' ? '#c85cff' : e.kind === 'turret' ? '#ffb347' : '#7dff5c', 110, 0.5, 280, true);
-    this.fx.text(e.x + e.w / 2, e.y - 4, `+${SCORE.enemy}`, '#f3f6ff');
+    this.fx.burst(e.x + e.w / 2, e.y + e.h / 2, 14, e.kind === 'phantom' ? '#EEB9B9' : e.kind === 'turret' ? '#A5A29E' : '#E30016', 110, 0.5, 280, true);
+    this.fx.text(e.x + e.w / 2, e.y - 4, `+${SCORE.enemy}`, '#F1EDE7');
     this.emit('stomp', stomped ? 1 : 0);
   }
 
@@ -297,12 +297,12 @@ export class World {
     if (r === 'none') return;
     if (r === 'shield') {
       this.emit('shield-break');
-      this.fx.burst(this.player.cx, this.player.y + 7, 18, '#32f6ff', 120, 0.5, 0, true);
+      this.fx.burst(this.player.cx, this.player.y + 7, 18, '#F1EDE7', 120, 0.5, 0, true);
       this.addShake(2);
     } else if (r === 'hurt') {
       this.emit('hurt');
       this.addShake(3);
-      this.fx.burst(this.player.cx, this.player.y + 7, 10, '#ff3355', 100, 0.4, 200);
+      this.fx.burst(this.player.cx, this.player.y + 7, 10, '#E30016', 100, 0.4, 200);
     } else this.killPlayer();
   }
 
@@ -315,8 +315,8 @@ export class World {
     this.addShake(4);
     const { cx, y } = this.player;
     const yy = Math.min(y + 7, this.camera.y + this.camera.h - 8);
-    this.fx.burst(cx, yy, 30, '#32f6ff', 150, 0.9, 120, true);
-    this.fx.burst(cx, yy, 16, '#ff3bd4', 110, 0.8, 120, true);
+    this.fx.burst(cx, yy, 30, '#F1EDE7', 150, 0.9, 120, true);
+    this.fx.burst(cx, yy, 16, '#E30016', 110, 0.8, 120, true);
     this.emit('die');
   }
 
@@ -326,7 +326,7 @@ export class World {
     this.player.spawn(this.respawnAt.x, this.respawnAt.y);
     this.dying = -1;
     this.camera.snap(this);
-    this.fx.burst(this.player.cx, this.player.y + 7, 20, '#32f6ff', 90, 0.6, 0, true);
+    this.fx.burst(this.player.cx, this.player.y + 7, 20, '#F1EDE7', 90, 0.6, 0, true);
   }
 
   // ------------------------------------------------------------------ update
@@ -413,7 +413,7 @@ export class World {
         p.bounce(PHYS.springV, false, PHYS.springV, true);
         s.squash = 1;
         this.emit('spring');
-        this.fx.burst(s.x + 7, s.y, 8, '#32f6ff', 70, 0.35, 0, true);
+        this.fx.burst(s.x + 7, s.y, 8, '#F1EDE7', 70, 0.35, 0, true);
       }
     }
 
@@ -423,8 +423,8 @@ export class World {
         for (const other of this.checkpoints) if (other.x <= cp.x) other.active = true;
         this.respawnAt = { x: cp.x + (TILE - p.w) / 2, y: cp.y + cp.h - p.h };
         this.emit('checkpoint');
-        this.fx.burst(cp.x + 8, cp.y + 6, 24, '#7dff5c', 110, 0.8, 60, true);
-        this.fx.text(cp.x + 8, cp.y - 6, 'CHECKPOINT', '#7dff5c');
+        this.fx.burst(cp.x + 8, cp.y + 6, 24, '#D3B9B7', 110, 0.8, 60, true);
+        this.fx.text(cp.x + 8, cp.y - 6, 'CHECKPOINT', '#D3B9B7');
       }
     }
 
@@ -449,7 +449,7 @@ export class World {
           this.secrets++;
           this.score += SCORE.secret;
           this.emit('secret');
-          this.fx.text(p.cx, p.y - 8, 'SECRET!', '#7dff5c');
+          this.fx.text(p.cx, p.y - 8, 'SECRET!', '#D3B9B7');
         }
       }
     }
@@ -478,7 +478,7 @@ export class World {
           b.hit();
           p.bounce(380, c.jump, 470);
           this.addShake(4);
-          this.fx.burst(b.cx, b.y + 4, 26, '#ff3bd4', 150, 0.7, 120, true);
+          this.fx.burst(b.cx, b.y + 4, 26, '#E30016', 150, 0.7, 120, true);
           this.emit(b.hp <= 0 ? 'boss-defeat' : 'boss-hit', b.hp);
           if (b.hp <= 0) {
             this.score += 5000;
@@ -497,7 +497,7 @@ export class World {
     this.finishing = 1.9;
     this.player.won = true;
     this.finishedAt = { x, y };
-    for (let i = 0; i < 3; i++) this.fx.burst(x, y, 30, ['#32f6ff', '#ff3bd4', '#ffb347'][i], 160, 1.1, 90, true);
+    for (let i = 0; i < 3; i++) this.fx.burst(x, y, 30, ['#F1EDE7', '#E96B74', '#D3B9B7'][i], 160, 1.1, 90, true);
   }
 
   private updateProjectiles(dt: number): void {
@@ -512,7 +512,7 @@ export class World {
       const blocked = q.kind === 'wave' ? this.solidTile(Math.floor((q.vx > 0 ? q.x + q.w : q.x) / TILE), ty) : this.solidTile(tx, ty);
       if (blocked || q.t > 8 || q.y > this.level.pxH + 20) {
         q.active = false;
-        if (blocked) this.fx.burst(q.x + q.w / 2, q.y + q.h / 2, 5, q.kind === 'bolt' ? '#ffb347' : '#7dff5c', 60, 0.3, 0, true);
+        if (blocked) this.fx.burst(q.x + q.w / 2, q.y + q.h / 2, 5, q.kind === 'bolt' ? '#E96B74' : '#D3B9B7', 60, 0.3, 0, true);
         continue;
       }
       if (!p.dead && !this.finished && overlap(p, q)) {
@@ -552,33 +552,33 @@ export class World {
           this.shards[k.index] = true;
           this.score += SCORE.shard;
           this.emit('shard', k.index);
-          this.fx.burst(k.cx, k.cy, 22, '#ff3bd4', 120, 0.8, 0, true);
-          this.fx.text(k.cx, k.y - 6, `SHARD ${this.shardCount}/3`, '#ff3bd4');
+          this.fx.burst(k.cx, k.cy, 22, '#E96B74', 120, 0.8, 0, true);
+          this.fx.text(k.cx, k.y - 6, `SHARD ${this.shardCount}/3`, '#E96B74');
           break;
         case 'token':
           this.token = true;
           this.score += SCORE.token;
           this.emit('token');
-          this.fx.burst(k.cx, k.cy, 22, '#7dff5c', 120, 0.8, 0, true);
-          this.fx.text(k.cx, k.y - 6, 'ARCADE TOKEN', '#7dff5c');
+          this.fx.burst(k.cx, k.cy, 22, '#D3B9B7', 120, 0.8, 0, true);
+          this.fx.text(k.cx, k.y - 6, 'ARCADE TOKEN', '#D3B9B7');
           break;
         case 'repair':
           if (p.hp < 3) p.hp++;
           else this.score += 200;
           this.emit('repair');
-          this.fx.burst(k.cx, k.cy, 14, '#7dff5c', 90, 0.5, 0, true);
+          this.fx.burst(k.cx, k.cy, 14, '#D3B9B7', 90, 0.5, 0, true);
           break;
         case 'shield':
           p.shield = PHYS.shieldTime;
           this.emit('shield');
-          this.fx.burst(k.cx, k.cy, 18, '#32f6ff', 110, 0.6, 0, true);
-          this.fx.text(k.cx, k.y - 6, 'PULSE SHIELD', '#32f6ff');
+          this.fx.burst(k.cx, k.cy, 18, '#F1EDE7', 110, 0.6, 0, true);
+          this.fx.text(k.cx, k.y - 6, 'PULSE SHIELD', '#F1EDE7');
           break;
         case 'overdrive':
           p.overdrive = PHYS.overdriveTime;
           this.emit('overdrive');
-          this.fx.burst(k.cx, k.cy, 18, '#ffe066', 110, 0.6, 0, true);
-          this.fx.text(k.cx, k.y - 6, 'OVERDRIVE', '#ffe066');
+          this.fx.burst(k.cx, k.cy, 18, '#EEB9B9', 110, 0.6, 0, true);
+          this.fx.text(k.cx, k.y - 6, 'OVERDRIVE', '#EEB9B9');
           break;
       }
     }

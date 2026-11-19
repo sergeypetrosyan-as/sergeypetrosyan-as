@@ -100,7 +100,7 @@ function build(look: Look, u: BakeUniforms, rim: RimUniform | null): Rig {
   chest.scale.set(0.85, 1, 1.3);
   torso.add(chest);
   if (look.band) {
-    const bandMat = patchMaterial(new THREE.MeshStandardMaterial({ color: 0xd4dadc, roughness: 0.35, metalness: 0.1 }), u);
+    const bandMat = patchMaterial(new THREE.MeshStandardMaterial({ color: 0xe30016, emissive: 0x72151d, emissiveIntensity: 0.6, roughness: 0.35, metalness: 0.1 }), u);
     list.push(bandMat);
     const band = box(0.215, 0.035, 0.32, bandMat, list);
     band.position.y = 0.27;
@@ -134,7 +134,7 @@ function build(look: Look, u: BakeUniforms, rim: RimUniform | null): Rig {
     hood.rotation.y = Math.PI;
     hood.castShadow = true;
     head.add(hood);
-    const gm = new THREE.MeshStandardMaterial({ color: 0x0a0d0f, emissive: 0x3fd8e8, emissiveIntensity: 1.6, roughness: 0.2 });
+    const gm = new THREE.MeshStandardMaterial({ color: 0x080404, emissive: 0xf1ede7, emissiveIntensity: 1.4, roughness: 0.2 });
     list.push(gm);
     const gog = box(0.03, 0.028, 0.12, gm, list);
     gog.position.set(0.075, 0.012, 0);
@@ -153,7 +153,7 @@ function build(look: Look, u: BakeUniforms, rim: RimUniform | null): Rig {
     helm.position.y = 0.012;
     helm.castShadow = true;
     head.add(helm);
-    const vm = new THREE.MeshStandardMaterial({ color: 0x111417, roughness: 0.15, metalness: 0.6 });
+    const vm = new THREE.MeshStandardMaterial({ color: 0x0b0405, roughness: 0.15, metalness: 0.6 });
     list.push(vm);
     const visor = box(0.02, 0.03, 0.13, vm, list);
     visor.position.set(0.085, 0.0, 0);
@@ -179,7 +179,7 @@ function build(look: Look, u: BakeUniforms, rim: RimUniform | null): Rig {
   const armL = arm(-1, torso);
   const armR = arm(1, aim);
   if (look.flashlight) {
-    const fm = new THREE.MeshStandardMaterial({ color: 0x1b1e21, roughness: 0.4, metalness: 0.7 });
+    const fm = new THREE.MeshStandardMaterial({ color: 0x100506, roughness: 0.4, metalness: 0.7 });
     list.push(fm);
     const torch = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.03, 0.15, 10), fm);
     list.push(torch.geometry);
@@ -189,7 +189,7 @@ function build(look: Look, u: BakeUniforms, rim: RimUniform | null): Rig {
     torchG.position.set(0, -0.31, 0);
     torchG.add(torch);
     armR.add(torchG);
-    const lm = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xfff2d8, emissiveIntensity: 4, roughness: 0.1 });
+    const lm = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xf3d9cf, emissiveIntensity: 3, roughness: 0.1 });
     list.push(lm);
     lens = new THREE.Mesh(new THREE.CircleGeometry(0.028, 12), lm);
     list.push(lens.geometry);
@@ -201,13 +201,13 @@ function build(look: Look, u: BakeUniforms, rim: RimUniform | null): Rig {
 }
 
 export function buildOperative(u: BakeUniforms, rim: RimUniform): Rig {
-  return build({ suit: '#2b3034', accent: '#1a1d20', skin: '#6b5446', headgear: 'hood', band: false, pack: true, flashlight: false }, u, rim);
+  return build({ suit: '#B9B0A9', accent: '#4A3536', skin: '#D3B9B7', headgear: 'hood', band: false, pack: true, flashlight: false }, u, rim);
 }
 
 export function buildGuard(u: BakeUniforms, variant: number): Rig {
   const looks: Look[] = [
-    { suit: '#2d3a4f', accent: '#171c24', skin: '#8a6a55', headgear: 'cap', band: true, pack: false, flashlight: true },
-    { suit: '#4a4d3e', accent: '#25271f', skin: '#5f4636', headgear: 'helmet', band: true, pack: false, flashlight: true },
+    { suit: '#5A1A20', accent: '#24080B', skin: '#AF7D7E', headgear: 'cap', band: true, pack: false, flashlight: true },
+    { suit: '#4A2224', accent: '#1C0709', skin: '#6E4546', headgear: 'helmet', band: true, pack: false, flashlight: true },
   ];
   return build(looks[variant % looks.length], u, null);
 }

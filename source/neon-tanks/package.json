@@ -12,6 +12,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/public-sans": "5.1.0",
+    "@fontsource/rye": "5.1.0",
+    "@fontsource/zilla-slab": "5.1.0",
     "three": "0.170.0"
   },
   "devDependencies": {

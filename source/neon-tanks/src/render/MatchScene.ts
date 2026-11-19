@@ -17,6 +17,14 @@ export class MatchScene {
   readonly fx: Effects;
   private readonly sun: THREE.DirectionalLight;
   private readonly world: World;
+  /** True when a projectile's owner is hostile to the local player: its fire is drawn in brand red. */
+  private readonly hostile = (owner: number): boolean => {
+    const w = this.world;
+    const t = w.tanks[owner];
+    if (!t) return false;
+    const p = w.player;
+    return p ? t !== p && p.isEnemyOf(t) : t.team === 'magenta';
+  };
 
   constructor(world: World, r: Renderer3D) {
     this.world = world;
@@ -25,9 +33,10 @@ export class MatchScene {
     this.scene.fog = new THREE.FogExp2(a.fog.color, a.fog.density);
     this.scene.background = new THREE.Color(a.sky.bottom);
 
-    const hemi = new THREE.HemisphereLight(0x8fa8ff, 0x1a1030, 1.15);
+    // Moonlit night over the depot: bone key light from the carved moon, ember rim from the far lamps.
+    const hemi = new THREE.HemisphereLight(0xe2d6d2, 0x1a0608, 1.1);
     this.scene.add(hemi);
-    this.sun = new THREE.DirectionalLight(a.id === 'docks' ? 0x9fc4ff : 0xc8a8ff, 1.5);
+    this.sun = new THREE.DirectionalLight(a.id === 'docks' ? 0xf1ede7 : 0xe4d4d1, 1.5);
     this.sun.position.set(-50, 90, -35);
     this.sun.castShadow = q.shadows;
     if (q.shadows) {
@@ -39,7 +48,7 @@ export class MatchScene {
       this.sun.shadow.normalBias = 0.05;
     }
     this.scene.add(this.sun, this.sun.target);
-    const rim = new THREE.DirectionalLight(a.id === 'docks' ? 0xff4fc8 : 0x4fd8ff, 0.55);
+    const rim = new THREE.DirectionalLight(a.id === 'docks' ? 0xab0b1a : 0xd3b9b7, 0.55);
     rim.position.set(60, 30, 50);
     this.scene.add(rim);
 
@@ -72,7 +81,7 @@ export class MatchScene {
       }
       case 'beam':
         this.fx.beam(e.x, e.y, e.z, e.x2, e.y2, e.z2, WEAPON_COLOR.rail, 0.09, 0.45);
-        this.fx.beam(e.x, e.y, e.z, e.x2, e.y2, e.z2, 0x6fdcff, 0.35, 0.3);
+        this.fx.beam(e.x, e.y, e.z, e.x2, e.y2, e.z2, 0xf4f1ec, 0.35, 0.3);
         break;
       case 'impact': {
         const kind = WEAPONS[e.kind as WeaponId].projectile;
@@ -108,14 +117,14 @@ export class MatchScene {
       }
       case 'capture': {
         const cp = w.arena.controlPoint;
-        this.fx.ring(cp.x, cp.y + 0.2, cp.z, e.kind === 'blue' ? PALETTE.blue : PALETTE.magenta, cp.r * 1.4, 0.9);
-        this.fx.flash(cp.x, cp.y + 4, cp.z, e.kind === 'blue' ? PALETTE.blue : PALETTE.magenta, 12, 0.6);
+        this.fx.ring(cp.x, cp.y + 0.2, cp.z, e.kind === 'blue' ? PALETTE.blue : PALETTE.red, cp.r * 1.4, 0.9);
+        this.fx.flash(cp.x, cp.y + 4, cp.z, e.kind === 'blue' ? PALETTE.blue : PALETTE.red, 12, 0.6);
         break;
       }
       case 'ability': {
         const t = w.tanks[e.a];
         if (e.kind === 'dash') this.fx.ring(t.x, t.y + 0.8, t.z, 0xffffff, 4, 0.3, false);
-        if (e.kind === 'aegis') this.fx.flash(t.x, t.y + 1.5, t.z, 0x7fe9ff, 8, 0.3);
+        if (e.kind === 'aegis') this.fx.flash(t.x, t.y + 1.5, t.z, 0xf7f5f1, 8, 0.3);
         break;
       }
       default:
@@ -126,7 +135,7 @@ export class MatchScene {
   update(dt: number, time: number): void {
     timeUniform.value = time;
     for (const v of this.views) v.update(dt, time, this.fx);
-    this.fx.updateProjectiles(this.world.projectiles.items, dt);
+    this.fx.updateProjectiles(this.world.projectiles.items, dt, this.hostile);
     this.fx.update(dt);
     this.arena.update(time, this.world.mode === 'cp' ? this.world.cp : null, this.world.pickups);
   }

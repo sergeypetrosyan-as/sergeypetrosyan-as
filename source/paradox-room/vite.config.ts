@@ -6,5 +6,6 @@ export default defineConfig({
   base: './',
   // Three.js puts the single bundle at ~630 kB (~170 kB gzip); that is expected for the 3D view.
   build: { outDir: '../../games/paradox-room', emptyOutDir: true, target: 'es2020', assetsInlineLimit: 0, chunkSizeWarningLimit: 800 },
-  server: { port: 5232, strictPort: true },
+  // The theme module lives in <repo>/design/19_mystical-western/, so the dev server may read the repo root.
+  server: { port: 5232, strictPort: true, fs: { allow: ['../..'] } },
 });

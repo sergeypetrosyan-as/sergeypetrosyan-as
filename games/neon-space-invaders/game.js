@@ -17,7 +17,14 @@
   const soundToggle = document.getElementById("soundToggle");
   const clearScoresButton = document.getElementById("clearScores");
 
-  const COLORS = { cyan: "#28e8ff", blue: "#3985ff", purple: "#b34dff", pink: "#ff4bd8", green: "#5dffbf", white: "#f1f3ff" };
+  // 19_mystical-western roles: player = bone (moonlight), hostile = brand red, world = wine/umber/mesa.
+  const COLORS = {
+    player: "#F1EDE7", hostile: "#E30016", hostileDeep: "#AB0B1A", hostileLight: "#E96B74",
+    wine: "#72151D", ink: "#030303", night: "#150607", dusk: "#320B0E", mesa: "#480E13",
+    umber: "#2D0A0D", tan: "#D3B9B7", ash: "#A5A29E", blush: "#EEB9B9", quiet: "#4F3132"
+  };
+  const reducedMotion = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : { matches: false };
+  let skyLayer = null, groundLayer = null;
   const STORAGE_KEY = "neonArcadeScoresV1";
   const BEST_KEY = "neonArcadeBestV1";
   const keys = new Set();
@@ -92,6 +99,7 @@
     canvas.height = Math.round(height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     makeStars();
+    buildScenery();
     if (player) player.y = height - 50;
     draw();
   }
@@ -196,12 +204,12 @@
     bullets.push({ x: player.x, y: player.y - 17, vy: -450, r: 2.5 });
     fireCooldown = .22;
     sound(560 + Math.random() * 110, .045, "square", .014);
-    for (let i = 0; i < 3; i++) particles.push({ x: player.x + (Math.random() - .5) * 8, y: player.y - 14, vx: (Math.random() - .5) * 25, vy: -Math.random() * 50, life: .13, maxLife: .13, size: 1.5, color: COLORS.cyan });
+    for (let i = 0; i < 3; i++) particles.push({ x: player.x + (Math.random() - .5) * 8, y: player.y - 14, vx: (Math.random() - .5) * 25, vy: -Math.random() * 50, life: .13, maxLife: .13, size: 1.5, color: COLORS.player });
   }
   function hitPlayer() {
     if (player.invulnerable > 0) return;
     lives--; player.invulnerable = 1.35;
-    addBurst(player.x, player.y, COLORS.cyan, 24, 1.2);
+    addBurst(player.x, player.y, COLORS.player, 24, 1.2);
     sound(110, .25, "sawtooth", .045);
     updateHud();
     if (lives <= 0) finishGame(false);
@@ -209,8 +217,7 @@
 
   function update(dt) {
     for (const star of stars) {
-      star.y += star.speed * dt;
-      star.phase += dt * 2;
+      if (!reducedMotion.matches) { star.y += star.speed * dt; star.phase += dt * 2; }
       if (star.y > height) { star.y = 0; star.x = Math.random() * width; }
     }
     if (!running) {
@@ -264,7 +271,7 @@
           enemy.alive = false; bullet.y = -100;
           const points = (4 - enemy.row) * 10 + wave * 2;
           score += Math.max(10, points);
-          addBurst(enemy.x, enemy.y, enemy.row === 0 ? COLORS.pink : COLORS.purple, 12, .8);
+          addBurst(enemy.x, enemy.y, enemy.row === 0 ? COLORS.hostile : COLORS.hostileDeep, 12, .8);
           sound(220 + enemy.row * 100, .08, "triangle", .02);
           updateHud(); break;
         }
@@ -278,7 +285,7 @@
     enemyBullets = enemyBullets.filter(b => b.y < height + 20);
     if (enemies.every(e => !e.alive)) {
       wave++; score += 100 * wave;
-      addBurst(width / 2, height / 2, COLORS.cyan, 36, 1.6);
+      addBurst(width / 2, height / 2, COLORS.hostileLight, 36, 1.6);
       spawnWave(); updateHud(); sound(780, .2, "triangle", .035);
     }
     updateParticles(dt);
@@ -288,41 +295,136 @@
     particles = particles.filter(p => p.life > 0);
   }
 
+  /* ---- scenery: night sky, carved moon, quiet constellation, low mesa horizon ---- */
+  function seeded(seed) {
+    let a = seed >>> 0;
+    return () => {
+      a = (a + 0x6d2b79f5) >>> 0;
+      let t = a;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function makeLayer() {
+    const c = document.createElement("canvas");
+    c.width = Math.round(width * dpr); c.height = Math.round(height * dpr);
+    const g = c.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { c, g };
+  }
+  function starGlyph(g, x, y, r, color, alpha) {
+    g.globalAlpha = alpha; g.fillStyle = color; g.beginPath();
+    g.moveTo(x, y - r); g.quadraticCurveTo(x, y, x + r, y); g.quadraticCurveTo(x, y, x, y + r);
+    g.quadraticCurveTo(x, y, x - r, y); g.quadraticCurveTo(x, y, x, y - r); g.fill(); g.globalAlpha = 1;
+  }
+  function buildScenery() {
+    const r = seeded(19);
+    // sky gradient + carved crescent moon
+    const sky = makeLayer(), g = sky.g;
+    const grad = g.createLinearGradient(0, 0, 0, height);
+    grad.addColorStop(0, COLORS.ink); grad.addColorStop(.4, COLORS.night); grad.addColorStop(1, COLORS.dusk);
+    g.fillStyle = grad; g.fillRect(0, 0, width, height);
+    // The moon sits in the top-right corner, above where the fleet forms on narrow screens.
+    const narrow = width < 600;
+    const mx = width * (narrow ? .88 : .86), my = narrow ? 26 : Math.min(70, height * .15), mr = narrow ? 14 : Math.max(16, Math.min(28, width * .032));
+    const halo = g.createRadialGradient(mx, my, mr * .8, mx, my, mr * 2.6);
+    halo.addColorStop(0, "rgba(241, 237, 231, .10)"); halo.addColorStop(1, "rgba(241, 237, 231, 0)");
+    g.fillStyle = halo; g.beginPath(); g.arc(mx, my, mr * 2.6, 0, Math.PI * 2); g.fill();
+    g.save(); g.globalAlpha = .5; // the moon stays behind the fleet
+    g.fillStyle = COLORS.tan; g.beginPath(); g.arc(mx, my, mr, 0, Math.PI * 2); g.fill();
+    g.save(); g.beginPath(); g.arc(mx, my, mr, 0, Math.PI * 2); g.clip();
+    g.strokeStyle = COLORS.wine; g.lineWidth = 1; g.globalAlpha = .3;
+    for (let d = -mr * 2; d < mr * 2.5; d += 3.2) { g.beginPath(); g.moveTo(mx - mr * 1.5, my + d); g.lineTo(mx + mr * 1.5, my + d - mr * .8); g.stroke(); }
+    g.globalAlpha = .9; g.fillStyle = COLORS.night; // crescent terminator
+    g.beginPath(); g.arc(mx - mr * .45, my - mr * .1, mr * 1.02, 0, Math.PI * 2); g.fill();
+    g.restore();
+    g.strokeStyle = COLORS.hostileDeep; g.lineWidth = 1.2;
+    g.beginPath(); g.arc(mx, my, mr, 0, Math.PI * 2); g.stroke();
+    g.restore();
+    // a quiet constellation, upper left
+    const pts = [[.07, .2], [.14, .12], [.21, .19], [.28, .14], [.33, .24]].map(([x, y]) => [x * width, y * height]);
+    g.save(); g.strokeStyle = COLORS.quiet; g.lineWidth = 1; g.setLineDash([2, 5]);
+    g.beginPath(); pts.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y))); g.stroke(); g.setLineDash([]);
+    for (const [x, y] of pts) { g.beginPath(); g.arc(x, y, 4.5, 0, Math.PI * 2); g.stroke(); starGlyph(g, x, y, 3, COLORS.ash, .45); }
+    g.restore();
+    // dust grain
+    g.save();
+    for (let i = 0, n = Math.round(width * height / 900); i < n; i++) {
+      g.globalAlpha = .05 + r() * .06; g.fillStyle = r() < .5 ? COLORS.tan : COLORS.hostileDeep;
+      g.fillRect(r() * width, r() * height, 1, 1);
+    }
+    g.restore();
+    skyLayer = sky.c;
+
+    // low mesa horizon + sparse cacti: in front of the drifting stars, behind the ship
+    const ground = makeLayer(), h = ground.g;
+    const baseY = height, mh = Math.min(62, height * .13);
+    const top = [[0, baseY - mh * .35]];
+    const plateaus = 3, step = width / plateaus;
+    for (let i = 0; i < plateaus; i++) {
+      const sx = i * step + step * (.12 + r() * .12), ex = (i + 1) * step - step * (.12 + r() * .12);
+      const t = baseY - mh * (.6 + r() * .4), sh = step * (.05 + r() * .05);
+      top.push([sx, baseY - mh * (.2 + r() * .15)], [sx + sh, t], [ex - sh, t + (r() - .5) * 3], [ex, baseY - mh * (.2 + r() * .15)]);
+    }
+    top.push([width, baseY - mh * .3]);
+    const path = () => { h.beginPath(); h.moveTo(0, baseY + 2); top.forEach(([x, y]) => h.lineTo(x, y)); h.lineTo(width, baseY + 2); h.closePath(); };
+    const mg = h.createLinearGradient(0, baseY - mh, 0, baseY);
+    mg.addColorStop(0, COLORS.mesa); mg.addColorStop(1, COLORS.umber);
+    path(); h.fillStyle = mg; h.fill();
+    h.save(); path(); h.clip(); h.strokeStyle = COLORS.hostileDeep; h.globalAlpha = .3; h.lineWidth = 1;
+    for (let y = baseY - mh; y < baseY; y += Math.max(4, mh / 8)) { h.beginPath(); h.moveTo(0, y); h.lineTo(width, y); h.stroke(); }
+    h.restore();
+    h.strokeStyle = "rgba(211, 185, 183, .2)"; h.lineWidth = 1;
+    h.beginPath(); top.forEach(([x, y], i) => (i ? h.lineTo(x, y) : h.moveTo(x, y))); h.stroke();
+    const cactus = (x, ch) => {
+      const w = Math.max(3, ch * .16), y0 = baseY - 2;
+      h.fillStyle = COLORS.ink;
+      h.beginPath(); h.moveTo(x - w / 2, y0); h.lineTo(x - w / 2, y0 - ch + w / 2); h.arc(x, y0 - ch + w / 2, w / 2, Math.PI, 0); h.lineTo(x + w / 2, y0); h.closePath(); h.fill();
+      h.fillRect(x - w * 1.5, y0 - ch * .55, w * 1.5, w * .7); h.fillRect(x - w * 1.9, y0 - ch * .8, w * .8, ch * .28);
+      h.fillRect(x, y0 - ch * .38, w * 1.4, w * .7); h.fillRect(x + w, y0 - ch * .58, w * .8, ch * .24);
+    };
+    cactus(width * .06, Math.min(40, mh * .8)); cactus(width * .94, Math.min(30, mh * .6));
+    groundLayer = ground.c;
+  }
+
   function drawBackground() {
-    ctx.fillStyle = "#070a1b"; ctx.fillRect(0, 0, width, height);
-    const glow = ctx.createRadialGradient(width * .5, height * .4, 5, width * .5, height * .4, height * .8);
-    glow.addColorStop(0, "rgba(30,48,120,.16)"); glow.addColorStop(1, "rgba(5,7,20,0)");
-    ctx.fillStyle = glow; ctx.fillRect(0, 0, width, height);
-    ctx.strokeStyle = "rgba(67,91,180,.075)"; ctx.lineWidth = 1;
-    const grid = 32;
-    for (let x = 0; x < width; x += grid) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height); ctx.stroke(); }
-    for (let y = 0; y < height; y += grid) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width, y); ctx.stroke(); }
+    if (skyLayer) ctx.drawImage(skyLayer, 0, 0, width, height);
+    else { ctx.fillStyle = COLORS.night; ctx.fillRect(0, 0, width, height); }
+    const still = reducedMotion.matches;
     for (const star of stars) {
-      ctx.globalAlpha = star.a * (.65 + Math.sin(star.phase) * .35);
-      ctx.fillStyle = star.r > 1.1 ? COLORS.cyan : "#b6c5ff";
-      ctx.fillRect(star.x, star.y, star.r, star.r);
+      const a = star.a * .55 * (still ? .8 : .7 + Math.sin(star.phase) * .3);
+      if (star.r > 1.35) starGlyph(ctx, star.x, star.y, star.r * 1.8, COLORS.tan, a);
+      else { ctx.globalAlpha = a; ctx.fillStyle = star.r > 1 ? COLORS.tan : COLORS.ash; ctx.fillRect(star.x, star.y, star.r, star.r); }
     }
     ctx.globalAlpha = 1;
+    if (groundLayer) ctx.drawImage(groundLayer, 0, 0, width, height);
   }
   function drawPlayer() {
     if (!player || (player.invulnerable > 0 && Math.floor(player.invulnerable * 12) % 2 === 0)) return;
     ctx.save(); ctx.translate(player.x, player.y);
-    ctx.shadowBlur = 20; ctx.shadowColor = COLORS.cyan;
-    ctx.fillStyle = COLORS.cyan;
+    // the cannon is moonlight: bone hull, warm halo, wine engraving
+    ctx.shadowBlur = 10; ctx.shadowColor = "rgba(241, 237, 231, .45)";
+    ctx.fillStyle = COLORS.player;
     ctx.beginPath(); ctx.moveTo(0, -17); ctx.lineTo(14, 10); ctx.lineTo(5, 7); ctx.lineTo(0, 11); ctx.lineTo(-5, 7); ctx.lineTo(-14, 10); ctx.closePath(); ctx.fill();
-    ctx.shadowBlur = 0; ctx.fillStyle = "#101a46";
+    ctx.shadowBlur = 0;
+    ctx.strokeStyle = COLORS.wine; ctx.lineWidth = 1; ctx.lineJoin = "round"; ctx.stroke();
+    ctx.fillStyle = COLORS.wine;
     ctx.beginPath(); ctx.moveTo(0, -9); ctx.lineTo(5, 5); ctx.lineTo(-5, 5); ctx.closePath(); ctx.fill();
-    ctx.fillStyle = COLORS.purple; ctx.fillRect(-3, 12, 6, 5);
+    ctx.fillStyle = COLORS.hostileLight; ctx.fillRect(-3, 12, 6, 5);
     ctx.restore();
   }
   function drawEnemy(enemy) {
     if (!enemy.alive) return;
-    const color = enemy.row === 0 ? COLORS.pink : enemy.row === 1 ? COLORS.purple : COLORS.blue;
+    // invaders are brand-red stamped shapes; the middle row is a deeper ember
+    const color = enemy.row === 1 ? COLORS.hostileDeep : COLORS.hostile;
+    const edge = enemy.row === 0 ? COLORS.blush : enemy.row === 1 ? COLORS.hostileLight : COLORS.wine;
     const x = enemy.x, y = enemy.y;
-    ctx.save(); ctx.translate(x, y); ctx.shadowColor = color; ctx.shadowBlur = 13; ctx.fillStyle = color;
+    ctx.save(); ctx.translate(x, y); ctx.shadowColor = "rgba(227, 0, 22, .35)"; ctx.shadowBlur = 6; ctx.fillStyle = color;
     ctx.fillRect(-9, -7, 18, 12); ctx.fillRect(-13, -3, 5, 7); ctx.fillRect(8, -3, 5, 7);
     ctx.fillRect(-7, 6, 4, 4); ctx.fillRect(4, 6, 4, 4);
-    ctx.shadowBlur = 0; ctx.fillStyle = "#080a1d";
+    ctx.shadowBlur = 0;
+    ctx.strokeStyle = edge; ctx.globalAlpha = .75; ctx.lineWidth = 1; ctx.strokeRect(-8.5, -6.5, 17, 11); ctx.globalAlpha = 1;
+    ctx.fillStyle = COLORS.ink;
     ctx.fillRect(-6, -3, 3, 3); ctx.fillRect(4, -3, 3, 3);
     ctx.restore();
   }
@@ -333,15 +435,16 @@
     if (player) drawPlayer();
     ctx.save();
     for (const bullet of bullets) {
-      ctx.shadowColor = COLORS.cyan; ctx.shadowBlur = 12; ctx.fillStyle = COLORS.cyan;
+      ctx.shadowColor = "rgba(241, 237, 231, .5)"; ctx.shadowBlur = 6; ctx.fillStyle = COLORS.player;
       ctx.fillRect(bullet.x - 1.5, bullet.y - 7, 3, 12);
     }
     for (const bullet of enemyBullets) {
-      ctx.shadowColor = COLORS.pink; ctx.shadowBlur = 10; ctx.fillStyle = COLORS.pink;
+      ctx.shadowColor = "rgba(227, 0, 22, .6)"; ctx.shadowBlur = 6; ctx.fillStyle = COLORS.hostile;
       ctx.beginPath(); ctx.moveTo(bullet.x, bullet.y - 5); ctx.lineTo(bullet.x + 3, bullet.y); ctx.lineTo(bullet.x, bullet.y + 5); ctx.lineTo(bullet.x - 3, bullet.y); ctx.closePath(); ctx.fill();
+      ctx.shadowBlur = 0; ctx.strokeStyle = COLORS.blush; ctx.lineWidth = .8; ctx.stroke();
     }
     for (const p of particles) {
-      ctx.globalAlpha = Math.max(0, p.life / p.maxLife); ctx.fillStyle = p.color; ctx.shadowColor = p.color; ctx.shadowBlur = 8;
+      ctx.globalAlpha = Math.max(0, p.life / p.maxLife); ctx.fillStyle = p.color; ctx.shadowColor = p.color; ctx.shadowBlur = 4;
       ctx.fillRect(p.x, p.y, p.size, p.size);
     }
     ctx.restore(); ctx.globalAlpha = 1;

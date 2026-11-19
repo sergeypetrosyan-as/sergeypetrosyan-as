@@ -1,8 +1,10 @@
-import '@fontsource/chakra-petch/latin-600.css';
-import '@fontsource/chakra-petch/latin-700.css';
-import '@fontsource/ibm-plex-sans/latin-400.css';
-import '@fontsource/ibm-plex-sans/latin-600.css';
-import '@fontsource/ibm-plex-mono/latin-500.css';
+import '@fontsource/rye/latin-400.css';
+import '@fontsource/zilla-slab/latin-500.css';
+import '@fontsource/zilla-slab/latin-600.css';
+import '@fontsource/zilla-slab/latin-700.css';
+import '@fontsource/public-sans/latin-400.css';
+import '@fontsource/public-sans/latin-600.css';
+import '../../../design/19_mystical-western/tokens.css';
 import './styles.css';
 import { Sound } from './audio/sound.ts';
 import { buildMeta, buy as buyVault } from './meta/unlocks.ts';

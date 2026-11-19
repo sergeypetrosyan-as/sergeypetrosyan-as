@@ -38,7 +38,7 @@ export function makeBakeUniforms(): BakeUniforms {
     uBakeSize: { value: new THREE.Vector2(1, 1) },
     uBakeGain: { value: 2.2 },
     uAlert: { value: 0 },
-    uAlertCol: { value: new THREE.Color(1, 0.55, 0.15) },
+    uAlertCol: { value: new THREE.Color(0.89, 0, 0.086) },
     uBeacons: { value: Array.from({ length: MAX_BEACONS }, () => new THREE.Vector3(-999, -999, 0)) },
     uSweep: { value: 1 },
     uTime: { value: 0 },
@@ -127,7 +127,7 @@ export function bakeLightField(w: World, res: number): BakeResult {
         if (d > FIX_R) continue;
         if (!clear(w, f.x, f.y, px, py)) continue;
         const fall = Math.pow(h2 / (h2 + d * d), 2.2) * (1 - (d / FIX_R) ** 4) + 0.035 * (1 - d / FIX_R);
-        if (f.warm) { r += fall * 1.0; g += fall * 0.83; b += fall * 0.62; } else { r += fall * 0.86; g += fall * 0.94; b += fall * 1.0; }
+        if (f.warm) { r += fall * 1.0; g += fall * 0.8; b += fall * 0.72; } else { r += fall * 1.0; g += fall * 0.91; b += fall * 0.87; }
       }
       const i = ((ty * res + sy) * TW + tx * res + sx) * 3;
       acc[i] = r * mask; acc[i + 1] = g * mask; acc[i + 2] = b * mask;

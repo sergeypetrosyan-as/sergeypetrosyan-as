@@ -5,6 +5,7 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { disposeTankGeometry } from './TankModel.ts';
 import { disposeTextures } from './textures.ts';
+import { disposeFrontier } from './frontier.ts';
 import { QUALITY, type QualityLevel, type QualityPreset } from './quality.ts';
 
 /**
@@ -41,8 +42,8 @@ export class Renderer3D {
   /** A small neon "room" baked through PMREM: cheap, convincing reflections on metal. */
   private buildEnvironment(): THREE.WebGLRenderTarget {
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x05070d);
-    const room = new THREE.Mesh(new THREE.BoxGeometry(30, 14, 30), new THREE.MeshBasicMaterial({ color: 0x0b0f18, side: THREE.BackSide }));
+    scene.background = new THREE.Color(0x150607);
+    const room = new THREE.Mesh(new THREE.BoxGeometry(30, 14, 30), new THREE.MeshBasicMaterial({ color: 0x090404, side: THREE.BackSide }));
     scene.add(room);
     const panel = (color: number, x: number, y: number, z: number, w: number, h: number, ry: number, k = 3) => {
       const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(color).multiplyScalar(k), side: THREE.DoubleSide }));
@@ -50,11 +51,11 @@ export class Renderer3D {
       m.rotation.y = ry;
       scene.add(m);
     };
-    panel(0x2ef2ff, -14.5, 4, 0, 18, 1.2, Math.PI / 2);
-    panel(0xff2fc8, 14.5, 4, 0, 18, 1.2, -Math.PI / 2);
-    panel(0x6b7cff, 0, 3, -14.5, 12, 0.8, 0);
-    panel(0xffb02e, 0, 2, 14.5, 8, 0.6, Math.PI, 2);
-    const top = new THREE.Mesh(new THREE.PlaneGeometry(20, 6), new THREE.MeshBasicMaterial({ color: new THREE.Color(0x8fb4ff).multiplyScalar(0.45) }));
+    panel(0xf5f2ed, -14.5, 4, 0, 18, 1.2, Math.PI / 2);
+    panel(0xab0b1a, 14.5, 4, 0, 18, 1.2, -Math.PI / 2);
+    panel(0xd5bcba, 0, 3, -14.5, 12, 0.8, 0);
+    panel(0xea787f, 0, 2, 14.5, 8, 0.6, Math.PI, 2);
+    const top = new THREE.Mesh(new THREE.PlaneGeometry(20, 6), new THREE.MeshBasicMaterial({ color: new THREE.Color(0xede6e0).multiplyScalar(0.45) }));
     top.position.y = 6.9;
     top.rotation.x = Math.PI / 2;
     scene.add(top);
@@ -84,7 +85,7 @@ export class Renderer3D {
       this.composer = new EffectComposer(this.renderer);
       this.renderPass = new RenderPass(new THREE.Scene(), new THREE.PerspectiveCamera());
       this.composer.addPass(this.renderPass);
-      this.bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.42, 0.35, 0.9);
+      this.bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.26, 0.4, 0.92);
       this.composer.addPass(this.bloom);
       this.composer.addPass(new OutputPass());
     }
@@ -129,6 +130,7 @@ export class Renderer3D {
     this.envTarget.dispose();
     disposeTankGeometry();
     disposeTextures();
+    disposeFrontier();
     this.renderer.dispose();
   }
 }

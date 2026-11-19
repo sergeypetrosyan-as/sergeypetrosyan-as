@@ -15,20 +15,19 @@ export function platformBadges(game: Game): string {
     .join('')}</span>`;
 }
 
-/** Launcher tile. The whole artwork is a play target; actions stay keyboard reachable. */
+/**
+ * A game as a tarot card: the illustrated card (still; its animated loop plays
+ * on hover or focus) beside the title, description, controls and actions.
+ */
 export function GameCard(game: Game, index: number): string {
   const playable = isPlayable(game);
   const titleId = `game-${game.id}-title`;
-  const art = `
-    <img class="card-poster" src="${esc(game.thumbnail)}" alt="${esc(game.thumbnailAlt)}" width="640" height="360" loading="lazy" decoding="async"${
-      game.previewGif ? ` data-preview="${esc(game.previewGif)}"` : ''
-    } />
-    <span class="card-scan" aria-hidden="true"></span>
-    <span class="card-index" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span>
-    ${playable ? `<span class="card-play-badge" aria-hidden="true">${icon('play', 22)}</span>` : `<span class="card-soon" aria-hidden="true">IN DEVELOPMENT</span>`}`;
+  const art = `<img class="card-art" src="${esc(game.thumbnail)}" alt="${esc(game.thumbnailAlt)}" width="360" height="600" loading="lazy" decoding="async"${
+    game.previewGif ? ` data-preview="${esc(game.previewGif)}"` : ''
+  } />`;
 
   return `
-<article class="game-card accent-${game.accent}${playable ? '' : ' is-soon'}" aria-labelledby="${titleId}" data-reveal style="--i:${index}">
+<article class="game-card${playable ? '' : ' is-soon'}" aria-labelledby="${titleId}" style="--i:${index}">
   ${
     playable
       ? `<a class="card-media" href="${esc(game.playUrl)}"${extLinkAttrs(game.playUrl)} tabindex="-1" aria-hidden="true">${art}</a>`
@@ -36,7 +35,8 @@ export function GameCard(game: Game, index: number): string {
   }
   <div class="card-body">
     <p class="card-genres">${game.genre.map((g) => `<span>${esc(g)}</span>`).join('')}</p>
-    <h3 class="card-title" id="${titleId}">${esc(game.title)} <span class="card-tagline">${esc(game.tagline)}</span></h3>
+    <h3 class="card-title" id="${titleId}">${esc(game.title)}</h3>
+    <p class="card-tagline">${esc(game.tagline)}</p>
     <p class="card-desc">${esc(game.description)}</p>
     ${controlsList(game.controls)}
     <div class="card-footer">
@@ -46,8 +46,8 @@ export function GameCard(game: Game, index: number): string {
           game.sourceUrl &&
             `<a class="btn btn-icon" href="${esc(game.sourceUrl)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(game.title)} source code on GitHub">${icon('code', 18)}</a>`,
           playable
-            ? `<a class="btn btn-primary btn-play" href="${esc(game.playUrl)}"${extLinkAttrs(game.playUrl)} aria-label="Play ${esc(game.title)}">${icon('play', 14)} PLAY</a>`
-            : `<span class="btn btn-disabled" aria-disabled="true">COMING SOON</span>`,
+            ? `<a class="btn btn-primary btn-play" href="${esc(game.playUrl)}"${extLinkAttrs(game.playUrl)} aria-label="Play ${esc(game.title)}">${icon('play', 14)} Play</a>`
+            : `<span class="btn btn-disabled" aria-disabled="true">Coming soon</span>`,
         )}
       </div>
     </div>
@@ -55,14 +55,14 @@ export function GameCard(game: Game, index: number): string {
 </article>`;
 }
 
-/** Decorative slot that shows where the next game will go — not a game. */
+/** The back of an undrawn card: where the next game will go — not a game. */
 export function NextSlotCard(index: number): string {
   return `
-<article class="game-card next-slot" aria-labelledby="next-slot-title" data-reveal style="--i:${index}">
-  <div class="next-slot-inner">
-    <span class="next-slot-coin" aria-hidden="true">${icon('gamepad', 34)}</span>
-    <h3 class="card-title" id="next-slot-title">INSERT COIN</h3>
-    <p class="card-desc">This slot is reserved for the next cartridge. New games join the arcade as soon as they’re playable.</p>
+<article class="game-card next-slot" aria-labelledby="next-slot-title" style="--i:${index}">
+  <div class="card-back" aria-hidden="true"><span></span></div>
+  <div class="card-body">
+    <h3 class="card-title" id="next-slot-title">The next card</h3>
+    <p class="card-desc">This place is kept for the next game. New games join the arcade as soon as they are playable.</p>
   </div>
 </article>`;
 }

@@ -1,0 +1,16 @@
+export type Hex = `#${string}`;
+export declare const BRAND: Readonly<{ red: string; wine: string; bone: string; ink: string; white: string }>;
+export declare const TINT_RECIPES: Readonly<Record<string, [string, string, number]>>;
+export declare const TINTS: Readonly<Record<'night' | 'dusk' | 'mesa' | 'ember' | 'rose' | 'blush' | 'tan' | 'saddle' | 'umber' | 'smoke' | 'ash', string>>;
+export declare const PALETTE: Readonly<typeof BRAND & typeof TINTS>;
+export declare const ROLES: Readonly<Record<'bg' | 'bgDeep' | 'bgHorizon' | 'surface' | 'surfaceRaised' | 'fg' | 'fgStrong' | 'fgSecondary' | 'fgMuted' | 'accent' | 'accentDeep' | 'accentSoft' | 'line' | 'paper' | 'paperShade' | 'paperInk' | 'paperLine' | 'player' | 'hostile' | 'collectible' | 'world' | 'quiet', string>>;
+export declare const RAMPS: Readonly<Record<'neutral' | 'red' | 'moon' | 'star' | 'earth' | 'wine', string[]>>;
+export declare function hexToRgb(hex: string): [number, number, number];
+export declare function rgbToHex(rgb: [number, number, number]): string;
+export declare function mix(a: string, b: string, t: number): string;
+export declare function rgba(hex: string, alpha: number): string;
+export declare function luma(hex: string): number;
+export declare function familyOf(hex: string): keyof typeof RAMPS;
+export declare function toBrand(hex: string): string;
+declare const _default: { BRAND: typeof BRAND; TINTS: typeof TINTS; PALETTE: typeof PALETTE; ROLES: typeof ROLES; RAMPS: typeof RAMPS; mix: typeof mix; rgba: typeof rgba; toBrand: typeof toBrand; familyOf: typeof familyOf; luma: typeof luma };
+export default _default;

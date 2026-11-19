@@ -8,11 +8,13 @@ on:
     branches: [main]
     paths:
       - 'source/neon-tanks/**'
+      - 'design/19_mystical-western/**'
       - 'games/neon-tanks/**'
       - '.github/workflows/neon-tanks-build.yml'
   pull_request:
     paths:
       - 'source/neon-tanks/**'
+      - 'design/19_mystical-western/**'
   workflow_dispatch:
 
 permissions:

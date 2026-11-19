@@ -1,5 +1,6 @@
 // Materials: physically based armour with a per-instance emissive channel, additive decals and a few small shaders.
 import * as THREE from 'three';
+import { C } from '../theme.ts';
 
 /**
  * MeshStandardMaterial that adds a per-instance emissive colour from attribute `aGlow` (vec3, linear HDR).
@@ -38,7 +39,7 @@ export function additive(map: THREE.Texture, opacity = 1): THREE.MeshBasicMateri
 
 /** Normal-blended dark decal (contact shadows). */
 export function shadowDecal(map: THREE.Texture): THREE.MeshBasicMaterial {
-  return new THREE.MeshBasicMaterial({ map, color: 0x000000, transparent: true, opacity: 0.75, depthWrite: false, fog: false, alphaMap: map });
+  return new THREE.MeshBasicMaterial({ map, color: C.ink, transparent: true, opacity: 0.75, depthWrite: false, fog: false, alphaMap: map });
 }
 
 const NOISE = /* glsl */ `
@@ -78,16 +79,16 @@ export function poolMaterial(): THREE.ShaderMaterial {
           float dash = step(0.45, fract(a * 3.8197 + uTime * 0.7));
           float pulse = 0.6 + 0.4 * sin(uTime * 18.0);
           float fill = vP.x * 0.35 * (1.0 - r * 0.6);
-          vec3 col = vec3(0.75, 0.6, 1.0) * (ring * dash * pulse * 1.1) + vec3(0.3, 0.15, 0.8) * fill;
+          vec3 col = vec3(1.0, 0.22, 0.26) * (ring * dash * pulse * 1.1) + vec3(0.42, 0.02, 0.05) * fill;
           float alpha = clamp(ring * dash * pulse + fill, 0.0, 1.0);
           gl_FragColor = vec4(col, alpha);
         } else {
           float sw = vsNoise(vec2(a * 2.5 + uTime * 0.9 + r * 5.0 + vP.z, r * 7.0 - uTime * 1.6));
           float sw2 = vsNoise(vec2(a * 5.0 - uTime * 0.6, r * 12.0 + uTime) + vP.z * 3.0);
-          vec3 deep = vec3(0.015, 0.0, 0.05);
-          vec3 mid = vec3(0.35, 0.12, 0.95);
+          vec3 deep = vec3(0.02, 0.0, 0.004);
+          vec3 mid = vec3(0.55, 0.02, 0.05);
           float rim = smoothstep(0.8, 0.95, r) * (1.0 - smoothstep(0.97, 1.0, r));
-          vec3 col = mix(deep, mid, pow(sw * sw2, 1.2) * r * 1.3) + rim * vec3(0.55, 0.3, 1.1);
+          vec3 col = mix(deep, mid, pow(sw * sw2, 1.2) * r * 1.3) + rim * vec3(1.1, 0.12, 0.16);
           float alpha = (0.82 + 0.18 * sw) * vP.w;
           gl_FragColor = vec4(col, alpha);
         }
@@ -126,13 +127,13 @@ export function laneMaterial(): THREE.ShaderMaterial {
           float stripe = step(0.5, s);
           float pulse = 0.55 + 0.45 * sin(uTime * 20.0);
           float border = smoothstep(0.78, 0.9, across) * (1.0 - smoothstep(0.95, 1.0, across));
-          vec3 col = mix(vec3(1.0, 0.18, 0.53), vec3(1.0, 0.82, 0.29), stripe) * (0.18 + 0.2 * pulse + 0.25 * vL.y) * smoothstep(0.0, 0.2, edge);
-          col += vec3(1.0, 0.82, 0.29) * border * 1.2;
+          vec3 col = mix(vec3(0.9, 0.0, 0.03), vec3(0.22, 0.01, 0.02), stripe) * (0.18 + 0.2 * pulse + 0.25 * vL.y) * smoothstep(0.0, 0.2, edge);
+          col += vec3(0.95, 0.45, 0.45) * border * 0.9;
           gl_FragColor = vec4(col, 1.0);
         } else {
           float flick = 0.75 + 0.25 * vsNoise(vec2(vUv.x * vL.z * 0.05 - uTime * 40.0, uTime * 13.0));
           float core = pow(edge, 3.0);
-          vec3 col = vec3(3.2, 2.9, 2.0) * core * flick + vec3(1.0, 0.7, 0.2) * pow(edge, 0.8) * 0.9;
+          vec3 col = vec3(3.0, 2.3, 2.1) * core * flick + vec3(1.0, 0.04, 0.07) * pow(edge, 0.8) * 0.9;
           gl_FragColor = vec4(col, 1.0);
         }
         #include <tonemapping_fragment>
@@ -141,10 +142,10 @@ export function laneMaterial(): THREE.ShaderMaterial {
   });
 }
 
-/** Bulwark Field dome: fresnel rim and drifting hex cells, additive. */
+/** Bulwark Field dome: a carved ring. Fresnel rim, engraved latitude rings and compass ticks, additive. */
 export function fieldMaterial(): THREE.ShaderMaterial {
   return new THREE.ShaderMaterial({
-    uniforms: { uTime: { value: 0 }, uColor: { value: new THREE.Color(0x35f2ff) }, uPulse: { value: 0 }, uStrength: { value: 1 } },
+    uniforms: { uTime: { value: 0 }, uColor: { value: new THREE.Color(C.tan) }, uPulse: { value: 0 }, uStrength: { value: 0.42 } },
     transparent: true,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
@@ -154,7 +155,9 @@ export function fieldMaterial(): THREE.ShaderMaterial {
       varying vec3 vV;
       varying vec3 vW;
       varying float vH;
+      varying vec2 vL;
       void main() {
+        vL = position.xz;
         vec4 wp = modelMatrix * vec4(position, 1.0);
         vW = wp.xyz;
         vH = position.y;
@@ -172,17 +175,16 @@ export function fieldMaterial(): THREE.ShaderMaterial {
       varying vec3 vV;
       varying vec3 vW;
       varying float vH;
+      varying vec2 vL;
       void main() {
         float fres = pow(1.0 - abs(dot(normalize(vN), normalize(vV))), 2.6);
-        vec2 p = vW.xz / 16.0 + vec2(0.0, uTime * 0.25);
-        vec2 r = vec2(1.0, 1.7320508);
-        vec2 h = r * 0.5;
-        vec2 a = mod(p, r) - h;
-        vec2 b = mod(p - h, r) - h;
-        vec2 gv = dot(a, a) < dot(b, b) ? a : b;
-        float e = 0.5 - max(abs(gv.x), dot(abs(gv), vec2(0.5, 0.8660254)));
-        float hexLine = 1.0 - smoothstep(0.0, 0.05, e);
-        float shimmer = 0.5 + 0.5 * sin(uTime * 2.2 + vW.x * 0.05 + vW.z * 0.04);
+        // engraved latitude rings plus a slowly turning ring of compass ticks
+        float lat = abs(fract(vH * 7.0) - 0.5);
+        float ringLine = 1.0 - smoothstep(0.0, 0.035, lat);
+        float ang = atan(vL.y, vL.x) + uTime * 0.12;
+        float tick = 1.0 - smoothstep(0.0, 0.05, abs(fract(ang * 5.7295780) - 0.5));
+        float hexLine = max(ringLine, tick * (1.0 - smoothstep(0.0, 0.18, vH)));
+        float shimmer = 0.5 + 0.5 * sin(uTime * 1.4 + vW.x * 0.03 + vW.z * 0.025);
         float base = smoothstep(0.0, 0.08, vH) ;
         float k = fres * 1.1 + hexLine * (0.10 + 0.12 * shimmer) + uPulse * (0.25 + fres);
         k *= mix(1.6, 1.0, base);

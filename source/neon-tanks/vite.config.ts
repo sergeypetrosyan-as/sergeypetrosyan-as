@@ -40,5 +40,7 @@ export default defineConfig({
     assetsInlineLimit: 0,
     chunkSizeWarningLimit: 900,
   },
-  server: { port: 5230, strictPort: true },
+  // The renderer imports the shared 19_mystical-western palette/primitives from
+  // <repo>/design/, so the dev server may read that folder too (paths resolve from this root).
+  server: { port: 5230, strictPort: true, fs: { allow: ['.', '../../design/19_mystical-western'] } },
 });
