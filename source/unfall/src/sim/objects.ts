@@ -87,7 +87,7 @@ export class Tile extends Timed {
   }
 }
 
-/** Neon sign: swings for `hold` seconds, then falls into its resting pose. */
+/** Mystical Western sign: swings for `hold` seconds, then falls into its resting pose. */
 export class Sign extends Timed {
   readonly hold: number;
   readonly fallDur = 0.55;

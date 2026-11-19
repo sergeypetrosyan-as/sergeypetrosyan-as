@@ -26,7 +26,7 @@ export const LOCATIONS: Record<string, Location> = {
   lobby: { id: 'lobby', name: 'Halcyon Lobby', floor: 'Ground', blurb: 'Wet marble, a security booth behind glass, and a grid relay panel humming to itself.', unlock: 1 },
   office: { id: 'office', name: 'Roque\'s Office', floor: 'Level 3', blurb: 'A desk older than the building, a memory cradle, a safe that costs more than the desk.', unlock: 1 },
   vault: { id: 'vault', name: 'The Cold Vault', floor: 'Basement B2', blurb: 'Frost on the racks. A burned feed rig. A chalk outline that is not chalk.', unlock: 1 },
-  annex: { id: 'annex', name: 'Archive Annex', floor: 'Level 2', blurb: 'Shelves of backlog and one tall window facing the Undertow Street neon.', unlock: 2 },
+  annex: { id: 'annex', name: 'Archive Annex', floor: 'Level 2', blurb: 'Shelves of backlog and one tall window facing the Undertow Street mystical western.', unlock: 2 },
   dock: { id: 'dock', name: 'Loading Dock', floor: 'Ground, rear', blurb: 'A roll door, a key console, and rain coming in sideways.', unlock: 2 },
   bar: { id: 'bar', name: 'The Sump Lantern', floor: 'Street', blurb: 'A bar built into a drain culvert. Everyone pays in cash and nobody remembers.', unlock: 3 },
 };
@@ -94,8 +94,8 @@ export const SOURCES: Source[] = [
   S({ id: 'ev-ledger', kind: 'document', hard: true, title: 'Sealed ledger, item 2207', subject: 'voss', where: 'Office, wall safe', tags: ['ledger'],
     text: 'The sealed ledger lists every private sale Roque ever made. Item 2207, 14 October: "L. VOSS, M-9114, the last memory of Ilse Voss, deceased. Sold to Corvane Echo Ward for 90,000. Client not informed." Ilse Voss was Linnea\'s mother. The Echo Ward turns a memory into a companion that talks back. Halvard: "He sold a dead woman\'s last afternoon to a company that rents it out. And he never told the daughter."',
     claims: [] }),
-  S({ id: 'ev-annex-sign', kind: 'physical', hard: true, title: 'Neon sign circuit', subject: 'scene', where: 'Annex, window frame',
-    text: 'The tall Annex window faces the UNDERTOW neon sign. The sign runs on a grid-tied circuit with no battery. The relay trace on the panel shows it dark from 23:40 to 23:46. Nothing in this room could have been lit by that sign during the blackout. Halvard: "If you remember neon on these shelves between 23:40 and 23:46, you remember something that did not happen."',
+  S({ id: 'ev-annex-sign', kind: 'physical', hard: true, title: 'Mystical Western sign circuit', subject: 'scene', where: 'Annex, window frame',
+    text: 'The tall Annex window faces the UNDERTOW mystical western sign. The sign runs on a grid-tied circuit with no battery. The relay trace on the panel shows it dark from 23:40 to 23:46. Nothing in this room could have been lit by that sign during the blackout. Halvard: "If you remember mystical western on these shelves between 23:40 and 23:46, you remember something that did not happen."',
     claims: [light('annex', '23:40', '23:46', false)] }),
   S({ id: 'ev-annex-locker', kind: 'physical', hard: true, title: 'Voss\'s tool roll', subject: 'voss', where: 'Annex, tool locker',
     text: 'A signed-out tool roll in Voss\'s name. Every slot is filled but one: the 4 mm fuse-puller. The audit at 22:40 listed it present. It is the right tool for a protector casing. It proves she had access, nothing more. Halvard: "Missing tools prove opportunity. They do not prove an hour."',
@@ -127,7 +127,7 @@ export const SOURCES: Source[] = [
     text: 'Memory feed, Ottoline Pell, 23:30, the B2 corridor. A mop bucket, a flickering strip light. Behind the vault door two voices: "You sold her, Anselm!" and an older, calmer voice: "I sold a file." Pell turns the bucket and wheels away. A slim woman\'s silhouette crosses the frosted glass: a lanyard, a hand-lamp.',
     claims: [at('pell', 'vault', '23:25', '23:31'), at('voss', 'vault', '23:28', '23:31'), { k: 'heard', sound: 'voices', loc: 'vault', at: T('23:29') }, light('vault', '23:30', '23:31', true)] }),
   S({ id: 'f-voss-annex', kind: 'fragment', hard: false, title: 'Voss: the Annex, 23:41', subject: 'voss', where: 'Annex, Voss\'s feed', ts: T('23:41'), authentic: false,
-    text: 'Memory feed, Linnea Voss, 23:41, the Archive Annex. She is shelving backlog under the tall window. Pink-and-blue UNDERTOW neon pours across the spines. She hums. "After the lights surged back I thought the whole building would wake." Smell of dust and paper. The timestamp is crisp. The edges of the frame are perfect.',
+    text: 'Memory feed, Linnea Voss, 23:41, the Archive Annex. She is shelving backlog under the tall window. Pink-and-blue UNDERTOW mystical western pours across the spines. She hums. "After the lights surged back I thought the whole building would wake." Smell of dust and paper. The timestamp is crisp. The edges of the frame are perfect.',
     claims: [at('voss', 'annex', '23:30', '23:55'), light('annex', '23:41', '23:42', true), ref('restore')] }),
   S({ id: 'f-roque-last', kind: 'fragment', hard: false, title: 'Roque\'s last feed', subject: 'roque', where: 'Vault, implant reader', ts: T('23:44'), authentic: true,
     text: 'Memory feed, Dr. Anselm Roque, 23:44, the Cold Vault, in the dark. Only a hand-lamp lights the rig. A woman\'s voice: "Say her name." His: "Linnea, what did you do to the protector?" The beam swings and a lanyard glints. "Say her name, Anselm." The lace records until the power returns, and the recording stops.',
@@ -209,7 +209,7 @@ export const HOTSPOTS: Hotspot[] = [
     examine: 'A faint outline on the frosted floor where Roque lay, with a smear where the jack was pulled. The racks around it are labelled by decade. Someone has stacked their coat on the nearest shelf, then taken it back. Halvard: "A room remembers differently from the people in it."' },
 
   { id: 'npc-voss', loc: 'annex', kind: 'talk', label: 'Linnea Voss', x: 36, y: 62, chapters: [2, 3], talk: 'voss', gate: 'none' },
-  { id: 'hs-annex-sign', loc: 'annex', kind: 'evidence', label: 'Window and neon circuit', x: 72, y: 36, chapters: [2, 3], source: 'ev-annex-sign', gate: 'none' },
+  { id: 'hs-annex-sign', loc: 'annex', kind: 'evidence', label: 'Window and mystical western circuit', x: 72, y: 36, chapters: [2, 3], source: 'ev-annex-sign', gate: 'none' },
   { id: 'hs-locker', loc: 'annex', kind: 'evidence', label: 'Tool locker', x: 14, y: 56, chapters: [2, 3], source: 'ev-annex-locker', gate: 'none' },
 
   { id: 'hs-dock-cam', loc: 'dock', kind: 'evidence', label: 'Dock camera box', x: 70, y: 30, chapters: [2, 3], source: 'ev-dock-cam', gate: 'booth', lockedText: 'The camera box is keyed to the chief\'s credentials. Brisk has not offered them.' },
@@ -328,7 +328,7 @@ export const CHAPTERS: Chapter[] = [
     close: 'The reconstruction is no longer a theory. You know which memory is lying. What you need now is the reason, and a timeline that survives a magistrate.',
     goals: [
       { id: 'g2-box', text: 'Read the rig black box', req: { has: ['ev-rig-blackbox'] } },
-      { id: 'g2-sign', text: 'Check the neon sign circuit in the Annex', req: { has: ['ev-annex-sign'] } },
+      { id: 'g2-sign', text: 'Check the mystical western sign circuit in the Annex', req: { has: ['ev-annex-sign'] } },
       { id: 'g2-voss', text: 'Interview Linnea Voss', req: { has: ['t-voss-1'] } },
       { id: 'g2-feed', text: 'Obtain Voss\'s feed of the Annex', req: { has: ['f-voss-annex'] } },
       { id: 'g2-ghost', text: 'Expose the ghost signal', req: { flags: ['rev-ghost'] } },
@@ -346,7 +346,7 @@ export const CHAPTERS: Chapter[] = [
 export const ENDINGS: Ending[] = [
   { id: 'clean-signal', title: 'CLEAN SIGNAL', canonical: true, summary: 'The timeline holds. The ghost is named. The ledger is lawful.',
     body: [
-      'The Magistrate reads your reconstruction slot by slot. Every fragment holds. The only one that does not, Linnea Voss\'s Annex memory, is shown for what it is: a neon sign that never shone and a power surge remembered before it happened.',
+      'The Magistrate reads your reconstruction slot by slot. Every fragment holds. The only one that does not, Linnea Voss\'s Annex memory, is shown for what it is: a mystical western sign that never shone and a power surge remembered before it happened.',
       'Voss does not argue with the arithmetic. "He sold her last afternoon," she says, "and kept the receipt."',
       'Corvane\'s acquisition stalls under review. Halcyon\'s archive stays where it is. Roque\'s death is entered as homicide by sabotage, and the city files one more case under the quiet law that timestamps outlive the people who edit them.',
       'On the wet steps of the Bureau you check the time, because that is what you do. 06:12. It is only a time. For once, that is enough.',
@@ -360,7 +360,7 @@ export const ENDINGS: Ending[] = [
   { id: 'ghost-remains', title: 'THE GHOST REMAINS', canonical: false, summary: 'You named her; the case could not carry it.',
     body: [
       'You named Linnea Voss, but the Conclusion could not stand: a wrong mechanism, a missing proof, or a timeline that argued with itself. Her counsel calls the forged memory "a tired witness\'s recollection". Charges are dropped by lunch.',
-      'The ghost signal does not go away. It goes quiet and waits in someone else\'s archive, still lit by a neon sign that was dead.',
+      'The ghost signal does not go away. It goes quiet and waits in someone else\'s archive, still lit by a mystical western sign that was dead.',
     ] },
   { id: 'wrong-hand', title: 'WRONG HAND', canonical: false, summary: 'Someone is charged. It is the wrong someone.',
     body: [

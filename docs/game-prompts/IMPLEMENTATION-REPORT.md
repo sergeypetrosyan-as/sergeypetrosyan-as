@@ -1,4 +1,4 @@
-# NEON ARCADE — Implementation Report
+# MYSTICAL WESTERN ARCADE — Implementation Report
 
 Status legend: `COMPLETE` = implemented and verified against its required criteria · `PARTIAL` = implemented but missing required features or verification · `BLOCKED` = cannot proceed.
 
@@ -8,7 +8,7 @@ Nothing in this report is committed or pushed. The games are not live on GitHub 
 
 | # | Game | Status | Prompt | Source | Built output | Playable modes / levels |
 |---|------|--------|--------|--------|--------------|-------------------------|
-| 01 | NEON OVERDRIVE | COMPLETE* | [01-neon-overdrive.md](01-neon-overdrive.md) | `source/neon-overdrive/` | `games/neon-overdrive/` | 3 tracks × 3 difficulties; race vs 3 AI rivals |
+| 01 | MYSTICAL WESTERN OVERDRIVE | COMPLETE* | [01-mystical-western-overdrive.md](01-mystical-western-overdrive.md) | `source/mystical-western-overdrive/` | `games/mystical-western-overdrive/` | 3 tracks × 3 difficulties; race vs 3 AI rivals |
 | 02 | PARADOX ROOM | COMPLETE* | [02-paradox-room.md](02-paradox-room.md) | `source/paradox-room/` | `games/paradox-room/` | 3 chapters × 3 levels (9); 3 hidden shards |
 | 03 | GHOST SIGNAL | COMPLETE* | [03-ghost-signal.md](03-ghost-signal.md) | `source/ghost-signal/` | `games/ghost-signal/` | 3 chapters; 5 endings |
 | 04 | BLACKOUT PROTOCOL | COMPLETE* | [04-blackout-protocol.md](04-blackout-protocol.md) | `source/blackout-protocol/` | `games/blackout-protocol/` | 4 missions (incl. final) |
@@ -22,19 +22,19 @@ After the first build, a second pass redesigned every game toward realistic ligh
 
 | Game | Renderer now | In-world UI concept | Fallback | Quality setting | JS (gzip) |
 |------|--------------|---------------------|----------|-----------------|-----------|
-| NEON OVERDRIVE | Three.js 3D: wet PBR asphalt, instanced lit city, 4 modelled cars, bloom, tunnel and overpasses | Windscreen HUD, race-control menus, classification sheet | Canvas 2D | Auto/Low/Med/High | ~182 KB |
+| MYSTICAL WESTERN OVERDRIVE | Three.js 3D: wet PBR asphalt, instanced lit city, 4 modelled cars, bloom, tunnel and overpasses | Windscreen HUD, race-control menus, classification sheet | Canvas 2D | Auto/Low/Med/High | ~182 KB |
 | PARADOX ROOM | Three.js 3D: merged voxel rooms with baked AO, 600 ms quaternion fold, lantern shadows | Drafting film, brass key rail, chapter plan sheets | Canvas 2D | Auto/Low/Med/High, auto-downshift | ~170 KB |
 | GHOST SIGNAL | Layered Canvas 2D cinematic scenes: light falloff, lit rain, wet reflections, rim light | Graphite forensic workstation: photo evidence, degraded video fragments, typed testimony slips | n/a (2D) | Low/Med/High | ~63 KB |
 | BLACKOUT PROTOCOL | Three.js 3D: tile maps as PBR architecture, guard/camera SpotLights matched to logical cones, alert beacons | Gunmetal wrist kit and paper mission dossier | Canvas 2D | Auto/Low/Med/High | ~184 KB |
 | VOID SURVIVOR | Three.js 3D: ~45 InstancedMesh layers, obsidian floor, pooled lights, shader hazards | Cracked suit visor, salvage-rig upgrade cards, salvage report | Canvas 2D | Auto/Low/Med/High | ~184 KB |
 
-- **New dependencies:** `three@0.170.0` and `@types/three@0.170.0` for four games, the same version NEON VICE uses. Each game also bundles open-licensed `@fontsource/*` fonts, so it stays offline with no CDN.
+- **New dependencies:** `three@0.170.0` and `@types/three@0.170.0` for four games, the same version MYSTICAL WESTERN VICE uses. Each game also bundles open-licensed `@fontsource/*` fonts, so it stays offline with no CDN.
 - **Specs:** sections 12, 13 and 15 of each prompt now hold the design plan and its review. Related sections were updated to match.
 - **Lead re-verification after the pass:** all five `npm run build` (typecheck + Vite) succeeded. All five headless checks passed again: overdrive sim, 9/9 levels solvable, 428 case checks, 82/0 sim, 51 sim. All five new posters were viewed and are real captures, not placeholders.
-- **Measured performance (agent-reported):** VOID SURVIVOR runs at 55–57 fps at Medium with about 400 entities on an Intel iGPU. BLACKOUT PROTOCOL takes about 8 ms per frame at Medium. NEON OVERDRIVE and PARADOX ROOM frame rates were not measured, because the shared browser pane was hidden.
+- **Measured performance (agent-reported):** VOID SURVIVOR runs at 55–57 fps at Medium with about 400 entities on an Intel iGPU. BLACKOUT PROTOCOL takes about 8 ms per frame at Medium. MYSTICAL WESTERN OVERDRIVE and PARADOX ROOM frame rates were not measured, because the shared browser pane was hidden.
 - **Not verified in the pass:** touch on real devices, real context-loss events (simulated ones were tested), Safari/Firefox, High-quality performance, full browser play-throughs of later levels and missions, and the five-ending playthrough in the browser.
 - **Debug hooks for capture and testing** (all are opt-in and do nothing without the flag):
-  - NEON OVERDRIVE: `?demo=1&at=<seconds>`
+  - MYSTICAL WESTERN OVERDRIVE: `?demo=1&at=<seconds>`
   - PARADOX ROOM: `?level=2-1`, `?quality=medium`, `?debug`
   - GHOST SIGNAL: `?scene=<id>`
   - BLACKOUT PROTOCOL: `?debug=1` spawn flag
@@ -42,7 +42,7 @@ After the first build, a second pass redesigned every game toward realistic ligh
 
 ## Per-game detail (first build)
 
-### 01 NEON OVERDRIVE
+### 01 MYSTICAL WESTERN OVERDRIVE
 - **Mechanic:** Overdrive Spine. The inner route is shorter and faster, and its gates are solid unless the boost reserve is above threshold.
 - **Implemented:** vehicle control with drift, boost, wall collisions, checkpoints and laps, 3 AI rivals, difficulty levels, results and personal bests, restart, tutorial, race HUD, procedural audio.
 - **Verification:** `npm run typecheck` passes (re-run by lead). Agent's `npm test` headless sim passes, including a scripted driver finishing 3 laps on all 9 track/difficulty combinations. Browser pass covered tutorial, menu and records screens, countdown, driving, wall hits, checkpoints, a 3-lap finish, Spine gate states, restart, pause, and a 375 px width with no horizontal scroll. Console clean on the built bundle.
@@ -83,16 +83,16 @@ No shared package was created. The repo has no shared UI library, and each game 
 
 ## Files added or modified
 
-- **Added:** `docs/game-prompts/` (README, five prompts, this report); `source/{neon-overdrive,paradox-room,ghost-signal,blackout-protocol,void-survivor}/`; `games/{neon-overdrive,paradox-room,ghost-signal,blackout-protocol,void-survivor}/` (build output); `arcade/media/{slug}-poster.png` × 5.
+- **Added:** `docs/game-prompts/` (README, five prompts, this report); `source/{mystical-western-overdrive,paradox-room,ghost-signal,blackout-protocol,void-survivor}/`; `games/{mystical-western-overdrive,paradox-room,ghost-signal,blackout-protocol,void-survivor}/` (build output); `arcade/media/{slug}-poster.png` × 5.
 - **Modified:** `site/src/data/games.ts` (5 new catalogue entries); hub build output regenerated by `npm run build` in `site/` (`index.html`, `arcade/assets/*`, `sitemap.xml`).
-- **Untouched:** `source/neon-jump/` (untracked, user's own work), `source/unfall/`, `source/neon-vice/`, `games/unfall/`, `games/neon-vice/`, `games/neon-space-invaders/`, `.github/`, profile README.
+- **Untouched:** `source/mystical-western-jump/` (untracked, user's own work), `source/unfall/`, `source/mystical-western-vice/`, `games/unfall/`, `games/mystical-western-vice/`, `games/mystical-western-space-invaders/`, `.github/`, profile README.
 
 ## Verification results
 
 | Check | Result |
 |-------|--------|
 | Hub `npm run build` (typecheck + registry validation + vite build) | Passed (lead) |
-| NEON OVERDRIVE `npm run typecheck` | Passed (lead). `npm test` headless sim passed (agent). |
+| MYSTICAL WESTERN OVERDRIVE `npm run typecheck` | Passed (lead). `npm test` headless sim passed (agent). |
 | PARADOX ROOM `check-levels.ts` | All 9 levels solvable (lead) |
 | GHOST SIGNAL `check-case.ts` | 428 checks passed (lead) |
 | BLACKOUT PROTOCOL `check-sim.ts` | 82 passed, 0 failed (lead) |
@@ -106,11 +106,11 @@ Known build-time warning, pre-existing and unchanged: Vite warns that `outDir` i
 
 - All five games are in `site/src/data/games.ts` with `status: 'playable'`, `playUrl` pointing at `./games/<slug>/`, and thumbnails at `./arcade/media/<slug>-poster.png`.
 - Posters were re-captured after the redesign as real headless-Chrome gameplay frames, and the alt texts were rewritten to match them. The `tech` arrays now list Three.js for the four 3D games.
-- The NEON JUMP session captured preview GIFs into `assets/<slug>-preview.gif` at about 11:50, during the redesign.
-  - **Wired into the hub:** NEON OVERDRIVE, PARADOX ROOM and VOID SURVIVOR. These show the new 3D renderers, but the OVERDRIVE and VOID clips predate the agents' bloom and exposure tuning, so they look brighter than the final builds.
+- The MYSTICAL WESTERN JUMP session captured preview GIFs into `assets/<slug>-preview.gif` at about 11:50, during the redesign.
+  - **Wired into the hub:** MYSTICAL WESTERN OVERDRIVE, PARADOX ROOM and VOID SURVIVOR. These show the new 3D renderers, but the OVERDRIVE and VOID clips predate the agents' bloom and exposure tuning, so they look brighter than the final builds.
   - **Not wired:** GHOST SIGNAL and BLACKOUT PROTOCOL. Their GIFs show the pre-redesign visuals.
   - Re-capturing all five on the final builds is still to do.
-- The NEON JUMP session restored the catalogue after an accidental `git checkout` of `games.ts` and appended its own `neon-jump` entry.
+- The MYSTICAL WESTERN JUMP session restored the catalogue after an accidental `git checkout` of `games.ts` and appended its own `mystical-western-jump` entry.
 - The hub's existing featured spotlight is still UNFALL.
 
 ## Deployment status
@@ -120,8 +120,8 @@ Known build-time warning, pre-existing and unchanged: Vite warns that `outDir` i
 ## Remaining limitations
 
 - **Browser coverage gaps** above, and no audio output or touch input verified for any game.
-- **Balance:** the NEON OVERDRIVE AI is not tuned for a human player; the scripted driver wins every race.
-- **Spec length:** NEON OVERDRIVE's prompt is 259 lines, at the low end of the 250–500 target.
+- **Balance:** the MYSTICAL WESTERN OVERDRIVE AI is not tuned for a human player; the scripted driver wins every race.
+- **Spec length:** MYSTICAL WESTERN OVERDRIVE's prompt is 259 lines, at the low end of the 250–500 target.
 - **Background processes:** two GHOST SIGNAL `vite preview` servers from the first build are still listening on port 5243 (PIDs 5476 and 8496). Their command lines confirm they are GHOST SIGNAL previews, but stopping them was blocked by this session's permission rules. Close them yourself. Ports 5250 and 5251 belong to another session and were left alone.
 - **Bundle growth:** the four 3D games are about 170–184 KB of gzipped JS each, plus bundled fonts, against roughly 22–35 KB before.
 - **Remaining game-specific limitations** are listed in each game's section above.
@@ -129,6 +129,6 @@ Known build-time warning, pre-existing and unchanged: Vite warns that `outDir` i
 ## Manual steps for you
 
 1. Review the changes: `git status` shows the new `source/*`, `games/*`, `docs/game-prompts/`, `arcade/media/*`, and the modified `site/src/data/games.ts`.
-2. Decide whether to keep `source/neon-jump/` (untracked) in this commit. It was not touched.
+2. Decide whether to keep `source/mystical-western-jump/` (untracked) in this commit. It was not touched.
 3. Commit and push to `main` when ready. GitHub Pages then serves the new `games/*` folders and the regenerated hub.
 4. Optionally, after pushing, confirm each game URL loads on `https://sergeypetrosyan-as.github.io/games/<slug>/`.

@@ -4,8 +4,8 @@
 
 | Game | Verb | Space | Palette |
 |---|---|---|---|
-| Neon Space Invaders | Shoot | 2D, fixed screen | magenta / cyan on purple |
-| NEON VICE | Shoot, drive | 3D, third person | magenta / cyan / sunset |
+| Mystical Western Space Invaders | Shoot | 2D, fixed screen | magenta / cyan on purple |
+| MYSTICAL WESTERN VICE | Shoot, drive | 3D, third person | magenta / cyan / sunset |
 
 Both are about **you** acting directly through an avatar, and both are about destroying things. The third game should be about neither.
 
@@ -15,7 +15,7 @@ Scored 1–5 against the brief's criteria: originality of the core verb, immedia
 
 | # | Concept | One-line rule | Orig. | Appeal | Depth | Visual | Browser | Feasible | Replay | GIF | Total |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| 1 | **Lumen Grammar** | Pull glowing letters out of neon signs to respell what the city allows (`NO EXIT` → `EXIT`). | 3 | 4 | 4 | 4 | 5 | 3 | 2 | 3 | 28 |
+| 1 | **Lumen Grammar** | Pull glowing letters out of mysticalWestern signs to respell what the city allows (`NO EXIT` → `EXIT`). | 3 | 4 | 4 | 4 | 5 | 3 | 2 | 3 | 28 |
 | 2 | **Echo Choir** | The world is dark; you see only where your sung notes echo, and chords open doors. | 3 | 3 | 3 | 4 | 4 | 3 | 2 | 2 | 24 |
 | 3 | **Unremember** | Delete memories (objects) to open paths; each deletion is gone from the story too. | 4 | 3 | 3 | 3 | 5 | 4 | 3 | 2 | 27 |
 | 4 | **Phosphor** | You are a spark; your fading trail is the only solid ground there is. | 3 | 4 | 3 | 4 | 5 | 5 | 3 | 4 | 31 |

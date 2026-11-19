@@ -1,0 +1,47 @@
+name: MYSTICAL WESTERN TANKS build check
+
+# Runs the headless arena/bot-match checks, type-checks and builds MYSTICAL WESTERN TANKS. GitHub Pages serves this
+# repository from `main` / root, so this never deploys; it warns if the committed
+# `games/mystical-western-tanks/` bundle is stale.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'source/mystical-western-tanks/**'
+      - 'design/19_mystical-western/**'
+      - 'games/mystical-western-tanks/**'
+      - '.github/workflows/mystical-western-tanks-build.yml'
+  pull_request:
+    paths:
+      - 'source/mystical-western-tanks/**'
+      - 'design/19_mystical-western/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: source/mystical-western-tanks
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22  # check script uses --experimental-strip-types
+          cache: npm
+          cache-dependency-path: source/mystical-western-tanks/package-lock.json
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+      - name: Check committed bundle is up to date
+        working-directory: .
+        run: |
+          if git status --porcelain -- games/mystical-western-tanks | grep -q .; then
+            echo "::warning::The committed games/mystical-western-tanks/ bundle differs from a fresh build. Run 'npm run build' in source/mystical-western-tanks and commit games/mystical-western-tanks/."
+            git status --short -- games/mystical-western-tanks
+          else
+            echo "games/mystical-western-tanks/ matches a fresh build."
+          fi

@@ -9,7 +9,7 @@ import { renderBody, sitemap, structuredData } from './src/render';
 const REPO_ROOT = resolve(__dirname, '..');
 const PUBLIC_DIR = resolve(__dirname, 'public');
 
-/** Resolves a repo-root relative URL (`./games/neon-vice/`) to a file on disk. */
+/** Resolves a repo-root relative URL (`./games/mystical-western-vice/`) to a file on disk. */
 function fileFor(url: string): string {
   const clean = url.replace(/^\.\//, '').split(/[?#]/)[0];
   const path = clean === '' || clean.endsWith('/') ? `${clean}index.html` : clean;
@@ -20,7 +20,7 @@ function fileFor(url: string): string {
 /** Fails the build if any playable game or artwork points at a missing file. */
 function validateRegistry(): Plugin {
   return {
-    name: 'neon-arcade:validate-registry',
+    name: 'mystical-western-arcade:validate-registry',
     apply: 'build',
     buildStart() {
       const problems: string[] = [];
@@ -47,7 +47,7 @@ function validateRegistry(): Plugin {
 /** Injects the pre-rendered page and structured data; emits sitemap.xml. */
 function prerender(): Plugin {
   return {
-    name: 'neon-arcade:prerender',
+    name: 'mystical-western-arcade:prerender',
     transformIndexHtml: {
       order: 'pre',
       handler: (html) => html.replace('<!--app-->', renderBody()).replace('<!--structured-data-->', structuredData()),
@@ -64,7 +64,7 @@ const TYPES: Record<string, string> = { '.html': 'text/html', '.js': 'text/javas
 function serveRepoGames(): Plugin {
   const prefixes = ['/games/', '/assets/'];
   return {
-    name: 'neon-arcade:serve-repo-games',
+    name: 'mystical-western-arcade:serve-repo-games',
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         const url = (req.url ?? '').split('?')[0];

@@ -1,6 +1,6 @@
 # 19_mystical-western
 
-The design system for this profile, its NEON ARCADE hub and every game in it.
+The design system for this profile, its MYSTICAL WESTERN ARCADE hub and every game in it.
 The idea: **a frontier observatory.** You arrive at an engraved desert skyline,
 follow a celestial map through the work, and enter each game through an
 illustrated tarot card.
@@ -55,7 +55,7 @@ Gameplay: **player = bone** (moonlight), **hostile = red**, **collectible = rose
 (a bright stamped star), **world = tan / wine / umber**, **quiet** background
 constellations stay low-contrast and never compete with a collectible.
 
-No violet, no cyan, no neon green. If a legacy colour survives, run it through
+No violet, no cyan, no mystical western green. If a legacy colour survives, run it through
 `toBrand()`.
 
 ## Type

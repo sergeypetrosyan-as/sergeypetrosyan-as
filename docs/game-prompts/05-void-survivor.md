@@ -1,13 +1,13 @@
 # VOID SURVIVOR — implementation prompt
 
-You are building **VOID SURVIVOR**, a browser roguelite survival-action game, as a self-contained module of the NEON ARCADE repository. This document is the full specification. Do not invent a different game; every number below is normative unless you document a justified deviation in the final report.
+You are building **VOID SURVIVOR**, a browser roguelite survival-action game, as a self-contained module of the MYSTICAL WESTERN ARCADE repository. This document is the full specification. Do not invent a different game; every number below is normative unless you document a justified deviation in the final report.
 
 ---
 
 ## 1. Game identity and creative vision
 
 - **Title:** VOID SURVIVOR. **Tagline:** "Feed the void. Break the swarm."
-- **Pitch:** a pilot of a tiny salvage drone is dropped into a collapsing neon arena and must survive up to 20 minutes against escalating waves while assembling a build out of interacting upgrades. The headline idea is a three-part **Essence economy** (Siphon → Reserve → Bulwark Field → Detonation) that turns your kills into a shield and then into an explosion.
+- **Pitch:** a pilot of a tiny salvage drone is dropped into a collapsing mystical western arena and must survive up to 20 minutes against escalating waves while assembling a build out of interacting upgrades. The headline idea is a three-part **Essence economy** (Siphon → Reserve → Bulwark Field → Detonation) that turns your kills into a shield and then into an explosion.
 - **Feel:** chaotic but readable. Dozens of enemies, a screen full of colour, but the player is always the brightest white-cyan object, enemy projectiles are always hot magenta/amber with a bright core, and every dangerous thing telegraphs before it hurts.
 - **Accent colour for the hub:** `pink`.
 - Everything is original: code, art (procedural canvas vector shapes), audio (Web Audio synthesis), text. No external assets, no network.
@@ -303,7 +303,7 @@ Upgrade rig (desktop; stacks to one column under 720 px):
 ```
 
 **Design review (pass b) and revisions made before coding.**
-1. *First draft:* neon glow borders on every panel. *Generic*; neon belongs to the world. *Revised:* panels are dark glass with a 1 px phosphor hairline and machined 2 px corners; glow appears only in 3D.
+1. *First draft:* mystical western glow borders on every panel. *Generic*; mystical western belongs to the world. *Revised:* panels are dark glass with a 1 px phosphor hairline and machined 2 px corners; glow appears only in 3D.
 2. *First draft:* a cracked-glass texture over the whole HUD. *Hurts readability in heavy combat. Revised:* one crack confined to the top-right corner at low opacity plus a soft rim vignette.
 3. *First draft:* all labels in stencil capitals with letter-spacing. *An eyebrow-label tell. Revised:* sentence case everywhere; stencil style is kept only for the rig slot numerals, where it means "press this key".
 4. *First draft:* three identical rounded cards with soft shadows and a tag line "weapon · homing". *Revised:* casings differ by kind (brass core, gunmetal, steel, taped scrap), level ticks replace "Lv 2 → 3", and the tag line becomes one casing label.

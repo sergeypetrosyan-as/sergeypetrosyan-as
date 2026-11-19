@@ -71,7 +71,7 @@ function figure(g, x, y, s, { fill = P.bone, hat = true, lantern = false, coat =
 
 const scenes = {
   // XVII The Star — a red stamped formation sways above a bone cannon.
-  'neon-space-invaders'(g, w, h, t) {
+  'mystical-western-space-invaders'(g, w, h, t) {
     backdrop(g, w, h, { moon: null, seed: 3, horizon: 0.84, mesaH: 34, stars: 70 });
     ground(g, w, h, h * 0.86);
     const sway = Math.sin(TAU * t) * 22;
@@ -116,7 +116,7 @@ const scenes = {
   },
 
   // XVI The Tower — a frontier town at night; one car drives through.
-  'neon-vice'(g, w, h, t) {
+  'mystical-western-vice'(g, w, h, t) {
     backdrop(g, w, h, { moon: [0.24, 0.17, 26], seed: 7, horizon: 0.6, mesaH: 40 });
     // false-front buildings
     const r = rng(17);
@@ -253,7 +253,7 @@ const scenes = {
   },
 
   // VII The Chariot — a tank on the ledge sweeps its turret across the depot.
-  'neon-tanks'(g, w, h, t) {
+  'mystical-western-tanks'(g, w, h, t) {
     backdrop(g, w, h, { moon: [0.78, 0.14, 22], seed: 21, horizon: 0.55, mesaH: 50 });
     ground(g, w, h, h * 0.62, { fill: P.mesa });
     // crates
@@ -308,7 +308,7 @@ const scenes = {
   },
 
   // 0 The Fool — Vee hops beneath a stamped star.
-  'neon-jump'(g, w, h, t) {
+  'mystical-western-jump'(g, w, h, t) {
     backdrop(g, w, h, { moon: [0.2, 0.16, 22], seed: 30, horizon: 0.68, mesaH: 40 });
     cactus(g, w * 0.88, h * 0.7, 40, { fill: P.ink });
     // adobe platforms
@@ -346,7 +346,7 @@ const scenes = {
   },
 
   // X Wheel of Fortune — the highway runs to the horizon; the Spine gate waits.
-  'neon-overdrive'(g, w, h, t) {
+  'mystical-western-overdrive'(g, w, h, t) {
     const hz = h * 0.5;
     backdrop(g, w, h, { moon: [0.5, 0.3, 30], seed: 41, horizon: 0.5, mesaH: 38, stars: 60 });
     ground(g, w, h, hz, { fill: P.umber });
@@ -647,15 +647,15 @@ const scenes = {
 /** Same order as the hub catalogue (site/src/data/games.ts). */
 export const CARDS = [
   { id: 'unfall', title: 'UNFALL', n: 12, arcana: 'The Hanged Man' },
-  { id: 'neon-tanks', title: 'NEON TANKS: OVERDRIVE', n: 7, arcana: 'The Chariot' },
-  { id: 'neon-vice', title: 'NEON VICE', n: 16, arcana: 'The Tower' },
-  { id: 'neon-space-invaders', title: 'NEON SPACE INVADERS', n: 17, arcana: 'The Star' },
-  { id: 'neon-overdrive', title: 'NEON OVERDRIVE', n: 10, arcana: 'Wheel of Fortune' },
+  { id: 'mystical-western-tanks', title: 'MYSTICAL WESTERN TANKS: OVERDRIVE', n: 7, arcana: 'The Chariot' },
+  { id: 'mystical-western-vice', title: 'MYSTICAL WESTERN VICE', n: 16, arcana: 'The Tower' },
+  { id: 'mystical-western-space-invaders', title: 'MYSTICAL WESTERN SPACE INVADERS', n: 17, arcana: 'The Star' },
+  { id: 'mystical-western-overdrive', title: 'MYSTICAL WESTERN OVERDRIVE', n: 10, arcana: 'Wheel of Fortune' },
   { id: 'paradox-room', title: 'PARADOX ROOM', n: 21, arcana: 'The World' },
   { id: 'ghost-signal', title: 'GHOST SIGNAL', n: 18, arcana: 'The Moon' },
   { id: 'blackout-protocol', title: 'BLACKOUT PROTOCOL', n: 9, arcana: 'The Hermit' },
   { id: 'void-survivor', title: 'VOID SURVIVOR', n: 19, arcana: 'The Sun' },
-  { id: 'neon-jump', title: 'NEON JUMP: CYBERWORLD', n: 0, arcana: 'The Fool' },
+  { id: 'mystical-western-jump', title: 'MYSTICAL WESTERN JUMP: CYBERWORLD', n: 0, arcana: 'The Fool' },
 ];
 
 /* ------------------------------------------------------------- card frame */

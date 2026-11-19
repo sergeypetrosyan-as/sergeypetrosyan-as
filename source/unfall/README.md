@@ -50,7 +50,7 @@ District results (seconds borrowed, best per district, best ending) are saved in
 
 - **No physics history for the world.** Every object owns a clock τ, and its pose and solidity are a pure function of τ (`src/sim/objects.ts`). The lens only flips the sign of dτ (1.6× backward), so rewinding is exact and costs nothing. The lens reaches an object at its current position *or* its home position, which is how slabs that fell off-screen can be rebuilt by aiming at the gap.
 - **Ilo is the exception.** She is driven by simple rules (walk; wait at gaps and walls; fall) and records 15 s of her own history, which the lens plays back. That's also how a death is undone (`src/sim/Courier.ts`).
-- **Rendering** is Canvas 2D (`src/render/Renderer.ts`): parallax skylines generated from a seed, neon text baked once per district, the lens as a `difference`-composited disc (a photographic negative of the present), and the Hush as animated static. The ash particles have their own clocks, so they rise inside the lens.
+- **Rendering** is Canvas 2D (`src/render/Renderer.ts`): parallax skylines generated from a seed, mystical western text baked once per district, the lens as a `difference`-composited disc (a photographic negative of the present), and the Hush as animated static. The ash particles have their own clocks, so they rise inside the lens.
 - **Audio** is all Web Audio (`src/audio/Audio.ts`). The score is synthesized once with an `OfflineAudioContext`, and holding the lens switches to a reversed copy at the mirrored position, so the music runs backward from the moment you grab time. There's a tape-rewind noise bed, a Hush hiss that grows as it approaches, and panned SFX. Nothing plays before the first click or key.
 - Fixed 60 Hz simulation steps, render once per frame, and no allocations in the hot loop.
 
@@ -77,7 +77,7 @@ npm run dev        # http://localhost:5220 (dev builds expose window.__unfall fo
 npm run build      # type-check, then write the static game to ../../games/unfall/
 ```
 
-GitHub Pages serves this repository from `main` / root, so the committed `games/unfall/` folder is the deployment, like every game. The game is registered in the NEON ARCADE hub at `site/src/data/games.ts`. Rebuild the hub (`cd site && npm run build`) after changing its card.
+GitHub Pages serves this repository from `main` / root, so the committed `games/unfall/` folder is the deployment, like every game. The game is registered in the MYSTICAL WESTERN ARCADE hub at `site/src/data/games.ts`. Rebuild the hub (`cd site && npm run build`) after changing its card.
 
 ## Known limitations
 

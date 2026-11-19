@@ -1,8 +1,8 @@
 {
-  "name": "neon-arcade-hub",
+  "name": "mystical-western-arcade-hub",
   "private": true,
   "version": "1.0.0",
-  "description": "NEON ARCADE — the neon gaming hub served by GitHub Pages for sergeypetrosyan-as.",
+  "description": "MYSTICAL WESTERN ARCADE — the mystical western gaming hub served by GitHub Pages for sergeypetrosyan-as.",
   "type": "module",
   "scripts": {
     "dev": "vite",

@@ -17,7 +17,7 @@
 ![UI/UX Engineering](https://img.shields.io/badge/UI%2FUX%20Engineering-150607?style=flat-square)
 ![Performance](https://img.shields.io/badge/Performance-150607?style=flat-square)
 
-<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/"><img src="./assets/arcade-button.png" alt="Enter the NEON ARCADE: all ten browser games" width="380" /></a>
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/"><img src="./assets/arcade-button.png" alt="Enter the MYSTICAL WESTERN ARCADE: all ten browser games" width="380" /></a>
 
 [About](#about) · [The Arcade](#the-arcade) · [What I Do](#what-i-do) · [Tech Stack](#tech-stack) · [Principles](#engineering-principles) · [Work](#work)
 
@@ -43,19 +43,19 @@ I treat clarity as a feature: code that reads plainly, boundaries that are obvio
 
 ## The Arcade
 
-Ten browser games, each built from scratch. Pick a card to play — every one runs in the browser, no install. The whole collection lives at **[NEON ARCADE](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/)**.
+Ten browser games, each built from scratch. Pick a card to play — every one runs in the browser, no install. The whole collection lives at **[MYSTICAL WESTERN ARCADE](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/)**.
 
 <p align="center">
 <a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/unfall/"><img src="./assets/cards/unfall.gif" alt="Play UNFALL — card XII, The Hanged Man: a carved lens over a broken bridge lifts the fallen plank back into place while Ilo walks with her lantern" width="168" /></a>
-<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-tanks/"><img src="./assets/cards/neon-tanks.gif" alt="Play NEON TANKS: OVERDRIVE — card VII, The Chariot: a tank on a desert depot sweeps its turret toward a red enemy tank" width="168" /></a>
-<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-vice/"><img src="./assets/cards/neon-vice.gif" alt="Play NEON VICE — card XVI, The Tower: a car with its headlights on drives through a frontier town at night" width="168" /></a>
-<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-space-invaders/"><img src="./assets/cards/neon-space-invaders.gif" alt="Play NEON SPACE INVADERS — card XVII, The Star: a red stamped formation sways above three adobe bunkers and the player's cannon" width="168" /></a>
-<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-overdrive/"><img src="./assets/cards/neon-overdrive.gif" alt="Play NEON OVERDRIVE — card X, Wheel of Fortune: the player's car races down a desert highway toward a red Spine gate under the moon" width="168" /></a>
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/mystical-western-tanks/"><img src="./assets/cards/mystical-western-tanks.gif" alt="Play MYSTICAL WESTERN TANKS: OVERDRIVE — card VII, The Chariot: a tank on a desert depot sweeps its turret toward a red enemy tank" width="168" /></a>
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/mystical-western-vice/"><img src="./assets/cards/mystical-western-vice.gif" alt="Play MYSTICAL WESTERN VICE — card XVI, The Tower: a car with its headlights on drives through a frontier town at night" width="168" /></a>
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/mystical-western-space-invaders/"><img src="./assets/cards/mystical-western-space-invaders.gif" alt="Play MYSTICAL WESTERN SPACE INVADERS — card XVII, The Star: a red stamped formation sways above three adobe bunkers and the player's cannon" width="168" /></a>
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/mystical-western-overdrive/"><img src="./assets/cards/mystical-western-overdrive.gif" alt="Play MYSTICAL WESTERN OVERDRIVE — card X, Wheel of Fortune: the player's car races down a desert highway toward a red Spine gate under the moon" width="168" /></a>
 <a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/paradox-room/"><img src="./assets/cards/paradox-room.gif" alt="Play PARADOX ROOM — card XXI, The World: an open room turns a quarter around the lantern-bearer standing at its centre" width="168" /></a>
 <a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/ghost-signal/"><img src="./assets/cards/ghost-signal.gif" alt="Play GHOST SIGNAL — card XVIII, The Moon: rain falls on a detective under a street lamp beside a wanted notice in Kestrel Bay" width="168" /></a>
 <a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/blackout-protocol/"><img src="./assets/cards/blackout-protocol.gif" alt="Play BLACKOUT PROTOCOL — card IX, The Hermit: a guard's red lantern cone sweeps a floor plan while the operative waits behind a crate" width="168" /></a>
 <a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/void-survivor/"><img src="./assets/cards/void-survivor.gif" alt="Play VOID SURVIVOR — card XIX, The Sun: rings of red swarm marks circle the survivor inside a carved Bulwark Field" width="168" /></a>
-<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-jump/"><img src="./assets/cards/neon-jump.gif" alt="Play NEON JUMP: CYBERWORLD — card 0, The Fool: Vee hops from an adobe ledge up to a stamped star" width="168" /></a>
+<a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/mystical-western-jump/"><img src="./assets/cards/mystical-western-jump.gif" alt="Play MYSTICAL WESTERN JUMP: CYBERWORLD — card 0, The Fool: Vee hops from an adobe ledge up to a stamped star" width="168" /></a>
 </p>
 
 ### UNFALL — a time-lens game
@@ -84,17 +84,17 @@ Ten browser games, each built from scratch. Pick a card to play — every one ru
 
 </details>
 
-### NEON TANKS: OVERDRIVE
+### MYSTICAL WESTERN TANKS: OVERDRIVE
 
 *A true-3D arena tank shooter. Drive one way, aim the turret another, and fight bot tanks across a container port and a research facility.*
 
-**[Play NEON TANKS](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-tanks/)** · [Source code](./source/neon-tanks) · TypeScript · Three.js · Vite · Web Audio
+**[Play MYSTICAL WESTERN TANKS](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/mystical-western-tanks/)** · [Source code](./source/mystical-western-tanks) · TypeScript · Three.js · Vite · Web Audio
 
 <details>
 <summary><b>How it plays · Controls</b></summary>
 <br/>
 
-- Two multi-level arenas, NEON DOCKS and VOID COMPLEX, with ramps, bridges, walkways, cover and see-through energy barriers
+- Two multi-level arenas, MYSTICAL WESTERN DOCKS and VOID COMPLEX, with ramps, bridges, walkways, cover and see-through energy barriers
 - Independent hull and turret, third-person orbit camera, real collisions, slopes and ledges
 - Four weapons that play differently: PLASMA CANNON, RAIL DRIVER, VOLT EMITTER and NOVA ROCKETS
 - Three hulls with their own abilities: phase dash, aegis shield and shockwave
@@ -112,18 +112,18 @@ Ten browser games, each built from scratch. Pick a card to play — every one ru
 
 </details>
 
-### NEON VICE — 3D Nightfall
+### MYSTICAL WESTERN VICE — 3D Nightfall
 
 *A 3D arcade shooter. Explore the city, take control of the streets, and survive the night.*
 
-**[Play NEON VICE](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-vice/)** · [Source code](./source/neon-vice) · TypeScript · Three.js · Vite · Web Audio
+**[Play MYSTICAL WESTERN VICE](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/mystical-western-vice/)** · [Source code](./source/mystical-western-vice) · TypeScript · Three.js · Vite · Web Audio
 
 <details>
 <summary><b>How it plays · Controls</b></summary>
 <br/>
 
-- Third-person shooting with two weapons — Neon Pistol and Pulse Rifle — headshots, reloads and combo multipliers
-- Two enemy archetypes: Street Enforcers rush you, Neon Gunners keep their distance and fire telegraphed bolts
+- Third-person shooting with two weapons — Mystical Western Pistol and Pulse Rifle — headshots, reloads and combo multipliers
+- Two enemy archetypes: Street Enforcers rush you, Mystical Western Gunners keep their distance and fire telegraphed bolts
 - Drivable sports cars with underglow, handbrake drifts and a speedometer
 - A compact city: downtown towers, oceanfront hotels, a parking garage, backstreet alleys and a plaza
 - Six escalating waves, pickups, and a local best-score board
@@ -141,17 +141,17 @@ Ten browser games, each built from scratch. Pick a card to play — every one ru
 
 </details>
 
-### NEON SPACE INVADERS
+### MYSTICAL WESTERN SPACE INVADERS
 
 *A take on the arcade classic. Pilot the interceptor, dodge incoming fire and clear wave after wave before the invaders reach the grid.*
 
-**[Play NEON SPACE INVADERS](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-space-invaders/)** · [Source code](./games/neon-space-invaders) · JavaScript · Canvas 2D
+**[Play MYSTICAL WESTERN SPACE INVADERS](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/mystical-western-space-invaders/)** · [Source code](./games/mystical-western-space-invaders) · JavaScript · Canvas 2D
 
-### NEON OVERDRIVE
+### MYSTICAL WESTERN OVERDRIVE
 
 *Burn the reserve. Cut the Spine. An arcade racer through a megacity at midnight.*
 
-**[Play NEON OVERDRIVE](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-overdrive/)** · [Source code](./source/neon-overdrive) · TypeScript · Three.js · Vite · Web Audio
+**[Play MYSTICAL WESTERN OVERDRIVE](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/mystical-western-overdrive/)** · [Source code](./source/mystical-western-overdrive) · TypeScript · Three.js · Vite · Web Audio
 
 <details>
 <summary><b>How it plays · Controls</b></summary>
@@ -267,20 +267,20 @@ Ten browser games, each built from scratch. Pick a card to play — every one ru
 
 </details>
 
-### NEON JUMP: CYBERWORLD
+### MYSTICAL WESTERN JUMP: CYBERWORLD
 
-*A side-scrolling platformer. Run, jump and stomp across three glitching worlds to rebuild the Neon Core.*
+*A side-scrolling platformer. Run, jump and stomp across three glitching worlds to rebuild the Mystical Western Core.*
 
-**[Play NEON JUMP](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/neon-jump/)** · [Source code](./source/neon-jump) · TypeScript · Canvas 2D · Vite · Web Audio
+**[Play MYSTICAL WESTERN JUMP](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/mystical-western-jump/)** · [Source code](./source/mystical-western-jump) · TypeScript · Canvas 2D · Vite · Web Audio
 
 <details>
 <summary><b>How it plays · Controls</b></summary>
 <br/>
 
-- Six hand-built levels in three worlds: Neon Downtown, Cyber Factory and the Glitch Dimension
+- Six hand-built levels in three worlds: Mystical Western Downtown, Cyber Factory and the Glitch Dimension
 - Responsive jumps with variable height, coyote time and jump buffering
 - Six original enemy types, plus lasers, crushers, rotors, live floors, timed and vanishing blocks
-- Pulse Shield and Overdrive Core power-ups; neon shards, secret rooms and a hidden arcade token in every level
+- Pulse Shield and Overdrive Core power-ups; mystical western shards, secret rooms and a hidden arcade token in every level
 - A three-phase boss, the Static Sovereign, beaten by stomping its core after each slam
 - Original pixel art and a synthesized soundtrack; best times, ranks and progress saved locally
 

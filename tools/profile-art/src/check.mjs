@@ -5,7 +5,7 @@
  *  - first, middle and last frames are dumped to .frames/decoded/ for review
  *  - the loop seam is small: last→first differs no more than an ordinary step
  *  - every image the README references exists
- *  - no README-referenced asset is left over from the former neon theme
+ *  - no README-referenced asset is left over from the former mystical western theme
  * Needs tools/theme dependencies (puppeteer-core) and Chrome/Edge.
  */
 import { readFileSync, readdirSync, mkdirSync, writeFileSync, existsSync } from 'node:fs';

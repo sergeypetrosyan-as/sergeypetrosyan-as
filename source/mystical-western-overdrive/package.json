@@ -1,0 +1,25 @@
+{
+  "name": "mystical-western-overdrive",
+  "private": true,
+  "version": "1.0.0",
+  "description": "MYSTICAL WESTERN OVERDRIVE — futuristic pseudo-3D arcade racing. Burn the reserve. Cut the Spine.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "esbuild src/test/sim.test.ts --bundle --platform=node --format=esm --outfile=.test-out.mjs --log-level=warning && node .test-out.mjs"
+  },
+  "devDependencies": {
+    "@types/three": "0.170.0",
+    "typescript": "5.6.3",
+    "vite": "5.4.11"
+  },
+  "dependencies": {
+    "@fontsource/public-sans": "5.1.0",
+    "@fontsource/rye": "5.1.0",
+    "@fontsource/zilla-slab": "5.1.0",
+    "three": "0.170.0"
+  }
+}

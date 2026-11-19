@@ -1,4 +1,4 @@
-name: Publish NEON ARCADE at the root domain
+name: Publish MYSTICAL WESTERN ARCADE at the root domain
 
 # Serves the hub and every game at https://sergeypetrosyan-as.github.io/ by copying
 # the already-built static site from the public profile repository. No secrets:

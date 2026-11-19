@@ -161,7 +161,7 @@ export function familyOf(hex) {
 export function toBrand(hex) {
   const fam = familyOf(hex);
   const L = luma(hex);
-  // Small lift so saturated mid-lightness neon reads as the ramp's signature tone.
+  // Small lift so saturated mid-lightness mystical western reads as the ramp's signature tone.
   const [, s] = rgbToHsl(hexToRgb(hex));
   const t = fam === 'neutral' ? L : Math.min(1, L * 0.85 + s * 0.18);
   return ramp(RAMPS[fam], t);

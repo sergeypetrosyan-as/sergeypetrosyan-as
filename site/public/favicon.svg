@@ -1,8 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-  <!-- 19_mystical-western: carved crescent + stamped star. Colours: night #150607, umber #2D0A0D, ember #AB0B1A, bone #F1EDE7, red #E30016 -->
-  <defs><mask id="m"><rect width="48" height="48" fill="#fff"/><circle cx="27" cy="21" r="12" fill="#000"/></mask></defs>
+  <!-- MYSTICAL WESTERN: slab-serif "M" brand on a carved ring, star in the notch. Colours: night #150607, umber #2D0A0D, ember #AB0B1A, bone #F1EDE7, red #E30016 -->
   <rect width="48" height="48" rx="11" fill="#150607"/>
   <circle cx="24" cy="24" r="20" fill="#2D0A0D" stroke="#AB0B1A" stroke-width="2"/>
-  <circle cx="21" cy="26" r="12.5" fill="#F1EDE7" mask="url(#m)"/>
-  <path d="M33 10.5l1.7 4.4 4.6.2-3.6 2.9 1.2 4.5-3.9-2.6-3.9 2.6 1.2-4.5-3.6-2.9 4.6-.2z" fill="#E30016"/>
+  <path fill="#F1EDE7" d="M10 13h8.6L24 23.2 29.4 13H38v3h-2v16h2v3h-9v-3h2V22.6L24 34l-7-11.4V32h2v3h-9v-3h2V16h-2z"/>
+  <path fill="#E30016" d="M24 12.2l1.2 2.6 2.8.3-2.1 1.9.6 2.8L24 18.4l-2.5 1.4.6-2.8-2.1-1.9 2.8-.3z"/>
 </svg>

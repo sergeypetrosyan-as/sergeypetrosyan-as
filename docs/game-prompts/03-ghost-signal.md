@@ -1,6 +1,6 @@
 # GHOST SIGNAL — Implementation Prompt
 
-You are building **GHOST SIGNAL**, a cyberpunk detective thriller, as a static browser game for the NEON ARCADE gaming hub. This document is a standalone implementation prompt. Follow it literally. All story data, rules and state live in pure TypeScript modules that run without a DOM, so the deduction logic can be verified by a script.
+You are building **GHOST SIGNAL**, a cyberpunk detective thriller, as a static browser game for the MYSTICAL WESTERN ARCADE gaming hub. This document is a standalone implementation prompt. Follow it literally. All story data, rules and state live in pure TypeScript modules that run without a DOM, so the deduction logic can be verified by a script.
 
 ---
 
@@ -28,7 +28,7 @@ The player investigates one case over three chapters ("nights") by visiting loca
 
 **The incident.** On the night of 3 November, **Dr. Anselm Roque**, 61, co-founder of the **Halcyon Memory Exchange** in the Undertow district, is found dead in the Cold Vault (basement level B2) beside a burned feed rig. The scene reads as self-inflicted: a cascade overload during the district blackout. The exchange's quiet fixers push for a fast ruling because the **Corvane Biotech** acquisition of Halcyon's archive closes at the end of the week.
 
-**What really happened (the full solution is in section 11).** Roque had secretly sold the last recorded memory of apprentice archivist **Linnea Voss's** mother to Corvane's "Echo Ward" companion program. Voss found out, pulled the vault's surge-protector fuse, and waited. The district substation cut power at 23:40. When power returned at 23:46 the restore spike hit the unprotected rig while Roque was jacked in. He died at 23:46, not when the lights went out. Voss exited through the loading dock with a key Brisk left in the dock console, and supplied herself an alibi with a forged feed that "remembers" the neon light of a street sign that was dead at the time and even mentions the spike before it happened.
+**What really happened (the full solution is in section 11).** Roque had secretly sold the last recorded memory of apprentice archivist **Linnea Voss's** mother to Corvane's "Echo Ward" companion program. Voss found out, pulled the vault's surge-protector fuse, and waited. The district substation cut power at 23:40. When power returned at 23:46 the restore spike hit the unprotected rig while Roque was jacked in. He died at 23:46, not when the lights went out. Voss exited through the loading dock with a key Brisk left in the dock console, and supplied herself an alibi with a forged feed that "remembers" the mystical western light of a street sign that was dead at the time and even mentions the spike before it happened.
 
 **Tone of the city.** Rain on every window. Static on every sign. People speak in clipped sentences.
 

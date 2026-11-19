@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!-- MYSTICAL WESTERN: slab-serif "M" brand on a carved ring, star in the notch. Colours: night #150607, umber #2D0A0D, ember #AB0B1A, bone #F1EDE7, red #E30016 -->
+  <rect width="48" height="48" rx="11" fill="#150607"/>
+  <circle cx="24" cy="24" r="20" fill="#2D0A0D" stroke="#AB0B1A" stroke-width="2"/>
+  <path fill="#F1EDE7" d="M10 13h8.6L24 23.2 29.4 13H38v3h-2v16h2v3h-9v-3h2V22.6L24 34l-7-11.4V32h2v3h-9v-3h2V16h-2z"/>
+  <path fill="#E30016" d="M24 12.2l1.2 2.6 2.8.3-2.1 1.9.6 2.8L24 18.4l-2.5 1.4.6-2.8-2.1-1.9 2.8-.3z"/>
+</svg>

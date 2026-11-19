@@ -338,12 +338,12 @@ export function person(c: Ctx, x: number, base: number, o: PersonOpts): void {
   });
 }
 
-// ------------------------------------------------------------------ neon
-/** Neon tube look for an arbitrary path: wide halo, coloured tube, white-hot core. */
-export function neon(c: Ctx, trace: (c: Ctx) => void, rgb: string, width: number, k = 1): void {
+// ------------------------------------------------------------------ mystical western
+/** Mystical Western tube look for an arbitrary path: wide halo, coloured tube, white-hot core. */
+export function mysticalWestern(c: Ctx, trace: (c: Ctx) => void, rgb: string, width: number, k = 1): void {
   c.save();
   c.lineCap = 'round'; c.lineJoin = 'round';
-  c.shadowColor = rgba(rgb, 0.55 * k); c.shadowBlur = width * 5; // warm halo, not neon
+  c.shadowColor = rgba(rgb, 0.55 * k); c.shadowBlur = width * 5; // warm halo, not mystical western
   c.strokeStyle = rgba(rgb, 0.22 * k); c.lineWidth = width * 2.6; trace(c); c.stroke();
   c.shadowBlur = width * 3;
   c.strokeStyle = rgba(rgb, 0.95 * k); c.lineWidth = width; trace(c); c.stroke();
@@ -351,7 +351,7 @@ export function neon(c: Ctx, trace: (c: Ctx) => void, rgb: string, width: number
   c.strokeStyle = rgba('241,237,231', 0.55 * k); c.lineWidth = Math.max(0.5, width * 0.35); trace(c); c.stroke();
   c.restore();
 }
-export function neonText(c: Ctx, text: string, x: number, y: number, size: number, rgb: string, align: CanvasTextAlign = 'center', k = 1, font = 'Zilla Slab'): void {
+export function mysticalWesternText(c: Ctx, text: string, x: number, y: number, size: number, rgb: string, align: CanvasTextAlign = 'center', k = 1, font = 'Zilla Slab'): void {
   c.save();
   c.font = `700 ${size}px "${font}", Bahnschrift, 'Arial Narrow', sans-serif`;
   c.textAlign = align; c.textBaseline = 'middle';

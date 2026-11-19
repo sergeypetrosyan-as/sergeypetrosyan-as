@@ -1,4 +1,4 @@
-name: NEON ARCADE hub build check
+name: MYSTICAL WESTERN ARCADE hub build check
 
 # GitHub Pages serves this repository straight from `main` / root, so this
 # workflow never deploys. It type-checks the hub, validates the game registry

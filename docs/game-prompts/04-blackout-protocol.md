@@ -1,8 +1,8 @@
 # BLACKOUT PROTOCOL — implementation prompt
 
-You are building **BLACKOUT PROTOCOL**, a futuristic top-down stealth and hacking game, as a complete static browser game for the NEON ARCADE repository. This document is standalone: everything needed to build, test, ship and report is below. Follow it literally; where a number is given, use that number.
+You are building **BLACKOUT PROTOCOL**, a futuristic top-down stealth and hacking game, as a complete static browser game for the MYSTICAL WESTERN ARCADE repository. This document is standalone: everything needed to build, test, ship and report is below. Follow it literally; where a number is given, use that number.
 
-Repository facts: the repo root is served by GitHub Pages. Source lives in `source/blackout-protocol/`, the production build is written to `games/blackout-protocol/` (committed by the maintainer, not by you). Allowed dependencies: TypeScript 5.6.3, Vite 5.4.11 and `@types/three` 0.170.0 (devDependencies); `three` 0.170.0 (the 3D renderer, same version as `source/neon-vice`) and the open-licensed (OFL-1.1) `@fontsource` packages `ibm-plex-sans-condensed`, `ibm-plex-mono`, `ibm-plex-serif` and `big-shoulders-stencil-display` 5.3.0, which are bundled into the build so the game stays offline. No UI frameworks, no CDN, no backend, no network at runtime.
+Repository facts: the repo root is served by GitHub Pages. Source lives in `source/blackout-protocol/`, the production build is written to `games/blackout-protocol/` (committed by the maintainer, not by you). Allowed dependencies: TypeScript 5.6.3, Vite 5.4.11 and `@types/three` 0.170.0 (devDependencies); `three` 0.170.0 (the 3D renderer, same version as `source/mystical-western-vice`) and the open-licensed (OFL-1.1) `@fontsource` packages `ibm-plex-sans-condensed`, `ibm-plex-mono`, `ibm-plex-serif` and `big-shoulders-stencil-display` 5.3.0, which are bundled into the build so the game stays offline. No UI frameworks, no CDN, no backend, no network at runtime.
 
 ---
 
@@ -168,7 +168,7 @@ Maps are ASCII tile maps (see 17). Every mission lists `par` seconds and require
 
 ## 12. Art direction and visual identity
 
-**Direction: "night shift in a real building".** The facility is a physical place seen through a tilted tactical camera, not a neon diagram. The interface is two pieces of operator equipment: a **wrist-mounted intrusion kit** (HUD, terminal puzzle, pause) and an **encrypted mission dossier** (briefing, after-action report). Everything else is quiet.
+**Direction: "night shift in a real building".** The facility is a physical place seen through a tilted tactical camera, not a mystical western diagram. The interface is two pieces of operator equipment: a **wrist-mounted intrusion kit** (HUD, terminal puzzle, pause) and an **encrypted mission dossier** (briefing, after-action report). Everything else is quiet.
 
 **Renderer.** Real 3D with Three.js 0.170.0 (WebGL 2). Canvas 2D (the original renderer) remains as the fallback when WebGL is unavailable or the context cannot be restored, with a plain message saying so.
 - Camera: perspective, 38 degree vertical FOV, pitched about 60 degrees down, smooth exponential follow, leading 1.4 tiles toward the operative's heading with a slight extra tilt. Hold `Z` for a tactical zoom-out to plan routes. Walls between camera and operative are cut down to a 0.35-tile stub inside a small window so the operative is never hidden.

@@ -1,0 +1,55 @@
+name: MYSTICAL WESTERN VICE build check
+
+# Type-checks and builds the 3D game. GitHub Pages serves this repository
+# straight from `main`, so this workflow never deploys — it only verifies that
+# the source compiles and that the committed `games/mystical-western-vice/` bundle is current.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'source/mystical-western-vice/**'
+      - 'games/mystical-western-vice/**'
+      - '.github/workflows/mystical-western-vice-build.yml'
+  pull_request:
+    paths:
+      - 'source/mystical-western-vice/**'
+      - 'games/mystical-western-vice/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: source/mystical-western-vice
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: source/mystical-western-vice/package-lock.json
+
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+
+      - name: Check committed bundle is up to date
+        working-directory: .
+        run: |
+          if git status --porcelain -- games/mystical-western-vice | grep -q .; then
+            echo "::warning::The committed games/mystical-western-vice/ bundle differs from a fresh build. Run 'npm run build' in source/mystical-western-vice and commit games/mystical-western-vice/."
+            git status --short -- games/mystical-western-vice
+          else
+            echo "games/mystical-western-vice/ matches a fresh build."
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mystical-western-vice-dist
+          path: games/mystical-western-vice
+          retention-days: 7

@@ -15,7 +15,7 @@ export function Navbar(playHref: string): string {
   <nav class="nav-inner container" aria-label="Primary">
     <a class="brand" href="#home" aria-label="${SITE.name} — home">
       ${Logo()}
-      <span class="brand-word">NEON ARCADE</span>
+      <span class="brand-word">MYSTICAL WESTERN ARCADE</span>
     </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" data-nav-toggle>
       <span class="nav-toggle-open">${icon('menu', 22)}</span>

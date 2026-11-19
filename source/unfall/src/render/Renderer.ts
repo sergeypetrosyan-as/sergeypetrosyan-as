@@ -40,9 +40,9 @@ function canvas(w: number, h: number): [HTMLCanvasElement, CanvasRenderingContex
 
 /**
  * Painted sign lettering baked once: slab capitals with a short warm halo (no
- * neon bloom). `plate` draws a weathered board with a restrained leather-stamp border.
+ * mystical western bloom). `plate` draws a weathered board with a restrained leather-stamp border.
  */
-function neonText(text: string, size: number, color: string, plate = false): HTMLCanvasElement {
+function mysticalWesternText(text: string, size: number, color: string, plate = false): HTMLCanvasElement {
   const font = `700 ${size}px ${SLAB}`;
   const [, mg] = canvas(4, 4);
   mg.font = font;
@@ -156,9 +156,9 @@ export class Renderer {
     this.far = this.mesaLayer(def.seed);
     this.mid = this.town(def.seed * 7 + 3, 2400);
     const tone = (c: Billboard['color']) => (c === 'coral' ? COLORS.coral : c === 'ice' ? COLORS.ice : COLORS.amber);
-    this.billboards = (def.billboards ?? []).map((b) => ({ b, img: neonText(b.text, b.size ?? 28, tone(b.color)) }));
-    this.signImgs = (def.signs ?? []).map((s) => neonText(s.text, Math.min(s.h * 0.62, 30), PALETTE.blush, true));
-    this.goalImg = neonText(def.final ? 'LIGHTHOUSE' : 'ONWARD', def.final ? 26 : 18, COLORS.amber);
+    this.billboards = (def.billboards ?? []).map((b) => ({ b, img: mysticalWesternText(b.text, b.size ?? 28, tone(b.color)) }));
+    this.signImgs = (def.signs ?? []).map((s) => mysticalWesternText(s.text, Math.min(s.h * 0.62, 30), PALETTE.blush, true));
+    this.goalImg = mysticalWesternText(def.final ? 'LIGHTHOUSE' : 'ONWARD', def.final ? 26 : 18, COLORS.amber);
   }
 
   /** Far layer: a low engraved mesa horizon with one or two saguaros for scale. */

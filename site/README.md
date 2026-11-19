@@ -1,4 +1,4 @@
-# NEON ARCADE — gaming hub
+# MYSTICAL WESTERN ARCADE — gaming hub
 
 The game launcher published by GitHub Pages for this repository, drawn in the **19_mystical-western** design system (a frontier observatory: engraved desert skyline, carved moon, tarot-card games) in the Actual Solutions brand colours:
 
@@ -65,7 +65,7 @@ To serve the hub at `/` and every game at `/games/<game>/`, use the mirror kept 
 3. Push the mirror:
    ```bash
    cd site/user-site
-   git init -b main && git add . && git commit -m "Mirror NEON ARCADE at the root domain"
+   git init -b main && git add . && git commit -m "Mirror MYSTICAL WESTERN ARCADE at the root domain"
    git remote add origin https://github.com/sergeypetrosyan-as/sergeypetrosyan-as.github.io.git
    git push -u origin main
    ```

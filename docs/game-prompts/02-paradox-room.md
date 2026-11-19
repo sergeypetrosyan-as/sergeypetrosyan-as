@@ -1,6 +1,6 @@
 # PARADOX ROOM — implementation prompt
 
-You are building **PARADOX ROOM**, a browser puzzle adventure about impossible rooms, for the NEON ARCADE repository. This document is a complete, standalone brief: follow it without needing any other context. Where it gives a number, use that number. Where it gives a rule, implement that rule exactly; the rules are deterministic and the whole game depends on them being exact.
+You are building **PARADOX ROOM**, a browser puzzle adventure about impossible rooms, for the MYSTICAL WESTERN ARCADE repository. This document is a complete, standalone brief: follow it without needing any other context. Where it gives a number, use that number. Where it gives a rule, implement that rule exactly; the rules are deterministic and the whole game depends on them being exact.
 
 ---
 
@@ -9,7 +9,7 @@ You are building **PARADOX ROOM**, a browser puzzle adventure about impossible r
 - **Title:** PARADOX ROOM. **Tagline:** "The floor is a matter of opinion."
 - **One sentence:** walk through a house of small rooms that can be folded a quarter-turn at a time, so that walls become floors, floors become walls, and a door you could not reach becomes the ground under your feet.
 - **Tone:** quiet, geometric, uncanny, patient. No combat, no timers, no fail states. The only opponent is your own assumption about which way is down.
-- **Look:** restrained neon on deep near-black. Voxel rooms drawn in an oblique projection on Canvas 2D. One accent colour per concept (cyan = you and walkable, amber = crystals and goals, violet = portals, pink = folds and levers). Almost no decoration; light does the work.
+- **Look:** restrained mystical western on deep near-black. Voxel rooms drawn in an oblique projection on Canvas 2D. One accent colour per concept (cyan = you and walkable, amber = crystals and goals, violet = portals, pink = folds and levers). Almost no decoration; light does the work.
 - **Feel:** the pleasure of a correct insight. When a fold turns a wall into the one floor you needed, the room should answer with a low tone and a soft pulse, not fireworks.
 - **Hub identity:** accent `purple`; playUrl `./games/paradox-room/`.
 
@@ -266,7 +266,7 @@ Every level must be proven solvable by the solver. The check script also reports
 - Frosted glass: door lights and the gate panel; rough transmission on High, translucent emissive on Low and Medium.
 - Voxel ambient occlusion is baked into vertex colours at every quality level; it doubles as the contact shadow on Low.
 
-**Light.** One warm lantern point light (2700 K, `#ffb070`) carried by the Surveyor, flickering by at most 7 percent; it casts the only real shadows (PCF soft, 512 px Medium, 1024 px High). A cool moonlight fill from above and a hemisphere term keep up-facing surfaces brighter than walls, so the floor always reads as floor. Restrained neon strips (`#7fd8ff`) run along the twelve edges of the room box: these are the fold seams, and they brighten during a fold. Portals throw additive cone shafts of their own colour. ACES Filmic tone mapping, exponential fog the colour of the void, gentle bloom with a threshold above 1.0 so only emissive parts glow, and slow dust motes in the lantern's light.
+**Light.** One warm lantern point light (2700 K, `#ffb070`) carried by the Surveyor, flickering by at most 7 percent; it casts the only real shadows (PCF soft, 512 px Medium, 1024 px High). A cool moonlight fill from above and a hemisphere term keep up-facing surfaces brighter than walls, so the floor always reads as floor. Restrained mystical western strips (`#7fd8ff`) run along the twelve edges of the room box: these are the fold seams, and they brighten during a fold. Portals throw additive cone shafts of their own colour. ACES Filmic tone mapping, exponential fog the colour of the void, gentle bloom with a threshold above 1.0 so only emissive parts glow, and slow dust motes in the lantern's light.
 
 **Palette (six named colours; CSS custom properties and renderer constants).**
 | Name | Hex | Role |
@@ -474,7 +474,7 @@ Everything is procedural and original: geometry is drawn with canvas paths, the 
 
 ## 23. Gaming hub integration
 
-The NEON ARCADE hub lists the game with: `playUrl: './games/paradox-room/'`, title "PARADOX ROOM", tagline "The floor is a matter of opinion.", genre tags "Puzzle", "Spatial", "Adventure", accent `purple`, tech "Three.js (WebGL 2), TypeScript, Web Audio, Vite", and the controls listed in section 8. The built game must work when opened directly from `games/paradox-room/index.html` and when embedded as a link.
+The MYSTICAL WESTERN ARCADE hub lists the game with: `playUrl: './games/paradox-room/'`, title "PARADOX ROOM", tagline "The floor is a matter of opinion.", genre tags "Puzzle", "Spatial", "Adventure", accent `purple`, tech "Three.js (WebGL 2), TypeScript, Web Audio, Vite", and the controls listed in section 8. The built game must work when opened directly from `games/paradox-room/index.html` and when embedded as a link.
 
 ## 24. GitHub Pages deployment requirements
 

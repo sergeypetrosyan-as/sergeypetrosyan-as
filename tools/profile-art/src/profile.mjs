@@ -161,12 +161,12 @@ export function drawOg(g, W, H) {
     butte: [W * 0.62, W * 0.88, H * 0.72], obs: [W * 0.745, H * 0.72, 38],
     cacti: [[W * 0.07, 54, 1], [W * 0.95, 42, 1]],
     angle: -0.8, starStart: 80, starGap: 66, starR: 11, drift: 0,
-    name: [['NEON ARCADE', W * 0.42, H * 0.3, 74]], role: [W * 0.42, H * 0.3 + 50, 22], align: 'center',
+    name: [['MYSTICAL WESTERN ARCADE', W * 0.42, H * 0.3, 74]], role: [W * 0.42, H * 0.3 + 50, 22], align: 'center',
   };
   skyline(g, W, H, 0, L);
   g.fillStyle = P.bone;
   g.font = `74px ${FONT.title}`;
-  spacedText(g, 'NEON ARCADE', L.name[0][1], L.name[0][2], 2, 'center');
+  spacedText(g, 'MYSTICAL WESTERN ARCADE', L.name[0][1], L.name[0][2], 2, 'center');
   g.font = `600 22px ${FONT.slab}`;
   g.fillStyle = P.rose;
   spacedText(g, 'BROWSER GAMES BY SERGEY PETROSYAN', L.name[0][1], L.name[0][2] + 48, 5, 'center');

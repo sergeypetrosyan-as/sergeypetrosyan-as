@@ -4,10 +4,10 @@
 // story/data.ts; each painter puts the matching object at that spot.
 import {
   acUnit, bokeh, box, building, cable, fireEscape, flatText, floorSeams, hazeBand, hgrad, lerp, light, line,
-  neonText, person, personPath, pool, poly, rgba, shaft, speckle, stains, vgrad,
+  mysticalWesternText, person, personPath, pool, poly, rgba, shaft, speckle, stains, vgrad,
 } from './kit.ts';
 import type { Ctx, PersonOpts, Rng } from './kit.ts';
-import { neonScript, paintScript } from './script.ts';
+import { mysticalWesternScript, paintScript } from './script.ts';
 
 export type SceneKey = 'lobby' | 'office' | 'vault' | 'annex' | 'dock' | 'bar' | 'street';
 
@@ -82,7 +82,7 @@ function city(p: Paint, c: Ctx, o: CityOpts): void {
         const rgb = [o.glow, o.glow2 ?? '242,238,233', '221,203,200', '125,19,28'][Math.floor(r() * 4)];
         const size = h * (0.016 + r() * 0.018);
         box(c, sx - size * 0.6, sy - size * 0.4, size * 1.6, size * 6, 'rgba(7, 4, 4,0.9)');
-        neonScript(c, ['lumen', 'kestrel', 'noodle', 'feeds', 'sora', 'okan'][Math.floor(r() * 6)].slice(0, 3 + Math.floor(r() * 3)), sx + size * 0.2, sy + size * 2.4, size, rgb, { vertical: true });
+        mysticalWesternScript(c, ['lumen', 'kestrel', 'noodle', 'feeds', 'sora', 'okan'][Math.floor(r() * 6)].slice(0, 3 + Math.floor(r() * 3)), sx + size * 0.2, sy + size * 2.4, size, rgb, { vertical: true });
         light(c, sx, sy + size * 2.5, size * 14, rgb, 0.18);
       }
       x += bw + r() * w * 0.01;
@@ -158,7 +158,7 @@ function lobby(p: Paint): SceneSpec {
   mid.fillStyle = 'rgba(190, 150, 150,0.10)'; mid.fillRect(X(0.45), Y(0.366), X(0.3), Y(0.22));
   for (let i = 0; i < 3; i++) poly(mid, [X(0.47 + i * 0.1), Y(0.366), X(0.5 + i * 0.1), Y(0.366), X(0.46 + i * 0.1), Y(0.585), X(0.43 + i * 0.1), Y(0.585)], 'rgba(252, 251, 250,0.035)');
   for (const fx of [0.45, 0.6, 0.75]) box(mid, X(fx) - 1.5, Y(0.366), 3, Y(0.22), '#090404');
-  neonScript(S, 'post', X(0.71), Y(0.39), Y(0.014), '242,238,233');
+  mysticalWesternScript(S, 'post', X(0.71), Y(0.39), Y(0.014), '242,238,233');
   // counter
   box(mid, X(0.44), Y(0.585), X(0.32), Y(0.016), '#20080a');
   box(mid, X(0.44), Y(0.585), X(0.32), Y(0.003), 'rgba(251, 249, 248,0.35)');
@@ -246,7 +246,7 @@ function office(p: Paint): SceneSpec {
   light(far, X(0.6), Y(0.45), X(0.35), '232,90,101', 0.25);
   // the big blade sign across the street
   box(far, X(0.47) - Y(0.03), Y(0.12), Y(0.06), Y(0.36), '#080404');
-  neonScript(far, 'okane', X(0.47), Y(0.3), Y(0.04), '125,19,28', { vertical: true });
+  mysticalWesternScript(far, 'okane', X(0.47), Y(0.3), Y(0.04), '125,19,28', { vertical: true });
   light(far, X(0.47), Y(0.3), X(0.25), '125,19,28', 0.35);
 
   // walls: wood panelling, side wall in perspective
@@ -538,8 +538,8 @@ function annex(p: Paint): SceneSpec {
   fireEscape(far, X(0.62), Y(0.2), X(0.12), 4, Y(0.13), '#050303', 1.5);
   // the Undertow sign (live, behind the window frame)
   box(S, X(0.725) - Y(0.035), Y(0.1), Y(0.07), Y(0.46), 'rgba(8, 4, 4,0.95)');
-  neonScript(S, 'undertow', X(0.725), Y(0.33), Y(0.042), '125,19,28', { vertical: true });
-  neonText(S, 'UNDERTOW', X(0.73), Y(0.6), Y(0.045), '242,238,233');
+  mysticalWesternScript(S, 'undertow', X(0.725), Y(0.33), Y(0.042), '125,19,28', { vertical: true });
+  mysticalWesternText(S, 'UNDERTOW', X(0.73), Y(0.6), Y(0.045), '242,238,233');
   light(S, X(0.725), Y(0.33), X(0.3), '125,19,28', 0.32);
   light(S, X(0.73), Y(0.6), X(0.18), '242,238,233', 0.22);
 
@@ -608,7 +608,7 @@ function annex(p: Paint): SceneSpec {
   pool(L, X(0.5), Y(0.66), X(0.07), Y(0.01), '228,214,210', 0.35);
   // an exit sign over the far door
   box(S, X(0.32), Y(0.04), X(0.05), Y(0.03), 'rgba(13, 5, 5,0.9)');
-  neonScript(S, 'ute', X(0.345), Y(0.048), Y(0.012), '224,207,203');
+  mysticalWesternScript(S, 'ute', X(0.345), Y(0.048), Y(0.012), '224,207,203');
 
   figure(p, X(0.36), Y(0.83), { h: Y(0.42), coat: 0.55, broad: 0.85, arms: 'side', reflect: 0.25, rims: [{ rgb: '125,19,28', dx: 1, dy: -0.25, a: 0.85 }, { rgb: '242,238,233', dx: 0.3, dy: -1, a: 0.3 }] });
   return {
@@ -772,8 +772,8 @@ function bar(p: Paint): SceneSpec {
   }
   // the sign over the bar
   box(mid, X(0.67), Y(0.14), X(0.3), Y(0.09), '#070404');
-  neonText(S, 'SUMP LANTERN', X(0.82), Y(0.17), Y(0.045), '242,238,233');
-  neonScript(S, 'sump lantern', X(0.82), Y(0.205), Y(0.014), '125,19,28');
+  mysticalWesternText(S, 'SUMP LANTERN', X(0.82), Y(0.17), Y(0.045), '242,238,233');
+  mysticalWesternScript(S, 'sump lantern', X(0.82), Y(0.205), Y(0.014), '125,19,28');
   light(S, X(0.82), Y(0.18), X(0.3), '242,238,233', 0.2);
   // bartender behind the counter, then the counter
   person(fg, X(0.86), Y(0.78), { h: Y(0.4), broad: 1.1, coat: 0.2, rims: [{ rgb: '223,206,202', dx: -1, dy: -0.4, a: 0.6 }, { rgb: '242,238,233', dx: 0, dy: -1, a: 0.3 }] });
@@ -874,8 +874,8 @@ function street(p: Paint): SceneSpec {
     const bx = pt[0] + (q === leftQ ? sz * 0.6 : -sz * 1.8);
     box(mid, bx, pt[1], sz * 1.2, sz * (word.length * 0.8 + 1.2), '#070404');
     line(mid, q === leftQ ? pt[0] : bx + sz * 1.2, pt[1] + sz * 0.5, q === leftQ ? bx : pt[0], pt[1] + sz * 0.5, '#050303', Math.max(1, sz * 0.08));
-    neonScript(S, word, bx + sz * 0.22, pt[1] + sz * 0.5, sz * 0.9, rgb, { vertical: true, align: 'left' });
-    if (latin) neonText(S, latin, bx + sz * 0.6, pt[1] + sz * (word.length * 0.8 + 2), sz * 0.7, rgb);
+    mysticalWesternScript(S, word, bx + sz * 0.22, pt[1] + sz * 0.5, sz * 0.9, rgb, { vertical: true, align: 'left' });
+    if (latin) mysticalWesternText(S, latin, bx + sz * 0.6, pt[1] + sz * (word.length * 0.8 + 2), sz * 0.7, rgb);
     light(S, bx + sz * 0.6, pt[1] + sz * word.length * 0.4, sz * 9, rgb, 0.28);
   };
   blade(rightQ, 0.11, 0.25, 'halcyon', '249,247,245', 'HALCYON');

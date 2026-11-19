@@ -95,7 +95,7 @@ export function Footer(buildYear: number): string {
   <div class="container footer-inner">
     <div class="footer-brand">
       ${Logo(36, 'footer')}
-      <div><strong>NEON ARCADE</strong><p>Game over is just another start screen.</p></div>
+      <div><strong>MYSTICAL WESTERN ARCADE</strong><p>Game over is just another start screen.</p></div>
     </div>
     <ul class="footer-links">
       <li><a href="${SITE.githubProfile}"${extLinkAttrs(SITE.githubProfile)}>${icon('github', 15)} GitHub profile</a></li>

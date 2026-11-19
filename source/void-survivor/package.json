@@ -2,7 +2,7 @@
   "name": "void-survivor",
   "private": true,
   "version": "1.0.0",
-  "description": "VOID SURVIVOR — a neon roguelite survival action game with an interacting Essence upgrade system.",
+  "description": "VOID SURVIVOR — a mystical western roguelite survival action game with an interacting Essence upgrade system.",
   "type": "module",
   "scripts": {
     "dev": "vite",

@@ -106,7 +106,7 @@ function grade(c: Ctx, W: number, H: number, spec: SceneSpec, comp: HTMLCanvasEl
   c.globalAlpha = g.bloom * 0.6; c.drawImage(blurred(bl, 3), 0, 0, W, H);
   c.globalCompositeOperation = 'soft-light'; c.globalAlpha = g.midA; c.fillStyle = `rgb(${g.mid})`; c.fillRect(0, 0, W, H);
   c.globalCompositeOperation = 'screen'; c.globalAlpha = g.lift; c.fillStyle = `rgb(${g.shadow})`; c.fillRect(0, 0, W, H);
-  // 19_mystical-western: take the neon edge off the brand reds so the scene reads as dusk, not signage
+  // 19_mystical-western: take the mystical western edge off the brand reds so the scene reads as dusk, not signage
   c.globalCompositeOperation = 'saturation'; c.globalAlpha = 0.32; c.fillStyle = '#a5a29e'; c.fillRect(0, 0, W, H);
   c.globalAlpha = 1; c.globalCompositeOperation = 'multiply';
   const v = c.createRadialGradient(W / 2, H * 0.48, Math.min(W, H) * 0.25, W / 2, H * 0.5, Math.hypot(W, H) * 0.56);

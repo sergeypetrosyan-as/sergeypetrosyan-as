@@ -1,7 +1,7 @@
 // Kestrel script: an invented local writing system for in-world signage.
 // Each letter maps to a stable glyph of 2-3 rounded strokes hung from a head bar,
 // so the same word always reads the same way on every sign.
-import { rng, neon } from './kit.ts';
+import { rng, mysticalWestern } from './kit.ts';
 import type { Ctx } from './kit.ts';
 
 type Pt = [number, number];
@@ -76,9 +76,9 @@ export function scriptTracer(text: string, x: number, y: number, size: number, o
   return { trace: tr, w: vertical ? gh * 0.8 : along, h: vertical ? along : gh };
 }
 
-export function neonScript(c: Ctx, text: string, x: number, y: number, size: number, rgb: string, o: ScriptOpts = {}, k = 1): { w: number; h: number } {
+export function mysticalWesternScript(c: Ctx, text: string, x: number, y: number, size: number, rgb: string, o: ScriptOpts = {}, k = 1): { w: number; h: number } {
   const t = scriptTracer(text, x, y, size, o);
-  neon(c, t.trace, rgb, Math.max(0.8, size * 0.075), k);
+  mysticalWestern(c, t.trace, rgb, Math.max(0.8, size * 0.075), k);
   return t;
 }
 

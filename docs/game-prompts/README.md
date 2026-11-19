@@ -1,10 +1,10 @@
-# NEON ARCADE — Game Prompts
+# MYSTICAL WESTERN ARCADE — Game Prompts
 
 Five standalone implementation prompts, one per game, plus the comparison below. Each prompt is self-contained: another Claude Code session can build its game from that file alone.
 
 | # | Game | Prompt | Source | Built output | Primary mechanic | Rendering | Build / deploy |
 |---|------|--------|--------|--------------|------------------|-----------|----------------|
-| 01 | NEON OVERDRIVE | [01-neon-overdrive.md](01-neon-overdrive.md) | `source/neon-overdrive/` | `games/neon-overdrive/` | **Overdrive Spine** — a faster inner route whose gates open only while the boost reserve is above a threshold | Canvas 2D pseudo-3D road | Vite, committed to `games/`, linked from the hub |
+| 01 | MYSTICAL WESTERN OVERDRIVE | [01-mystical-western-overdrive.md](01-mystical-western-overdrive.md) | `source/mystical-western-overdrive/` | `games/mystical-western-overdrive/` | **Overdrive Spine** — a faster inner route whose gates open only while the boost reserve is above a threshold | Canvas 2D pseudo-3D road | Vite, committed to `games/`, linked from the hub |
 | 02 | PARADOX ROOM | [02-paradox-room.md](02-paradox-room.md) | `source/paradox-room/` | `games/paradox-room/` | **Gravity Fold** — a quarter-turn of a voxel room turns walls into floors and re-resolves the player | Canvas 2D oblique projection | Vite, committed to `games/`, linked from the hub |
 | 03 | GHOST SIGNAL | [03-ghost-signal.md](03-ghost-signal.md) | `source/ghost-signal/` | `games/ghost-signal/` | **Reconstruction** — build incident timelines from conflicting memory fragments; rule-based contradiction detection | DOM UI + Canvas 2D scene | Vite, committed to `games/`, linked from the hub |
 | 04 | BLACKOUT PROTOCOL | [04-blackout-protocol.md](04-blackout-protocol.md) | `source/blackout-protocol/` | `games/blackout-protocol/` | **Hacking with an energy budget** — loop cameras, lock doors, drop decoys, cut laser grids | Canvas 2D top-down, fixed-step sim | Vite, committed to `games/`, linked from the hub |
