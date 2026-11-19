@@ -1,0 +1,80 @@
+{
+  "id": "marshal-chase",
+  "title": "Marshal Chase",
+  "batch": 7,
+  "ok": true,
+  "at": "2026-11-19T18:38:49.334Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/marshal-chase/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Tap a marshal, then a highlighted junction to step there; tap the marshal again to hold. After both marshals act the outlaw runs. Trap him so he has no safe junction before you run out of turns."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"level\":1,\"turn\":1,\"cops\":[0,4],\"outlaw\":11,\"sel\":-1,\"moved\":[false,false]} -> {\"level\":1,\"turn\":1,\"cops\":[0,4],\"outlaw\":11,\"sel\":0,\"moved\":[false,false]}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"level\":1,\"turn\":1,\"cops\":[0,4],\"outlaw\":11,\"sel\":-1,\"moved\":[false,false]}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":960,\"title\":\"Outlaw cornered\",\"detail\":\"Caught on all 3 maps.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The outlaw got away\",\"detail\":\"Map 1: out of turns after 10.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

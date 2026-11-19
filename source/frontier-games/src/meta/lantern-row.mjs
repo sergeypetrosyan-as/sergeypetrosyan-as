@@ -1,0 +1,27 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'Click a lantern to flip it and its four neighbours between dark and lit. Light every lantern before your clicks run out. Undo is free.',
+  controls: [
+    { keys: ['Tap lantern'], action: 'Flip it and its neighbours' },
+    { keys: ['Undo'], action: 'Take back the last click' },
+  ],
+  motif: 'A faint constellation of dotted lines links each lantern to the ones it will flip with it.',
+  cover: [
+    ['stars', 30, 21],
+    ['moon', 18, 20, 9, 0.2],
+    ['mesa', 112, 'mesa'],
+    ['rect', 0, 110, 100, 30, 'umber'],
+    ['con', [[24, 54], [50, 54], [76, 54]]],
+    ['con', [[24, 80], [50, 80], [76, 80]]],
+    ['con', [[24, 54], [24, 80]]],
+    ['con', [[50, 54], [50, 80]]],
+    ['con', [[76, 54], [76, 80]]],
+    ['path', 'M18 54 Q18 44 24 44 Q30 44 30 54 L30 60 L18 60 Z', 'tan', 'bone', 0.9],
+    ['path', 'M44 54 Q44 44 50 44 Q56 44 56 54 L56 60 L44 60 Z', 'night', 'mesa', 0.9],
+    ['path', 'M70 80 Q70 70 76 70 Q82 70 82 80 L82 86 L70 86 Z', 'tan', 'bone', 0.9],
+    ['circ', 24, 52, 2, 'rose'],
+    ['circ', 76, 78, 2, 'rose'],
+    ['cactus', 90, 110, 20, 'ink'],
+  ],
+  smoke: { click: '[data-c="4"]' },
+};

@@ -1,0 +1,80 @@
+{
+  "id": "lasso-loop",
+  "title": "Lasso Loop",
+  "batch": 6,
+  "ok": true,
+  "at": "2026-11-19T18:33:16.454Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/lasso-loop/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "A loop swings and pulses above the lane. Tap anywhere to throw when it sits over a steer and is wide enough to circle it, but not too wide."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"round\":0,\"caught\":0,\"miss\":0,\"spawned\":0,\"cool\":0,\"t\":3} -> {\"round\":0,\"caught\":0,\"miss\":1,\"spawned\":0,\"cool\":25,\"t\":6}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"round\":0,\"caught\":0,\"miss\":0,\"spawned\":0,\"cool\":0,\"t\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1500,\"title\":\"Whole herd roped\",\"detail\":\"You roped 12 steers with 3 misses to spare.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The herd got away\",\"detail\":\"You roped 0 steers before the third miss.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

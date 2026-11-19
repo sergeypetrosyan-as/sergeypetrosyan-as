@@ -1,0 +1,80 @@
+{
+  "id": "pigment-mix",
+  "title": "Pigment Mix",
+  "batch": 9,
+  "ok": true,
+  "at": "2026-11-19T18:39:43.604Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/pigment-mix/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Slide cochineal, bone and soot to blend a colour that matches the sunset swatch. Only the ratio of the three counts, and you get three tries per swatch."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"round\":0,\"tries\":3,\"w\":\"34,33,33\",\"score\":0} -> {\"round\":0,\"tries\":2,\"w\":\"34,33,33\",\"score\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"round\":0,\"tries\":3,\"w\":\"34,33,33\",\"score\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":2450,\"title\":\"Every sunset matched\",\"detail\":\"Four swatches matched, each tighter than the last.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The sunset got away\",\"detail\":\"Three misses on swatch 1. Compare the swatches, then adjust one pigment at a time.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

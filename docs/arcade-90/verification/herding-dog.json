@@ -1,0 +1,80 @@
+{
+  "id": "herding-dog",
+  "title": "Herding Dog",
+  "batch": 6,
+  "ok": true,
+  "at": "2026-11-19T18:37:20.950Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/herding-dog/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Tap or drag to send the dog. Cattle run away from it, so get behind the herd and push the steers up through the gate into the pen before time runs out."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"cows\":[[54,266,false],[248,356,false],[260,435,false],[340,385,false],[161,389,false]],\"round\":0,\"penned\":0,\"dog\":[240,530],\"target\":null,\"left\":55} -> {\"cows\":[[54,267,false],[249,357,false],[259,424,false],[340,385,false],[161,390,false]],\"round\":0,\"penned\":0,\"dog\":[240,466],\"target\":{\"x\":240.00000000000003,\"y\":268.93491124260356},\"left\":54}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"cows\":[[54,266,false],[248,355,false],[260,440,false],[340,385,false],[161,389,false]],\"round\":0,\"penned\":0,\"dog\":[240,530],\"target\":null,\"left\":55}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":2380,\"title\":\"Every steer penned\",\"detail\":\"You penned all 3 herds.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"Time ran out\",\"detail\":\"Herd 1: 0 of 5 steers made it into the pen.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'Swipe or press left and right to change lane and dodge the tumbleweeds. Tap or press Up to hop low rocks. Reach the town 2,400 m away with a heart left.',
+  controls: [
+    { keys: ['Swipe', '← →', 'A D'], action: 'Change lane' },
+    { keys: ['Tap', '↑', 'Space'], action: 'Hop a rock' },
+  ],
+  motif: 'The mesa horizon at the top is the course: a marker rides along it to the town on the right, so progress is always visible.',
+  cover: [
+    ['stars', 30, 6],
+    ['moon', 20, 20, 8, 0.2],
+    ['mesa', 56, 'mesa'],
+    ['rect', 0, 56, 100, 84, 'umber'],
+    ['line', 36, 56, 28, 140, 'saddle', 1, '3 4'],
+    ['line', 64, 56, 72, 140, 'saddle', 1, '3 4'],
+    ['circ', 28, 78, 8, 'wine', 'red', 1.4],
+    ['line', 22, 76, 34, 80, 'rose', 0.8],
+    ['circ', 72, 100, 11, 'wine', 'red', 1.6],
+    ['line', 63, 98, 81, 102, 'rose', 0.9],
+    ['star5', 50, 90, 5, 'rose'],
+    ['circ', 50, 122, 5, 'bone', 'ink', 0.8],
+    ['rect', 44, 112, 12, 5, 'saddle'],
+  ],
+  smoke: { key: 'ArrowLeft' },
+};

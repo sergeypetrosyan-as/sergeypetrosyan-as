@@ -1,0 +1,102 @@
+@import '../../../../design/19_mystical-western/tokens.css';
+@import './fonts.css';
+
+/* Shared shell + widget kit for every game. Roles only: no raw colours below this line except through tokens. */
+:root {
+  color-scheme: dark;
+  --mw-gap: 10px;
+  --mw-radius: 10px;
+  --mw-focus: var(--mw-rose);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: linear-gradient(var(--mw-ink), var(--mw-night) 40%, var(--mw-dusk));
+  background-attachment: fixed;
+  color: var(--mw-role-fg);
+  font: 400 1rem/1.5 var(--mw-font-body);
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+a { color: var(--mw-rose); }
+:focus-visible { outline: 2px solid var(--mw-focus); outline-offset: 2px; }
+[hidden] { display: none !important; }
+
+#app { height: 100dvh; display: flex; flex-direction: column; max-width: 980px; margin: 0 auto; padding: 8px 12px max(8px, env(safe-area-inset-bottom)); gap: 6px; }
+.mw-top { display: flex; align-items: center; gap: 10px; min-height: 44px; }
+.mw-back { display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; font: 600 0.95rem/1 var(--mw-font-slab); color: var(--mw-tan); text-decoration: none; white-space: nowrap; }
+.mw-back:hover { color: var(--mw-bone); }
+.mw-name { flex: 1; margin: 0; text-align: center; font: 700 1.05rem/1.1 var(--mw-font-slab); letter-spacing: 0.02em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mw-tools { display: flex; gap: 6px; }
+.mw-icon { min-height: 44px; padding: 0 12px; border: 1px solid var(--mw-ember); border-radius: 999px; background: transparent; color: var(--mw-ash); font: 600 0.82rem/1 var(--mw-font-slab); cursor: pointer; }
+.mw-icon:hover { color: var(--mw-bone); border-color: var(--mw-rose); }
+
+.mw-hud { display: flex; flex-wrap: wrap; gap: 6px 14px; justify-content: center; min-height: 28px; }
+.mw-hud-i { display: inline-flex; align-items: baseline; gap: 6px; }
+.mw-hud-l { font: 500 0.78rem/1 var(--mw-font-slab); color: var(--mw-ash); }
+.mw-hud-v { font: 700 1.05rem/1 var(--mw-font-slab); font-variant-numeric: tabular-nums; color: var(--mw-bone); }
+
+.mw-main { position: relative; flex: 1; min-height: 0; display: flex; }
+.mw-stage {
+  flex: 1; min-width: 0; min-height: 0; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border: 2px solid var(--mw-ember); border-radius: 12px; outline: 1px dashed color-mix(in srgb, var(--mw-tan) 45%, transparent); outline-offset: -7px;
+  background: var(--mw-role-surface); overflow: auto; padding: 10px; touch-action: manipulation;
+}
+.mw-canvas { width: 100%; height: 100%; object-fit: contain; touch-action: none; display: block; user-select: none; -webkit-user-select: none; }
+.mw-pad { display: flex; gap: 8px; justify-content: center; padding-top: 2px; }
+.mw-padbtn { flex: 1 1 0; max-width: 120px; min-height: 52px; border-radius: var(--mw-radius); border: 2px solid var(--mw-ember); background: var(--mw-role-surface-raised); color: var(--mw-bone); font: 700 1.1rem/1 var(--mw-font-slab); touch-action: none; user-select: none; -webkit-user-select: none; }
+.mw-padbtn.wide { max-width: 200px; flex-grow: 2; }
+.mw-padbtn:active { background: var(--mw-wine); }
+
+/* first / last screen */
+.mw-overlay { position: absolute; inset: 0; display: grid; place-items: center; padding: 12px; background: color-mix(in srgb, var(--mw-night) 86%, transparent); backdrop-filter: blur(2px); border-radius: 12px; z-index: 5; overflow: auto; }
+.mw-card { width: min(560px, 100%); display: flex; gap: 16px; align-items: center; padding: 18px; border: 2px solid var(--mw-ember); border-radius: 12px; outline: 1px dashed color-mix(in srgb, var(--mw-tan) 55%, transparent); outline-offset: -7px; background: var(--mw-role-surface-raised); }
+.mw-card.over { justify-content: center; text-align: center; }
+.mw-cover { width: 108px; height: auto; aspect-ratio: 3 / 5; border-radius: 6px; flex: none; }
+.mw-card-body { display: flex; flex-direction: column; gap: 10px; min-width: 0; align-items: flex-start; }
+.mw-card.over .mw-card-body { align-items: center; }
+.mw-ov-title { margin: 0; font: 400 clamp(1.5rem, 6vw, 2.2rem)/1.1 var(--mw-font-title); color: var(--mw-bone); text-shadow: 0 2px 0 var(--mw-wine); overflow-wrap: anywhere; }
+.mw-how { margin: 0; max-width: 46ch; color: var(--mw-bone); }
+.mw-score { margin: 0; display: flex; gap: 16px; color: var(--mw-ash); }
+.mw-score b { color: var(--mw-bone); font: 700 1.2rem/1 var(--mw-font-slab); font-variant-numeric: tabular-nums; }
+.mw-controls { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 0.92rem; color: var(--mw-ash); }
+.mw-controls li { display: flex; align-items: center; gap: 10px; }
+.mw-keys { display: inline-flex; gap: 4px; }
+kbd { min-width: 1.9em; padding: 2px 7px; border: 1px solid var(--mw-saddle); border-bottom-width: 3px; border-radius: 6px; background: var(--mw-night); color: var(--mw-bone); font: 600 0.8rem/1.4 var(--mw-font-slab); text-align: center; }
+.mw-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.mw-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 20px; border-radius: var(--mw-radius); border: 2px solid var(--mw-ember); background: transparent; color: var(--mw-bone); font: 700 1rem/1 var(--mw-font-slab); text-decoration: none; cursor: pointer; }
+.mw-btn:hover { border-color: var(--mw-rose); }
+.mw-btn.primary { background: var(--mw-red); border-color: var(--mw-red); color: var(--mw-white); box-shadow: inset 0 0 0 3px var(--mw-red), inset 0 0 0 4px color-mix(in srgb, var(--mw-bone) 55%, transparent); }
+.mw-btn.primary:hover { background: var(--mw-ember); border-color: var(--mw-ember); }
+.mw-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ---- widget kit games can use (all colour comes from tokens) ---- */
+.mw-panel { border: 2px solid var(--mw-ember); border-radius: var(--mw-radius); background: var(--mw-role-surface-raised); padding: 10px; }
+.mw-row { display: flex; flex-wrap: wrap; gap: var(--mw-gap); align-items: center; justify-content: center; }
+.mw-col { display: flex; flex-direction: column; gap: var(--mw-gap); align-items: center; }
+.mw-note { margin: 0; color: var(--mw-ash); font-size: 0.92rem; text-align: center; max-width: 52ch; }
+.mw-big { font: 700 clamp(1.6rem, 7vw, 2.6rem)/1 var(--mw-font-slab); font-variant-numeric: tabular-nums; }
+.mw-grid { display: grid; gap: 4px; }
+.mw-cell { aspect-ratio: 1; min-width: 0; min-height: 0; display: grid; place-items: center; border: 2px solid var(--mw-mesa); border-radius: 6px; background: var(--mw-night); color: var(--mw-bone); font: 700 clamp(0.8rem, 3.6vw, 1.3rem)/1 var(--mw-font-slab); padding: 0; cursor: pointer; user-select: none; -webkit-user-select: none; }
+.mw-cell:hover { border-color: var(--mw-rose); }
+.mw-cell.on { background: var(--mw-tan); color: var(--mw-ink); border-color: var(--mw-bone); }
+.mw-cell.hot { background: var(--mw-red); color: var(--mw-white); border-color: var(--mw-rose); }
+.mw-cell.good { background: var(--mw-rose); color: var(--mw-ink); border-color: var(--mw-bone); }
+.mw-cell.dim { opacity: 0.45; }
+.mw-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 2px solid var(--mw-ember); background: var(--mw-night); color: var(--mw-bone); font: 600 0.95rem/1 var(--mw-font-slab); cursor: pointer; }
+.mw-chip[aria-pressed='true'], .mw-chip.on { background: var(--mw-wine); border-color: var(--mw-rose); }
+.mw-meter { height: 14px; border-radius: 7px; background: var(--mw-night); border: 1px solid var(--mw-ember); overflow: hidden; width: 100%; max-width: 360px; }
+.mw-meter > i { display: block; height: 100%; background: var(--mw-rose); transition: width 0.12s linear; }
+input[type='range'] { accent-color: var(--mw-red); width: 100%; min-height: 32px; }
+.mw-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+@media (max-width: 520px) {
+  .mw-card { flex-direction: column; text-align: center; padding: 14px; }
+  .mw-card-body { align-items: center; }
+  .mw-cover { width: 84px; }
+  .mw-controls li { justify-content: center; }
+  .mw-name { font-size: 0.95rem; }
+  .mw-icon { padding: 0 9px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }

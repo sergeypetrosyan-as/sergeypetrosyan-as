@@ -1,0 +1,26 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'Tap brush cells to cut a limited number of firebreaks, then press Light the fire. The wind pushes the blaze and embers leap a thin break, so wall off every homestead.',
+  controls: [
+    { keys: ['Tap', 'Click'], action: 'Cut or undo a firebreak' },
+    { keys: ['Light the fire'], action: 'Start the wildfire' },
+  ],
+  motif: 'The wind arrow and the fire edge show where the blaze comes from and where it is pushed; a dashed break line is the only thing that stops it.',
+  cover: [
+    ['stars', 26, 31],
+    ['sun', 78, 26, 8],
+    ['mesa', 112, 'mesa'],
+    ['rect', 0, 112, 100, 28, 'umber'],
+    ['line', 0, 112, 100, 112, 'ember', 0.8],
+    ['path', 'M0 100 Q6 84 12 96 Q16 80 22 98 Q28 86 32 104 L0 112 Z', 'red', 'rose', 0.8],
+    ['path', 'M4 108 Q9 94 14 106 Q19 94 24 108 Z', 'ember'],
+    ['line', 40, 70, 40, 112, 'bone', 1.6, '3 2'],
+    ['line', 46, 70, 46, 112, 'bone', 1.6, '3 2'],
+    ['poly', [[62, 98], [62, 88], [70, 82], [78, 88], [78, 98]], 'bone', 'rose', 0.8],
+    ['rect', 68, 91, 4, 7, 'ink'],
+    ['line', 14, 60, 36, 60, 'rose', 1.4],
+    ['poly', [[36, 56], [42, 60], [36, 64]], 'rose'],
+    ['line', 14, 50, 30, 50, 'rose', 1, '2 2'],
+  ],
+  smoke: { click: '[data-cell]:not([data-k="r"]):not([data-k="h"])' },
+};

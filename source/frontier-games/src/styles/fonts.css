@@ -1,0 +1,7 @@
+/* Verified OFL faces shared with the other games (see src/fonts/OFL-*.txt). */
+@font-face { font-family: 'Rye'; font-weight: 400; font-style: normal; font-display: swap; src: url('../fonts/rye-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Zilla Slab'; font-weight: 500; font-style: normal; font-display: swap; src: url('../fonts/zilla-slab-latin-500-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Zilla Slab'; font-weight: 600; font-style: normal; font-display: swap; src: url('../fonts/zilla-slab-latin-600-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Zilla Slab'; font-weight: 700; font-style: normal; font-display: swap; src: url('../fonts/zilla-slab-latin-700-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Public Sans'; font-weight: 400; font-style: normal; font-display: swap; src: url('../fonts/public-sans-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Public Sans'; font-weight: 600; font-style: normal; font-display: swap; src: url('../fonts/public-sans-latin-600-normal.woff2') format('woff2'); }

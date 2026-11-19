@@ -1,0 +1,22 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'At every fork pick one of three roads. Each shows its sure cost to food, water and morale, plus the dangers it might hide. Reach the ninth stop with none of the three at zero.',
+  controls: [
+    { keys: ['Tap', 'Click'], action: 'Take a road' },
+    { keys: ['1', '2', '3'], action: 'Left / middle / right road' },
+  ],
+  motif: 'A constellation of nine stops across the top: stars you have passed shine rose, so the length of the journey left is always in view.',
+  cover: [
+    ['stars', 30, 51],
+    ['con', [[10, 18], [26, 26], [40, 16], [58, 24], [74, 14], [90, 22]]],
+    ['mesa', 104, 'mesa'],
+    ['rect', 0, 104, 100, 36, 'umber'],
+    ['path', 'M50 140 L50 122 Q50 112 40 104', 'none', 'tan', 3],
+    ['path', 'M50 122 Q50 112 62 104', 'none', 'tan', 3],
+    ['path', 'M50 122 L50 106', 'none', 'tan', 3],
+    ['star5', 40, 98, 4, 'rose'], ['star5', 50, 100, 4, 'rose'], ['star5', 62, 98, 4, 'red'],
+    ['rect', 44, 128, 12, 6, 'saddle', 'bone', 0.6], ['circ', 46, 135, 2.2, 'ink', 'bone', 0.5], ['circ', 54, 135, 2.2, 'ink', 'bone', 0.5],
+    ['cactus', 10, 118, 22, 'ink'], ['cactus', 90, 116, 18, 'ink'],
+  ],
+  smoke: { click: '[data-road="1"]' },
+};

@@ -1,0 +1,24 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'A loop swings and pulses above the lane. Tap anywhere to throw when it sits over a steer and is wide enough to circle it, but not too wide.',
+  controls: [
+    { keys: ['Tap', 'Space'], action: 'Throw the loop' },
+  ],
+  motif: 'The pulsing loop with a dotted plumb line to the ground shows exactly where and how wide the throw will land.',
+  cover: [
+    ['stars', 30, 6],
+    ['moon', 20, 22, 9, 0.3],
+    ['mesa', 100, 'mesa'],
+    ['rect', 0, 100, 100, 40, 'umber'],
+    ['line', 0, 120, 100, 120, 'ember', 0.8],
+    ['line', 50, 40, 50, 108, 'ember', 0.6, '1.5 2'],
+    ['path', 'M26 48 A24 12 0 1 0 74 48 A24 12 0 1 0 26 48', 'none', 'bone', 2],
+    ['path', 'M26 48 A24 12 0 1 0 74 48 A24 12 0 1 0 26 48', 'none', 'tan', 0.8],
+    ['path', 'M30 112 Q30 100 44 100 Q58 100 58 112 Z', 'tan', 'bone', 1],
+    ['circ', 61, 102, 4, 'tan', 'bone', 1],
+    ['line', 62, 99, 67, 94, 'bone', 1.2],
+    ['star5', 42, 108, 3.2, 'red'],
+    ['cactus', 90, 110, 22, 'ink'],
+  ],
+  smoke: { tap: [0.5, 0.5] },
+};

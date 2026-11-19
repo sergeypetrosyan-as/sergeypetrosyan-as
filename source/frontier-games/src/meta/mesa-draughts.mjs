@@ -1,0 +1,24 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'Tap one of your bone ▲ pieces, then a highlighted square to move it diagonally forward. Jumping a rival ✕ piece is compulsory. Beat three rivals, each sharper than the last.',
+  controls: [
+    { keys: ['Tap', 'Click'], action: 'Select a piece, then its destination' },
+  ],
+  motif: 'The rival\'s last move is ringed in ember on both squares, and three stars on top track which rivals you have beaten.',
+  cover: [
+    ['stars', 26, 12],
+    ['moon', 20, 20, 8, 0.35],
+    ['mesa', 112, 'mesa'],
+    ['rect', 0, 112, 100, 28, 'umber'],
+    ['rect', 14, 48, 72, 64, 'tan', 'saddle', 1.6],
+    ['rect', 14, 48, 12, 12, 'night'], ['rect', 38, 48, 12, 12, 'night'], ['rect', 62, 48, 12, 12, 'night'],
+    ['rect', 26, 60, 12, 12, 'night'], ['rect', 50, 60, 12, 12, 'night'], ['rect', 74, 60, 12, 12, 'night'],
+    ['rect', 14, 84, 12, 12, 'night'], ['rect', 38, 84, 12, 12, 'night'], ['rect', 62, 84, 12, 12, 'night'],
+    ['circ', 44, 66, 5, 'red', 'rose', 0.8],
+    ['circ', 20, 90, 5, 'bone', 'ink', 0.8],
+    ['circ', 68, 90, 5, 'bone', 'ink', 0.8],
+    ['line', 20, 90, 44, 66, 'rose', 0.8, '1.5 2.5'],
+    ['line', 44, 66, 68, 42, 'rose', 0.8, '1.5 2.5'],
+  ],
+  smoke: { click: '[data-r="4"][data-c="1"]' },
+};

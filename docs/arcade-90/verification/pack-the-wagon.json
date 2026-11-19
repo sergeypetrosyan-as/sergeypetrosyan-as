@@ -1,0 +1,80 @@
+{
+  "id": "pack-the-wagon",
+  "title": "Pack the Wagon",
+  "batch": 2,
+  "ok": true,
+  "at": "2026-11-19T18:35:02.110Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/pack-the-wagon/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Tap goods to load or unload them. Stay under the axle limit, cover the trail's needs, carry at most two fragile crates and reach the value target, then press Set off."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"trail\":0,\"strikes\":0,\"score\":0,\"load\":\"\"} -> {\"trail\":0,\"strikes\":0,\"score\":0,\"load\":\"0\"}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"trail\":0,\"strikes\":0,\"score\":0,\"load\":\"\"}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":600,\"title\":\"Wagon home safe\",\"detail\":\"Three trails crossed with 0 strikes.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"Stranded on the trail\",\"detail\":\"The axle snapped at 21 kg (limit 11).\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "id": "cog-train",
+  "title": "Cog Train",
+  "batch": 7,
+  "ok": true,
+  "at": "2026-11-19T18:39:33.769Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/cog-train/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Pick a gear from the tray, then tap a peg to place it between the motor and the goal gear. Meshing gears reverse direction and change speed by their tooth counts; run the train to test it."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"level\":1,\"runs\":3,\"placed\":[],\"sel\":-1,\"spin\":0} -> {\"level\":1,\"runs\":3,\"placed\":[],\"sel\":101,\"spin\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"level\":1,\"runs\":3,\"placed\":[],\"sel\":-1,\"spin\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1050,\"title\":\"The train runs true\",\"detail\":\"All 3 machines delivered the right speed and direction.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The train seized\",\"detail\":\"Machine 1: out of test runs before the goal turned ↻ ×4.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

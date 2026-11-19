@@ -1,0 +1,80 @@
+{
+  "id": "balance-mobile",
+  "title": "Balance Mobile",
+  "batch": 5,
+  "ok": true,
+  "at": "2026-11-19T18:39:24.834Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/balance-mobile/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Tap a weight, then tap a slot on the bar to hang it. Each weight pulls with its number times its distance from the middle, and both sides must pull equally. Hang every weight before the clock runs out."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"lv\":0,\"sel\":-1,\"placed\":\"\",\"t0\":0} -> {\"lv\":0,\"sel\":0,\"placed\":\"\",\"t0\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"lv\":0,\"sel\":-1,\"placed\":\"\",\"t0\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1875,\"title\":\"Hangs level\",\"detail\":\"All 3 mobiles balanced.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"Crashed to the ground\",\"detail\":\"Mobile 1 was not balanced in time.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

@@ -3,7 +3,8 @@ import { SITE } from './data/site';
 import { isPlayable } from './types/game';
 import { Hero } from './components/Hero';
 import { Navbar } from './components/Navbar';
-import { About, FeaturedGame, Footer, GameGrid } from './components/Sections';
+import { About, CatalogBand, FeaturedGame, Footer, GameGrid } from './components/Sections';
+import { CATEGORIES, CONCEPTS } from '../../source/frontier-games/concepts.mjs';
 
 /** Absolute URL for a repo-root relative path on the deployed site. */
 export const absolute = (path: string): string => new URL(path, SITE.url).href;
@@ -16,6 +17,7 @@ export function renderBody(): string {
     '<main id="main">',
     Hero(GAMES.filter(isPlayable).length),
     GameGrid(GAMES),
+    CatalogBand(CONCEPTS.length, CATEGORIES.map((c) => c.name)),
     FeaturedGame(featuredGame),
     About(),
     '</main>',
@@ -61,7 +63,7 @@ export function structuredData(): string {
 }
 
 export function sitemap(): string {
-  const urls = [SITE.url, ...GAMES.filter(isPlayable).map((g) => absolute(g.playUrl))];
+  const urls = [SITE.url, absolute('./frontier/'), ...GAMES.filter(isPlayable).map((g) => absolute(g.playUrl)), ...CONCEPTS.map((c) => absolute(c.route))];
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map((u) => `  <url><loc>${u}</loc></url>`).join('\n')}

@@ -1,0 +1,80 @@
+{
+  "id": "star-wander",
+  "title": "Star Wander",
+  "batch": 3,
+  "ok": true,
+  "at": "2026-11-19T18:36:27.674Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/star-wander/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Tap a glowing neighbour star to hop there. Three chart cards show hidden shapes: hop along the dotted lanes to trace one exactly and it lights up in the sky."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"pos\":0,\"hops\":0,\"found\":0,\"score\":0} -> {\"pos\":5,\"hops\":1,\"found\":0,\"score\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"pos\":0,\"hops\":0,\"found\":0,\"score\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1355,\"title\":\"The sky is charted\",\"detail\":\"All three constellations traced with 24 hops to spare.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"Dawn breaks\",\"detail\":\"Out of hops with 3 constellation(s) still hidden.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

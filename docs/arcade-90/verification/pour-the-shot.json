@@ -1,0 +1,80 @@
+{
+  "id": "pour-the-shot",
+  "title": "Pour the Shot",
+  "batch": 5,
+  "ok": true,
+  "at": "2026-11-19T18:33:12.121Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/pour-the-shot/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Hold to pour into the glass and let go on the dashed line. The line fades as the glass fills, so judge the stream. Keep total spill under the limit across five glasses."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"n\":1,\"phase\":\"ready\",\"fill\":0,\"spill\":0} -> {\"n\":1,\"phase\":\"result\",\"fill\":19.8,\"spill\":11.2}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"n\":1,\"phase\":\"ready\",\"fill\":0,\"spill\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":967,\"title\":\"Steady hand\",\"detail\":\"Total spill 3 against a limit of 42.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":256,\"title\":\"Too much on the bar\",\"detail\":\"Total spill 62 against a limit of 42.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

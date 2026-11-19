@@ -1,0 +1,80 @@
+{
+  "id": "shell-game",
+  "title": "Shell Game",
+  "batch": 2,
+  "ok": true,
+  "at": "2026-11-19T18:37:43.453Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/shell-game/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Memorise the gold nugget, tap to cover it, follow its cup through the swaps, then tap the cup that holds it. Six rounds, faster each time; two wrong picks and the hustler wins."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"round\":0,\"phase\":\"show\",\"misses\":0,\"score\":0,\"chosen\":-1} -> {\"round\":0,\"phase\":\"shuffle\",\"misses\":0,\"score\":0,\"chosen\":-1}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"round\":0,\"phase\":\"show\",\"misses\":0,\"score\":0,\"chosen\":-1}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":975,\"title\":\"Eyes like a hawk\",\"detail\":\"All six rounds with 0 misses.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"Out-hustled\",\"detail\":\"Two wrong picks. You got through 1 of 6 rounds.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

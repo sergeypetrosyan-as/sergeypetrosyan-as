@@ -1,0 +1,80 @@
+{
+  "id": "aqueduct",
+  "title": "Aqueduct",
+  "batch": 4,
+  "ok": true,
+  "at": "2026-11-19T18:34:30.899Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/aqueduct/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Tap a stone channel to turn it a quarter. Water pours from the spring and runs only through channels that join, so link the spring to every trough before your turns run out."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"level\":0,\"turns\":33,\"cur\":\"2,13,12,1,4,15,15,12,8,14,12,6,2,6,8,12\",\"score\":0} -> {\"level\":0,\"turns\":32,\"cur\":\"2,11,12,1,4,15,15,12,8,14,12,6,2,6,8,12\",\"score\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"level\":0,\"turns\":33,\"cur\":\"2,13,12,1,4,15,15,12,8,14,12,6,2,6,8,12\",\"score\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1170,\"title\":\"Water everywhere\",\"detail\":\"Every trough is full with 26 turns to spare.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The spring runs dry\",\"detail\":\"Out of turns on level 1 with 0 of 5 troughs full.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "id": "dust-devil",
+  "title": "Dust Devil",
+  "batch": 3,
+  "ok": true,
+  "at": "2026-11-19T18:37:09.022Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/dust-devil/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Steer the whirlwind and swallow every object smaller than you to grow. Dodge the red spiked rocks: they are bigger and tear you down. Grow to storm size before the wind drops."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"x\":240,\"y\":448,\"r\":18,\"eaten\":0,\"time\":100,\"hits\":0} -> {\"x\":240,\"y\":326,\"r\":18,\"eaten\":0,\"time\":99,\"hits\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"x\":240,\"y\":448,\"r\":18,\"eaten\":0,\"time\":100,\"hits\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1112,\"title\":\"A storm is born\",\"detail\":\"You swallowed 19 objects and grew into a storm.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The wind dies\",\"detail\":\"Bigger rocks and wagons tore the whirlwind apart.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

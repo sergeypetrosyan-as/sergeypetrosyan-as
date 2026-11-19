@@ -1,0 +1,80 @@
+{
+  "id": "plank-bridge",
+  "title": "Plank Bridge",
+  "batch": 2,
+  "ok": true,
+  "at": "2026-11-19T18:39:10.914Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/plank-bridge/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Tap under the span to plant or lift pillars, then send the wagon. No stretch of plank may be longer than the limit for its load, and you only have so many pillars. Rock marks forbid some spots."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"lvl\":0,\"pil\":\"\",\"phase\":\"build\",\"strikes\":0,\"cursor\":1} -> {\"lvl\":0,\"pil\":\"1\",\"phase\":\"build\",\"strikes\":0,\"cursor\":1}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"lvl\":0,\"pil\":\"\",\"phase\":\"build\",\"strikes\":0,\"cursor\":1}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1040,\"title\":\"Every span crossed\",\"detail\":\"Four bridges held with 0 collapses.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The gorge wins\",\"detail\":\"Three collapses on span 1.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

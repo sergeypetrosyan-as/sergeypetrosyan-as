@@ -1,0 +1,80 @@
+{
+  "id": "spark-chain",
+  "title": "Spark Chain",
+  "batch": 7,
+  "ok": true,
+  "at": "2026-11-19T18:37:26.120Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/spark-chain/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Tap once to drop a single spark on the field of drifting powder kegs. Each keg it touches bursts and spreads the fire, so pick the spot where one spark reaches the most."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"level\":1,\"phase\":\"aim\",\"lit\":0,\"target\":3,\"n\":10} -> {\"level\":1,\"phase\":\"burn\",\"lit\":0,\"target\":3,\"n\":11}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"level\":1,\"phase\":\"aim\",\"lit\":0,\"target\":3,\"n\":10}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":770,\"title\":\"The whole field went up\",\"detail\":\"All 4 fields lit.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The chain fizzled\",\"detail\":\"Level 1: 0 kegs lit, 3 needed.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

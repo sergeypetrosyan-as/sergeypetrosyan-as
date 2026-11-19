@@ -1,0 +1,27 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'Pick four different symbols and press Try the lock. It tells you how many are exact (right place) and how many are misplaced. Open the vault within seven tries.',
+  controls: [
+    { keys: ['Tap', '1 to 6'], action: 'Place a symbol' },
+    { keys: ['Tap slot', 'Backspace'], action: 'Remove a symbol' },
+    { keys: ['Button', 'Enter'], action: 'Try the lock' },
+  ],
+  motif: 'A row of seven dial notches dims one per try, so the guesses you have left are always visible.',
+  cover: [
+    ['stars', 30, 21],
+    ['moon', 82, 18, 8, 0.4],
+    ['mesa', 112, 'mesa'],
+    ['rect', 0, 112, 100, 28, 'umber'],
+    ['circ', 50, 66, 32, 'saddle', 'bone', 1.4],
+    ['circ', 50, 66, 24, 'night', 'ember', 1],
+    ['star5', 50, 66, 8, 'rose'],
+    ['line', 50, 66, 50, 44, 'bone', 1.2],
+    ['circ', 50, 66, 2, 'bone'],
+    ['rect', 18, 108, 64, 6, 'ink'],
+    ['circ', 36, 22, 3, 'rose', 'bone', 0.6],
+    ['circ', 46, 22, 3, 'bone', 'ember', 0.6],
+    ['circ', 56, 22, 3, 'bone', 'ember', 0.6],
+    ['circ', 66, 22, 3, 'none', 'ember', 0.6],
+  ],
+  smoke: { click: '[data-sym="0"]' },
+};

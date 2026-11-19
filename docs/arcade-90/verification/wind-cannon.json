@@ -1,0 +1,80 @@
+{
+  "id": "wind-cannon",
+  "title": "Wind Cannon",
+  "batch": 4,
+  "ok": true,
+  "at": "2026-11-19T18:39:19.781Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/wind-cannon/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Set the angle and the powder charge, check which way the windsock points, then fire. A miss shows where the ball landed, so correct and try again. Hit every target within three shots each."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"round\":0,\"shots\":3,\"phase\":\"aim\",\"angle\":45,\"power\":60,\"score\":0} -> {\"round\":0,\"shots\":2,\"phase\":\"fly\",\"angle\":45,\"power\":60,\"score\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"round\":0,\"shots\":3,\"phase\":\"aim\",\"angle\":45,\"power\":60,\"score\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1500,\"title\":\"Every target down\",\"detail\":\"You hit all 5 targets.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"Out of powder\",\"detail\":\"Three misses on target 1.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

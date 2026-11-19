@@ -1,0 +1,26 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'Walk the salt flat and step on sign posts to read where they point. Several pools shimmer, only one is real: the signs that lead to the same pool are the ones to trust.',
+  controls: [
+    { keys: ['Tap'], action: 'Walk to a tile' },
+    { keys: ['←', '↑', '↓', '→'], action: 'Step' },
+  ],
+  motif: 'Each sign you read draws a dotted line to the pool it claims; where the lines meet is where the truth is.',
+  cover: [
+    ['stars', 40, 17],
+    ['moon', 22, 22, 9, 0.5],
+    ['mesa', 66, 'mesa'],
+    ['rect', 0, 66, 100, 74, 'wine'],
+    ['circ', 28, 86, 8, 'night', 'rose', 1],
+    ['circ', 74, 80, 8, 'night', 'rose', 1],
+    ['circ', 56, 112, 8, 'night', 'rose', 1],
+    ['circ', 56, 112, 3, 'rose'],
+    ['con', [[16, 104], [56, 112]]],
+    ['con', [[88, 108], [56, 112]]],
+    ['con', [[30, 122], [56, 112]]],
+    ['line', 74, 80, 40, 100, 'ember', 0.7, '1.5 2.5'],
+    ['rect', 14, 100, 3, 10, 'saddle'],
+    ['poly', [[10, 98], [20, 98], [24, 102], [20, 106], [10, 106]], 'bone', 'ember', 0.6],
+  ],
+  smoke: { key: 'ArrowUp' },
+};

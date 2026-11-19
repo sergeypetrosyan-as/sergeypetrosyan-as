@@ -31,6 +31,24 @@ export function GameGrid(games: Game[]): string {
 </section>`;
 }
 
+/** One clear way into the ninety small games: a band under the deck that links to the catalog. */
+export function CatalogBand(count: number, categories: string[]): string {
+  return `
+<section class="section catalog-band" id="catalog" aria-labelledby="catalog-title">
+  <div class="container">
+    <div class="band-card">
+      <div class="band-copy">
+        <p class="kicker">The observatory catalog</p>
+        <h2 class="section-title" id="catalog-title">${count} more small games</h2>
+        <p class="section-lead">Quick, complete games for timing, deduction, spatial puzzles, planning, simulation, exploration, action, memory, duels and craft. Search the catalog and open any card.</p>
+        <p class="band-kinds">${categories.map((c) => `<span>${esc(c)}</span>`).join('')}</p>
+        <a class="btn btn-primary btn-lg" href="./frontier/">${icon('arrowRight', 16)} Browse the catalog</a>
+      </div>
+    </div>
+  </div>
+</section>`;
+}
+
 export function FeaturedGame(game: Game | undefined): string {
   if (!game || !isPlayable(game)) return '';
   const media = game.previewGif ?? game.thumbnail;

@@ -1,0 +1,80 @@
+{
+  "id": "sowing-pits",
+  "title": "Sowing Pits",
+  "batch": 9,
+  "ok": true,
+  "at": "2026-11-19T18:38:59.270Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/sowing-pits/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Tap one of your pits to pick up its seeds and drop one in each pit that follows, round the board. End in your store to go again; end in an empty pit of yours to capture the seeds opposite."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"match\":0,\"turn\":0,\"b\":\"3,3,3,3,3,0,3,3,3,3,3,0\",\"phase\":\"play\"} -> {\"match\":0,\"turn\":0,\"b\":\"3,3,0,4,4,1,3,3,3,3,3,0\",\"phase\":\"play\"}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"match\":0,\"turn\":0,\"b\":\"3,3,3,3,3,0,3,3,3,3,3,0\",\"phase\":\"play\"}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1920,\"title\":\"Both rivals beaten\",\"detail\":\"You won 25 to 5 against the Sharp rival.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The rival took the pits\",\"detail\":\"6 to 24 against the Apprentice.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

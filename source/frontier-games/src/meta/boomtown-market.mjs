@@ -1,0 +1,26 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'Buy goods where they are cheap, then ride to a camp one day away where they sell dear. Arrows show tomorrow’s price move. Reach the fortune goal in thirty days.',
+  controls: [
+    { keys: ['Tap', 'Click'], action: 'Buy, sell, or ride to a lit camp' },
+  ],
+  motif: 'A constellation of camps: only camps joined by a line are one day apart, so your route is the shape you trace.',
+  cover: [
+    ['stars', 34, 8],
+    ['moon', 82, 18, 8, 0.2],
+    ['con', [[16, 40], [46, 24], [82, 42], [70, 78], [26, 76], [16, 40]]],
+    ['line', 46, 24, 70, 78, 'rose', 0.6, '1.2 2.2'],
+    ['mesa', 112, 'mesa'],
+    ['rect', 0, 112, 100, 28, 'umber'],
+    ['circ', 16, 40, 4, 'bone', 'ember', 1],
+    ['circ', 82, 42, 4, 'bone', 'ember', 1],
+    ['star5', 46, 24, 5, 'rose'],
+    ['circ', 70, 78, 4, 'bone', 'ember', 1],
+    ['circ', 26, 76, 4, 'bone', 'ember', 1],
+    ['rect', 38, 116, 24, 14, 'saddle', 'tan', 1, 2],
+    ['circ', 44, 132, 3.5, 'ink', 'tan', 1],
+    ['circ', 58, 132, 3.5, 'ink', 'tan', 1],
+    ['text', '$', 50, 127, 11, 'bone'],
+  ],
+  smoke: { click: '[data-buy="0"]' },
+};

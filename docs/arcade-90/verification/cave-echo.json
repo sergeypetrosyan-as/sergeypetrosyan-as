@@ -1,0 +1,80 @@
+{
+  "id": "cave-echo",
+  "title": "Cave Echo",
+  "batch": 2,
+  "ok": true,
+  "at": "2026-11-19T18:36:23.358Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/cave-echo/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "The cave is dark. Press Ping to hear how far each direction runs before a wall rings back, then walk to the star exit. Steps, bumps and pings all spend air."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"lvl\":0,\"pr\":0,\"pc\":0,\"air\":30,\"score\":0,\"known\":0} -> {\"lvl\":0,\"pr\":0,\"pc\":0,\"air\":28,\"score\":0,\"known\":14}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"lvl\":0,\"pr\":0,\"pc\":0,\"air\":30,\"score\":0,\"known\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1020,\"title\":\"Out into the starlight\",\"detail\":\"All three caves crossed with 27 air left.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The air ran out\",\"detail\":\"You were 12 steps from the exit in cave 1.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

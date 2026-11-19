@@ -1,0 +1,80 @@
+{
+  "id": "observatory-power",
+  "title": "Observatory Power",
+  "batch": 7,
+  "ok": true,
+  "at": "2026-11-19T18:36:05.940Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/observatory-power/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Use the + and − buttons to share the battery between lamp, motor and cooling. Keep light, aim and heat inside their hatched bands until dawn, while the battery weakens and the weather turns."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"t\":0.3,\"alloc\":[2,2,2],\"g\":[32,32,22],\"strain\":0} -> {\"t\":0.7,\"alloc\":[3,2,2],\"g\":[36,32,22],\"strain\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"t\":0,\"alloc\":[2,2,2],\"g\":[32,32,22],\"strain\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":600,\"title\":\"Dawn at the observatory\",\"detail\":\"The lamp, motor and cooling held all night.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":74,\"title\":\"The night won\",\"detail\":\"A gauge stayed out of band too long at 7 s of 60.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

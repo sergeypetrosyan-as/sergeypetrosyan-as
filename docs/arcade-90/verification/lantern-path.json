@@ -1,0 +1,80 @@
+{
+  "id": "lantern-path",
+  "title": "Lantern Path",
+  "batch": 9,
+  "ok": true,
+  "at": "2026-11-19T18:38:15.037Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/lantern-path/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Watch the lanterns light a route one tile at a time. When they go dark, tap the same tiles in the same order, starting from the star."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"round\":0,\"lives\":3,\"phase\":\"show\",\"pos\":0,\"score\":0} -> {\"round\":0,\"lives\":3,\"phase\":\"input\",\"pos\":0,\"score\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"round\":0,\"lives\":3,\"phase\":\"show\",\"pos\":0,\"score\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":4350,\"title\":\"Every route remembered\",\"detail\":\"You walked all 5 routes with 3 lanterns to spare.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The lanterns went out\",\"detail\":\"You lost the route on path 1 of 5.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'Tap along with the hoofbeat. Halfway through each bar the beat goes silent: keep tapping the same tempo. Your average error on the silent beats must stay under the limit to win the next horse.',
+  controls: [
+    { keys: ['Tap', 'Space'], action: 'Hoof beat' },
+  ],
+  motif: 'A row of horseshoes is one bar. Lit shoes are sounded beats, outlined shoes are silent ones; the offset of each silent tap is stamped on its shoe as early or late.',
+  cover: [
+    ['stars', 34, 5],
+    ['moon', 24, 24, 11, 0.35],
+    ['mesa', 108, 'mesa'],
+    ['rect', 0, 108, 100, 32, 'umber'],
+    ['path', 'M32 100 L32 70 Q32 46 50 46 Q68 46 68 70 L68 100 L58 100 L58 72 Q58 56 50 56 Q42 56 42 72 L42 100 Z', 'tan', 'bone', 1],
+    ['circ', 36, 80, 1.4, 'night'],
+    ['circ', 64, 80, 1.4, 'night'],
+    ['circ', 38, 92, 1.4, 'night'],
+    ['circ', 62, 92, 1.4, 'night'],
+    ['circ', 14, 122, 4, 'rose', 'bone', 0.8],
+    ['circ', 30, 122, 4, 'rose', 'bone', 0.8],
+    ['circ', 46, 122, 4, 'rose', 'bone', 0.8],
+    ['circ', 62, 122, 4, 'none', 'ember', 0.9],
+    ['circ', 78, 122, 4, 'none', 'ember', 0.9],
+    ['circ', 94, 122, 4, 'none', 'ember', 0.9],
+  ],
+  smoke: { click: '[data-tap]' },
+};

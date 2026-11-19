@@ -1,0 +1,26 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'You and a rival each hold three hidden dice. Bid how many of one face sit on the whole table, then raise or call a bluff. Whoever is wrong loses a die; first to lose all three loses.',
+  controls: [
+    { keys: ['+', '−', 'Face'], action: 'Choose a bid' },
+    { keys: ['Bid'], action: 'Place it' },
+    { keys: ['Call bluff'], action: 'Challenge the last bid' },
+  ],
+  motif: 'The table is the shared pool of dice: your dice are shown, the rival cups are hidden, and the reveal marks every die matching the bid.',
+  cover: [
+    ['stars', 30, 81],
+    ['moon', 80, 18, 8, 0.4],
+    ['mesa', 112, 'mesa'],
+    ['rect', 0, 108, 100, 32, 'umber'],
+    ['path', 'M10 110 Q50 78 90 110 Z', 'saddle', 'tan', 1],
+    ['rect', 22, 74, 18, 18, 'bone', 'ink', 0.8, 3],
+    ['circ', 28, 80, 1.6, 'ink'], ['circ', 34, 86, 1.6, 'ink'],
+    ['rect', 46, 70, 18, 18, 'bone', 'ink', 0.8, 3],
+    ['circ', 51, 75, 1.5, 'ink'], ['circ', 59, 75, 1.5, 'ink'], ['circ', 55, 79, 1.5, 'ink'], ['circ', 51, 83, 1.5, 'ink'], ['circ', 59, 83, 1.5, 'ink'],
+    ['rect', 68, 76, 18, 18, 'red', 'rose', 1, 3],
+    ['circ', 77, 85, 2.4, 'white'],
+    ['path', 'M30 30 Q50 12 70 30 L66 50 L34 50 Z', 'night', 'ember', 1],
+    ['star5', 50, 38, 5, 'rose'],
+  ],
+  smoke: { click: '[data-bid]' },
+};

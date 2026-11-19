@@ -1,0 +1,80 @@
+{
+  "id": "fever-town",
+  "title": "Fever Town",
+  "batch": 5,
+  "ok": true,
+  "at": "2026-11-19T18:35:56.728Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/fever-town/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Each day you may send one doctor to a sick house and close two doors, then the fever spreads along the lanes. Keep fewer than five houses from being lost for ten days."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"day\":1,\"st\":\"010100000000\",\"cl\":\"000000000000\",\"docs\":1,\"doors\":2} -> {\"day\":2,\"st\":\"010101010000\",\"cl\":\"000000000000\",\"docs\":1,\"doors\":2}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"day\":1,\"st\":\"010100000000\",\"cl\":\"000000000000\",\"docs\":1,\"doors\":2}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1240,\"title\":\"The fever breaks\",\"detail\":\"12 houses stand. 5 cases in all, 0 lost.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The town empties\",\"detail\":\"5 houses were lost to the fever by day 4.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "id": "orrery-rings",
+  "title": "Orrery Rings",
+  "batch": 9,
+  "ok": true,
+  "at": "2026-11-19T18:34:53.237Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/orrery-rings/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Turn a ring left or right to line its gap up under the rose marker at the top. Every ring drags one neighbour along, so plan your turns."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"round\":0,\"raw\":[2,4,0],\"turns\":0} -> {\"round\":0,\"raw\":[3,5,0],\"turns\":1}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"round\":0,\"raw\":[2,4,0],\"turns\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1460,\"title\":\"The orrery turns true\",\"detail\":\"All three orreries aligned.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"Out of turns\",\"detail\":\"The gaps stayed crooked on orrery 1. Check which ring each one drags.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

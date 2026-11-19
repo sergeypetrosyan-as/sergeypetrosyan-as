@@ -1,0 +1,80 @@
+{
+  "id": "boomtown-market",
+  "title": "Boomtown Market",
+  "batch": 6,
+  "ok": true,
+  "at": "2026-11-19T18:36:01.289Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/boomtown-market/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Buy goods where they are cheap, then ride to a camp one day away where they sell dear. Arrows show tomorrow’s price move. Reach the fortune goal in thirty days."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"day\":1,\"camp\":0,\"cash\":150,\"inv\":\"0,0,0,0\"} -> {\"day\":1,\"camp\":0,\"cash\":142,\"inv\":\"1,0,0,0\"}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"day\":1,\"camp\":0,\"cash\":150,\"inv\":\"0,0,0,0\"}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":6091,\"title\":\"Boomtown fortune\",\"detail\":\"You closed the season with $6091; the goal was $2750.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":150,\"title\":\"Short of the goal\",\"detail\":\"You closed the season with $150; the goal was $4050.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

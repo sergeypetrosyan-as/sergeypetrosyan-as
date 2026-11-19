@@ -1,0 +1,25 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'Read the row of cattle brands, work out the rule that builds it, and tap the brand that comes next. Shapes and dots both change, and the rules get trickier every row.',
+  controls: [
+    { keys: ['Tap', 'Click'], action: 'Choose the next brand' },
+    { keys: ['1', '2', '3', '4'], action: 'Choose an answer by number' },
+  ],
+  motif: 'The row is drawn like stars on a chart in a fixed order, with a dashed "?" slot where the pattern continues, so position carries the rule.',
+  cover: [
+    ['stars', 30, 41],
+    ['moon', 20, 22, 9, 0.5],
+    ['mesa', 112, 'mesa'],
+    ['rect', 0, 112, 100, 28, 'umber'],
+    ['rect', 8, 52, 84, 28, 'night', 'ember', 1.2, 3],
+    ['star5', 20, 66, 6, 'bone'],
+    ['poly', [[34, 66], [39, 58], [44, 66], [39, 74]], 'rose', 'bone', 0.8],
+    ['star5', 56, 66, 6, 'bone'],
+    ['poly', [[64, 66], [69, 58], [74, 66], [69, 74]], 'rose', 'bone', 0.8],
+    ['rect', 78, 58, 10, 16, 'none', 'rose', 1, 2],
+    ['text', '?', 83, 70, 12, 'rose', 'middle'],
+    ['con', [[22, 94], [42, 100], [62, 94], [80, 100]]],
+    ['cactus', 90, 112, 20, 'ink'],
+  ],
+  smoke: { click: '[data-opt="0"]' },
+};

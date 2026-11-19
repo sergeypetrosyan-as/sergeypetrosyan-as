@@ -1,0 +1,80 @@
+{
+  "id": "rail-depot",
+  "title": "Rail Depot",
+  "batch": 8,
+  "ok": true,
+  "at": "2026-11-19T18:36:10.569Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/rail-depot/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Crates pile up in the yard. Pick which train the single loader fills, then send full trains away. If the yard overflows, the shift is lost. Survive three shifts."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"shift\":0,\"piles\":[2,1,1,0],\"target\":-1,\"loads\":[0,0,0],\"sent\":0} -> {\"shift\":0,\"piles\":[2,1,1,0],\"target\":0,\"loads\":[0,0,0],\"sent\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"shift\":0,\"piles\":[2,1,1,0],\"target\":-1,\"loads\":[0,0,0],\"sent\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1500,\"title\":\"Depot kept moving\",\"detail\":\"Three shifts without an overflow; 128 crates sent.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"Yard overflowing\",\"detail\":\"Cargo spilled onto the main line in shift 1. 0 crates were sent.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

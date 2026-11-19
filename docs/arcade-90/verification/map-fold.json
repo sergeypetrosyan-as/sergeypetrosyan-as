@@ -1,0 +1,80 @@
+{
+  "id": "map-fold",
+  "title": "Map Fold",
+  "batch": 6,
+  "ok": true,
+  "at": "2026-11-19T18:34:39.744Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/map-fold/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Tap an arrow to pick a fold line and preview the result, then press Fold. Both sides mirror onto the dashed line. Stack every star on one square before the folds run out."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"lvl\":0,\"left\":7,\"sel\":null,\"grid\":\"5x5:1000000100001000010100000\"} -> {\"lvl\":0,\"left\":7,\"sel\":[\"v\",2],\"grid\":\"5x5:1000000100001000010100000\"}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"lvl\":0,\"left\":7,\"sel\":null,\"grid\":\"5x5:1000000100001000010100000\"}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":800,\"title\":\"Every mark aligned\",\"detail\":\"All 3 maps folded with the stars stacked.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"Out of folds\",\"detail\":\"Map 1: 2 marks were still apart.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

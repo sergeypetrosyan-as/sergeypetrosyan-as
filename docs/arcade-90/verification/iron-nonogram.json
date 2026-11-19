@@ -1,0 +1,80 @@
+{
+  "id": "iron-nonogram",
+  "title": "Iron Nonogram",
+  "batch": 9,
+  "ok": true,
+  "at": "2026-11-19T18:34:11.253Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/iron-nonogram/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "The numbers on each row and column give the lengths of the iron runs. Work out which squares must be filled, brand them, and mark the sure blanks."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"round\":0,\"mistakes\":0,\"filled\":0,\"marked\":0,\"mode\":\"fill\"} -> {\"round\":0,\"mistakes\":0,\"filled\":1,\"marked\":0,\"mode\":\"fill\"}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"round\":0,\"mistakes\":0,\"filled\":0,\"marked\":0,\"mode\":\"fill\"}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1500,\"title\":\"All brands burned in\",\"detail\":\"Three brands in 0 seconds with 0 mistakes.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The iron cooled\",\"detail\":\"Three wrong cells on brand 1. Deduce from the runs, do not guess.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

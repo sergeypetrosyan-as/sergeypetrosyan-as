@@ -1,0 +1,80 @@
+{
+  "id": "gopher-holes",
+  "title": "Gopher Holes",
+  "batch": 8,
+  "ok": true,
+  "at": "2026-11-19T18:37:31.039Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/gopher-holes/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Gophers and sheriff’s hats pop out of nine holes. Tap every gopher before it dives (+10), but leave the hat alone: three hat taps end the day. Score 180 before sundown."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"t\":3,\"score\":0,\"lives\":3,\"up\":\"000000000\"} -> {\"t\":6,\"score\":0,\"lives\":3,\"up\":\"100000000\"}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"t\":0,\"score\":0,\"lives\":3,\"up\":\"000000000\"}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":450,\"title\":\"Sundown, field cleared\",\"detail\":\"450 points with 3 hat spares left.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"Sheriff’s hat hit\",\"detail\":\"You tapped three sheriff’s hats after 0 gophers.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

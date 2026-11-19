@@ -1,0 +1,80 @@
+{
+  "id": "tumble-run",
+  "title": "Tumble Run",
+  "batch": 2,
+  "ok": true,
+  "at": "2026-11-19T18:37:03.800Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/tumble-run/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Swipe or press left and right to change lane and dodge the tumbleweeds. Tap or press Up to hop low rocks. Reach the town 2,400 m away with a heart left."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"lane\":1,\"jt\":false,\"dist\":8,\"hearts\":3,\"score\":0} -> {\"lane\":0,\"jt\":false,\"dist\":17,\"hearts\":3,\"score\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"lane\":1,\"jt\":false,\"dist\":0,\"hearts\":3,\"score\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":4364,\"title\":\"Town in sight\",\"detail\":\"Ran 2400 m with 3 hearts left and 12 stars.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":54,\"title\":\"Trampled by tumbleweeds\",\"detail\":\"You made it 187 m of 2400 m.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

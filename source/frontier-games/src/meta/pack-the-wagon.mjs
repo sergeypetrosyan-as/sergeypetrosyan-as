@@ -1,0 +1,26 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'Tap goods to load or unload them. Stay under the axle limit, cover the trail\'s needs, carry at most two fragile crates and reach the value target, then press Set off.',
+  controls: [
+    { keys: ['Tap', '1 to 9'], action: 'Load or unload a good' },
+    { keys: ['Button', 'Enter'], action: 'Set off' },
+  ],
+  motif: 'The wagon axle bends as you load it and turns red with a SNAP label past the limit, so weight is read at a glance.',
+  cover: [
+    ['stars', 30, 14],
+    ['sun', 80, 22, 8],
+    ['mesa', 112, 'mesa'],
+    ['rect', 0, 112, 100, 28, 'umber'],
+    ['path', 'M22 80 Q50 90 78 80', 'none', 'tan', 2.4],
+    ['rect', 28, 56, 44, 22, 'saddle', 'ink', 1],
+    ['path', 'M26 56 Q50 28 74 56 Z', 'bone', 'ink', 1],
+    ['rect', 32, 62, 10, 10, 'rose', 'ink', 0.6],
+    ['rect', 46, 62, 10, 10, 'tan', 'ink', 0.6],
+    ['rect', 58, 62, 10, 10, 'ember', 'ink', 0.6],
+    ['circ', 30, 96, 12, 'none', 'ember', 2.4],
+    ['circ', 70, 96, 12, 'none', 'ember', 2.4],
+    ['line', 30, 96, 70, 96, 'tan', 2],
+    ['star5', 50, 44, 4, 'rose'],
+  ],
+  smoke: { click: '[data-good="0"]' },
+};

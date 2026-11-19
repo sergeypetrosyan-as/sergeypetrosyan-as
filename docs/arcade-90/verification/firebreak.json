@@ -1,0 +1,80 @@
+{
+  "id": "firebreak",
+  "title": "Firebreak",
+  "batch": 3,
+  "ok": true,
+  "at": "2026-11-19T18:35:47.455Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/firebreak/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Tap brush cells to cut a limited number of firebreaks, then press Light the fire. The wind pushes the blaze and embers leap a thin break, so wall off every homestead."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"season\":0,\"phase\":\"plan\",\"breaks\":[],\"tick\":0,\"score\":0,\"passed\":0} -> {\"season\":0,\"phase\":\"plan\",\"breaks\":[1],\"tick\":0,\"score\":0,\"passed\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"season\":0,\"phase\":\"plan\",\"breaks\":[],\"tick\":0,\"score\":0,\"passed\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":610,\"title\":\"The homesteads stand\",\"detail\":\"You saved the homesteads in 2 of 2 seasons.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The range burned\",\"detail\":\"Homesteads were lost in 2 seasons. Cut windward breaks two thick.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "id": "roundhouse",
+  "title": "Roundhouse",
+  "batch": 9,
+  "ok": true,
+  "at": "2026-11-19T18:40:13.699Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:3981/games/roundhouse/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Each engine names its stall. Turn the bridge by the shortest way so its arrow points at that stall before the timer runs out."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"shift\":0,\"idx\":-1,\"pos\":0,\"target\":null,\"queue\":0,\"turning\":0,\"hits\":0,\"miss\":0,\"score\":0} -> {\"shift\":0,\"idx\":-1,\"pos\":1,\"target\":null,\"queue\":0,\"turning\":0,\"hits\":0,\"miss\":0,\"score\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"shift\":0,\"idx\":-1,\"pos\":0,\"target\":null,\"queue\":0,\"turning\":0,\"hits\":0,\"miss\":0,\"score\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":2250,\"title\":\"Every engine stabled\",\"detail\":\"18 engines in, 0 wrecked.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"Roundhouse wrecked\",\"detail\":\"0 engines stabled before the third wreck.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

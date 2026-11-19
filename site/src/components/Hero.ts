@@ -107,6 +107,7 @@ export function Hero(gameCount: number): string {
       <p class="hero-lead m-enter" style="--d:2">${gameCount} original games you play in the browser: a time-lens puzzle, a 3D tank arena, a detective case, a stealth heist and more. Pick a card; nothing to install.</p>
       <div class="hero-actions m-enter" style="--d:3">
         <a class="btn btn-primary" href="#games">Pick a game ${icon('arrowDown', 16)}</a>
+        <a class="btn btn-ghost" href="./frontier/">Browse 90 more games</a>
         <a class="btn btn-ghost" href="${SITE.repository}" target="_blank" rel="noopener noreferrer">${icon('github', 16)} Read the source</a>
       </div>
       <dl class="hero-meta m-enter" style="--d:4">

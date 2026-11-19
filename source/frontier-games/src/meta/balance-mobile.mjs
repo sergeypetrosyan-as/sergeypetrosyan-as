@@ -1,0 +1,32 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'Tap a weight, then tap a slot on the bar to hang it. Each weight pulls with its number times its distance from the middle, and both sides must pull equally. Hang every weight before the clock runs out.',
+  controls: [
+    { keys: ['Tap a weight'], action: 'Pick it up' },
+    { keys: ['Tap a slot'], action: 'Hang it there' },
+    { keys: ['Tap a hung weight'], action: 'Take it back' },
+  ],
+  motif: 'Numbered ticks mark each slot\'s distance from the pivot, and the bar tilts live toward the heavier pull so torque is visible.',
+  cover: [
+    ['stars', 30, 91],
+    ['moon', 80, 18, 8, 0.3],
+    ['mesa', 112, 'mesa'],
+    ['rect', 0, 110, 100, 30, 'umber'],
+    ['line', 50, 0, 50, 30, 'ember', 1.2],
+    ['line', 18, 30, 82, 30, 'bone', 2],
+    ['circ', 50, 30, 2.5, 'red', 'bone', 0.6],
+    ['line', 28, 30, 28, 42, 'bone', 0.8],
+    ['rect', 21, 42, 14, 14, 'tan', 'bone', 0.8, 2],
+    ['line', 70, 30, 70, 46, 'bone', 0.8],
+    ['rect', 66, 46, 8, 8, 'tan', 'bone', 0.8, 2],
+    ['line', 62, 30, 62, 70, 'bone', 0.8],
+    ['line', 44, 70, 80, 70, 'bone', 1.6],
+    ['rect', 38, 70, 0.1, 0.1, 'none'],
+    ['rect', 44, 80, 10, 10, 'rose', 'bone', 0.8, 2],
+    ['rect', 70, 80, 10, 10, 'tan', 'bone', 0.8, 2],
+    ['line', 49, 70, 49, 80, 'bone', 0.8],
+    ['line', 75, 70, 75, 80, 'bone', 0.8],
+    ['cactus', 90, 110, 18, 'ink'],
+  ],
+  smoke: { click: '[data-w]' },
+};

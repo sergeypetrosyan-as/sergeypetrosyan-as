@@ -1,0 +1,80 @@
+{
+  "id": "salt-mirage",
+  "title": "Salt Mirage",
+  "batch": 9,
+  "ok": true,
+  "at": "2026-11-19T18:36:54.821Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/salt-mirage/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Walk the salt flat and step on sign posts to read where they point. Several pools shimmer, only one is real: the signs that lead to the same pool are the ones to trust."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"flat\":0,\"x\":3,\"y\":5,\"steps\":23,\"read\":0,\"gone\":0} -> {\"flat\":0,\"x\":3,\"y\":4,\"steps\":22,\"read\":0,\"gone\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"flat\":0,\"x\":3,\"y\":5,\"steps\":23,\"read\":0,\"gone\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1240,\"title\":\"Water at last\",\"detail\":\"You found the real water on all three flats.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The canteen ran dry\",\"detail\":\"You ran out of water on flat 1. Trust the signs that agree.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

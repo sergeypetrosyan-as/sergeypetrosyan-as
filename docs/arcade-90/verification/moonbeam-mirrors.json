@@ -1,0 +1,80 @@
+{
+  "id": "moonbeam-mirrors",
+  "title": "Moonbeam Mirrors",
+  "batch": 3,
+  "ok": true,
+  "at": "2026-11-19T18:34:26.210Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/moonbeam-mirrors/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "The moon fires a beam in from the left. Tap a mirror to flip its slant and watch the beam re-route; light every lantern before your turns run out."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"lvl\":0,\"turns\":8,\"score\":0,\"lit\":6,\"flips\":\"000\"} -> {\"lvl\":1,\"turns\":12,\"score\":440,\"lit\":5,\"flips\":\"10100\"}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"lvl\":0,\"turns\":8,\"score\":0,\"lit\":6,\"flips\":\"000\"}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1480,\"title\":\"Every lantern burns\",\"detail\":\"The moonbeam reached all the lanterns on three nights.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The moon sets\",\"detail\":\"Out of turns on night 1 with 2 lantern(s) dark.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

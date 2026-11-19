@@ -1,0 +1,80 @@
+{
+  "id": "gavel-auction",
+  "title": "Gavel Auction",
+  "batch": 8,
+  "ok": true,
+  "at": "2026-11-19T18:38:53.940Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/gavel-auction/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Each lot shows what it is worth to you. Set a sealed bid and place it: the highest bid wins the lot and you pocket worth minus bid. Rivals bid by their own hidden nerves, so learn from each reveal. Finish eight lots with the most profit."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"lot\":0,\"bid\":20,\"cash\":100,\"profit\":0} -> {\"lot\":0,\"bid\":25,\"cash\":100,\"profit\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"lot\":0,\"bid\":20,\"cash\":100,\"profit\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":350,\"title\":\"Top bidder\",\"detail\":\"You cleared $35; the best rival made $5.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"Outbid\",\"detail\":\"You made $0; $25 was the minimum.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

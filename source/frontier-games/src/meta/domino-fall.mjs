@@ -1,0 +1,25 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'Tap the ledge to stand your dominoes between the first one and the bell, then tip the first. Each domino must stand within one tip-length of the next, including across the gaps.',
+  controls: [
+    { keys: ['Tap', 'Click'], action: 'Stand or lift a domino' },
+    { keys: ['Tip the first domino', 'Enter'], action: 'Start the chain' },
+  ],
+  motif: 'A dashed bracket over the last domino shows how far its tip reaches, which is how far away the next domino may stand; a red cross marks where a chain broke.',
+  cover: [
+    ['stars', 32, 91],
+    ['moon', 18, 22, 9, 0.2],
+    ['mesa', 112, 'mesa'],
+    ['rect', 0, 100, 100, 40, 'umber'],
+    ['line', 0, 100, 100, 100, 'ember', 1],
+    ['rect', 10, 78, 4.4, 22, 'rose', 'ink', 0.6],
+    ['rect', 24, 78, 4.4, 22, 'bone', 'ink', 0.6],
+    ['rect', 38, 78, 4.4, 22, 'bone', 'ink', 0.6],
+    ['poly', [[52, 100], [56, 100], [66, 80], [62, 78]], 'bone', 'ink', 0.6],
+    ['poly', [[66, 100], [70, 100], [88, 90], [86, 86]], 'bone', 'ink', 0.6],
+    ['path', 'M84 56 Q84 34 92 34 Q100 34 100 56 Z', 'tan', 'bone', 1],
+    ['line', 10, 70, 32, 70, 'rose', 1, '2 2'],
+    ['line', 32, 66, 32, 74, 'rose', 1],
+  ],
+  smoke: { tap: [0.5, 0.5] },
+};

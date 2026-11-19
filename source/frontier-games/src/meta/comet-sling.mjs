@@ -1,0 +1,23 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'Drag back from the comet and let go to sling it. Planets pull it into a curve; bend the path onto the star target before your launches run out.',
+  controls: [
+    { keys: ['Drag back'], action: 'Aim and set power' },
+    { keys: ['Release'], action: 'Launch' },
+  ],
+  motif: 'Dashed rings around every planet mark its gravity well, and a dotted guide shows the first stretch of your path.',
+  cover: [
+    ['stars', 40, 23],
+    ['mesa', 128, 'mesa'],
+    ['circ', 40, 56, 11, 'wine', 'ember', 1],
+    ['circ', 40, 56, 21, 'none', 'umber', 0.6],
+    ['circ', 40, 56, 30, 'none', 'umber', 0.5],
+    ['circ', 74, 94, 8, 'wine', 'ember', 1],
+    ['circ', 74, 94, 16, 'none', 'umber', 0.6],
+    ['star5', 80, 24, 9, 'rose'],
+    ['path', 'M 14 118 Q 30 70 62 76 T 78 28', 'none', 'rose', 0.9],
+    ['line', 14, 118, 40, 90, 'bone', 0.7, '1 2.5'],
+    ['circ', 14, 118, 3.5, 'bone', 'red', 0.8],
+  ],
+  smoke: { drag: [0.15, 0.87, 0.05, 0.96] },
+};

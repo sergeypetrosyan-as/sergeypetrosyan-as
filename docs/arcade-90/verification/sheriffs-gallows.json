@@ -1,0 +1,80 @@
+{
+  "id": "sheriffs-gallows",
+  "title": "Who Shot the Sheriff",
+  "batch": 1,
+  "ok": true,
+  "at": "2026-11-19T18:33:34.930Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/sheriffs-gallows/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Read each witness clue, then Clear every suspect it rules out. When only one suspect fits, Accuse them. Two wrong accusations and the shooter walks."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"shown\":1,\"marks\":\"000000\",\"lives\":2,\"wrong\":0} -> {\"shown\":1,\"marks\":\"100000\",\"lives\":2,\"wrong\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"shown\":1,\"marks\":\"000000\",\"lives\":2,\"wrong\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":640,\"title\":\"Case closed\",\"detail\":\"Dusty Reyes did it. You used 4 of 4 clues and 0 wrong accusations.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The real shooter rides free\",\"detail\":\"You accused the wrong people. It was Pearl Mercer.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

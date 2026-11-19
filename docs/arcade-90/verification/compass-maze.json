@@ -1,0 +1,80 @@
+{
+  "id": "compass-maze",
+  "title": "Compass Maze",
+  "batch": 5,
+  "ok": true,
+  "at": "2026-11-19T18:36:36.737Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/compass-maze/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "The maze is dark. Walk with the arrow keys or by tapping beside your marker; walls appear once you have stood in a cell. The compass needle points at the exit. Escape three mazes before your steps run out."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"lv\":0,\"px\":0,\"py\":0,\"steps\":0,\"score\":0} -> {\"lv\":0,\"px\":1,\"py\":0,\"steps\":1,\"score\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"lv\":0,\"px\":0,\"py\":0,\"steps\":0,\"score\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":2850,\"title\":\"Out of the dark\",\"detail\":\"All 3 mazes escaped. The last one took 60 steps.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"Lost in the dark\",\"detail\":\"You ran out of steps in maze 1.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

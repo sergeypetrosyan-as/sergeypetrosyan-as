@@ -1,0 +1,80 @@
+{
+  "id": "wagon-jam",
+  "title": "Wagon Jam",
+  "batch": 1,
+  "ok": true,
+  "at": "2026-11-19T18:34:16.366Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/wagon-jam/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Drag wagons along their lanes to clear a path. Roll the rose MAIL wagon out of the gate on the right, in as few slides as you can."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"sel\":-1,\"moves\":0,\"cars\":\"1001411442\"} -> {\"sel\":0,\"moves\":0,\"cars\":\"1001411442\"}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"sel\":-1,\"moves\":0,\"cars\":\"1001411442\"}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1000,\"title\":\"Mail gets through\",\"detail\":\"The gate is clear in 6 moves. Par was 6.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"Jammed up\",\"detail\":\"You ran out of the 20 moves allowed before the mail reached the gate.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

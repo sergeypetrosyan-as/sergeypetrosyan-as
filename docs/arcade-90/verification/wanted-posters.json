@@ -1,0 +1,80 @@
+{
+  "id": "wanted-posters",
+  "title": "Wanted Posters",
+  "batch": 6,
+  "ok": true,
+  "at": "2026-11-19T18:38:00.634Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/wanted-posters/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Study the outlaw on the poster: hat, eyes, mouth, beard and any mark. When the poster comes down, tap the same man in the lineup of look-alikes."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"round\":0,\"phase\":\"study\",\"chosen\":-1,\"right\":0,\"mistakes\":0} -> {\"round\":0,\"phase\":\"pick\",\"chosen\":-1,\"right\":0,\"mistakes\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"round\":0,\"phase\":\"study\",\"chosen\":-1,\"right\":0,\"mistakes\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1205,\"title\":\"Sharp eyes, Marshal\",\"detail\":\"You picked 5 of 5 outlaws from the lineup.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The outlaw rides free\",\"detail\":\"You named 0 outlaws before the second wrong man.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

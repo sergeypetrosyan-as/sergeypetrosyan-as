@@ -1,0 +1,24 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'Step toward the flag at the top. Your lantern shows only two squares around you, and each step spends water: scrub costs double, rock blocks, and a spring refills the canteen once.',
+  controls: [
+    { keys: ['←', '↑', '↓', '→'], action: 'Step one square' },
+    { keys: ['Tap'], action: 'Tap a square beside you to step there' },
+  ],
+  motif: 'The lantern diamond: only squares inside its dashed ring are lit, the rest of the mesa stays dark or half-remembered.',
+  cover: [
+    ['stars', 20, 14],
+    ['moon', 22, 20, 9, 0.5],
+    ['mesa', 70, 'mesa'],
+    ['rect', 0, 70, 100, 70, 'ink'],
+    ['poly', [[50, 70], [64, 98], [50, 126], [36, 98]], 'umber', 'bone', 1, true],
+    ['poly', [[50, 78], [58, 98], [50, 118], [42, 98]], 'saddle'],
+    ['circ', 50, 98, 5, 'bone', 'ink', 1.4],
+    ['circ', 50, 98, 2, 'red'],
+    ['poly', [[20, 104], [26, 92], [32, 104]], 'mesa', 'ash', 0.8],
+    ['poly', [[72, 112], [78, 100], [84, 112]], 'mesa', 'ash', 0.8],
+    ['line', 50, 40, 50, 66, 'bone', 1.2],
+    ['star5', 50, 34, 6, 'rose'],
+  ],
+  smoke: { key: 'ArrowUp' },
+};

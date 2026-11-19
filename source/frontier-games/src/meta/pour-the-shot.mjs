@@ -1,0 +1,25 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'Hold to pour into the glass and let go on the dashed line. The line fades as the glass fills, so judge the stream. Keep total spill under the limit across five glasses.',
+  controls: [
+    { keys: ['Hold', 'Space'], action: 'Pour' },
+    { keys: ['Release'], action: 'Stop' },
+  ],
+  motif: 'The dashed fill line fades as you pour, and a thicker stream means a faster pour, so you read the rate rather than the level.',
+  cover: [
+    ['stars', 30, 5],
+    ['moon', 20, 22, 9, 0.35],
+    ['mesa', 112, 'mesa'],
+    ['rect', 0, 108, 100, 32, 'umber'],
+    ['line', 0, 108, 100, 108, 'ember', 0.8],
+    ['rect', 42, 22, 16, 22, 'saddle', 'tan', 0.8, 3],
+    ['rect', 47, 12, 6, 12, 'saddle', 'tan', 0.8, 2],
+    ['line', 50, 44, 50, 78, 'rose', 1.4],
+    ['path', 'M32 70 L36 108 L64 108 L68 70 Z', 'none', 'bone', 1.4],
+    ['path', 'M34.5 90 L36 108 L64 108 L65.5 90 Z', 'rose'],
+    ['line', 24, 82, 76, 82, 'bone', 0.9, '3 2'],
+    ['poly', [[24, 82], [18, 78], [18, 86]], 'bone'],
+    ['cactus', 88, 108, 24, 'ink'],
+  ],
+  smoke: { hold: [0.5, 0.5], ms: 500 },
+};

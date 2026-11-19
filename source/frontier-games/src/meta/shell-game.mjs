@@ -1,0 +1,23 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'Memorise the gold nugget, tap to cover it, follow its cup through the swaps, then tap the cup that holds it. Six rounds, faster each time; two wrong picks and the hustler wins.',
+  controls: [
+    { keys: ['Tap', 'Space'], action: 'Cover the nugget' },
+    { keys: ['Tap cup', '1 to 5'], action: 'Pick a cup' },
+  ],
+  motif: 'A dotted constellation of six stars along the top lights one star per round won, so you can see how far through the game you are.',
+  cover: [
+    ['stars', 24, 9],
+    ['con', [[16, 14], [32, 22], [50, 12], [68, 22], [84, 14]]],
+    ['mesa', 112, 'mesa'],
+    ['rect', 0, 112, 100, 28, 'umber'],
+    ['poly', [[10, 108], [14, 76], [34, 76], [38, 108]], 'tan', 'ink', 1],
+    ['poly', [[40, 108], [44, 76], [64, 76], [68, 108]], 'tan', 'ink', 1],
+    ['poly', [[70, 108], [74, 76], [94, 76], [98, 108]], 'tan', 'ink', 1],
+    ['circ', 54, 98, 7, 'rose', 'bone', 1],
+    ['line', 54, 70, 54, 48, 'bone', 0.8, '1.5 2.5'],
+    ['path', 'M24 70 Q54 40 84 70', 'none', 'rose', 0.8],
+    ['text', '2', 54, 94, 10, 'ink', 'middle'],
+  ],
+  smoke: { key: ' ' },
+};

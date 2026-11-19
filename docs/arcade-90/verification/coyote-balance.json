@@ -1,0 +1,80 @@
+{
+  "id": "coyote-balance",
+  "title": "Coyote Balance",
+  "batch": 4,
+  "ok": true,
+  "at": "2026-11-19T18:35:52.057Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/coyote-balance/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Each season choose the coyote bounty, then press Next season. Coyotes eat rabbits and rabbits feed coyotes, so too much hunting or too little both end in collapse. Keep both herds alive for five years."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"s\":0,\"pick\":1,\"pop\":[136,518],\"score\":0} -> {\"s\":0,\"pick\":2,\"pop\":[136,518],\"score\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"s\":0,\"pick\":1,\"pop\":[136,518],\"score\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":800,\"title\":\"Five balanced years\",\"detail\":\"Both herds are alive: 136 rabbits and 308 coyotes.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":120,\"title\":\"The balance broke\",\"detail\":\"The coyotes were wiped out and the rabbits ate the range bare. You held out 4 seasons.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "id": "corral-fit",
+  "title": "Corral Fit",
+  "batch": 2,
+  "ok": true,
+  "at": "2026-11-19T18:34:21.496Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/corral-fit/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Pick a fence piece, rotate it, then tap the corral to set it down. Fill every cell of three corrals before the clock runs out."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"round\":0,\"sel\":0,\"board\":\"-1-1-1-1|-1-1-1-1|-1-1-1-1|-1-1-1-1\",\"rot\":\"0,1;1,0;1,1/0,1;1,0;1,1;2,0;2,1/0,0;0,1;0,2;1,1/0,0;0,1;1,1;2,1\"} -> {\"round\":0,\"sel\":1,\"board\":\"-1-1-1-1|-1-1-1-1|-1-1-1-1|-1-1-1-1\",\"rot\":\"0,1;1,0;1,1/0,1;1,0;1,1;2,0;2,1/0,0;0,1;0,2;1,1/0,0;0,1;1,1;2,1\"}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"round\":0,\"sel\":0,\"board\":\"-1-1-1-1|-1-1-1-1|-1-1-1-1|-1-1-1-1\",\"rot\":\"0,1;1,0;1,1/0,1;1,0;1,1;2,0;2,1/0,0;0,1;0,2;1,1/0,0;0,1;1,1;2,1\"}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1350,\"title\":\"Every corral sealed\",\"detail\":\"All three corrals filled with 210 seconds to spare.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"Time ran out\",\"detail\":\"You sealed 0 of 3 corrals.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

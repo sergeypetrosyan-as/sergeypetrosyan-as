@@ -1,0 +1,80 @@
+{
+  "id": "ice-house",
+  "title": "Ice House",
+  "batch": 9,
+  "ok": true,
+  "at": "2026-11-19T18:36:15.056Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/ice-house/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Open the vent while the air outside is below the cold line to refill the walls, and keep it shut in the heat. Pull the shade over the sun hours to keep the ice through five days."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"day\":0,\"hour\":0,\"vent\":false,\"shade\":false,\"chill\":60,\"ice\":100} -> {\"day\":0,\"hour\":1,\"vent\":true,\"shade\":false,\"chill\":61,\"ice\":100}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"day\":0,\"hour\":0,\"vent\":false,\"shade\":false,\"chill\":60,\"ice\":100}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":540,\"title\":\"Ice through the summer\",\"detail\":\"54% of the ice is left after five days.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":300,\"title\":\"The ice is gone\",\"detail\":\"The ice melted on day 4. Vent only in cold air and shade the hot hours.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

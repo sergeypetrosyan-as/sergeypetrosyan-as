@@ -1,0 +1,80 @@
+{
+  "id": "fog-mesa",
+  "title": "Fog Mesa",
+  "batch": 1,
+  "ok": true,
+  "at": "2026-11-19T18:36:19.184Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/fog-mesa/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Step toward the flag at the top. Your lantern shows only two squares around you, and each step spends water: scrub costs double, rock blocks, and a spring refills the canteen once."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"px\":4,\"py\":10,\"water\":26,\"steps\":0} -> {\"px\":4,\"py\":9,\"water\":25,\"steps\":1}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"px\":4,\"py\":10,\"water\":26,\"steps\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":600,\"title\":\"You reached the flag\",\"detail\":\"Across the mesa in 13 steps with 12 water left.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":20,\"title\":\"The canteen runs dry\",\"detail\":\"You got 1 rows across before the water ended.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

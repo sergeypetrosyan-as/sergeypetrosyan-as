@@ -1,0 +1,80 @@
+{
+  "id": "bell-tower",
+  "title": "Bell Tower",
+  "batch": 4,
+  "ok": true,
+  "at": "2026-11-19T18:37:51.832Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/bell-tower/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Watch the bells ring, then ring them back in the same order. Each round adds one more bell. Ring a peal of eight to win; two cracks are allowed."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"phase\":\"show\",\"len\":2,\"step\":0,\"cracks\":2,\"lit\":-1,\"score\":0,\"rings\":0} -> {\"phase\":\"show\",\"len\":2,\"step\":0,\"cracks\":2,\"lit\":0,\"score\":0,\"rings\":1}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"phase\":\"show\",\"len\":2,\"step\":0,\"cracks\":2,\"lit\":-1,\"score\":0,\"rings\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1750,\"title\":\"A full peal\",\"detail\":\"You echoed all 8 bells with 2 cracks left.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The bell cracks\",\"detail\":\"You held a peal of 2 bells before the mistake.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

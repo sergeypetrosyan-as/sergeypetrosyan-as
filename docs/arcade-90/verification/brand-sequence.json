@@ -1,0 +1,80 @@
+{
+  "id": "brand-sequence",
+  "title": "Brand Sequence",
+  "batch": 7,
+  "ok": true,
+  "at": "2026-11-19T18:38:05.752Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/brand-sequence/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Read the row of cattle brands, work out the rule that builds it, and tap the brand that comes next. Shapes and dots both change, and the rules get trickier every row."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"round\":1,\"lives\":3,\"score\":0,\"correct\":0} -> {\"round\":2,\"lives\":2,\"score\":0,\"correct\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"round\":1,\"lives\":3,\"score\":0,\"correct\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":800,\"title\":\"Every brand read\",\"detail\":\"8 of 8 rows right with 3 misses to spare.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"Brands blurred\",\"detail\":\"Three misses by row 3. You read 0 rows right.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

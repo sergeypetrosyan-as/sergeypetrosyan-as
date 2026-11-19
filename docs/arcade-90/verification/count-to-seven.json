@@ -1,0 +1,80 @@
+{
+  "id": "count-to-seven",
+  "title": "Count to Seven",
+  "batch": 8,
+  "ok": true,
+  "at": "2026-11-19T18:33:25.624Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/count-to-seven/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Start the clock. It shows itself for two seconds, then hides. Tap Stop when you think exactly seven seconds have passed. Ten tries; keep your average miss under 0.4 seconds."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"phase\":\"idle\",\"tries\":0,\"t\":0} -> {\"phase\":\"run\",\"tries\":0,\"t\":0.12}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"phase\":\"idle\",\"tries\":0,\"t\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1000,\"title\":\"Born with a watch\",\"detail\":\"Average miss 0.00 s over 10 tries; the pass mark is 0.4 s.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"Time slipped by\",\"detail\":\"Average miss 4.50 s over 10 tries; the pass mark is 0.4 s.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

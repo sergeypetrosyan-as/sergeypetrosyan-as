@@ -1,0 +1,80 @@
+{
+  "id": "lantern-row",
+  "title": "Lantern Row",
+  "batch": 5,
+  "ok": true,
+  "at": "2026-11-19T18:34:35.048Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/lantern-row/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Click a lantern to flip it and its four neighbours between dark and lit. Light every lantern before your clicks run out. Undo is free."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"lv\":0,\"lit\":\"010000101\",\"used\":0,\"score\":0} -> {\"lv\":0,\"lit\":\"000111111\",\"used\":1,\"score\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"lv\":0,\"lit\":\"010000101\",\"used\":0,\"score\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1350,\"title\":\"Every lantern lit\",\"detail\":\"Row cleared with 3 clicks to spare on the last board.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"Out of clicks\",\"detail\":\"The lanterns stayed dark. Undo and try a different set of clicks.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "id": "drive-pace",
+  "title": "Cattle Drive Pace",
+  "batch": 8,
+  "ok": true,
+  "at": "2026-11-19T18:35:30.251Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/drive-pace/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Each morning pick a pace for the herd: Walk, Trot or Push. Faster covers more miles but burns strength and water, and storms and heat make it worse. Reach the market mile mark in ten days with 70 or more head."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"day\":0,\"s\":{\"miles\":0,\"head\":100,\"str\":80,\"water\":70}} -> {\"day\":1,\"s\":{\"miles\":12,\"head\":100,\"str\":79,\"water\":100,\"note\":\"\"}}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"day\":0,\"s\":{\"miles\":0,\"head\":100,\"str\":80,\"water\":70}}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":635,\"title\":\"Market by sundown\",\"detail\":\"113 miles with 70 head.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":274,\"title\":\"The herd fell short\",\"detail\":\"Only 2 head survived; 70 were needed.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

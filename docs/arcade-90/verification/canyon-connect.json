@@ -1,0 +1,80 @@
+{
+  "id": "canyon-connect",
+  "title": "Canyon Connect",
+  "batch": 1,
+  "ok": true,
+  "at": "2026-11-19T18:38:19.729Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/canyon-connect/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Tap a column to drop your starred bone stone. Line up four in a row, across, down or diagonal, before the rival's red X stones do. Each replay brings a smarter rival."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"board\":\"0000000/0000000/0000000/0000000/0000000/0000000\",\"turn\":\"you\",\"level\":1} -> {\"board\":\"0000000/0000000/0000000/0000000/0000000/0001000\",\"turn\":\"rival\",\"level\":1}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"board\":\"0000000/0000000/0000000/0000000/0000000/0000000\",\"turn\":\"you\",\"level\":1}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":955,\"title\":\"Four in a line\",\"detail\":\"You beat the Greenhorn in 8 drops.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":50,\"title\":\"The rival lines up four\",\"detail\":\"The Drifter won. Watch for three in a row.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

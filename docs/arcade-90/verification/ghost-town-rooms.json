@@ -1,0 +1,80 @@
+{
+  "id": "ghost-town-rooms",
+  "title": "Ghost Town Rooms",
+  "batch": 4,
+  "ok": true,
+  "at": "2026-11-19T18:36:32.222Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/ghost-town-rooms/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Open a door, read the room and take or leave what is inside. Keys match locks by symbol and break when used. Chain the right keys to the bank safe before dusk, and avoid the cold rooms."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"level\":0,\"hours\":5,\"nerve\":3,\"sel\":-1,\"pack\":\"\",\"opened\":0,\"msg\":\"Open a door. Cold rooms cost nerve. Each key fits only the door with its symbol.\"} -> {\"level\":0,\"hours\":4,\"nerve\":2,\"sel\":0,\"pack\":\"\",\"opened\":1,\"msg\":\"A cold hand grips you: nerve -1.\"}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"level\":0,\"hours\":5,\"nerve\":3,\"sel\":-1,\"pack\":\"\",\"opened\":0,\"msg\":\"Open a door. Cold rooms cost nerve. Each key fits only the door with its symbol.\"}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":1260,\"title\":\"Safe cracked\",\"detail\":\"You opened all 3 safes and kept 2 nerve in the last town.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"Your nerve breaks\",\"detail\":\"The cold rooms got to you in town 1.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

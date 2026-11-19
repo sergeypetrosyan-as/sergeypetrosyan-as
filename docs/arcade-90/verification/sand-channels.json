@@ -1,0 +1,80 @@
+{
+  "id": "sand-channels",
+  "title": "Sand Channels",
+  "batch": 1,
+  "ok": true,
+  "at": "2026-11-19T18:39:06.560Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/sand-channels/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Drag across the map to draw a few ledges, then press Release sand. Sand slides down your slopes: steer enough grains into every cup to fill its meter. Three levels."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"lv\":0,\"phase\":\"draw\",\"ledges\":\"\",\"count\":\"0,0\"} -> {\"lv\":0,\"phase\":\"draw\",\"ledges\":\"10,254,136,295\",\"count\":\"0,0\"}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"lv\":0,\"phase\":\"draw\",\"ledges\":\"\",\"count\":\"0,0\"}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":500,\"title\":\"Every cup is full\",\"detail\":\"All 3 levels filled with 0 spare ledges.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The sand slipped away\",\"detail\":\"Level 1: cups held 0, 0 of 22 grains each.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

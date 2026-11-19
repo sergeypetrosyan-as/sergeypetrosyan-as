@@ -43,7 +43,7 @@ I treat clarity as a feature: code that reads plainly, boundaries that are obvio
 
 ## The Arcade
 
-Ten browser games, each built from scratch. Pick a card to play — every one runs in the browser, no install. The whole collection lives at **[MYSTICAL WESTERN ARCADE](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/)**.
+Ten browser games, each built from scratch. Pick a card to play — every one runs in the browser, no install. The whole collection lives at **[MYSTICAL WESTERN ARCADE](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/)**, and ninety more small games (timing, deduction, puzzles, planning, simulation, exploration, action, memory, duels and craft) are in its **[Observatory Catalog](https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/frontier/)**.
 
 <p align="center">
 <a href="https://sergeypetrosyan-as.github.io/sergeypetrosyan-as/games/unfall/"><img src="./assets/cards/unfall.gif" alt="Play UNFALL — card XII, The Hanged Man: a carved lens over a broken bridge lifts the fallen plank back into place while Ilo walks with her lantern" width="168" /></a>

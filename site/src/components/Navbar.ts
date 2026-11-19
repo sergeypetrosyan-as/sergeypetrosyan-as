@@ -5,6 +5,7 @@ import { Logo } from './Logo';
 const LINKS = [
   { href: '#home', label: 'Home' },
   { href: '#games', label: 'Games' },
+  { href: './frontier/', label: 'Catalog' },
   { href: '#about', label: 'About' },
 ];
 

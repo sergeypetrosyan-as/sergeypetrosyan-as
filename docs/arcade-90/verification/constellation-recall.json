@@ -1,0 +1,80 @@
+{
+  "id": "constellation-recall",
+  "title": "Constellation Recall",
+  "batch": 3,
+  "ok": true,
+  "at": "2026-11-19T18:37:47.985Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/constellation-recall/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "A figure glows among the stars for a few seconds, its stars numbered in order. When it fades, tap those same stars in the same order. Three wrong taps end the night."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"round\":1,\"phase\":\"show\",\"got\":0,\"lives\":3,\"score\":0,\"taps\":0} -> {\"round\":1,\"phase\":\"recall\",\"got\":0,\"lives\":3,\"score\":0,\"taps\":0}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"round\":1,\"phase\":\"show\",\"got\":0,\"lives\":3,\"score\":0,\"taps\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":3300,\"title\":\"Every figure recalled\",\"detail\":\"All 5 constellations redrawn with 3 lives left.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"The figure fades\",\"detail\":\"You lost the shape on night 1.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

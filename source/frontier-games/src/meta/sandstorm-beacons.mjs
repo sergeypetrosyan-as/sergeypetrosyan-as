@@ -1,0 +1,26 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'Walk across the dunes to the well. The storm shrinks how far you can see; light a beacon to keep the ground around it visible for good.',
+  controls: [
+    { keys: ['←', '↑', '→', '↓'], action: 'Walk (or tap beside you)' },
+    { keys: ['Space', 'B'], action: 'Light a beacon' },
+  ],
+  motif: 'A shrinking ring of sight follows you; every beacon leaves a glowing ring that stays lit as the storm closes in.',
+  cover: [
+    ['stars', 24, 17],
+    ['moon', 24, 24, 9, 0.6],
+    ['mesa', 80, 'mesa'],
+    ['rect', 0, 80, 100, 60, 'umber'],
+    ['circ', 50, 104, 36, 'none', 'ember', 0.8],
+    ['circ', 50, 104, 22, 'none', 'tan', 0.8],
+    ['circ', 50, 104, 10, 'night', 'bone', 1],
+    ['path', 'M44 110 L50 98 L56 110 Z', 'bone', 'ink', 0.6],
+    ['circ', 82, 96, 11, 'none', 'rose', 0.8, ],
+    ['path', 'M82 87 L83.5 92 L89 92 L84.5 95 L86.2 100 L82 97 L77.8 100 L79.5 95 L75 92 L80.5 92 Z', 'rose', 'bone', 0.6],
+    ['poly', [[12, 128], [18, 118], [26, 128]], 'ink'],
+    ['poly', [[70, 132], [78, 122], [88, 132]], 'ink'],
+    ['circ', 20, 100, 2, 'ember', 'bone', 0.6],
+    ['line', 6, 94, 34, 94, 'ash', 0.4, '1 2'],
+  ],
+  smoke: { key: 'ArrowUp' },
+};

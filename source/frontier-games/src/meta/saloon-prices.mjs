@@ -1,0 +1,24 @@
+/** @type {import('../core/types').Meta} */
+export default {
+  how: 'Set the price of a drink, then open the saloon for the night. Each night adds a point to your ledger chart, so you can find the price that earns the most. Reach the savings goal within thirty nights.',
+  controls: [
+    { keys: ['Slider', '-5', '+5'], action: 'Set the price' },
+    { keys: ['Tap', 'Enter'], action: 'Open the saloon' },
+  ],
+  motif: 'A ledger chart of price against drinks sold: each night leaves a diamond, and together they trace the demand curve.',
+  cover: [
+    ['stars', 28, 6],
+    ['moon', 78, 20, 10, 0.15],
+    ['mesa', 66, 'mesa'],
+    ['rect', 10, 72, 80, 56, 'night', 'saddle', 1.8, 3],
+    ['line', 18, 82, 18, 120, 'smoke', 0.8],
+    ['line', 18, 120, 82, 120, 'smoke', 0.8],
+    ['path', 'M20 86 Q38 100 80 116', 'none', 'ember', 1, ],
+    ['path', 'M26 90 l3 3 l-3 3 l-3 -3 Z', 'tan', 'bone', 0.6],
+    ['path', 'M44 99 l3 3 l-3 3 l-3 -3 Z', 'tan', 'bone', 0.6],
+    ['path', 'M62 108 l3 3 l-3 3 l-3 -3 Z', 'rose', 'bone', 0.6],
+    ['circ', 24, 36, 5, 'tan', 'bone', 1],
+    ['text', '$', 24, 39, 8, 'ink', 'middle'],
+  ],
+  smoke: { click: '[data-open]' },
+};

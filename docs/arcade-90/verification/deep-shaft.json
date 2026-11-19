@@ -1,0 +1,80 @@
+{
+  "id": "deep-shaft",
+  "title": "Deep Shaft",
+  "batch": 7,
+  "ok": true,
+  "at": "2026-11-19T18:36:45.659Z",
+  "base": "built output",
+  "checks": [
+    {
+      "name": "catalog cover loads",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "opened from catalog",
+      "ok": true,
+      "detail": "http://127.0.0.1:14349/games/deep-shaft/"
+    },
+    {
+      "name": "first screen teaches the action",
+      "ok": true,
+      "detail": "Tap a tile beside you to dig it and step in. Ore pays more the deeper it lies, but every dig and every step back costs air, so climb out before you run dry. Bank the quota in three trips."
+    },
+    {
+      "name": "controls listed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "defining input changes the state",
+      "ok": true,
+      "detail": "{\"r\":0,\"c\":2,\"air\":26,\"carry\":0,\"banked\":0,\"trip\":0} -> {\"r\":1,\"c\":2,\"air\":25,\"carry\":2,\"banked\":0,\"trip\":1}"
+    },
+    {
+      "name": "reset(seed) is deterministic",
+      "ok": true,
+      "detail": "{\"r\":0,\"c\":2,\"air\":26,\"carry\":0,\"banked\":0,\"trip\":0}"
+    },
+    {
+      "name": "bot reaches a win",
+      "ok": true,
+      "detail": "{\"result\":\"win\",\"score\":740,\"title\":\"Quota hauled\",\"detail\":\"64 ore banked in 1 trip.\"}"
+    },
+    {
+      "name": "play again resets cleanly",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bot reaches a loss",
+      "ok": true,
+      "detail": "{\"result\":\"lose\",\"score\":0,\"title\":\"Out of air\",\"detail\":\"You ran out of air 8 levels down with 36 ore unbanked.\"}"
+    },
+    {
+      "name": "mobile first screen fits",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile layout has no horizontal overflow",
+      "ok": true,
+      "detail": "{\"docW\":390,\"winW\":390,\"stageOverflowX\":0,\"off\":0}"
+    },
+    {
+      "name": "touch input changes the state",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}
